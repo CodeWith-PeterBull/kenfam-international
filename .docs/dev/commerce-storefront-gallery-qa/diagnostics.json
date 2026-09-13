@@ -1,0 +1,63 @@
+{
+  "siteUrl": "http://127.0.0.1:8017",
+  "productUrl": "http://127.0.0.1:8017/shop/products/aureon-air-14",
+  "diagnostics": {
+    "gallery": {
+      "initialized": true,
+      "slides": 2,
+      "hasPrev": true,
+      "hasNext": true,
+      "bullets": 2,
+      "thumbs": 2,
+      "hasExpand": true,
+      "overflow": false
+    },
+    "sync": {
+      "activeIndex": 1,
+      "thumbActive": true
+    },
+    "navHover": {
+      "buttonColor": "rgb(255, 255, 255)",
+      "buttonBackground": "rgb(112, 35, 58)",
+      "iconColor": "rgb(255, 255, 255)",
+      "iconStroke": "rgb(255, 255, 255)",
+      "onPrimary": "#ffffff",
+      "primary": "#70233a"
+    },
+    "navHoverCustom": {
+      "buttonColor": "rgb(255, 255, 255)",
+      "buttonBackground": "rgb(31, 122, 61)",
+      "iconColor": "rgb(255, 255, 255)"
+    },
+    "divider": {
+      "borderTop": 1,
+      "paddingTop": 22
+    },
+    "lightbox": {
+      "present": true,
+      "open": true,
+      "slides": 2,
+      "hasClose": true,
+      "hasNav": true,
+      "scrollLocked": true
+    },
+    "lightboxFill": {
+      "imgW": 1100,
+      "imgH": 900,
+      "dialogW": 1120,
+      "dialogH": 920,
+      "objectFit": "contain"
+    },
+    "lightboxClosed": {
+      "closed": true,
+      "unlocked": true
+    },
+    "mobile": {
+      "overflow": false,
+      "initialized": true
+    }
+  },
+  "runtimeErrors": [],
+  "networkErrors": [],
+  "failures": []
+}

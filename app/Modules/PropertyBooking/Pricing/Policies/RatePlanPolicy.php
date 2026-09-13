@@ -1,0 +1,24 @@
+<?php
+
+declare(strict_types=1);
+
+namespace App\Modules\PropertyBooking\Pricing\Policies;
+
+use App\Modules\PropertyBooking\Support\Policies\PropertyScopedPolicy;
+use App\Modules\PropertyBooking\Support\PropertyBookingPermission;
+
+/** Protects rate-plan visibility and maintenance by property scope. */
+final class RatePlanPolicy extends PropertyScopedPolicy
+{
+    /** Get the permission required to view rate plans. */
+    protected function viewPermission(): string
+    {
+        return PropertyBookingPermission::VIEW_RATES;
+    }
+
+    /** Get the permission required to manage rate plans. */
+    protected function managePermission(): string
+    {
+        return PropertyBookingPermission::MANAGE_RATES;
+    }
+}

@@ -1,0 +1,34 @@
+{
+    "$schema": "https://www.schemastore.org/package.json",
+    "name": "laravel-aureon",
+    "private": true,
+    "type": "module",
+    "scripts": {
+        "build": "vite build",
+        "dev": "vite",
+        "qa:dashboard": "node scripts/qa-dashboard.mjs",
+        "qa:auth": "node scripts/qa-auth.mjs",
+        "qa:homepage": "node scripts/qa-homepage.mjs",
+        "qa:commerce": "node scripts/qa-commerce.mjs",
+        "qa:commerce-dashboard": "node scripts/qa-commerce-dashboard.mjs",
+        "qa:commerce-demo-data": "node scripts/qa-commerce-demo-data.mjs",
+        "qa:commerce-pos": "node scripts/qa-commerce-pos.mjs",
+        "qa:property-booking": "node scripts/qa-property-booking-admin.mjs",
+        "qa:property-booking-storefront": "node scripts/qa-property-booking-storefront.mjs",
+        "qa:property-booking-pob": "node scripts/qa-property-booking-pob.mjs"
+    },
+    "devDependencies": {
+        "@tailwindcss/forms": "^0.5.2",
+        "@tailwindcss/vite": "^4.3.2",
+        "alpinejs": "^3.4.2",
+        "autoprefixer": "^10.4.2",
+        "axios": "^1.18.1",
+        "concurrently": "^9.2.4",
+        "laravel-vite-plugin": "^2.1.0",
+        "postcss": "^8.4.31",
+        "swiper": "^14.0.6",
+        "tailwindcss": "^3.1.0",
+        "vite": "^7.3.6",
+        "vite-plugin-static-copy": "^3.4.0"
+    }
+}

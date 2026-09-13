@@ -1,0 +1,29 @@
+{
+  "siteUrl": "http://127.0.0.1:8015",
+  "productUrl": "http://127.0.0.1:8015/shop/products/aureon-air-14",
+  "light": {
+    "shareButtons": 7,
+    "brandSvgs": 7,
+    "labels": 7,
+    "whatsappButton": true,
+    "whatsappHref": "https://wa.me/0794035976?text=Hello%20App_Name%2C%20I%20would%20like%20to%20order%3A%0AAureon%20Air%2014%0APrice%3A%20KSh%20119%2C900.00%0Ahttp%3A%2F%2F127.0.0.1%3A8015%2Fshop%2Fproducts%2Faureon-air-14",
+    "ogType": "product",
+    "twitterCard": "summary_large_image",
+    "hasProductLd": true,
+    "hasOrgLd": true,
+    "productPrice": "119900.00",
+    "overflow": false
+  },
+  "toast": {
+    "present": true,
+    "visible": true,
+    "text": "Product link copied"
+  },
+  "mobile": {
+    "overflow": false,
+    "shareButtons": 7
+  },
+  "runtimeErrors": [],
+  "networkErrors": [],
+  "failures": []
+}

@@ -1,0 +1,74 @@
+<div id="property-booking-availability-manager" class="pb-workspace">
+    <section class="card aureon-panel pb-quote-workspace mb-4" aria-labelledby="availability-quote-title">
+        <div class="card-header"><div><h3 id="availability-quote-title" class="card-title mb-1">Availability quote</h3><p class="aureon-muted fs-12 mb-0">Current concrete inventory and authoritative rate projection</p></div></div>
+        <div class="card-body">
+            @error('search')<div class="alert alert-danger" role="alert">{{ $message }}</div>@enderror
+            <form wire:submit="search" class="row g-3 align-items-end">
+                <div class="col-lg-4"><label for="availability-property" class="form-label">Property <span class="text-danger">*</span></label><select id="availability-property" class="form-select @error('searchForm.propertyId') is-invalid @enderror" wire:model.live="searchForm.propertyId"><option value="">Select property</option>@foreach($this->propertyOptions as $property)<option value="{{ $property->id }}">{{ $property->name }}</option>@endforeach</select>@error('searchForm.propertyId')<div class="invalid-feedback">{{ $message }}</div>@enderror</div>
+                <div class="col-lg-4"><label for="availability-type" class="form-label">Unit type <span class="text-danger">*</span></label><select id="availability-type" class="form-select @error('searchForm.unitTypeId') is-invalid @enderror" wire:model.live="searchForm.unitTypeId"><option value="">Select unit type</option>@foreach($this->searchUnitTypeOptions as $type)<option value="{{ $type->id }}">{{ $type->name }} · up to {{ $type->maximum_guests }}</option>@endforeach</select>@error('searchForm.unitTypeId')<div class="invalid-feedback">{{ $message }}</div>@enderror</div>
+                <div class="col-lg-4"><label for="availability-rate" class="form-label">Rate plan <span class="text-danger">*</span></label><select id="availability-rate" class="form-select @error('searchForm.ratePlanId') is-invalid @enderror" wire:model="searchForm.ratePlanId"><option value="">Select rate plan</option>@foreach($this->searchRatePlanOptions as $rate)<option value="{{ $rate->id }}">{{ $rate->name }} · {{ $this->money($rate->base_rate_minor, $rate->currency) }}</option>@endforeach</select>@error('searchForm.ratePlanId')<div class="invalid-feedback">{{ $message }}</div>@enderror</div>
+                <div class="col-md-6 col-lg-3"><label for="availability-start" class="form-label">Arrival <span class="text-danger">*</span></label><input id="availability-start" type="datetime-local" class="form-control @error('searchForm.startsAt') is-invalid @enderror" wire:model="searchForm.startsAt">@error('searchForm.startsAt')<div class="invalid-feedback">{{ $message }}</div>@enderror</div>
+                <div class="col-md-6 col-lg-3"><label for="availability-end" class="form-label">Departure <span class="text-danger">*</span></label><input id="availability-end" type="datetime-local" class="form-control @error('searchForm.endsAt') is-invalid @enderror" wire:model="searchForm.endsAt">@error('searchForm.endsAt')<div class="invalid-feedback">{{ $message }}</div>@enderror</div>
+                <div class="col-4 col-lg-2"><label for="availability-adults" class="form-label">Adults</label><input id="availability-adults" type="number" min="1" class="form-control @error('searchForm.adults') is-invalid @enderror" wire:model="searchForm.adults">@error('searchForm.adults')<div class="invalid-feedback">{{ $message }}</div>@enderror</div>
+                <div class="col-4 col-lg-2"><label for="availability-children" class="form-label">Children</label><input id="availability-children" type="number" min="0" class="form-control @error('searchForm.children') is-invalid @enderror" wire:model="searchForm.children">@error('searchForm.children')<div class="invalid-feedback">{{ $message }}</div>@enderror</div>
+                <div class="col-4 col-lg-2"><label for="availability-infants" class="form-label">Infants</label><input id="availability-infants" type="number" min="0" class="form-control @error('searchForm.infants') is-invalid @enderror" wire:model="searchForm.infants">@error('searchForm.infants')<div class="invalid-feedback">{{ $message }}</div>@enderror</div>
+                <div class="col-12"><button type="submit" class="btn btn-primary" wire:loading.attr="disabled"><span wire:loading.remove wire:target="search"><i class="ti ti-search me-2"></i>Check availability</span><span wire:loading wire:target="search">Calculating...</span></button></div>
+            </form>
+
+            @if($quote !== [])
+                <div class="pb-quote-result mt-4" role="status" aria-live="polite">
+                    <div class="pb-quote-result__header"><div><span class="pb-badge pb-badge--success">{{ number_format($quote['available_units']) }} available</span><h4>{{ $quote['unit_type'] }}</h4><p>{{ $quote['property'] }} · {{ $quote['rate_plan'] }}</p></div><div class="text-end"><strong>{{ $this->money($quote['total_minor'], $quote['currency']) }}</strong><small>{{ $quote['billable_units'] }} {{ str($quote['pricing_unit'])->plural($quote['billable_units']) }}</small></div></div>
+                    <dl class="pb-quote-result__details"><div><dt>Stay</dt><dd>{{ $quote['starts_at'] }} → {{ $quote['ends_at'] }}</dd><small>{{ $quote['timezone'] }}</small></div><div><dt>Subtotal</dt><dd>{{ $this->money($quote['subtotal_minor'], $quote['currency']) }}</dd></div><div><dt>Tax</dt><dd>{{ $this->money($quote['tax_minor'], $quote['currency']) }}</dd></div><div><dt>Required deposit</dt><dd>{{ $this->money($quote['deposit_minor'], $quote['currency']) }}</dd></div></dl>
+                    <p class="pb-quote-result__expiry"><i class="ti ti-clock"></i> Quote feedback expires at {{ $quote['expires_at'] }}</p>
+                </div>
+            @endif
+        </div>
+    </section>
+
+    @php($stats = $this->statistics)
+    @include('property-booking::livewire.admin.partials.stat-grid', ['cards' => [
+        ['label' => 'Active blocks', 'value' => $stats['active'], 'icon' => 'ti-calendar-off', 'color' => '#a64242'],
+        ['label' => 'Future blocks', 'value' => $stats['future'], 'icon' => 'ti-calendar-forward', 'color' => '#9b6a23'],
+        ['label' => 'Released history', 'value' => $stats['released'], 'icon' => 'ti-history', 'color' => '#2c6e93'],
+        ['label' => 'Concrete units', 'value' => $stats['units'], 'icon' => 'ti-door', 'color' => 'var(--aureon-primary)'],
+    ]])
+
+    @if(session('success'))<div class="alert alert-success alert-dismissible fade show" role="status">{{ session('success') }}<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button></div>@endif
+    @error('management')<div class="alert alert-danger" role="alert">{{ $message }}</div>@enderror
+
+    <section class="card aureon-panel aureon-table-panel" aria-labelledby="availability-block-title">
+        <div class="card-header d-flex align-items-center justify-content-between gap-3 flex-wrap"><div><h3 id="availability-block-title" class="card-title mb-1">Availability blocks</h3><p class="aureon-muted fs-12 mb-0">Maintenance, owner use, cleaning, and administrative history</p></div>@can(\App\Modules\PropertyBooking\Support\PropertyBookingPermission::MANAGE_AVAILABILITY)<button type="button" class="btn btn-primary" wire:click="openBlock" @disabled($this->propertyOptions->isEmpty())><i class="ti ti-calendar-plus me-2"></i>Block unit</button>@endcan</div>
+        <div class="pb-filterbar pb-filterbar--compact"><div><label for="block-property-filter" class="visually-hidden">Property</label><select id="block-property-filter" class="form-select" wire:model.live="propertyFilter"><option value="">All properties</option>@foreach($this->propertyOptions as $property)<option value="{{ $property->id }}">{{ $property->name }}</option>@endforeach</select></div><div><label for="block-status-filter" class="visually-hidden">Block status</label><select id="block-status-filter" class="form-select" wire:model.live="statusFilter"><option value="">All statuses</option><option value="active">Active</option><option value="released">Released</option></select></div></div>
+        <div class="table-responsive"><table class="table table-hover align-middle mb-0 pb-table pb-table--blocks"><thead><tr><th>Unit</th><th>Interval</th><th>Type and reason</th><th>Ownership</th><th>Status</th><th class="text-end">Action</th></tr></thead><tbody>
+            @forelse($this->blocks as $block)
+                <tr wire:key="availability-block-{{ $block->id }}">
+                    <td><strong class="d-block">{{ $block->unit->display_name ?: $block->unit->code }}</strong><small class="aureon-muted">{{ $block->property->name }} · {{ $block->unit->unitType->name }}</small></td>
+                    <td><time datetime="{{ $block->starts_at->toIso8601String() }}">{{ $this->localDateTime($block->starts_at, $block->property->timezone) }}</time><span class="d-block aureon-muted">to {{ $this->localDateTime($block->ends_at, $block->property->timezone) }}</span></td>
+                    <td><span class="pb-badge pb-badge--warning">{{ $block->type->label() }}</span><p class="mb-0 mt-1">{{ $block->reason }}</p></td>
+                    <td><span class="d-block">{{ $block->creator?->display_name ?? 'System' }}</span>@if($block->releaser)<small class="aureon-muted">Released by {{ $block->releaser->display_name }}</small>@endif</td>
+                    <td><span class="pb-badge {{ $block->status === \App\Modules\PropertyBooking\Availability\Enums\AvailabilityBlockStatus::Active ? 'pb-badge--danger' : 'pb-badge--neutral' }}">{{ $block->status->label() }}</span></td>
+                    <td class="text-end">
+                        @if($block->status === \App\Modules\PropertyBooking\Availability\Enums\AvailabilityBlockStatus::Active)
+                            @can('update', $block)
+                                <button type="button" class="btn btn-sm btn-outline-secondary" wire:click="release({{ $block->id }})" wire:confirm="Release this availability block?"><i class="ti ti-lock-open me-2"></i>Release</button>
+                            @endcan
+                        @endif
+                    </td>
+                </tr>
+            @empty<tr><td colspan="6"><div class="pb-empty"><i class="ti ti-calendar-check"></i><strong>No availability blocks match this view</strong></div></td></tr>@endforelse
+        </tbody></table></div>
+        @if($this->blocks->hasPages())<div class="card-footer">{{ $this->blocks->links() }}</div>@endif
+    </section>
+
+    @if($dialog === 'block')
+        <div class="modal fade show d-block" tabindex="-1" role="dialog" aria-modal="true" aria-labelledby="block-form-title" wire:keydown.escape.window="closeDialog"><div class="modal-dialog modal-lg modal-dialog-centered modal-dialog-scrollable"><form class="modal-content" wire:submit="saveBlock"><div class="modal-header"><div><h3 id="block-form-title" class="modal-title fs-18">Block accommodation unit</h3><p class="aureon-muted fs-12 mb-0">Property-local interval retained as auditable history</p></div><button type="button" class="btn-close" wire:click="closeDialog" aria-label="Close block form"></button></div><div class="modal-body">@error('management')<div class="alert alert-danger">{{ $message }}</div>@enderror<div class="row g-3">
+            <div class="col-md-6"><label for="block-form-property" class="form-label">Property <span class="text-danger">*</span></label><select id="block-form-property" class="form-select @error('blockForm.propertyId') is-invalid @enderror" wire:model.live="blockForm.propertyId"><option value="">Select property</option>@foreach($this->propertyOptions as $property)<option value="{{ $property->id }}">{{ $property->name }}</option>@endforeach</select>@error('blockForm.propertyId')<div class="invalid-feedback">{{ $message }}</div>@enderror</div>
+            <div class="col-md-6"><label for="block-form-unit" class="form-label">Concrete unit <span class="text-danger">*</span></label><select id="block-form-unit" class="form-select @error('blockForm.unitId') is-invalid @enderror" wire:model="blockForm.unitId"><option value="">Select unit</option>@foreach($this->blockUnitOptions as $unit)<option value="{{ $unit->id }}">{{ $unit->code }} · {{ $unit->display_name ?: $unit->unitType->name }}</option>@endforeach</select>@error('blockForm.unitId')<div class="invalid-feedback">{{ $message }}</div>@enderror</div>
+            <div class="col-md-6"><label for="block-form-start" class="form-label">Starts at <span class="text-danger">*</span></label><input id="block-form-start" type="datetime-local" class="form-control @error('blockForm.startsAt') is-invalid @enderror" wire:model="blockForm.startsAt">@error('blockForm.startsAt')<div class="invalid-feedback">{{ $message }}</div>@enderror</div>
+            <div class="col-md-6"><label for="block-form-end" class="form-label">Ends at <span class="text-danger">*</span></label><input id="block-form-end" type="datetime-local" class="form-control @error('blockForm.endsAt') is-invalid @enderror" wire:model="blockForm.endsAt">@error('blockForm.endsAt')<div class="invalid-feedback">{{ $message }}</div>@enderror</div>
+            <div class="col-md-5"><label for="block-form-type" class="form-label">Type <span class="text-danger">*</span></label><select id="block-form-type" class="form-select @error('blockForm.type') is-invalid @enderror" wire:model="blockForm.type">@foreach($this->blockTypes as $type)<option value="{{ $type->value }}">{{ $type->label() }}</option>@endforeach</select>@error('blockForm.type')<div class="invalid-feedback">{{ $message }}</div>@enderror</div>
+            <div class="col-md-7"><label for="block-form-reason" class="form-label">Reason <span class="text-danger">*</span></label><input id="block-form-reason" type="text" class="form-control @error('blockForm.reason') is-invalid @enderror" wire:model="blockForm.reason">@error('blockForm.reason')<div class="invalid-feedback">{{ $message }}</div>@enderror</div>
+            <div class="col-12"><label for="block-form-note" class="form-label">Internal note</label><textarea id="block-form-note" rows="4" class="form-control @error('blockForm.internalNote') is-invalid @enderror" wire:model="blockForm.internalNote"></textarea>@error('blockForm.internalNote')<div class="invalid-feedback">{{ $message }}</div>@enderror</div>
+        </div></div><div class="modal-footer"><button type="button" class="btn btn-outline-secondary" wire:click="closeDialog">Cancel</button><button type="submit" class="btn btn-primary" wire:loading.attr="disabled"><span wire:loading.remove wire:target="saveBlock">Create block</span><span wire:loading wire:target="saveBlock">Saving...</span></button></div></form></div></div><div class="modal-backdrop fade show"></div>
+    @endif
+</div>

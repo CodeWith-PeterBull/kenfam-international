@@ -1,0 +1,96 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+    :root {
+        /* Aureon brand colors mapped onto the benchmark utility contract. */
+        --color-primary: #70233a;
+        --color-primary-dark: #54182b;
+        --color-primary-light: #b96c82;
+
+        --color-accent: #b28a4b;
+        --color-accent-dark: #785832;
+        --color-accent-light: #d9ba7d;
+
+        --color-secondary: #28656b;
+        --color-secondary-dark: #233d40;
+        --color-secondary-light: #86c7ca;
+
+        --color-gold: #b28a4b;
+        --color-gold-dark: #785832;
+        --color-gold-light: #d9ba7d;
+
+        /* Neutral Palette */
+        --color-gray-50: #f9fafb;
+        --color-gray-100: #f3f4f6;
+        --color-gray-200: #e5e7eb;
+        --color-gray-300: #d1d5db;
+        --color-gray-400: #9ca3af;
+        --color-gray-500: #6b7280;
+        --color-gray-600: #4b5563;
+        --color-gray-700: #374151;
+        --color-gray-800: #1f2937;
+        --color-gray-900: #111827;
+    }
+
+    body {
+        @apply font-sans antialiased text-gray-800;
+    }
+
+    h1, h2, h3, h4, h5, h6 {
+        @apply font-semibold;
+    }
+}
+
+@layer components {
+    /* Glassmorphic Card */
+    .glass-card {
+        @apply bg-white/10 backdrop-blur-md border border-white/20 rounded-lg shadow-lg;
+    }
+
+    .glass-card-primary {
+        @apply bg-maroon-900/10 backdrop-blur-md border border-maroon-500/20 rounded-lg shadow-lg;
+    }
+
+    /* Button Styles */
+    .btn-primary {
+        @apply bg-maroon-900 hover:bg-maroon-800 text-white font-semibold px-6 py-3 rounded-lg transition-all duration-300 shadow-md hover:shadow-xl;
+    }
+
+    .btn-secondary {
+        @apply bg-hotpoker-400 hover:bg-hotpoker-500 text-white font-semibold px-6 py-3 rounded-lg transition-all duration-300 shadow-md hover:shadow-xl;
+    }
+
+    .btn-outline {
+        @apply border-2 border-maroon-900 text-maroon-900 hover:bg-maroon-900 hover:text-white font-semibold px-6 py-3 rounded-lg transition-all duration-300;
+    }
+
+    /* Section Padding */
+    .section-padding {
+        @apply py-16 md:py-20 lg:py-24;
+    }
+
+    /* Container */
+    .container-custom {
+        @apply max-w-7xl mx-auto px-4 sm:px-6 lg:px-8;
+    }
+}
+
+@layer utilities {
+    .text-balance {
+        text-wrap: balance;
+    }
+
+    .animation-delay-200 {
+        animation-delay: 200ms;
+    }
+
+    .animation-delay-400 {
+        animation-delay: 400ms;
+    }
+
+    .animation-delay-600 {
+        animation-delay: 600ms;
+    }
+}

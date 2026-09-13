@@ -1,0 +1,106 @@
+{
+  "twoFactorMode": true,
+  "diagnostics": [
+    {
+      "name": "login-desktop",
+      "url": "/login",
+      "viewportWidth": 1440,
+      "documentWidth": 1440,
+      "theme": "light",
+      "logoReady": true
+    },
+    {
+      "name": "login-dark",
+      "url": "/login",
+      "viewportWidth": 1440,
+      "documentWidth": 1440,
+      "theme": "dark",
+      "logoReady": true
+    },
+    {
+      "name": "login-mobile",
+      "url": "/login",
+      "viewportWidth": 390,
+      "documentWidth": 390,
+      "theme": "light",
+      "logoReady": true
+    },
+    {
+      "name": "register-desktop",
+      "url": "/register",
+      "viewportWidth": 1440,
+      "documentWidth": 1440,
+      "theme": "light",
+      "logoReady": true
+    },
+    {
+      "name": "forgot-password-desktop",
+      "url": "/forgot-password",
+      "viewportWidth": 1440,
+      "documentWidth": 1440,
+      "theme": "light",
+      "logoReady": true
+    },
+    {
+      "name": "two-factor-challenge-desktop",
+      "url": "/two-factor/challenge",
+      "viewportWidth": 1440,
+      "documentWidth": 1440,
+      "theme": "light",
+      "logoReady": true
+    },
+    {
+      "name": "two-factor-challenge-mobile",
+      "url": "/two-factor/challenge",
+      "viewportWidth": 390,
+      "documentWidth": 390,
+      "theme": "light",
+      "logoReady": true
+    },
+    {
+      "name": "two-factor-success",
+      "url": "/dashboard",
+      "viewportWidth": 1440,
+      "documentWidth": 1440,
+      "theme": "light",
+      "logoReady": true
+    },
+    {
+      "name": "confirm-password-desktop",
+      "url": "/confirm-password",
+      "viewportWidth": 1440,
+      "documentWidth": 1440,
+      "theme": "light",
+      "logoReady": true
+    },
+    {
+      "name": "profile-security-desktop",
+      "url": "/profile",
+      "viewportWidth": 1440,
+      "documentWidth": 1440,
+      "theme": "light",
+      "logoReady": true
+    },
+    {
+      "name": "profile-details",
+      "securityCard": true,
+      "livewireReady": true,
+      "dangerZone": true
+    }
+  ],
+  "eyeToggle": {
+    "present": true,
+    "revealed": true,
+    "restored": true
+  },
+  "challenge": {
+    "attempted": true,
+    "landedPath": "/two-factor/challenge",
+    "maskedEmailShown": true,
+    "otpInputReady": true,
+    "verifiedPath": "/dashboard"
+  },
+  "runtimeErrors": [],
+  "networkErrors": [],
+  "failures": []
+}

@@ -1,0 +1,311 @@
+@font-face {
+  font-family: "Poppins";
+  src: url("../fonts/poppins/Poppins-Regular.ttf") format("truetype");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Poppins";
+  src: url("../fonts/poppins/Poppins-Medium.ttf") format("truetype");
+  font-weight: 500;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Poppins";
+  src: url("../fonts/poppins/Poppins-SemiBold.ttf") format("truetype");
+  font-weight: 600;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Poppins";
+  src: url("../fonts/poppins/Poppins-Bold.ttf") format("truetype");
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Poppins";
+  src: url("../fonts/poppins/Poppins-Italic.ttf") format("truetype");
+  font-weight: 400;
+  font-style: italic;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Jost";
+  src: url("../fonts/jost/Jost-Variable.ttf") format("truetype");
+  font-weight: 100 900;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Montserrat";
+  src: url("../fonts/montserrat/Montserrat-Variable.ttf") format("truetype");
+  font-weight: 100 900;
+  font-style: normal;
+  font-display: swap;
+}
+
+:root {
+  color-scheme: light;
+
+  /* Brand assets. These must be declared in a stylesheet under assets/css:
+     Chromium resolves relative url() values stored in custom properties against
+     the stylesheet that uses the variable, so declaring them in document-level
+     markup breaks the paths. Keep the file names in sync with src/site.mjs. */
+  --asset-logo: url("../brand/logo.png");
+  --asset-logo-light: url("../brand/logo-light.png");
+  --asset-logo-small: url("../brand/logo-small.png");
+  --asset-logo-small-light: url("../brand/logo-small-light.png");
+
+  /* Brand primitives */
+  --brand-primary: #70233a;
+  --brand-secondary: #28656b;
+  --brand-accent: #b28a4b;
+  --brand-night: #17151d;
+  --brand-footer: #211b28;
+  --custom-primary: #70233a;
+  --custom-secondary: #28656b;
+  --custom-primary-contrast: #ffffff;
+
+  /* Semantic color system */
+  --theme-primary: var(--brand-primary);
+  --theme-primary-hover: color-mix(in srgb, var(--theme-primary), #000000 24%);
+  --theme-primary-soft: color-mix(in srgb, var(--theme-primary), #ffffff 89%);
+  --theme-secondary: var(--brand-secondary);
+  --theme-secondary-soft: color-mix(in srgb, var(--theme-secondary), #ffffff 88%);
+  --theme-accent: var(--brand-accent);
+  --theme-background: #ffffff;
+  --theme-surface: #ffffff;
+  --theme-surface-muted: #f3f4f5;
+  --theme-surface-alt: #edf1f0;
+  --theme-surface-elevated: #ffffff;
+  --theme-input-background: #ffffff;
+  --theme-placeholder: #dfe2e4;
+  --theme-heading: #191921;
+  --theme-text: #3f4149;
+  --theme-text-muted: #656971;
+  --theme-text-subtle: #7a7e85;
+  --theme-text-faint: #a7abb1;
+  --theme-border: #d9dce0;
+  --theme-night: var(--brand-night);
+  --theme-footer: var(--brand-footer);
+  --theme-on-primary: #ffffff;
+  --theme-on-dark: #ffffff;
+  --theme-on-dark-muted: #b9b4bd;
+  --theme-focus: color-mix(in srgb, var(--theme-primary), transparent 72%);
+  --theme-focus-outline: color-mix(in srgb, var(--theme-accent), transparent 25%);
+  --theme-shadow: rgba(20, 20, 24, 0.13);
+  --theme-shadow-soft: rgba(25, 25, 33, 0.08);
+
+  /* Full-bleed hero media and control surfaces */
+  --hero-overlay-start: rgba(15, 14, 18, 0.9);
+  --hero-overlay-middle: rgba(18, 17, 21, 0.62);
+  --hero-overlay-end: rgba(18, 17, 21, 0.16);
+  --hero-glass-surface: rgba(17, 16, 20, 0.58);
+  --hero-glass-border: rgba(255, 255, 255, 0.24);
+  --hero-aside-surface: color-mix(in srgb, var(--theme-night) 88%, var(--theme-primary));
+  --hero-wash-start: color-mix(in srgb, var(--theme-primary) 76%, #0d0d12);
+  --hero-wash-middle: color-mix(in srgb, var(--theme-primary) 62%, transparent);
+  --hero-control-surface: rgba(12, 12, 16, 0.34);
+  --hero-control-surface-hover: rgba(12, 12, 16, 0.58);
+  --hero-control-border: rgba(255, 255, 255, 0.42);
+  --hero-progress-track: rgba(255, 255, 255, 0.32);
+  --hero-progress-value: #ffffff;
+
+  /* Compatibility aliases for the existing component layer */
+  --color-ink: var(--theme-heading);
+  --color-ink-soft: var(--theme-text);
+  --color-paper: var(--theme-background);
+  --color-surface: var(--theme-surface-muted);
+  --color-line: var(--theme-border);
+  --color-wine: var(--theme-primary);
+  --color-wine-dark: var(--theme-primary-hover);
+  --color-teal: var(--theme-secondary);
+  --color-gold: var(--theme-accent);
+  --color-night: var(--theme-night);
+  --color-footer: var(--theme-footer);
+  --color-white: #ffffff;
+
+  /* Font families and weights */
+  --font-family-poppins: "Poppins", Arial, sans-serif;
+  --font-family-jost: "Jost", Arial, sans-serif;
+  --font-family-montserrat: "Montserrat", Arial, sans-serif;
+  --font-family-system: system-ui, -apple-system, "Segoe UI", Arial, sans-serif;
+  --font-family-editorial: Georgia, "Times New Roman", serif;
+  --font-body: var(--font-family-poppins);
+  --font-heading: var(--font-family-poppins);
+  --font-weight-regular: 400;
+  --font-weight-medium: 500;
+  --font-weight-semibold: 600;
+  --font-weight-bold: 700;
+
+  /* Global typography scale. Component CSS consumes these variables only. */
+  --type-body-adjust: 0px;
+  --type-display-adjust: 0px;
+  --type-8: 8px;
+  --type-10: 10px;
+  --type-11: 11px;
+  --type-12: calc(12px + var(--type-body-adjust));
+  --type-13: calc(13px + var(--type-body-adjust));
+  --type-14: calc(14px + var(--type-body-adjust));
+  --type-15: calc(15px + var(--type-body-adjust));
+  --type-16: calc(16px + var(--type-body-adjust));
+  --type-17: calc(17px + var(--type-body-adjust));
+  --type-18: calc(18px + var(--type-body-adjust));
+  --type-19: calc(19px + var(--type-body-adjust));
+  --type-20: calc(20px + var(--type-body-adjust));
+  --type-21: calc(21px + var(--type-body-adjust));
+  --type-22: calc(22px + var(--type-body-adjust));
+  --type-24: calc(24px + var(--type-display-adjust));
+  --type-25: calc(25px + var(--type-display-adjust));
+  --type-26: calc(26px + var(--type-display-adjust));
+  --type-27: calc(27px + var(--type-display-adjust));
+  --type-28: calc(28px + var(--type-display-adjust));
+  --type-29: calc(29px + var(--type-display-adjust));
+  --type-30: calc(30px + var(--type-display-adjust));
+  --type-31: calc(31px + var(--type-display-adjust));
+  --type-32: calc(32px + var(--type-display-adjust));
+  --type-34: calc(34px + var(--type-display-adjust));
+  --type-36: calc(36px + var(--type-display-adjust));
+  --type-37: calc(37px + var(--type-display-adjust));
+  --type-38: calc(38px + var(--type-display-adjust));
+  --type-39: calc(39px + var(--type-display-adjust));
+  --type-40: calc(40px + var(--type-display-adjust));
+  --type-41: calc(41px + var(--type-display-adjust));
+  --type-42: calc(42px + var(--type-display-adjust));
+  --type-43: calc(43px + var(--type-display-adjust));
+  --type-44: calc(44px + var(--type-display-adjust));
+  --type-46: calc(46px + var(--type-display-adjust));
+  --type-48: calc(48px + var(--type-display-adjust));
+  --type-51: calc(51px + var(--type-display-adjust));
+  --type-52: calc(52px + var(--type-display-adjust));
+  --type-58: calc(58px + var(--type-display-adjust));
+  --type-64: calc(64px + var(--type-display-adjust));
+  --type-72: calc(72px + var(--type-display-adjust));
+  --type-90: calc(90px + var(--type-display-adjust));
+  --type-130: calc(130px + var(--type-display-adjust));
+  --font-size-body: var(--type-16);
+  --font-size-navigation: var(--type-13);
+  --font-size-button: var(--type-13);
+  --font-size-label: var(--type-12);
+  --font-size-caption: var(--type-13);
+  --font-size-lead: var(--type-21);
+  --font-size-card-title: var(--type-22);
+  --line-height-tight: 1.15;
+  --line-height-heading: 1.2;
+  --line-height-body: 1.7;
+  --line-height-control: 1.3;
+  --letter-spacing-default: 0;
+
+  /* Layout system */
+  --container-gutter: 32px;
+  --section-space: 112px;
+  --transition: 180ms ease;
+}
+
+html[data-palette="cobalt"] {
+  --brand-primary: #245aa5;
+  --brand-secondary: #287369;
+  --brand-accent: #c18a32;
+  --brand-night: #141a24;
+  --brand-footer: #172130;
+}
+
+html[data-palette="forest"] {
+  --brand-primary: #275b45;
+  --brand-secondary: #75603e;
+  --brand-accent: #bb8d3b;
+  --brand-night: #141b17;
+  --brand-footer: #18231e;
+}
+
+html[data-palette="graphite"] {
+  --brand-primary: #343941;
+  --brand-secondary: #8a3d54;
+  --brand-accent: #ad7e35;
+  --brand-night: #121418;
+  --brand-footer: #191b20;
+}
+
+html[data-custom-theme="true"] {
+  --brand-primary: var(--custom-primary);
+  --brand-secondary: var(--custom-secondary);
+  --theme-on-primary: var(--custom-primary-contrast);
+}
+
+html[data-theme="dark"] {
+  color-scheme: dark;
+  --theme-background: #101217;
+  --theme-surface: #15181e;
+  --theme-surface-muted: #1a1e25;
+  --theme-surface-alt: #20252c;
+  --theme-surface-elevated: #1b1f26;
+  --theme-input-background: #171b21;
+  --theme-placeholder: #282d35;
+  --theme-heading: #f5f6f8;
+  --theme-text: #c9cdd4;
+  --theme-text-muted: #aeb3bc;
+  --theme-text-subtle: #9298a3;
+  --theme-text-faint: #777f8b;
+  --theme-border: #343a43;
+  --theme-night: #090b0f;
+  --theme-footer: #0b0e13;
+  --theme-primary-soft: color-mix(in srgb, var(--theme-primary), #101217 78%);
+  --theme-secondary-soft: color-mix(in srgb, var(--theme-secondary), #101217 78%);
+  --theme-focus: color-mix(in srgb, var(--theme-primary), transparent 60%);
+  --theme-focus-outline: color-mix(in srgb, var(--theme-accent), transparent 18%);
+  --theme-shadow: rgba(0, 0, 0, 0.34);
+  --theme-shadow-soft: rgba(0, 0, 0, 0.22);
+}
+
+html[data-font-body="jost"] { --font-body: var(--font-family-jost); }
+html[data-font-body="montserrat"] { --font-body: var(--font-family-montserrat); }
+html[data-font-body="system"] { --font-body: var(--font-family-system); }
+html[data-font-heading="jost"] { --font-heading: var(--font-family-jost); }
+html[data-font-heading="montserrat"] { --font-heading: var(--font-family-montserrat); }
+html[data-font-heading="system"] { --font-heading: var(--font-family-system); }
+
+html[data-type-scale="compact"] {
+  --type-body-adjust: -1px;
+  --type-display-adjust: -4px;
+}
+
+html[data-type-scale="large"] {
+  --type-body-adjust: 1px;
+  --type-display-adjust: 4px;
+}
+
+@media (max-width: 1399.98px) {
+  :root {
+    --section-space: 96px;
+  }
+}
+
+@media (max-width: 1199.98px) {
+  :root {
+    --container-gutter: 28px;
+    --section-space: 88px;
+  }
+}
+
+@media (max-width: 991.98px) {
+  :root {
+    --section-space: 76px;
+  }
+}
+
+@media (max-width: 767.98px) {
+  :root {
+    --container-gutter: 20px;
+    --section-space: 64px;
+  }
+}

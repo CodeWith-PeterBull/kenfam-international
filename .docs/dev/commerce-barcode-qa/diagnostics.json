@@ -1,0 +1,21 @@
+{
+  "siteUrl": "http://127.0.0.1:8014",
+  "light": {
+    "hasSheet": true,
+    "previewImages": 1,
+    "previewComplete": true,
+    "rows": 1,
+    "generateButton": true,
+    "overflow": false
+  },
+  "form": {
+    "internal": true,
+    "manufacturer": true,
+    "generate": true,
+    "printButton": true
+  },
+  "dark": "dark",
+  "runtimeErrors": [],
+  "networkErrors": [],
+  "failures": []
+}

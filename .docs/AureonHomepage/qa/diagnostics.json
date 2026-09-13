@@ -1,0 +1,101 @@
+{
+  "failures": [],
+  "diagnostics": [
+    {
+      "name": "loader-first-paint",
+      "present": true,
+      "criticalStyles": true,
+      "state": "visible",
+      "position": "fixed",
+      "display": "grid",
+      "visibility": "visible",
+      "opacity": "1",
+      "background": "rgb(255, 255, 255)",
+      "coversViewport": true,
+      "centered": true,
+      "logoWidth": 62
+    },
+    {
+      "name": "loader-dark-first-paint",
+      "theme": "dark",
+      "state": "visible",
+      "visibility": "visible",
+      "opacity": "1",
+      "background": "rgb(16, 18, 23)"
+    },
+    {
+      "name": "desktop-light",
+      "theme": "light",
+      "viewportWidth": 1440,
+      "documentWidth": 1440,
+      "duplicateIds": 0,
+      "brokenImages": 0,
+      "loaderHidden": true,
+      "homeTitle": "Aureon CMS",
+      "hashedStylesheet": true,
+      "hashedScript": true
+    },
+    {
+      "name": "laptop-dark-modules",
+      "theme": "dark",
+      "viewportWidth": 1024,
+      "documentWidth": 1024,
+      "duplicateIds": 0,
+      "brokenImages": 0,
+      "loaderHidden": true,
+      "homeTitle": "Aureon CMS",
+      "hashedStylesheet": true,
+      "hashedScript": true
+    },
+    {
+      "name": "mobile-light",
+      "theme": "light",
+      "viewportWidth": 390,
+      "documentWidth": 390,
+      "duplicateIds": 0,
+      "brokenImages": 0,
+      "loaderHidden": true,
+      "homeTitle": "Aureon CMS",
+      "hashedStylesheet": true,
+      "hashedScript": true
+    },
+    {
+      "name": "mobile-dark-modules",
+      "theme": "dark",
+      "viewportWidth": 390,
+      "documentWidth": 390,
+      "duplicateIds": 0,
+      "brokenImages": 0,
+      "loaderHidden": true,
+      "homeTitle": "Aureon CMS",
+      "hashedStylesheet": true,
+      "hashedScript": true
+    },
+    {
+      "name": "desktop-gallery-lightbox",
+      "title": "My sales history",
+      "position": "8 / 12",
+      "sourceSynchronized": true,
+      "viewportCovered": true
+    },
+    {
+      "name": "mobile-gallery-lightbox",
+      "title": "Stay discovery",
+      "viewportWidth": 390,
+      "documentWidth": 390
+    },
+    {
+      "name": "mobile-menu-alignment",
+      "gap": 16,
+      "closeCenter": 321,
+      "headerCenter": 179
+    },
+    {
+      "name": "mobile-contact-card",
+      "visible": true,
+      "whatsappLinks": 2,
+      "emailLinks": 2,
+      "phoneLinks": 2
+    }
+  ]
+}

@@ -1,0 +1,248 @@
+:root {
+    --aureon-error-primary: #70233a;
+    --aureon-error-primary-dark: #54182b;
+    --aureon-error-secondary: #28656b;
+    --aureon-error-canvas: #f4f5f7;
+    --aureon-error-surface: #ffffff;
+    --aureon-error-ink: #1d1d25;
+    --aureon-error-muted: #666a73;
+    --aureon-error-border: #e0e2e7;
+}
+
+[data-bs-theme="dark"] {
+    --aureon-error-canvas: #111217;
+    --aureon-error-surface: #1b1c22;
+    --aureon-error-ink: #f3f4f6;
+    --aureon-error-muted: #b1b4bc;
+    --aureon-error-border: #34363e;
+}
+
+* {
+    box-sizing: border-box;
+}
+
+body.error-page {
+    min-width: 320px;
+    min-height: 100vh;
+    margin: 0;
+    color: var(--aureon-error-ink);
+    background: var(--aureon-error-canvas);
+    font-family: "Nunito Sans", Arial, sans-serif;
+}
+
+.aureon-error-shell {
+    display: grid;
+    width: min(1180px, calc(100% - 40px));
+    min-height: 100vh;
+    margin: 0 auto;
+    grid-template-rows: auto 1fr auto;
+}
+
+.aureon-error-header,
+.aureon-error-footer {
+    display: flex;
+    min-height: 76px;
+    align-items: center;
+    justify-content: space-between;
+    gap: 20px;
+}
+
+.aureon-error-brand {
+    display: inline-flex;
+    align-items: center;
+}
+
+.aureon-error-brand img {
+    display: block;
+    width: auto;
+    max-width: 180px;
+    height: 38px;
+    object-fit: contain;
+}
+
+.aureon-error-brand .brand-light {
+    display: none;
+}
+
+[data-bs-theme="dark"] .aureon-error-brand .brand-default {
+    display: none;
+}
+
+[data-bs-theme="dark"] .aureon-error-brand .brand-light {
+    display: block;
+}
+
+.aureon-error-header span,
+.aureon-error-footer {
+    color: var(--aureon-error-muted);
+    font-size: 13px;
+}
+
+.aureon-error-content {
+    display: grid;
+    align-items: center;
+    gap: clamp(36px, 7vw, 92px);
+    grid-template-columns: minmax(280px, 0.95fr) minmax(320px, 1.05fr);
+    padding: 44px 0 64px;
+}
+
+.aureon-error-visual {
+    display: grid;
+    min-height: 360px;
+    place-items: center;
+    margin: 0;
+}
+
+.aureon-error-visual img {
+    display: block;
+    width: min(100%, 430px);
+    max-height: 430px;
+    object-fit: contain;
+}
+
+.aureon-error-copy {
+    max-width: 570px;
+}
+
+.aureon-error-code {
+    display: inline-flex;
+    min-width: 68px;
+    min-height: 34px;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 18px;
+    border: 1px solid color-mix(in srgb, var(--aureon-error-primary) 34%, transparent);
+    border-radius: 4px;
+    color: var(--aureon-error-primary);
+    background: color-mix(in srgb, var(--aureon-error-primary) 9%, var(--aureon-error-surface));
+    font-size: 14px;
+    font-weight: 800;
+}
+
+[data-bs-theme="dark"] .aureon-error-code {
+    color: color-mix(in srgb, var(--aureon-error-primary) 28%, #ffffff);
+}
+
+.aureon-error-copy h1 {
+    margin: 0 0 16px;
+    color: var(--aureon-error-ink);
+    font-size: clamp(34px, 5vw, 56px);
+    font-weight: 750;
+    letter-spacing: 0;
+    line-height: 1.08;
+}
+
+.aureon-error-copy p {
+    max-width: 52ch;
+    margin: 0;
+    color: var(--aureon-error-muted);
+    font-size: 17px;
+    line-height: 1.7;
+}
+
+.aureon-error-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+    margin-top: 28px;
+}
+
+.aureon-error-actions .btn {
+    display: inline-flex;
+    min-height: 46px;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    border-radius: 5px;
+    font-weight: 700;
+}
+
+.aureon-error-actions .btn-primary {
+    border-color: var(--aureon-error-primary);
+    background: var(--aureon-error-primary);
+}
+
+.aureon-error-actions .btn-primary:hover,
+.aureon-error-actions .btn-primary:focus-visible {
+    border-color: var(--aureon-error-primary-dark);
+    background: var(--aureon-error-primary-dark);
+}
+
+.aureon-error-actions .btn-outline-secondary {
+    border-color: var(--aureon-error-border);
+    color: var(--aureon-error-ink);
+    background: var(--aureon-error-surface);
+}
+
+.aureon-error-status {
+    min-height: 22px;
+    margin-top: 14px;
+    color: var(--aureon-error-muted);
+    font-size: 13px;
+}
+
+.aureon-error-footer {
+    padding: 18px 0;
+    border-top: 1px solid var(--aureon-error-border);
+}
+
+@media (max-width: 767.98px) {
+    .aureon-error-shell {
+        width: min(100% - 28px, 620px);
+    }
+
+    .aureon-error-header {
+        min-height: 68px;
+    }
+
+    .aureon-error-header > span {
+        display: none;
+    }
+
+    .aureon-error-content {
+        grid-template-columns: 1fr;
+        gap: 20px;
+        padding: 24px 0 48px;
+        text-align: center;
+    }
+
+    .aureon-error-visual {
+        min-height: 230px;
+    }
+
+    .aureon-error-visual img {
+        width: min(82vw, 320px);
+        max-height: 300px;
+    }
+
+    .aureon-error-copy {
+        margin: 0 auto;
+    }
+
+    .aureon-error-copy p {
+        margin: 0 auto;
+    }
+
+    .aureon-error-actions {
+        justify-content: center;
+    }
+
+    .aureon-error-footer {
+        justify-content: center;
+        text-align: center;
+    }
+
+    .aureon-error-footer span:last-child {
+        display: none;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+        scroll-behavior: auto !important;
+        transition-duration: 0.01ms !important;
+    }
+}
+

@@ -1,0 +1,66 @@
+/*
+ * Aureon auth-screen styling.
+ *
+ * Layered on top of the DreamPOS account-page system (build/css/style.css)
+ * and the Aureon token sheet (aureon-dashboard.css). Consumes only
+ * --aureon-* custom properties — no palette literals — so the screens track
+ * the active palette and light/dark mode automatically.
+ */
+
+/* Brand mark: the centralized PNG logo replaces the benchmark SVGs. */
+.account-page .login-logo img {
+    max-height: 54px;
+    width: auto;
+}
+
+/* Secondary copy under headings. */
+.aureon-auth-subtitle {
+    color: var(--aureon-muted);
+}
+
+/* Inline text links (forgot password, create account, back to sign in). */
+.aureon-auth-link {
+    color: var(--aureon-primary);
+    font-weight: 500;
+    text-decoration: none;
+}
+
+.aureon-auth-link:hover,
+.aureon-auth-link:focus {
+    color: var(--aureon-primary-dark);
+    text-decoration: underline;
+}
+
+/*
+ * One-time-code entry on the challenge screen: large, centered, and
+ * letter-spaced so the six digits read as a code, not a text field.
+ * (Replaces the CSK benchmark's inline <style> hack.)
+ */
+.aureon-otp-input {
+    font-size: 28px;
+    font-weight: 600;
+    letter-spacing: 12px;
+    text-align: center;
+    text-indent: 12px; /* visually re-centres despite trailing letter-spacing */
+    color: var(--aureon-ink);
+}
+
+.aureon-otp-input::placeholder {
+    letter-spacing: 12px;
+    color: var(--aureon-muted);
+    opacity: 0.45;
+}
+
+/* Compact meta row (expiry hint) under the code input. */
+.aureon-auth-meta {
+    color: var(--aureon-muted);
+    font-size: 13px;
+}
+
+/* Keep the shared footer visually quiet inside auth cards. */
+.account-page .footer {
+    background: transparent;
+    border: 0;
+    font-size: 13px;
+    color: var(--aureon-muted);
+}

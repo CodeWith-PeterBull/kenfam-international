@@ -1,0 +1,13 @@
+@extends('property-booking::layouts.storefront')
+
+@section('title', $unitType->meta_title ?: $unitType->name)
+@section('meta_description', $unitType->meta_description ?: $unitType->short_description)
+@section('social_image', $unitType->getFirstMediaUrl('unit_type_cover', 'detail') ?: $property->getFirstMediaUrl('property_cover', 'detail'))
+
+@section('content')
+    <section class="pb-stay-detail"><div class="container-xxl"><nav class="pb-stay-breadcrumb" aria-label="Breadcrumb"><a href="{{ route('property-booking.storefront.catalog.index') }}">Stays</a><i data-lucide="chevron-right" aria-hidden="true"></i><a href="{{ route('property-booking.storefront.properties.show', ['property' => $property->slug]) }}">{{ $property->name }}</a><i data-lucide="chevron-right" aria-hidden="true"></i><span>{{ $unitType->name }}</span></nav>@include('property-booking::storefront.partials.gallery', ['galleryModel' => $unitType, 'coverCollection' => 'unit_type_cover', 'galleryCollection' => 'unit_type_gallery', 'galleryLabel' => $unitType->name])
+        <div class="pb-stay-detail__intro"><div><p class="pb-storefront-eyebrow">{{ $property->name }} @if($unitType->is_featured)<span>Featured</span>@endif</p><h1>{{ $unitType->name }}</h1><p class="pb-stay-detail__lead">{{ $unitType->short_description }}</p></div><dl class="pb-stay-detail__times"><div><dt>Guests</dt><dd>Up to {{ $unitType->maximum_guests }}</dd></div><div><dt>Bedrooms</dt><dd>{{ $unitType->bedroom_count }}</dd></div><div><dt>Size</dt><dd>{{ $unitType->size_square_metres }} m2</dd></div></dl></div>
+    </div></section>
+    <section class="pb-stay-content-band"><div class="container-xxl pb-stay-content-grid"><article><h2>About this space</h2><div class="pb-stay-rich-copy">{!! nl2br(e($unitType->description)) !!}</div>@if($unitType->amenities->isNotEmpty())<h2>Included amenities</h2><ul class="pb-stay-amenities">@foreach($unitType->amenities as $amenity)<li><i data-lucide="check" aria-hidden="true"></i><span><strong>{{ $amenity->name }}</strong>@if($amenity->pivot?->detail)<small>{{ $amenity->pivot->detail }}</small>@endif</span></li>@endforeach</ul>@endif</article><aside><section><h2>Space details</h2><dl class="pb-stay-fact-list"><div><dt>Bathrooms</dt><dd>{{ $unitType->bathroom_count }}</dd></div><div><dt>Beds</dt><dd>{{ $unitType->bed_count }}</dd></div><div><dt>Living rooms</dt><dd>{{ $unitType->living_room_count }}</dd></div><div><dt>Smoking</dt><dd>{{ $unitType->smoking_allowed ? 'Allowed' : 'Not allowed' }}</dd></div></dl></section></aside></div></section>
+    <livewire:property-booking.storefront.property-availability :property-id="$property->id" :unit-type-id="$unitType->id" />
+@endsection
