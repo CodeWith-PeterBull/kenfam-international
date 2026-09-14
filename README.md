@@ -1,4 +1,41 @@
-# Laravel Aureon
+# Kenfam International
+
+Independent client application built from the Aureon CMS scaffold. The reusable
+travel capability belongs to `App\Modules\TravelTours`; company identity belongs
+to the host institution and branding configuration.
+
+## Current Adoption Status
+
+- Clean independent source baseline: `f4139b7`, imported from Aureon subtree
+  commit `c7aaddbb40e85dd1796576ce350c8a4a97af0189`.
+- Working branch: `feature/travel-tours-foundation`.
+- Commerce and Property Booking are retained as implementation references and
+  disabled by default. Their inherited descriptions below do not mean those
+  modules are enabled for Kenfam.
+- TravelTours K1 has its 34-model schema, 34 factories, typed pricing,
+  customer, hold, booking, payment, instalment, and inquiry service slices.
+  K1 remains open for production-engine concurrency and the remaining service
+  families.
+- The locally accepted public foundation now includes the responsive Kenfam
+  homepage, tour catalogue/filtering, tour details, inquiries, signed booking
+  presentation, exact money formatting, opt-in demo catalogue/operators, and
+  executable storefront browser QA. This is not acceptance of K2-K7 operations.
+- The private origin is configured, but its remote branch state could not be
+  verified without an authenticated GitHub session.
+
+Start with [the TravelTours master plan](.docs/TravelTours/travel-tours-module-plan.md),
+[foundation audit](.docs/TravelTours/travel-tours-foundation-audit.md), and
+[foundation implementation](.docs/TravelTours/travel-tours-foundation-implementation.md),
+then read the [storefront foundation](.docs/TravelTours/travel-tours-storefront-foundation.md)
+and [review remediation status](.docs/TravelTours/claude-review/remediation-status.md),
+then use the [implementation ledger](.docs/TravelTours/travel-tours-implementation-ledger.md)
+for current acceptance evidence. The immediate next-phase contract is the
+[K1 foundation closeout plan](.docs/TravelTours/travel-tours-k1-foundation-closeout-plan.md).
+Repository provenance is recorded in the
+[scaffold initialization record](.docs/Kenfam/kenfam-scaffold-initialization.md).
+Client-specific documentation lives under [.docs/Kenfam](.docs/Kenfam).
+
+## Inherited Aureon Scaffold
 
 Laravel Aureon is the reusable Laravel 12 engine for the Aureon corporate template and future branded adopting sites. It combines the Bootstrap 5 Aureon public-template assets with a DreamPOS-derived administration dashboard architecture benchmarked against the CSK backend.
 
@@ -398,20 +435,24 @@ codes from `storage/logs/laravel.log` while `MAIL_MAILER=log`.
 
 ```powershell
 composer validate --no-check-publish
+composer audit --locked --format=summary
 php artisan test
 php artisan view:cache
 php artisan route:list
 npm.cmd run build
 npm.cmd run qa:dashboard
 npm.cmd run qa:auth
-npm.cmd run qa:commerce
-npm.cmd run qa:commerce-dashboard
-npm.cmd run qa:commerce-pos
-npm.cmd run qa:property-booking
-npm.cmd run qa:property-booking-storefront
+npm.cmd run qa:travel-tours-storefront
 ```
 
-Dashboard and Property Booking administration QA expect `http://127.0.0.1:8012`; the Property Booking storefront harness defaults to `http://localhost:8008`. Override either with `AUREON_QA_URL` and keep `APP_URL` aligned so Media Library URLs use the same origin. Commerce QA optionally captures real signed post-order pages when `AUREON_QA_CONFIRMATION_URL` and `AUREON_QA_TRACKING_URL` are provided. `qa:auth` additionally drives the full 2FA challenge when the server runs with `TWO_FACTOR_ENABLED=true` and the script is invoked with `AUREON_QA_2FA=1`.
+The TravelTours storefront harness defaults to `http://127.0.0.1:8011` and
+expects the opt-in demonstration catalogue. Override it with `AUREON_QA_URL`
+and keep `APP_URL` aligned so Media Library URLs use the same origin. Run the
+inherited Commerce or Property Booking QA scripts only in a deliberate
+reference-module environment where the corresponding module flag is enabled;
+both are disabled in the default Kenfam application. `qa:auth` additionally
+drives the full 2FA challenge when the server runs with
+`TWO_FACTOR_ENABLED=true` and the script is invoked with `AUREON_QA_2FA=1`.
 
 ## Development context
 

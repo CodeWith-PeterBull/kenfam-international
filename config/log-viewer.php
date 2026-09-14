@@ -71,7 +71,7 @@ return [
 
     'back_to_system_url' => rtrim(config('app.url', ''), '/').'/admin/system-activity',
 
-    'back_to_system_label' => 'Back to Aureon administration',
+    'back_to_system_label' => 'Back to Kenfam administration',
 
     /*
     |--------------------------------------------------------------------------

@@ -1,3 +1,5 @@
+@props(['context' => 'page'])
+
 <div
     id="global-loader"
     class="aureon-loader"
@@ -17,6 +19,6 @@
         <p class="aureon-loader__title">{{ config('app.name') }}</p>
         <span class="aureon-loader__bar" aria-hidden="true"><span></span></span>
         <span class="aureon-loader__label" aria-hidden="true">Loading</span>
-        <span class="visually-hidden">Loading dashboard</span>
+        <span class="visually-hidden">Loading {{ $context }}</span>
     </div>
 </div>

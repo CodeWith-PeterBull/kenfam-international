@@ -4,6 +4,7 @@ namespace App\Support;
 
 use App\Modules\Commerce\Support\CommercePermission;
 use App\Modules\PropertyBooking\Support\PropertyBookingPermission;
+use App\Modules\TravelTours\Support\TravelToursPermission;
 
 final class CmsPermission
 {
@@ -36,7 +37,7 @@ final class CmsPermission
      */
     public static function catalogue(): array
     {
-        return [
+        $catalogue = [
             self::VIEW_SYSTEM_ACTIVITIES => [
                 'label' => 'View system activities',
                 'group' => 'Governance',
@@ -92,9 +93,19 @@ final class CmsPermission
                 'group' => 'Users and access',
                 'description' => 'Create role bundles and assign code-owned permissions to them.',
             ],
-            ...CommercePermission::catalogue(),
-            ...PropertyBookingPermission::catalogue(),
         ];
+
+        if (config('commerce.enabled', false)) {
+            $catalogue = [...$catalogue, ...CommercePermission::catalogue()];
+        }
+        if (config('property-booking.enabled', false)) {
+            $catalogue = [...$catalogue, ...PropertyBookingPermission::catalogue()];
+        }
+        if (config('travel-tours.enabled', false)) {
+            $catalogue = [...$catalogue, ...TravelToursPermission::catalogue()];
+        }
+
+        return $catalogue;
     }
 
     /**

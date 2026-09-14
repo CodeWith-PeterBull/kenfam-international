@@ -12,7 +12,7 @@ use App\Modules\PropertyBooking\PointOfBooking\Printing\Drivers\BrowserReceiptPr
  * each property and snapshotted onto every booking.
  */
 return [
-    'enabled' => (bool) env('PROPERTY_BOOKING_ENABLED', true),
+    'enabled' => (bool) env('PROPERTY_BOOKING_ENABLED', false),
 
     'defaults' => [
         'country_code' => (string) env('PROPERTY_BOOKING_COUNTRY_CODE', 'KE'),

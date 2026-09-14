@@ -27,6 +27,8 @@ const candidateInputs = [
     'app/Modules/PropertyBooking/Resources/js/storefront.js',
     'app/Modules/PropertyBooking/Resources/css/pob.css',
     'app/Modules/PropertyBooking/Resources/js/pob.js',
+    'app/Modules/TravelTours/Resources/assets/css/storefront.css',
+    'app/Modules/TravelTours/Resources/assets/js/storefront.js',
 ];
 
 const candidateCopyTargets = [
@@ -37,6 +39,7 @@ const candidateCopyTargets = [
     { src: 'resources/js', dest: '' },
     { src: 'resources/plugins', dest: '' },
     { src: 'resources/aureon/assets', dest: '../aureon' },
+    { src: 'resources/kenfam/assets', dest: '../kenfam' },
 ];
 
 const inputs = candidateInputs.filter((input) => existsSync(input));

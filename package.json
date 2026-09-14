@@ -1,6 +1,6 @@
 {
     "$schema": "https://www.schemastore.org/package.json",
-    "name": "laravel-aureon",
+    "name": "kenfam-international",
     "private": true,
     "type": "module",
     "scripts": {
@@ -15,7 +15,8 @@
         "qa:commerce-pos": "node scripts/qa-commerce-pos.mjs",
         "qa:property-booking": "node scripts/qa-property-booking-admin.mjs",
         "qa:property-booking-storefront": "node scripts/qa-property-booking-storefront.mjs",
-        "qa:property-booking-pob": "node scripts/qa-property-booking-pob.mjs"
+        "qa:property-booking-pob": "node scripts/qa-property-booking-pob.mjs",
+        "qa:travel-tours-storefront": "node scripts/qa-travel-tours-storefront.mjs"
     },
     "devDependencies": {
         "@tailwindcss/forms": "^0.5.2",

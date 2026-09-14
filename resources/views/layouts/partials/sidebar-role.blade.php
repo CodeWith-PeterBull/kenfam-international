@@ -37,9 +37,9 @@
 @endphp
 <div class="sidebar" id="sidebar">
     <div class="sidebar-logo">
-        <a href="{{ route($sidebarHomeRoute) }}" class="logo logo-normal"><img src="{{ asset('aureon/assets/brand/logo.png') }}" alt="Aureon"></a>
-        <a href="{{ route($sidebarHomeRoute) }}" class="logo logo-white"><img src="{{ asset('aureon/assets/brand/logo-light.png') }}" alt="Aureon"></a>
-        <a href="{{ route($sidebarHomeRoute) }}" class="logo-small"><img src="{{ asset('aureon/assets/brand/logo-icon.png') }}" alt="Aureon"></a>
+        <a href="{{ route($sidebarHomeRoute) }}" class="logo logo-normal"><img src="{{ asset(config('kenfam.brand.logo_dark')) }}" alt="Kenfam International"></a>
+        <a href="{{ route($sidebarHomeRoute) }}" class="logo logo-white"><img src="{{ asset(config('kenfam.brand.logo_light')) }}" alt="Kenfam International"></a>
+        <a href="{{ route($sidebarHomeRoute) }}" class="logo-small"><img src="{{ asset(config('kenfam.brand.favicon')) }}" alt="Kenfam International"></a>
         <a id="toggle_btn" href="javascript:void(0);" aria-label="Collapse navigation"><i data-feather="chevrons-left" class="feather-16"></i></a>
     </div>
 

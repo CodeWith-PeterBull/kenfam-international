@@ -4,6 +4,7 @@ namespace Database\Seeders;
 
 use App\Enums\UserType;
 use App\Models\User;
+use App\Modules\TravelTours\Database\Seeders\TravelToursAccessSeeder;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\Hash;
@@ -20,35 +21,39 @@ class DatabaseSeeder extends Seeder
         $this->call(RoleSeeder::class);
         $this->call(InstitutionDetailsSeeder::class);
 
+        if (config('travel-tours.enabled', false)) {
+            $this->call(TravelToursAccessSeeder::class);
+        }
+
         $this->seedAccount(
             type: UserType::SystemAdministrator,
-            username: 'Aureon Administrator',
-            email: 'admin@aureon.test',
-            firstName: 'Aureon',
+            username: 'Kenfam Administrator',
+            email: 'admin@kenfam.test',
+            firstName: 'Kenfam',
             lastName: 'Administrator',
             jobTitle: 'Platform administrator',
         );
         $this->seedAccount(
             type: UserType::ContentManager,
             username: 'content.manager',
-            email: 'content@aureon.test',
+            email: 'content@kenfam.test',
             firstName: 'Content',
             lastName: 'Manager',
             jobTitle: 'Content manager',
         );
         $this->seedAccount(
             type: UserType::Editor,
-            username: 'aureon.editor',
-            email: 'editor@aureon.test',
-            firstName: 'Aureon',
+            username: 'kenfam.editor',
+            email: 'editor@kenfam.test',
+            firstName: 'Kenfam',
             lastName: 'Editor',
             jobTitle: 'Content editor',
         );
         $this->seedAccount(
             type: UserType::Viewer,
-            username: 'aureon.viewer',
-            email: 'viewer@aureon.test',
-            firstName: 'Aureon',
+            username: 'kenfam.viewer',
+            email: 'viewer@kenfam.test',
+            firstName: 'Kenfam',
             lastName: 'Viewer',
             jobTitle: 'Corporate viewer',
         );

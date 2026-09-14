@@ -126,10 +126,10 @@ class DashboardAccessTest extends TestCase
         $this->seed(DatabaseSeeder::class);
 
         $accounts = [
-            UserType::SystemAdministrator->value => 'admin@aureon.test',
-            UserType::ContentManager->value => 'content@aureon.test',
-            UserType::Editor->value => 'editor@aureon.test',
-            UserType::Viewer->value => 'viewer@aureon.test',
+            UserType::SystemAdministrator->value => 'admin@kenfam.test',
+            UserType::ContentManager->value => 'content@kenfam.test',
+            UserType::Editor->value => 'editor@kenfam.test',
+            UserType::Viewer->value => 'viewer@kenfam.test',
         ];
 
         foreach ($accounts as $role => $email) {

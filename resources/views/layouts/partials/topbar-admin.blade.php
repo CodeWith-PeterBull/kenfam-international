@@ -5,13 +5,13 @@
     <div class="main-header">
         <div class="header-left active">
             <a href="{{ route('admin.dashboard') }}" class="logo logo-normal">
-                <img src="{{ asset('aureon/assets/brand/logo.png') }}" alt="Aureon">
+                <img src="{{ asset(config('kenfam.brand.logo_dark')) }}" alt="Kenfam International">
             </a>
             <a href="{{ route('admin.dashboard') }}" class="logo logo-white">
-                <img src="{{ asset('aureon/assets/brand/logo-light.png') }}" alt="Aureon">
+                <img src="{{ asset(config('kenfam.brand.logo_light')) }}" alt="Kenfam International">
             </a>
             <a href="{{ route('admin.dashboard') }}" class="logo-small">
-                <img src="{{ asset('aureon/assets/brand/logo-icon.png') }}" alt="Aureon">
+                <img src="{{ asset(config('kenfam.brand.favicon')) }}" alt="Kenfam International">
             </a>
         </div>
 

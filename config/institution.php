@@ -2,9 +2,10 @@
 
 return [
     'defaults' => [
-        'name' => env('INSTITUTION_NAME', env('APP_NAME', 'Laravel Aureon')),
-        'short_name' => env('INSTITUTION_SHORT_NAME', 'Aureon'),
+        'name' => env('INSTITUTION_NAME', env('APP_NAME', 'Kenfam International')),
+        'short_name' => env('INSTITUTION_SHORT_NAME', 'Kenfam'),
         'descriptor' => env('INSTITUTION_DESCRIPTOR', 'Corporate administration and communications'),
+        'founded_year' => (int) env('INSTITUTION_FOUNDED_YEAR', 1994),
         'primary_email' => env('INSTITUTION_EMAIL', env('MAIL_FROM_ADDRESS', 'hello@example.com')),
         'secondary_email' => env('INSTITUTION_SECONDARY_EMAIL'),
         'primary_phone' => env('INSTITUTION_PHONE'),
@@ -20,9 +21,12 @@ return [
     ],
 
     'assets' => [
-        'main_logo_url' => 'aureon/assets/brand/logo.png',
-        'main_logo_path' => resource_path('aureon/assets/brand/logo.png'),
-        'logo_icon_url' => 'aureon/assets/brand/logo-icon.png',
-        'logo_icon_path' => resource_path('aureon/assets/brand/logo-icon.png'),
+        'main_logo_url' => 'kenfam/assets/brand/logo-dark.png',
+        'main_logo_path' => resource_path('kenfam/assets/brand/logo-dark.png'),
+        'light_logo_url' => 'kenfam/assets/brand/logo-light.png',
+        'social_image_url' => 'kenfam/assets/brand/social-card.webp',
+        'travel_hero_url' => 'kenfam/assets/images/kenfam-travel-hero.webp',
+        'logo_icon_url' => 'kenfam/assets/brand/favicon.png',
+        'logo_icon_path' => resource_path('kenfam/assets/brand/favicon.png'),
     ],
 ];

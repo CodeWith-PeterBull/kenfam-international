@@ -10,6 +10,10 @@
         </testsuite>
         <testsuite name="Feature">
             <directory>tests/Feature</directory>
+            <!-- These suites verify disabled reference modules in Aureon itself.
+                 Kenfam keeps their source for architectural comparison only. -->
+            <exclude>tests/Feature/Commerce</exclude>
+            <exclude>tests/Feature/PropertyBooking</exclude>
         </testsuite>
     </testsuites>
     <source>
@@ -19,6 +23,7 @@
     </source>
     <php>
         <env name="APP_ENV" value="testing"/>
+        <env name="APP_KEY" value="base64:AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA="/>
         <env name="APP_MAINTENANCE_DRIVER" value="file"/>
         <env name="BCRYPT_ROUNDS" value="4"/>
         <env name="BROADCAST_CONNECTION" value="null"/>
@@ -32,6 +37,9 @@
         <env name="PULSE_ENABLED" value="false"/>
         <env name="TELESCOPE_ENABLED" value="false"/>
         <env name="NIGHTWATCH_ENABLED" value="false"/>
+        <env name="COMMERCE_ENABLED" value="false"/>
+        <env name="PROPERTY_BOOKING_ENABLED" value="false"/>
+        <env name="TRAVEL_TOURS_ENABLED" value="true"/>
         <!-- 2FA stays globally off in tests; suites that exercise the
              challenge enable it per-test via config(['two-factor.enabled' => true]). -->
         <env name="TWO_FACTOR_ENABLED" value="false"/>

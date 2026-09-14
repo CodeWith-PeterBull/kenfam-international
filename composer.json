@@ -1,9 +1,9 @@
 {
     "$schema": "https://getcomposer.org/schema.json",
-    "name": "meta-software-developers/laravel-aureon",
+    "name": "meta-software-developers/kenfam-international",
     "type": "project",
-    "description": "Reusable Laravel engine for the Aureon corporate frontend and administration dashboard.",
-    "keywords": ["laravel", "aureon", "corporate-website", "dashboard"],
+    "description": "Kenfam International travel operations and booking platform built on the Aureon scaffold.",
+    "keywords": ["laravel", "aureon", "travel", "tours", "booking"],
     "license": "MIT",
     "require": {
         "php": "^8.2",

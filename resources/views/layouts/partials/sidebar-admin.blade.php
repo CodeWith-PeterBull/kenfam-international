@@ -2,13 +2,13 @@
 <div class="sidebar" id="sidebar">
     <div class="sidebar-logo">
         <a href="{{ route('admin.dashboard') }}" class="logo logo-normal">
-            <img src="{{ asset('aureon/assets/brand/logo.png') }}" alt="Aureon">
+            <img src="{{ asset(config('kenfam.brand.logo_dark')) }}" alt="Kenfam International">
         </a>
         <a href="{{ route('admin.dashboard') }}" class="logo logo-white">
-            <img src="{{ asset('aureon/assets/brand/logo-light.png') }}" alt="Aureon">
+            <img src="{{ asset(config('kenfam.brand.logo_light')) }}" alt="Kenfam International">
         </a>
         <a href="{{ route('admin.dashboard') }}" class="logo-small">
-            <img src="{{ asset('aureon/assets/brand/logo-icon.png') }}" alt="Aureon">
+            <img src="{{ asset(config('kenfam.brand.favicon')) }}" alt="Kenfam International">
         </a>
         <a id="toggle_btn" href="javascript:void(0);" aria-label="Collapse navigation">
             <i data-feather="chevrons-left" class="feather-16"></i>
@@ -252,6 +252,39 @@
                                     <a href="{{ route('property-booking.storefront.catalog.index') }}" target="_blank" rel="noopener noreferrer"><i class="ti ti-world fs-16 me-2"></i><span>Stay storefront</span></a>
                                 </li>
                             @endif
+                        </ul>
+                    </li>
+                @endif
+                @if (config('travel-tours.enabled', false) &&
+                        Route::has('travel-tours.admin.dashboard') &&
+                        (auth()->user()->can(\App\Modules\TravelTours\Support\TravelToursPermission::VIEW_DASHBOARD) ||
+                        auth()->user()->can(\App\Modules\TravelTours\Support\TravelToursPermission::VIEW_CATALOG) ||
+                        auth()->user()->can(\App\Modules\TravelTours\Support\TravelToursPermission::VIEW_DEPARTURES) ||
+                        auth()->user()->can(\App\Modules\TravelTours\Support\TravelToursPermission::VIEW_BOOKINGS) ||
+                        auth()->user()->can(\App\Modules\TravelTours\Support\TravelToursPermission::VIEW_INQUIRIES) ||
+                        auth()->user()->can(\App\Modules\TravelTours\Support\TravelToursPermission::ACCESS_POB)))
+                    <li class="submenu-open">
+                        <h6 class="submenu-hdr">Travel and tours</h6>
+                        <ul>
+                            @can(\App\Modules\TravelTours\Support\TravelToursPermission::VIEW_DASHBOARD)
+                                <li class="{{ request()->routeIs('travel-tours.admin.dashboard') ? 'active' : '' }}"><a href="{{ route('travel-tours.admin.dashboard') }}"><i class="ti ti-chart-dots-3 fs-16 me-2"></i><span>Travel overview</span></a></li>
+                            @endcan
+                            @can(\App\Modules\TravelTours\Support\TravelToursPermission::VIEW_CATALOG)
+                                <li class="{{ request()->routeIs('travel-tours.admin.catalog.*') ? 'active' : '' }}"><a href="{{ route('travel-tours.admin.catalog.index') }}"><i class="ti ti-map-route fs-16 me-2"></i><span>Tour catalog</span></a></li>
+                            @endcan
+                            @can(\App\Modules\TravelTours\Support\TravelToursPermission::VIEW_DEPARTURES)
+                                <li class="{{ request()->routeIs('travel-tours.admin.departures.*') ? 'active' : '' }}"><a href="{{ route('travel-tours.admin.departures.index') }}"><i class="ti ti-calendar-event fs-16 me-2"></i><span>Departures</span></a></li>
+                            @endcan
+                            @can(\App\Modules\TravelTours\Support\TravelToursPermission::VIEW_BOOKINGS)
+                                <li class="{{ request()->routeIs('travel-tours.admin.bookings.*') ? 'active' : '' }}"><a href="{{ route('travel-tours.admin.bookings.index') }}"><i class="ti ti-ticket fs-16 me-2"></i><span>Bookings</span></a></li>
+                            @endcan
+                            @can(\App\Modules\TravelTours\Support\TravelToursPermission::VIEW_INQUIRIES)
+                                <li class="{{ request()->routeIs('travel-tours.admin.inquiries.*') ? 'active' : '' }}"><a href="{{ route('travel-tours.admin.inquiries.index') }}"><i class="ti ti-messages fs-16 me-2"></i><span>Inquiries</span></a></li>
+                            @endcan
+                            @can(\App\Modules\TravelTours\Support\TravelToursPermission::ACCESS_POB)
+                                <li class="{{ request()->routeIs('travel-tours.pob.*') ? 'active' : '' }}"><a href="{{ route('travel-tours.pob.terminal') }}"><i class="ti ti-device-desktop fs-16 me-2"></i><span>Booking desk</span></a></li>
+                            @endcan
+                            <li><a href="{{ route('travel-tours.storefront.catalog.index') }}" target="_blank" rel="noopener noreferrer"><i class="ti ti-world fs-16 me-2"></i><span>Public tours</span></a></li>
                         </ul>
                     </li>
                 @endif

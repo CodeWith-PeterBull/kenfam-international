@@ -13,7 +13,7 @@ return [
     |
     */
 
-    'name' => env('APP_NAME', 'Laravel Aureon'),
+    'name' => env('APP_NAME', 'Kenfam International'),
 
     /*
     |--------------------------------------------------------------------------

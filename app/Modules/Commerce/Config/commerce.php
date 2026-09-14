@@ -11,7 +11,7 @@ use App\Modules\Commerce\PointOfSale\Printing\Drivers\BrowserReceiptPrinterDrive
  * taxation, delivery, inventory, and numbering without editing module code.
  */
 return [
-    'enabled' => (bool) env('COMMERCE_ENABLED', true),
+    'enabled' => (bool) env('COMMERCE_ENABLED', false),
 
     'currency' => [
         'code' => (string) env('COMMERCE_CURRENCY_CODE', 'KES'),

@@ -21,7 +21,7 @@
 >
     <div class="offcanvas-header">
         <div>
-            <p class="aureon-settings-eyebrow mb-1">Aureon workspace</p>
+            <p class="aureon-settings-eyebrow mb-1">Kenfam workspace</p>
             <h2 class="offcanvas-title" id="dashboard-settings-title">Dashboard settings</h2>
         </div>
         <button type="button" class="btn-close btn-close-white" data-bs-dismiss="offcanvas" aria-label="Close settings"></button>
@@ -128,7 +128,7 @@
                 <div id="dashboard-color-settings" class="accordion-collapse collapse show">
                     <div class="accordion-body">
                         <div class="aureon-palette-options" role="radiogroup" aria-label="Theme color">
-                            @foreach ([['wine', '#70233a', 'Aureon wine'], ['teal', '#28656b', 'Corporate teal'], ['gold', '#8a6427', 'Heritage gold'], ['graphite', '#40434a', 'Graphite']] as [$value, $color, $label])
+                            @foreach ([['wine', '#9f2333', 'Kenfam red'], ['teal', '#28656b', 'Corporate teal'], ['gold', '#8a6427', 'Heritage gold'], ['graphite', '#40434a', 'Graphite']] as [$value, $color, $label])
                                 <input class="btn-check" type="radio" name="aureon-palette" id="aureon-palette-{{ $value }}" value="{{ $value }}" data-dashboard-setting="palette">
                                 <label class="aureon-palette" for="aureon-palette-{{ $value }}" title="{{ $label }}">
                                     <span style="--palette-color: {{ $color }}"></span>
