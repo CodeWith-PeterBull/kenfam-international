@@ -17,6 +17,8 @@ final class TravelToursPermission
 
     public const MANAGE_CATALOG = 'manage-travel-catalog';
 
+    public const PUBLISH_CATALOG = 'publish-travel-catalog';
+
     public const VIEW_DEPARTURES = 'view-tour-departures';
 
     public const MANAGE_DEPARTURES = 'manage-tour-departures';
@@ -51,7 +53,8 @@ final class TravelToursPermission
         $definitions = [
             self::VIEW_DASHBOARD => ['View travel dashboard', 'View booking, departure, capacity, and revenue summaries.'],
             self::VIEW_CATALOG => ['View travel catalog', 'Browse tours, destinations, itineraries, content, FAQs, and extras.'],
-            self::MANAGE_CATALOG => ['Manage travel catalog', 'Create, review, publish, and archive travel catalog records.'],
+            self::MANAGE_CATALOG => ['Manage travel catalog', 'Create, edit, organize, and submit travel catalog records for publication.'],
+            self::PUBLISH_CATALOG => ['Publish travel catalog', 'Publish, unpublish, and archive public travel catalog records.'],
             self::VIEW_DEPARTURES => ['View tour departures', 'Inspect schedules, capacity, holds, and assigned staff.'],
             self::MANAGE_DEPARTURES => ['Manage tour departures', 'Create schedules and control departure availability.'],
             self::VIEW_PRICING => ['View tour pricing', 'Inspect rate plans, participant rates, rules, and promotions.'],

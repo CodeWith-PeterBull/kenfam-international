@@ -8,7 +8,7 @@ to the host institution and branding configuration.
 
 - Clean independent source baseline: `f4139b7`, imported from Aureon subtree
   commit `c7aaddbb40e85dd1796576ce350c8a4a97af0189`.
-- Working branch: `feature/travel-tours-foundation`.
+- Working phase branch: `feature/travel-tours-k2-catalog-administration`.
 - Commerce and Property Booking are retained as implementation references and
   disabled by default. Their inherited descriptions below do not mean those
   modules are enabled for Kenfam.
@@ -21,6 +21,9 @@ to the host institution and branding configuration.
   presentation, exact money formatting, opt-in demo catalogue/operators, and
   executable storefront browser QA. This is not acceptance of K2-K7 operations.
 - The independent private origin and foundation branch are published.
+- K2 catalog administration is active. K2A establishes distinct publication
+  authority, context-owned policies, typed catalog inputs, and scoped staff
+  queries; K2B category/destination management is next.
 
 Start with [the TravelTours master plan](.docs/TravelTours/travel-tours-module-plan.md),
 [foundation audit](.docs/TravelTours/travel-tours-foundation-audit.md), and

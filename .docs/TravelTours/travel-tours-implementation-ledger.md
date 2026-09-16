@@ -20,6 +20,7 @@ exit gate in the master plan is supported by named verification.
 | 2026-09-14 | Dependency hardening | Verified | Refreshed stale lock metadata and patched Dompdf, Guzzle, CommonMark, and Livewire advisories without changing the Laravel 12.64 baseline | `composer validate` passes; `composer audit --locked` reports no known advisories; full tests/browser QA were rerun afterward |
 | 2026-09-16 | Repository publication | Complete | Independent `main` and `feature/travel-tours-foundation` history published to the Kenfam private origin | Foundation branch tracks `origin/feature/travel-tours-foundation` at `ecdc00c`; Aureon remains fetch-only with push disabled |
 | 2026-09-16 | K1 reconciliation | Complete at foundation scope | Discarded the oversized uncommitted closeout, assigned advanced controls to their owning phases, added private signed-response headers, and removed the misleading log-only receipt-printer binding | `TravelToursFoundationCloseoutTest`, signed HTML/PDF header assertions, 20 module tests / 1,722 assertions, 143 host tests / 2,380 assertions |
+| 2026-09-16 | K2A catalog access boundary | Verified locally | Added separate publication authority, context-owned policies, policy-scoped catalog queries, immutable catalog DTOs, named failures, and explicit absence of unfinished routes | `TravelToursCatalogAccessTest`: 5 tests / 33 assertions; module 25 / 1,755; host 148 / 2,414; Pint, PHPDoc, Blade and route inspection pass |
 
 ## Current Phase State
 
@@ -27,7 +28,7 @@ exit gate in the master plan is supported by named verification.
 | --- | --- | --- |
 | K0 | Complete and published | Client approval remains required for institutional/legal copy |
 | K1 | Complete at foundation scope | Later operational controls remain hard gates in their owning K5-K7 phases; see the K1 reconciliation |
-| K2 | Ready | Execute `travel-tours-k2-catalog-administration-plan.md` on a dedicated feature branch |
+| K2 | In progress: K2A implemented | Verify K2A, then implement K2B category/destination services, Forms, managers, media, and routes |
 | K3 | Not started | Departure/rate/rule/promotion administration and validation suite |
 | K4 | Public foundation accepted | Advanced discovery, map/gallery behavior, fuller inquiry UX, approved editorial content, and complete K4 acceptance |
 | K5 | Service foundation only | Public hold/checkout, traveler workflow, quote expiry, lifecycle, and payment UX |
@@ -39,14 +40,14 @@ exit gate in the master plan is supported by named verification.
 
 ```text
 php artisan test
-PASS: 143 tests, 2380 assertions
+PASS: 148 tests, 2414 assertions
 
 composer validate --no-check-publish
 composer audit --locked --format=summary
 PASS: valid definition and lock; no known advisories
 
 php artisan test tests/Feature/TravelTours --compact
-PASS: 20 tests, 1722 assertions
+PASS: 25 tests, 1755 assertions
 
 php scripts/probe-travel-tours-foundation.php
 PASS: 34 tables, 645 documented columns, 0 missing comments
