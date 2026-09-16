@@ -270,7 +270,9 @@
                                 <li class="{{ request()->routeIs('travel-tours.admin.dashboard') ? 'active' : '' }}"><a href="{{ route('travel-tours.admin.dashboard') }}"><i class="ti ti-chart-dots-3 fs-16 me-2"></i><span>Travel overview</span></a></li>
                             @endcan
                             @can(\App\Modules\TravelTours\Support\TravelToursPermission::VIEW_CATALOG)
-                                <li class="{{ request()->routeIs('travel-tours.admin.catalog.*') ? 'active' : '' }}"><a href="{{ route('travel-tours.admin.catalog.index') }}"><i class="ti ti-map-route fs-16 me-2"></i><span>Tour catalog</span></a></li>
+                                <li class="{{ request()->routeIs('travel-tours.admin.catalog.index') ? 'active' : '' }}"><a href="{{ route('travel-tours.admin.catalog.index') }}"><i class="ti ti-map-route fs-16 me-2"></i><span>Tour catalog</span></a></li>
+                                <li class="{{ request()->routeIs('travel-tours.admin.catalog.categories') ? 'active' : '' }}"><a href="{{ route('travel-tours.admin.catalog.categories') }}"><i class="ti ti-category fs-16 me-2"></i><span>Tour categories</span></a></li>
+                                <li class="{{ request()->routeIs('travel-tours.admin.catalog.destinations') ? 'active' : '' }}"><a href="{{ route('travel-tours.admin.catalog.destinations') }}"><i class="ti ti-map-pin fs-16 me-2"></i><span>Destinations</span></a></li>
                             @endcan
                             @can(\App\Modules\TravelTours\Support\TravelToursPermission::VIEW_DEPARTURES)
                                 <li class="{{ request()->routeIs('travel-tours.admin.departures.*') ? 'active' : '' }}"><a href="{{ route('travel-tours.admin.departures.index') }}"><i class="ti ti-calendar-event fs-16 me-2"></i><span>Departures</span></a></li>

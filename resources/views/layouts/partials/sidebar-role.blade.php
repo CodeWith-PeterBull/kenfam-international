@@ -23,12 +23,21 @@
         ['label' => 'Reception registers', 'route' => 'property-booking.pob.admin.registers.index', 'active' => ['property-booking.pob.admin.registers.*'], 'icon' => 'ti-building-store', 'permission' => \App\Modules\PropertyBooking\Support\PropertyBookingPermission::MANAGE_SHIFTS, 'module' => 'property-booking'],
         ['label' => 'Reception shifts', 'route' => 'property-booking.pob.admin.shifts.index', 'active' => ['property-booking.pob.admin.shifts.*'], 'icon' => 'ti-clock-dollar', 'permission' => \App\Modules\PropertyBooking\Support\PropertyBookingPermission::MANAGE_SHIFTS, 'module' => 'property-booking'],
         ['label' => 'Stay storefront', 'route' => 'property-booking.storefront.catalog.index', 'active' => ['property-booking.storefront.*'], 'icon' => 'ti-world', 'permission' => null, 'module' => 'property-booking', 'public' => true, 'external' => true],
+        ['label' => 'Travel overview', 'route' => 'travel-tours.admin.dashboard', 'active' => ['travel-tours.admin.dashboard'], 'icon' => 'ti-chart-dots-3', 'permission' => \App\Modules\TravelTours\Support\TravelToursPermission::VIEW_DASHBOARD, 'module' => 'travel-tours'],
+        ['label' => 'Tour catalog', 'route' => 'travel-tours.admin.catalog.index', 'active' => ['travel-tours.admin.catalog.index'], 'icon' => 'ti-map-route', 'permission' => \App\Modules\TravelTours\Support\TravelToursPermission::VIEW_CATALOG, 'module' => 'travel-tours'],
+        ['label' => 'Tour categories', 'route' => 'travel-tours.admin.catalog.categories', 'active' => ['travel-tours.admin.catalog.categories'], 'icon' => 'ti-category', 'permission' => \App\Modules\TravelTours\Support\TravelToursPermission::VIEW_CATALOG, 'module' => 'travel-tours'],
+        ['label' => 'Travel destinations', 'route' => 'travel-tours.admin.catalog.destinations', 'active' => ['travel-tours.admin.catalog.destinations'], 'icon' => 'ti-map-pin', 'permission' => \App\Modules\TravelTours\Support\TravelToursPermission::VIEW_CATALOG, 'module' => 'travel-tours'],
+        ['label' => 'Public tours', 'route' => 'travel-tours.storefront.catalog.index', 'active' => ['travel-tours.storefront.*'], 'icon' => 'ti-world', 'permission' => null, 'module' => 'travel-tours', 'public' => true, 'external' => true],
     ])->filter(function (array $item) use ($sidebarUser): bool {
         if (($item['module'] ?? null) === 'commerce' && ! config('commerce.enabled', true)) {
             return false;
         }
 
         if (($item['module'] ?? null) === 'property-booking' && ! config('property-booking.enabled', true)) {
+            return false;
+        }
+
+        if (($item['module'] ?? null) === 'travel-tours' && ! config('travel-tours.enabled', true)) {
             return false;
         }
 

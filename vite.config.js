@@ -29,6 +29,7 @@ const candidateInputs = [
     'app/Modules/PropertyBooking/Resources/js/pob.js',
     'app/Modules/TravelTours/Resources/assets/css/storefront.css',
     'app/Modules/TravelTours/Resources/assets/js/storefront.js',
+    'app/Modules/TravelTours/Resources/assets/css/admin.css',
 ];
 
 const candidateCopyTargets = [

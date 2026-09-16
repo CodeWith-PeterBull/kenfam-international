@@ -12,6 +12,8 @@ use App\Modules\TravelTours\Bookings\Models\TourBooking;
 use App\Modules\TravelTours\Bookings\Services\BookingDocumentService;
 use App\Modules\TravelTours\Bookings\Services\BookingPaymentService;
 use App\Modules\TravelTours\Bookings\Services\TourBookingService;
+use App\Modules\TravelTours\Catalog\Livewire\Admin\DestinationManager;
+use App\Modules\TravelTours\Catalog\Livewire\Admin\TourCategoryManager;
 use App\Modules\TravelTours\Catalog\Models\Destination;
 use App\Modules\TravelTours\Catalog\Models\Tour;
 use App\Modules\TravelTours\Catalog\Models\TourCategory;
@@ -45,6 +47,7 @@ use App\Modules\TravelTours\Scheduling\Services\DepartureAvailabilityService;
 use Illuminate\Support\Facades\Event;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\ServiceProvider;
+use Livewire\Livewire;
 
 /** Sole host entry point for the independently toggleable Travel & Tours module. */
 final class TravelToursServiceProvider extends ServiceProvider
@@ -89,5 +92,7 @@ final class TravelToursServiceProvider extends ServiceProvider
         Gate::policy(TourInquiry::class, InquiryPolicy::class);
         Gate::policy(BookingRegister::class, RegisterPolicy::class);
         Gate::policy(BookingShift::class, ShiftPolicy::class);
+        Livewire::component('travel-tours.admin.tour-category-manager', TourCategoryManager::class);
+        Livewire::component('travel-tours.admin.destination-manager', DestinationManager::class);
     }
 }

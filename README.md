@@ -23,7 +23,9 @@ to the host institution and branding configuration.
 - The independent private origin and foundation branch are published.
 - K2 catalog administration is active. K2A establishes distinct publication
   authority, context-owned policies, typed catalog inputs, and scoped staff
-  queries; K2B category/destination management is next.
+  queries. K2B adds operational category/destination workspaces, hierarchy and
+  geography rules, and owned accessible destination media. K2C tour editing is
+  next; publication remains reserved for K2E.
 
 Start with [the TravelTours master plan](.docs/TravelTours/travel-tours-module-plan.md),
 [foundation audit](.docs/TravelTours/travel-tours-foundation-audit.md), and

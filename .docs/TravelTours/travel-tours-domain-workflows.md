@@ -10,6 +10,21 @@ Hierarchy changes lock the affected aggregate and reject direct/indirect cycles.
 Tour children are always validated against their owning tour. Reordering is
 atomic; assignment of one primary category clears the previous primary.
 
+K2B implements the first half of this workflow. Category and destination
+metadata writes use typed DTOs and service-owned transactions. Category parent
+chains and destination parent chains are locked while traversed; missing,
+inactive, self, descendant, same-level, and country-inconsistent parents are
+rejected as applicable. Destination Forms may move only between draft and
+review. Existing published or archived state can be preserved during metadata
+maintenance, but promotion, demotion, and archive transitions are deliberately
+reserved for the K2E publication service.
+
+Destination media is attached only through `CatalogMediaService`. Cover and
+gallery files require JPEG, PNG, or WebP content, configured size/count limits,
+accessible alternative text, and destination ownership for metadata, reorder,
+or removal actions. Category presentation currently uses the persisted icon key;
+the schema does not claim a category image collection.
+
 Publication requires valid name/slug, description, duration, destination,
 accessible cover and approved policy content. A published tour can be visible
 without a bookable departure, showing an inquiry action instead of invented

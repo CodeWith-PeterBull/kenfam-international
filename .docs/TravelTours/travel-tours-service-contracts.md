@@ -41,8 +41,9 @@ focused tests. Container resolvability alone is not behavioral acceptance.
 
 | Service | Methods / DTO families | Transaction and side effects |
 | --- | --- | --- |
-| TourCategoryService | create/update/reparent/archive using CategoryData | Lock hierarchy/tour assignment; activity after commit |
-| DestinationService | create/update/reparent/publish/archive using DestinationData | Validate geography and cycles; preserve history |
+| TourCategoryService | Implemented K2B: create/update/setActive using TourCategoryData | Transactional hierarchy locks; cycles, inactive parents, active children, and published-tour dependencies rejected; activity belongs to K7 |
+| DestinationService | Implemented K2B: create/update/setActive using DestinationData | Draft/review metadata only; validates levels, geography, timezone, coordinates, cycles, active parents, and deactivation dependencies; publication belongs to K2E |
+| CatalogMediaService | Implemented K2B: destination cover replace/remove; gallery add/reorder/remove; metadata update | Owned media only, accessible alt text, configured MIME/size/count limits, deterministic gallery order; tour media follows in K2E |
 | TourCatalogService | create/update/publish/archive/assign categories/destinations | TourData, AssignmentData; publication checks |
 | ItineraryService | save day/activity, reorder, remove draft content | ItineraryDayData/ActivityData; same-tour ownership |
 | TourContentService | save/remove/reorder content, FAQs, extras | Content/FAQ/ExtraData; sanitize, currency and retention |
@@ -96,7 +97,8 @@ the transaction boundary, not partially completed side effects.
 
 ## 6. Service Delivery Order And Evidence
 
-1. Catalog CRUD/media with ownership/publication tests.
+1. Catalog CRUD/media with ownership/publication tests. K2B completes category
+   and destination metadata/media; K2C-K2E complete tours and publication.
 2. Scheduling/rate validation plus pure exact-money calculation fixtures.
 3. Holds and booking placement with real concurrent-connection tests.
 4. Identity/lifecycle/payment/refund and signed privacy projections.

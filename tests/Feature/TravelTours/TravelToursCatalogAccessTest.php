@@ -90,8 +90,8 @@ final class TravelToursCatalogAccessTest extends TestCase
         $this->assertTrue(Gate::forUser($administrator)->allows('publish', $tour));
     }
 
-    /** The existing overview is authorized while unfinished manager routes stay absent. */
-    public function test_catalog_route_exposes_only_the_implemented_overview(): void
+    /** Implemented K2 catalog workspaces are authorized while the unfinished tour editor stays absent. */
+    public function test_catalog_routes_expose_only_completed_workspaces(): void
     {
         $viewer = $this->operator(TravelToursRole::BOOKING_AGENT);
         $outsider = User::factory()->create();
@@ -106,8 +106,10 @@ final class TravelToursCatalogAccessTest extends TestCase
             ->get(route('travel-tours.admin.catalog.index'))
             ->assertForbidden();
 
-        $this->assertFalse(app('router')->has('travel-tours.admin.catalog.categories'));
-        $this->assertFalse(app('router')->has('travel-tours.admin.catalog.destinations'));
+        $this->actingAs($viewer)->get(route('travel-tours.admin.catalog.categories'))->assertOk();
+        $this->actingAs($viewer)->get(route('travel-tours.admin.catalog.destinations'))->assertOk();
+        $this->assertTrue(app('router')->has('travel-tours.admin.catalog.categories'));
+        $this->assertTrue(app('router')->has('travel-tours.admin.catalog.destinations'));
         $this->assertFalse(app('router')->has('travel-tours.admin.catalog.tours.create'));
     }
 

@@ -170,6 +170,27 @@ attributes, status, totals, actor IDs or private metadata. Do not catch an
 exception solely to rethrow it. Expected failures have typed domain exceptions;
 unexpected failures flow through Laravel with privacy-safe operation context.
 
+### K2 catalog administration runtime
+
+K2B registers two completed administration surfaces under the provider-owned
+route file: `/admin/travel/catalog/categories` and
+`/admin/travel/catalog/destinations`. Their controllers render module-owned
+dashboard shells; registered Livewire 4 components coordinate presentation;
+Forms produce immutable `TourCategoryData` and `DestinationData`; services own
+all database and Media Library writes. Both components authorize `viewAny` on
+every Livewire request and authorize each concrete mutation again.
+
+`TourCategoryService` owns normalization, slug uniqueness, hierarchy traversal,
+cycle rejection, and dependency-aware activation. `DestinationService` adds
+geographic level, ISO country, IANA timezone, coordinate-pair, editorial-state,
+and parent-country rules. `CatalogMediaService` owns destination cover/gallery
+attachment, accessible metadata, limits, ordering, and ownership. No K2B
+component calls `forceFill()`, relationship `sync()`, or Media Library directly.
+
+This slice intentionally does not register tour create/edit/preview routes.
+Those routes become real only with K2C and K2E. It also records no system
+activity yet because the dedicated event/activity integration is owned by K7.
+
 ## 8. Media And Sensitive Data
 
 Public collections: category image, destination cover/gallery, tour cover/gallery,

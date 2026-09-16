@@ -1,12 +1,14 @@
 # TravelTours K2 Catalog Administration Implementation
 
-Status: K2A implemented locally, 2026-09-16. K2B-K2F remain pending.
+Status: K2A and K2B implemented and verified on the phase branch, 2026-09-16.
+K2C-K2F remain pending.
 
 ## 1. Increment Scope
 
 K2A establishes the access and typed service boundary required before Livewire
-catalog writes. It does not create placeholder manager pages and does not alter
-the public catalog, departures, prices, availability, checkout, or booking desk.
+catalog writes. K2B delivers the first complete staff-facing write surfaces for
+tour categories and destinations. Neither increment alters departures, prices,
+availability, checkout, booking desk operations, or public publication rules.
 
 Implemented:
 
@@ -21,6 +23,27 @@ Implemented:
 - named catalog, hierarchy-cycle, and publication-readiness exceptions;
 - a focused K2A feature suite covering roles, policies, routes, queries, and
   typed inputs.
+
+K2B adds:
+
+- `TourCategoryService` with DTO-only create/update input, normalized identity,
+  unique slug checks, locked hierarchy traversal, cycle prevention, active-parent
+  enforcement, and dependency-aware activation;
+- `DestinationService` with DTO-only create/update input, actor attribution,
+  hierarchy-level and country consistency, ISO country normalization, IANA
+  timezone validation, coordinate pairing/ranges, locked cycle checks, and
+  draft/review editorial-state ownership;
+- `CatalogMediaService` for destination cover and ordered gallery writes,
+  configured upload/count constraints, required alternative text, optional
+  captions, metadata maintenance, ownership, and reorder completeness;
+- Livewire 4 category and destination Forms that translate validated UI values
+  into the K2A immutable DTOs;
+- policy-authorized manager components with per-request `viewAny`, per-action
+  authorization, locked selected identifiers, pagination, filters, accessible
+  dialogs, and user-safe domain failures;
+- module-owned dashboard pages, routes, component aliases, role/admin sidebar
+  links, Aureon token-based light/dark styles, and Vite registration;
+- focused service, media, route, role, and Livewire test coverage.
 
 ## 2. Decisions
 
@@ -39,18 +62,44 @@ managers additionally hold `publish-travel-catalog`. Booking agents retain
 view-only catalog access. The host system-administrator bypass remains the
 single global super-user mechanism.
 
-### No placeholder routes
+### Routes follow completed behavior
 
-The existing catalog overview is the only implemented administration route in
-K2A. Category, destination, tour-create, tour-edit, and preview routes are
-asserted absent until K2B/K2C supply complete Livewire components and tests.
+K2A exposed only the existing catalog overview. K2B registers category and
+destination routes after their services, Forms, managers, views, authorization,
+and tests exist. Tour-create, tour-edit, and preview routes remain asserted
+absent until K2C/K2E provide their complete behavior.
 
 ### Typed inputs precede Forms
 
-Livewire Forms arriving in K2B/K2C will normalize UI values into the K2A DTOs.
-Services will accept those DTOs rather than request arrays. Relational
-assignments use documented array shapes pending service-owned normalization in
-K2C.
+K2B Livewire Forms normalize category and destination UI values into the K2A
+DTOs. K2C Forms will do the same for tours. Services accept those DTOs rather
+than request arrays. Relational assignments use documented array shapes pending
+service-owned normalization in K2C.
+
+### Metadata editing cannot publish
+
+Destination Forms expose draft and review transitions only. A previously
+published or archived destination can retain that state while authorized staff
+correct metadata, but the form renders the state as read-only. The service
+rejects any promotion, demotion, or archive transition. K2E owns readiness,
+preview, publication, unpublication, and archive behavior.
+
+### Activation is a retained-state operation
+
+K2B does not destructively delete categories or destinations. A category cannot
+be hidden while active children or published tours depend on it. A destination
+cannot be hidden while published, while active children depend on it, or while
+published tours use it. Editing the active switch is checked by the same service
+invariant as the dedicated toggle action, so Forms cannot bypass dependency
+rules.
+
+### Media ownership is service-enforced
+
+Spatie Media Library remains the storage engine, but Livewire never calls it
+directly. The service resolves every existing image through the selected
+destination relation. Cross-destination IDs, incomplete reorder lists,
+unsupported files, oversized uploads, missing alt text, and gallery overflow
+produce user-safe catalog failures.
 
 ## 3. Files
 
@@ -66,15 +115,29 @@ Primary implementation:
 - `TravelToursServiceProvider.php`
 - `tests/Feature/TravelTours/TravelToursCatalogAccessTest.php`
 
+K2B implementation:
+
+- `Catalog/Services/{TourCategoryService,DestinationService,CatalogMediaService}.php`
+- `Catalog/Livewire/Forms/{TourCategoryForm,DestinationForm}.php`
+- `Catalog/Livewire/Admin/{TourCategoryManager,DestinationManager}.php`
+- `Catalog/Http/Controllers/{TourCategoryAdminController,DestinationAdminController}.php`
+- `Resources/views/admin/catalog/{categories,destinations}.blade.php`
+- `Resources/views/livewire/admin/catalog/{tour-category-manager,destination-manager}.blade.php`
+- `Resources/assets/css/admin.css`
+- `Routes/admin.php`, `TravelToursServiceProvider.php`, and `vite.config.js`
+- admin and role-aware sidebar navigation
+- `tests/Feature/TravelTours/TravelToursCatalogManagementTest.php`
+
 The former root `Policies/TourPolicy.php` moved into its owning Catalog context.
 
 ## 4. Verification
 
-Focused K2A evidence:
+Focused K2A/K2B evidence:
 
 ```text
-php artisan test tests/Feature/TravelTours/TravelToursCatalogAccessTest.php --compact
-PASS: 5 tests, 33 assertions
+php artisan test tests/Feature/TravelTours/TravelToursCatalogAccessTest.php \
+  tests/Feature/TravelTours/TravelToursCatalogManagementTest.php
+PASS: 9 tests, 62 assertions
 ```
 
 Module/full regression, formatting, documentation audit, Blade, routes, and
@@ -82,10 +145,10 @@ diff checks:
 
 ```text
 php artisan test tests/Feature/TravelTours --compact
-PASS: 25 tests, 1,755 assertions
+PASS: 29 tests, 1,784 assertions
 
 php artisan test --compact
-PASS: 148 tests, 2,414 assertions
+PASS: 152 tests, 2,443 assertions
 
 php vendor/bin/pint --test app/Modules/TravelTours tests/Feature/TravelTours
 PASS
@@ -96,17 +159,28 @@ PASS
 php artisan view:cache
 PASS
 
-php artisan route:list --name=travel-tours.admin --except-vendor
-PASS: five implemented administration routes; no premature K2B/K2C routes
+php artisan route:list --name=travel-tours.admin.catalog
+PASS: overview, categories, and destinations routes registered; no premature
+tour-create, tour-edit, or preview route
+
+npm.cmd run build
+PASS: production assets built in 40.09 seconds; Travel admin CSS emitted as a
+separate manifest entry and all eight static-copy targets completed
 ```
 
 The local PHP runtime continues to report the known Imagick 1808/1810 binary
-version warning. K2A performs no image conversion, and the warning does not
-make its test or compilation gates fail.
+version warning. K2B media conversion and tests still complete successfully,
+but production media acceptance remains conditional on environment alignment.
 
-## 5. Next Increment: K2B
+Authenticated multi-viewport browser acceptance is intentionally not claimed
+by K2B. It remains a named K2F gate after the tour editor exists, avoiding a
+throwaway harness that cannot inspect the full catalog workflow.
 
-K2B implements category and destination services, Livewire 4 Forms and manager
-components, media handling, hierarchy validation, geographic validation, and
-their dashboard routes. It must use the K2A DTOs, policies, query service, and
-exceptions. It must not add tour editing, departure writes, or pricing writes.
+## 5. Next Increment: K2C
+
+K2C implements the paginated tour index, base tour editor, and category and
+destination assignment services. It must preserve typed DTO/service writes,
+enforce exactly one primary category when assignments exist, validate related
+IDs and destination order against the current tour, and reject cross-tour or
+cross-resource tampering. It does not yet own itinerary/content children (K2D),
+publication/media readiness (K2E), or any departure/pricing behavior (K3).

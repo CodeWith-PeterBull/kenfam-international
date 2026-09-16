@@ -1,7 +1,7 @@
 # TravelTours K2 Catalog Administration Plan
 
-Status: active on `feature/travel-tours-k2-catalog-administration`; K2A
-implemented locally and pending phase-branch commit.
+Status: active on `feature/travel-tours-k2-catalog-administration`; K2A and K2B
+implemented and verified. K2C tour administration is next.
 
 ## 1. Objective
 
@@ -217,17 +217,17 @@ appropriate. A draft never links to the public route as if it were published.
 
 | Increment | Status | Deliverable | Exit evidence |
 | --- | --- | --- | --- |
-| K2A | Implemented locally | Permissions, policies, scoped queries, DTOs, exceptions, authorized overview route | Role matrix, policy registration/action, query authorization, route and typed-data tests |
-| K2B | Next | Category and destination services, Forms, managers, media | CRUD, cycles, parent state, coordinate/timezone, media tests |
-| K2C | Pending | Tour index, base editor, category/destination assignments | Search/filter/pagination and cross-tour tampering tests |
+| K2A | Complete | Permissions, policies, scoped queries, DTOs, exceptions, authorized overview route | Role matrix, policy registration/action, query authorization, route and typed-data tests |
+| K2B | Complete | Category and destination services, Forms, managers, media | CRUD, cycles, parent state, coordinate/timezone, media ownership/order/limit and Livewire tests |
+| K2C | Next | Tour index, base editor, category/destination assignments | Search/filter/pagination and cross-tour tampering tests |
 | K2D | Pending | Itinerary, content, FAQ, and extra management | Ordering, ownership, validation, exact-money tests |
 | K2E | Pending | Media, SEO, readiness, preview, publish/unpublish/archive | Publication blocker, draft privacy, archive/history tests |
 | K2F | Pending | Responsive/theme/accessibility QA and documentation reconciliation | Focused/full suites, build, screenshots, diagnostics, ledger update |
 
-K2A deliberately did not register category, destination, create, edit, or
-preview route names before their components exist. This is the route-shell
-contract: the implemented overview is policy-authorized, and planned routes
-remain absent until K2B/K2C can return complete, tested experiences.
+K2A deliberately omitted unfinished routes. K2B now registers category and
+destination routes because complete service/Form/Livewire surfaces and tests
+exist. Tour create, edit, and preview routes remain absent until K2C/K2E can
+return complete, tested experiences.
 
 ## 11. Verification Matrix
 
