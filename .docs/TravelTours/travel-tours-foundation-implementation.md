@@ -232,14 +232,17 @@ Public inquiry writes use `TourInquiryData` and `TourInquiryService`, require an
 idempotency key, verify public tour/departure ownership, and invoke Spatie's
 concrete anti-spam middleware rather than an unregistered alias.
 
-## Next Foundation Closeout
+## Reconciled Foundation Closeout
 
-Before K2 is marked active:
+K1 was reconciled on 2026-09-16 and is complete at foundation scope. The
+independent repository and foundation branch are published. Signed booking HTML
+and PDF responses now carry private/no-store, noindex, and nosniff headers. The
+log-only receipt printer was removed and its contract remains intentionally
+unbound until K6 provides a truthful instruction/result and driver boundary.
 
-1. add lifecycle, refund, and register/shift service slices with focused tests;
-2. add production-engine concurrent-connection verification for hold/placement
-   collision;
-3. close the applicable concerns recorded in
-   `claude-review/remediation-status.md` before accepting affected later phases;
-4. commit the K1/storefront-foundation slice independently and publish only
-   after authenticated remote access verifies the destination repository.
+Lifecycle/refund/traveler workflows are K5 checkout work. Register/shift and
+receipt workflows are K6 booking-desk work. Purpose-limited document DTOs,
+delivery semantics, reports, and activity are K7 work. Real two-service
+capacity and financial races remain mandatory acceptance evidence in K5/K6,
+where the complete requests exist. See `travel-tours-k1-reconciliation.md` and
+the K2 catalog administration execution plan.

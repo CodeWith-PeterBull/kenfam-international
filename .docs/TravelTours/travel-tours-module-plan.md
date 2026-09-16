@@ -1,6 +1,6 @@
 # Travel & Tours: Master Delivery Plan
 
-Status: K1 foundation implementation checkpoint, 2026-09-14. This remains the
+Status: K1 foundation reconciled and K2 ready, 2026-09-16. This remains the
 target contract, while the implementation ledger records actual tests and
 delivered behavior. The 34-model persistence/factory boundary and the first
 transactional service slices are implemented; unverified UI shells do not
@@ -69,9 +69,9 @@ Card recording stores a method/reference only, never card numbers or CVVs.
 
 | Phase | Work and dependencies | Exit evidence | Status |
 | --- | --- | --- | --- |
-| K0 | Clean source import; private repo; metadata, config/env, branding, README/deployment; independent homepage shell | Published baseline, secret scan, application boot and build parity | Complete locally; authenticated remote publication still unverified |
-| K1 | Provider/config, permissions, enums, DTO/contracts, all models/migrations/factories | Fresh/rollback/disabled-module tests; field/relationship/privacy review | In progress; schema/model/factory and core transaction slices verified on SQLite |
-| K2 | Category, destination, tour, itinerary, content, FAQ, extras, media administration | Real CRUD Forms, action authorization, publication and validation tests | Planned |
+| K0 | Clean source import; private repo; metadata, config/env, branding, README/deployment; independent homepage shell | Published baseline, secret scan, application boot and build parity | Complete and published |
+| K1 | Provider/config, permissions, enums, DTO/contracts, all models/migrations/factories | Fresh/rollback/disabled-module tests; field/relationship/privacy review | Complete at foundation scope; later operational hardening is assigned to its owning phase in the K1 reconciliation |
+| K2 | Category, destination, tour, itinerary, content, FAQ, extras, media administration | Real CRUD Forms, action authorization, publication and validation tests | Ready; execution contract documented |
 | K3 | Departures, rate plans, participant prices, rules, promotions, availability and quotes | Exact-integer tests and real-database contention proof | Planned |
 | K4 | Homepage integration, discovery, filters, tour details, maps/galleries and inquiries | Public-only data, SEO, accessible/responsive/theme evidence | Public foundation accepted; advanced filters, maps/galleries, and complete inquiry UX remain |
 | K5 | Holds, checkout, customer/traveler capture, lifecycle, manual payments and signed pages | Transaction, replay, concurrency, privacy and confirmation tests | Planned |
@@ -83,17 +83,19 @@ Draft pages and incomplete services do not constitute K2-K7 delivery. Each phase
 gets its own implementation note, focused commit, evidence and master status
 update. A skeleton method returning a placeholder is not an implemented contract.
 
-## 5. Immediate Redraft Sequence
+## 5. Active Delivery Sequence
 
-1. Preserve and publish the source baseline independently of client/module edits.
-2. Audit current files against TT-01..TT-17 and reference-module depth.
-3. Specify schema ownership, data dictionary, constraints, privacy and retention.
-4. Implement readable models/migrations and coherent factory graphs; test them.
-5. Implement typed service slices in dependency order: catalog, scheduling,
-   pricing, holds, booking, payments, desk, notifications/documents.
-6. Expose each UI action only after its domain transaction and authorization
-   pass. Preserve useful assets, but do not allow draft writes to masquerade as
-   accepted operational functionality.
+1. K2 catalog administration and publication.
+2. K3 departure scheduling and deterministic pricing administration.
+3. K4 advanced discovery, galleries, maps, SEO, and inquiry operations.
+4. K5 checkout, travelers, booking lifecycle, and payment capture.
+5. K6 booking administration, booking desk, registers, shifts, and receipts.
+6. K7 notifications, documents, reports, activity, and scheduled operations.
+7. K8 approved content, regression, accessibility, deployment, and adoption.
+
+Each phase completes its useful vertical slice and its directly applicable
+hardening. Cross-phase concerns are retained as explicit acceptance criteria,
+not pulled into the current branch as unfinished infrastructure.
 
 ## 6. Engineering Definition Of Done
 
@@ -126,6 +128,8 @@ Do not fresh-migrate or reseed an adopter's database for verification.
 | travel-tours-foundation-audit.md | Factual initial findings, disposition and remaining risk |
 | travel-tours-foundation-implementation.md | Implemented schema, model, factory and service evidence |
 | travel-tours-implementation-ledger.md | Changes, commands, results and remaining gaps |
+| travel-tours-k1-reconciliation.md | Reset rationale, proportional delivery rules and concern ownership |
+| travel-tours-k2-catalog-administration-plan.md | Next-phase files, workflows, boundaries, increments and acceptance matrix |
 | ../Kenfam/ | Client provenance, content, assets, public architecture and deployment |
 
 Client decisions requiring explicit confirmation: brand assets, child/infant age

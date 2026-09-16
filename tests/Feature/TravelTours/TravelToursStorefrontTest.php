@@ -148,14 +148,32 @@ final class TravelToursStorefrontTest extends TestCase
         $this->withoutVite();
         $confirmation = app(BookingAccessUrlService::class)->confirmation($booking);
 
-        $this->get($confirmation)
+        $response = $this->get($confirmation);
+        foreach (['private', 'no-store', 'max-age=0'] as $directive) {
+            $this->assertStringContainsString($directive, (string) $response->headers->get('Cache-Control'));
+        }
+
+        $response
             ->assertOk()
+            ->assertHeader('Pragma', 'no-cache')
+            ->assertHeader('X-Robots-Tag', 'noindex, nofollow, noarchive')
+            ->assertHeader('X-Content-Type-Options', 'nosniff')
             ->assertSee('name="robots" content="noindex, nofollow, noarchive"', false)
             ->assertSee('KFI-DEMO-0001')
             ->assertSee('Cairo and the Nile Heritage Journey')
             ->assertSee('JPY 12,500 of JPY 25,000')
             ->assertSee('data-theme-controller', false)
             ->assertDontSee('identity_number');
+
+        $document = app(BookingAccessUrlService::class)->document($booking, ReportOrientation::Portrait);
+        $documentResponse = $this->get($document)->assertOk()->assertHeader('Content-Type', 'application/pdf');
+        foreach (['private', 'no-store', 'max-age=0'] as $directive) {
+            $this->assertStringContainsString($directive, (string) $documentResponse->headers->get('Cache-Control'));
+        }
+        $documentResponse
+            ->assertHeader('Pragma', 'no-cache')
+            ->assertHeader('X-Robots-Tag', 'noindex, nofollow, noarchive')
+            ->assertHeader('X-Content-Type-Options', 'nosniff');
 
         $this->get($confirmation.'&booking=INVALID')->assertForbidden();
     }

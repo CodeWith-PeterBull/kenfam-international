@@ -45,6 +45,15 @@ complete lifecycle/refund/register/shift services, recipient resolution and
 delivery evidence, privacy-limited report projections, and alternate-brand
 verification. Early controllers and views remain explicitly unaccepted shells.
 
+## Reconciliation Checkpoint: 2026-09-16
+
+The open items above are no longer treated as one K1 prerequisite bundle.
+`travel-tours-k1-reconciliation.md` assigns each to the phase containing its
+real workflow: K5 checkout, K6 booking desk, K7 communications/documents/audit,
+and K8 adoption. Existing transactional, idempotency, encryption, signed-route,
+and module-isolation safeguards remain in force. K1 closes at foundation scope;
+K2 catalog administration is the next active phase.
+
 ## Baseline And Preservation
 
 Source repository: `CodeWith-PeterBull/Custom-Templates-Builds`.

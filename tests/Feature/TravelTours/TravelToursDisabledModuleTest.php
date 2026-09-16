@@ -9,6 +9,7 @@ declare(strict_types=1);
 namespace Tests\Feature\TravelTours;
 
 use App\Modules\TravelTours\Contracts\CalculatesTourQuotes;
+use App\Modules\TravelTours\Contracts\PrintsBookingReceipts;
 use App\Modules\TravelTours\Contracts\SearchesTours;
 use Illuminate\Support\Facades\Route;
 use Tests\TestCase;
@@ -42,6 +43,7 @@ final class TravelToursDisabledModuleTest extends TestCase
         $this->assertFalse(config('travel-tours.enabled'));
         $this->assertFalse($this->app->bound(SearchesTours::class));
         $this->assertFalse($this->app->bound(CalculatesTourQuotes::class));
+        $this->assertFalse($this->app->bound(PrintsBookingReceipts::class));
         $this->assertArrayNotHasKey('travel-tours', $this->app['view']->getFinder()->getHints());
         $this->assertFalse(Route::has('travel-tours.storefront.catalog.index'));
         $this->assertFalse(Route::has('travel-tours.admin.dashboard'));

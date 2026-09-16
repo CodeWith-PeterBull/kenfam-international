@@ -18,14 +18,16 @@ exit gate in the master plan is supported by named verification.
 | 2026-09-14 | Code/document standards | Verified | Added storefront implementation record, review remediation ledger, PHPDoc audit, and formatting checks | PHPDoc audit and Pint both pass |
 | 2026-09-14 | Host regression | Verified locally | Re-ran the complete application test surface after populated-storefront corrections | 142 tests passed with 2,357 assertions; clean Blade cache and 12-route inspection passed |
 | 2026-09-14 | Dependency hardening | Verified | Refreshed stale lock metadata and patched Dompdf, Guzzle, CommonMark, and Livewire advisories without changing the Laravel 12.64 baseline | `composer validate` passes; `composer audit --locked` reports no known advisories; full tests/browser QA were rerun afterward |
+| 2026-09-16 | Repository publication | Complete | Independent `main` and `feature/travel-tours-foundation` history published to the Kenfam private origin | Foundation branch tracks `origin/feature/travel-tours-foundation` at `ecdc00c`; Aureon remains fetch-only with push disabled |
+| 2026-09-16 | K1 reconciliation | Complete at foundation scope | Discarded the oversized uncommitted closeout, assigned advanced controls to their owning phases, added private signed-response headers, and removed the misleading log-only receipt-printer binding | `TravelToursFoundationCloseoutTest`, signed HTML/PDF header assertions, 20 module tests / 1,722 assertions, 143 host tests / 2,380 assertions |
 
 ## Current Phase State
 
 | Phase | State | Remaining gate |
 | --- | --- | --- |
-| K0 | Complete locally | Verify/push the configured private origin from an authenticated GitHub session; obtain approval for institutional/legal copy |
-| K1 | In progress | Production-engine contention proof, remaining foundational service families, and relevant review concerns |
-| K2 | Not started | Catalog/destination/itinerary/content administration, typed Forms, authorization, and write services |
+| K0 | Complete and published | Client approval remains required for institutional/legal copy |
+| K1 | Complete at foundation scope | Later operational controls remain hard gates in their owning K5-K7 phases; see the K1 reconciliation |
+| K2 | Ready | Execute `travel-tours-k2-catalog-administration-plan.md` on a dedicated feature branch |
 | K3 | Not started | Departure/rate/rule/promotion administration and validation suite |
 | K4 | Public foundation accepted | Advanced discovery, map/gallery behavior, fuller inquiry UX, approved editorial content, and complete K4 acceptance |
 | K5 | Service foundation only | Public hold/checkout, traveler workflow, quote expiry, lifecycle, and payment UX |
@@ -37,14 +39,14 @@ exit gate in the master plan is supported by named verification.
 
 ```text
 php artisan test
-PASS: 142 tests, 2357 assertions
+PASS: 143 tests, 2380 assertions
 
 composer validate --no-check-publish
 composer audit --locked --format=summary
 PASS: valid definition and lock; no known advisories
 
 php artisan test tests/Feature/TravelTours --compact
-PASS: 19 tests, 1699 assertions
+PASS: 20 tests, 1722 assertions
 
 php scripts/probe-travel-tours-foundation.php
 PASS: 34 tables, 645 documented columns, 0 missing comments
@@ -61,7 +63,16 @@ PASS
 
 npm run qa:travel-tours-storefront
 PASS: 11 inspections, six viewport captures, no recorded failures
+
+npm run build
+PASS: production assets built and eight static-copy targets copied; inherited
+runtime-resolved absolute asset references remain reported as Vite warnings
 ```
+
+`composer validate --no-check-publish` was rerun and passed. The 2026-09-14
+locked advisory audit remains the latest evidence because the 2026-09-16 audit
+network request was blocked by the execution environment's external-disclosure
+policy; no Composer dependency or lock file changed in this closeout.
 
 The local PHP process continues to report an Imagick/ImageMagick 1808 versus
 1810 version mismatch. It does not make the current test or fixture run red,

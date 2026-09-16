@@ -18,7 +18,6 @@ use App\Modules\TravelTours\Catalog\Services\TourSearchService;
 use App\Modules\TravelTours\Contracts\CalculatesTourQuotes;
 use App\Modules\TravelTours\Contracts\ChecksDepartureAvailability;
 use App\Modules\TravelTours\Contracts\PlacesTourBookings;
-use App\Modules\TravelTours\Contracts\PrintsBookingReceipts;
 use App\Modules\TravelTours\Contracts\ProcessesBookingPayments;
 use App\Modules\TravelTours\Contracts\RendersBookingDocuments;
 use App\Modules\TravelTours\Contracts\SearchesTours;
@@ -30,7 +29,6 @@ use App\Modules\TravelTours\Listeners\SendBookingPaymentConfirmedNotification;
 use App\Modules\TravelTours\Listeners\SendTourBookingPlacedNotification;
 use App\Modules\TravelTours\PointOfBooking\Models\BookingRegister;
 use App\Modules\TravelTours\PointOfBooking\Models\BookingShift;
-use App\Modules\TravelTours\PointOfBooking\Services\BrowserReceiptPrinter;
 use App\Modules\TravelTours\Policies\BookingPolicy;
 use App\Modules\TravelTours\Policies\CustomerPolicy;
 use App\Modules\TravelTours\Policies\DeparturePolicy;
@@ -63,7 +61,6 @@ final class TravelToursServiceProvider extends ServiceProvider
         $this->app->bind(PlacesTourBookings::class, TourBookingService::class);
         $this->app->bind(RendersBookingDocuments::class, BookingDocumentService::class);
         $this->app->bind(ProcessesBookingPayments::class, BookingPaymentService::class);
-        $this->app->bind(PrintsBookingReceipts::class, BrowserReceiptPrinter::class);
     }
 
     /** Register only the resources of an enabled module. */

@@ -1,8 +1,8 @@
 # TravelTours K1 Foundation Closeout Plan
 
-Status: approved next-phase scope after the initial schema, service, fixture,
-and storefront-foundation delivery. This document is an execution contract for
-the next engineer; it does not assert that the work below is already complete.
+Status: reconciled and closed, 2026-09-16. The original work packages remain
+below as decision history. Their current ownership is governed by section 2.1
+and `travel-tours-k1-reconciliation.md`; they are not all prerequisites to K2.
 
 ## 1. Purpose
 
@@ -39,6 +39,23 @@ The independent source review is
 `claude-review/concern_file.md`. Its live disposition is
 `claude-review/remediation-status.md`. C-01 through C-03 are resolved. This
 phase owns C-04 through C-10 where described below.
+
+### 2.1 Reconciled package disposition
+
+| Package | K1 disposition | Continuing owner |
+| --- | --- | --- |
+| K1C-01 bounded-context structure | Do not perform a broad namespace move. Relocate each class when its owning feature is implemented. | K2-K7 by context |
+| K1C-02 permission catalogue | Baseline route permissions and policies remain. Add scoped capabilities with real actions. | K2, K3, K5, K6 |
+| K1C-03 configuration/quote validity | Configuration is structurally present. Each phase must activate and test only its keys; quote expiry is checkout behavior. | K2-K7; quote expiry K5 |
+| K1C-04 private projections | Private response headers closed in K1. Purpose-limited document DTOs remain mandatory. | K7 |
+| K1C-05 events/notifications | Foundation events exist; delivery acceptance waits for complete recipients, content, and operations. | K7 |
+| K1C-06 receipt printing | Closed for K1 by removing the false log-only binding. | Real printer contract K6 |
+| K1C-07 activity trail | Not required to begin catalog CRUD; remains mandatory before operational release. | K7 |
+| K1C-08 remaining services | Lifecycle/refund/traveler services belong to checkout; register/shift services belong to booking desk. | K5 and K6 |
+| K1C-09 contention proof | The abandoned K1 harness is not retained. True two-service races use completed workflows and an isolated production-equivalent engine. | Capacity K5; money/drawer K6 |
+
+K1 therefore closes the module/schema/model/factory/service-interface and
+storefront foundation without claiming that K2-K7 behavior is complete.
 
 ## 3. Non-Negotiable Invariants
 
@@ -298,7 +315,7 @@ Exit evidence:
   open shift after competing operations;
 - SQLite default suite remains available for fast local feedback.
 
-## 5. Recommended Delivery Sequence
+## 5. Original Recommended Delivery Sequence (Superseded)
 
 | Order | Branch/commit concern | Depends on | Why now |
 | ---: | --- | --- | --- |
@@ -312,9 +329,11 @@ Exit evidence:
 | 8 | Production contention suite | 2, 6 | Verifies the final transaction shape on a locking database |
 | 9 | Full closeout and documentation | All | Opens K2 with a measured foundation |
 
-Small concerns may share a feature branch, but commits should stay reviewable.
-Do not combine namespace relocation, permission semantics, and transaction
-service implementation into one opaque commit.
+This sequence is retained only to explain the discarded uncommitted work. It
+was too broad for one foundation increment. The active sequence is K2 catalog,
+K3 scheduling/pricing, K4 public discovery, K5 checkout, K6 operations, K7
+communications/documents/audit, and K8 adoption QA. Each phase uses a focused
+branch and independently reviewable commits.
 
 ## 6. Required Test And QA Matrix
 
@@ -329,7 +348,7 @@ service implementation into one opaque commit.
 | Blade/routes | Clean `view:cache` and namespaced route inspection |
 | Dependency health | Composer validation and locked advisory audit |
 | Public regression | `npm run build` and `npm run qa:travel-tours-storefront` |
-| Concurrency | Separate production-engine contention command with recorded engine version |
+| Concurrency | Deferred: two-service capacity races in K5 and money/drawer races in K6 on an isolated production-equivalent engine |
 
 Use temporary Composer-autoload probes for container bindings, policy mappings,
 event/listener registration, and configuration inventory where a full HTTP test
@@ -348,23 +367,14 @@ During implementation:
 5. record the production-engine setup without committing credentials;
 6. leave K2/K3/K5-K7 status unchanged until their own exit gates pass.
 
-## 8. Phase Exit Gate
+## 8. Reconciled Phase Exit Gate
 
-K1 can be marked complete only when:
+K1 is complete when the published foundation remains green and the two exposed
+runtime corrections pass: private signed-response headers and absence of a
+false receipt-printer binding. Later-phase concerns remain visible in the
+remediation ledger and become hard gates when their complete workflows land.
 
-- C-04 through C-10 have evidence-backed resolutions or a concern is removed
-  because its incomplete contract is no longer registered/exposed;
-- every live configuration key has a consumer and test;
-- authorization is resource-scoped and the seeded role matrix matches policy;
-- all accepted writes are transactional, idempotent where required, and safely
-  audited;
-- raw Eloquent aggregates no longer cross signed/document presentation
-  boundaries;
-- the real-database contention suite proves capacity, payment/refund, and shift
-  invariants;
-- module, host, build, browser, disabled-module, static-analysis, and dependency
-  gates are green;
-- the implementation ledger and remediation status match the measured tree.
-
-Only then should K2 begin with catalog, destination, itinerary, FAQ, extra, and
-media administration services and Livewire 4 forms.
+K2 may now begin with catalog, destination, itinerary, content, FAQ, extra, and
+media administration services and Livewire 4 forms. It must not absorb K3
+departure/pricing management or K5 checkout merely to make screens appear
+complete.

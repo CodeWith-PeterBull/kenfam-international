@@ -12,16 +12,15 @@ to the host institution and branding configuration.
 - Commerce and Property Booking are retained as implementation references and
   disabled by default. Their inherited descriptions below do not mean those
   modules are enabled for Kenfam.
-- TravelTours K1 has its 34-model schema, 34 factories, typed pricing,
-  customer, hold, booking, payment, instalment, and inquiry service slices.
-  K1 remains open for production-engine concurrency and the remaining service
-  families.
+- TravelTours K1 is reconciled and closed at foundation scope: 34 models and
+  tables, 34 factories, typed foundational services, private signed responses,
+  module isolation, fixtures, and the accepted storefront foundation. Later
+  concurrency and operational controls are assigned to their owning phases.
 - The locally accepted public foundation now includes the responsive Kenfam
   homepage, tour catalogue/filtering, tour details, inquiries, signed booking
   presentation, exact money formatting, opt-in demo catalogue/operators, and
   executable storefront browser QA. This is not acceptance of K2-K7 operations.
-- The private origin is configured, but its remote branch state could not be
-  verified without an authenticated GitHub session.
+- The independent private origin and foundation branch are published.
 
 Start with [the TravelTours master plan](.docs/TravelTours/travel-tours-module-plan.md),
 [foundation audit](.docs/TravelTours/travel-tours-foundation-audit.md), and
@@ -29,8 +28,9 @@ Start with [the TravelTours master plan](.docs/TravelTours/travel-tours-module-p
 then read the [storefront foundation](.docs/TravelTours/travel-tours-storefront-foundation.md)
 and [review remediation status](.docs/TravelTours/claude-review/remediation-status.md),
 then use the [implementation ledger](.docs/TravelTours/travel-tours-implementation-ledger.md)
-for current acceptance evidence. The immediate next-phase contract is the
-[K1 foundation closeout plan](.docs/TravelTours/travel-tours-k1-foundation-closeout-plan.md).
+for current acceptance evidence. Read the [K1 reconciliation](.docs/TravelTours/travel-tours-k1-reconciliation.md)
+for delivery boundaries; the immediate next-phase contract is the
+[K2 catalog administration plan](.docs/TravelTours/travel-tours-k2-catalog-administration-plan.md).
 Repository provenance is recorded in the
 [scaffold initialization record](.docs/Kenfam/kenfam-scaffold-initialization.md).
 Client-specific documentation lives under [.docs/Kenfam](.docs/Kenfam).
