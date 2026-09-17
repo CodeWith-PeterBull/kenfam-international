@@ -187,9 +187,21 @@ and parent-country rules. `CatalogMediaService` owns destination cover/gallery
 attachment, accessible metadata, limits, ordering, and ownership. No K2B
 component calls `forceFill()`, relationship `sync()`, or Media Library directly.
 
-This slice intentionally does not register tour create/edit/preview routes.
-Those routes become real only with K2C and K2E. It also records no system
-activity yet because the dedicated event/activity integration is owned by K7.
+K2C adds `/admin/travel/catalog/tours/create` and the ULID-bound
+`/admin/travel/catalog/tours/{tour}/edit` route. `TourEditorController`
+authorizes the initial page request; `TourEditor` reauthorizes every hydrated
+request and each mutation. Its Basics and Route tabs use `TourForm` and
+`TourAssignmentForm`, which translate validated UI state to `TourData` and
+`TourAssignmentData`. `TourService` owns draft creation and base metadata
+updates; `TourAssignmentService` validates a full assignment set, then
+replaces tour-owned category/destination pivot rows in one transaction.
+The component does not mutate models or relationship pivots directly.
+
+`TourCatalog` owns authorized list presentation: literal-safe search,
+bounded status/type/category/destination filters, counts, and Bootstrap
+pagination. It is not the persistence service. Public preview and status
+transition routes remain absent until K2E. K2 records no system activity yet
+because the dedicated event/activity integration is owned by K7.
 
 ## 8. Media And Sensitive Data
 

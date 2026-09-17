@@ -13,7 +13,9 @@ use App\Modules\TravelTours\Bookings\Services\BookingDocumentService;
 use App\Modules\TravelTours\Bookings\Services\BookingPaymentService;
 use App\Modules\TravelTours\Bookings\Services\TourBookingService;
 use App\Modules\TravelTours\Catalog\Livewire\Admin\DestinationManager;
+use App\Modules\TravelTours\Catalog\Livewire\Admin\TourCatalog;
 use App\Modules\TravelTours\Catalog\Livewire\Admin\TourCategoryManager;
+use App\Modules\TravelTours\Catalog\Livewire\Admin\TourEditor;
 use App\Modules\TravelTours\Catalog\Models\Destination;
 use App\Modules\TravelTours\Catalog\Models\Tour;
 use App\Modules\TravelTours\Catalog\Models\TourCategory;
@@ -94,5 +96,7 @@ final class TravelToursServiceProvider extends ServiceProvider
         Gate::policy(BookingShift::class, ShiftPolicy::class);
         Livewire::component('travel-tours.admin.tour-category-manager', TourCategoryManager::class);
         Livewire::component('travel-tours.admin.destination-manager', DestinationManager::class);
+        Livewire::component('travel-tours.admin.tour-catalog', TourCatalog::class);
+        Livewire::component('travel-tours.admin.tour-editor', TourEditor::class);
     }
 }

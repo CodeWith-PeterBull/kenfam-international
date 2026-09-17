@@ -39,7 +39,7 @@
         <div class="modal fade show d-block" tabindex="-1" role="dialog" aria-modal="true" aria-labelledby="travel-category-form-title" wire:keydown.escape.window="closeDialog">
             <div class="modal-dialog modal-lg modal-dialog-centered modal-dialog-scrollable" role="document">
                 <form class="modal-content" wire:submit="save">
-                    <div class="modal-header"><h3 id="travel-category-form-title" class="modal-title fs-18">{{ $selectedCategoryId ? 'Edit category' : 'Add category' }}</h3><button type="button" class="btn-close" wire:click="closeDialog" aria-label="Close category form"></button></div>
+                    <div class="modal-header"><h3 id="travel-category-form-title" class="modal-title fs-18">{{ $selectedCategoryId ? 'Edit category' : 'Add category' }}</h3><button type="button" class="btn btn-icon btn-sm btn-outline-secondary" wire:click="closeDialog" aria-label="Close category form"><i class="ti ti-x" aria-hidden="true"></i></button></div>
                     <div class="modal-body">
                         @error('management')<div class="alert alert-danger" role="alert">{{ $message }}</div>@enderror
                         <div class="row g-3">

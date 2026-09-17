@@ -16,7 +16,8 @@
         "qa:property-booking": "node scripts/qa-property-booking-admin.mjs",
         "qa:property-booking-storefront": "node scripts/qa-property-booking-storefront.mjs",
         "qa:property-booking-pob": "node scripts/qa-property-booking-pob.mjs",
-        "qa:travel-tours-storefront": "node scripts/qa-travel-tours-storefront.mjs"
+        "qa:travel-tours-storefront": "node scripts/qa-travel-tours-storefront.mjs",
+        "qa:travel-tours-admin": "node scripts/qa-travel-tours-admin.mjs"
     },
     "devDependencies": {
         "@tailwindcss/forms": "^0.5.2",

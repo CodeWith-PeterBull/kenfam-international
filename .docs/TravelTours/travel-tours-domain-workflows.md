@@ -19,6 +19,16 @@ review. Existing published or archived state can be preserved during metadata
 maintenance, but promotion, demotion, and archive transitions are deliberately
 reserved for the K2E publication service.
 
+K2C creates tours as drafts and maintains their base content independently of
+publication. The editor requires the manage-catalog capability, accepts only
+typed Basics and Route forms, and routes each write through a service. Route
+replacement checks every category and destination target before changing any
+pivot; it requires exactly one primary category when nonempty and a distinct,
+gapless destination sequence. Client-supplied pivot IDs are not part of the
+assignment contract. Draft routes may be empty; published tours must retain
+their valid category and destination dependencies. Price and departure writes
+do not occur in this workflow.
+
 Destination media is attached only through `CatalogMediaService`. Cover and
 gallery files require JPEG, PNG, or WebP content, configured size/count limits,
 accessible alternative text, and destination ownership for metadata, reorder,

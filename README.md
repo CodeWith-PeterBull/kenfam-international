@@ -24,8 +24,9 @@ to the host institution and branding configuration.
 - K2 catalog administration is active. K2A establishes distinct publication
   authority, context-owned policies, typed catalog inputs, and scoped staff
   queries. K2B adds operational category/destination workspaces, hierarchy and
-  geography rules, and owned accessible destination media. K2C tour editing is
-  next; publication remains reserved for K2E.
+  geography rules, and owned accessible destination media. K2C tour catalog,
+  base editor, route assignments, and browser QA are implemented locally and
+  await review before commit. Publication remains reserved for K2E.
 
 Start with [the TravelTours master plan](.docs/TravelTours/travel-tours-module-plan.md),
 [foundation audit](.docs/TravelTours/travel-tours-foundation-audit.md), and
@@ -448,11 +449,14 @@ npm.cmd run build
 npm.cmd run qa:dashboard
 npm.cmd run qa:auth
 npm.cmd run qa:travel-tours-storefront
+npm.cmd run qa:travel-tours-admin
 ```
 
-The TravelTours storefront harness defaults to `http://127.0.0.1:8011` and
-expects the opt-in demonstration catalogue. Override it with `AUREON_QA_URL`
-and keep `APP_URL` aligned so Media Library URLs use the same origin. Run the
+The TravelTours storefront harness defaults to `http://127.0.0.1:8011`; the
+authenticated admin harness defaults to `http://127.0.0.1:8013` and expects
+`admin@kenfam.test` / `password` in an isolated, opt-in demonstration database.
+Override either with `AUREON_QA_URL` and keep `APP_URL` aligned so Media Library
+URLs use the same origin. Run the
 inherited Commerce or Property Booking QA scripts only in a deliberate
 reference-module environment where the corresponding module flag is enabled;
 both are disabled in the default Kenfam application. `qa:auth` additionally

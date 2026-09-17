@@ -1,7 +1,9 @@
 # TravelTours K2 Catalog Administration Plan
 
 Status: active on `feature/travel-tours-k2-catalog-administration`; K2A and K2B
-implemented and verified. K2C tour administration is next.
+were committed previously. K2C is implemented and locally verified but remains
+uncommitted pending user review. K2D and later work must not start before that
+review and an approved K2C commit.
 
 ## 1. Objective
 
@@ -10,9 +12,9 @@ organize, enrich, preview, publish, unpublish, and archive the tours displayed
 by the existing public storefront. K2 turns the implemented catalog schema into
 a usable module without absorbing departure pricing, checkout, or operations.
 
-The branch should be `feature/travel-tours-k2-catalog-administration` and the
-phase should close through focused commits for access/services, taxonomy,
-tours/editorial content, media/publication, and QA/documentation.
+The branch is `feature/travel-tours-k2-catalog-administration`. Each increment
+requires implementation, focused and full verification, browser evidence for
+interfaces, user review, then an approved commit before the next increment.
 
 ## 2. Included Domain Surface
 
@@ -100,10 +102,10 @@ Blade views remain module-owned under
 ### Catalog overview
 
 The existing `/admin/travel/catalog` route becomes the `TourCatalog` Livewire
-page. It provides bounded search, status/type/category/destination filters,
-published/draft/archive counts, cover thumbnails, storefront-readiness state,
-preview actions, and permission-aware create/edit/publish controls. Pagination
-uses the configured Bootstrap theme and query-string state.
+page. K2C provides bounded search, status/type/category/destination filters,
+publication-state counts, cover thumbnails, and permission-aware create/edit
+controls. K2E adds storefront readiness, preview, and publication controls.
+Pagination uses the configured Bootstrap theme and query-string filters.
 
 ### Categories
 
@@ -219,15 +221,15 @@ appropriate. A draft never links to the public route as if it were published.
 | --- | --- | --- | --- |
 | K2A | Complete | Permissions, policies, scoped queries, DTOs, exceptions, authorized overview route | Role matrix, policy registration/action, query authorization, route and typed-data tests |
 | K2B | Complete | Category and destination services, Forms, managers, media | CRUD, cycles, parent state, coordinate/timezone, media ownership/order/limit and Livewire tests |
-| K2C | Next | Tour index, base editor, category/destination assignments | Search/filter/pagination and cross-tour tampering tests |
+| K2C | Implemented, awaiting review | Tour index, base editor, category/destination assignments, and authenticated browser QA | 8 focused tests / 37 assertions; full 160 / 2,482; seven cross-viewport captures; no commit yet |
 | K2D | Pending | Itinerary, content, FAQ, and extra management | Ordering, ownership, validation, exact-money tests |
 | K2E | Pending | Media, SEO, readiness, preview, publish/unpublish/archive | Publication blocker, draft privacy, archive/history tests |
 | K2F | Pending | Responsive/theme/accessibility QA and documentation reconciliation | Focused/full suites, build, screenshots, diagnostics, ledger update |
 
-K2A deliberately omitted unfinished routes. K2B now registers category and
-destination routes because complete service/Form/Livewire surfaces and tests
-exist. Tour create, edit, and preview routes remain absent until K2C/K2E can
-return complete, tested experiences.
+K2A deliberately omitted unfinished routes. K2B registered category and
+destination routes after their service/Form/Livewire surfaces were tested.
+K2C now registers tour create/edit routes, while preview remains absent until
+K2E implements the publication and privacy workflow.
 
 ## 11. Verification Matrix
 

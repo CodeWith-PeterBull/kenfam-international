@@ -1,5 +1,23 @@
 @extends('layouts.dashboard-layout')
+
 @section('title', 'Tour Catalog')
+
+@push('styles')
+    @vite('app/Modules/TravelTours/Resources/assets/css/admin.css')
+@endpush
+
 @section('content')
-<main><div class="page-header"><div class="page-title"><h4>Tour catalog</h4><h6>{{ number_format($categoryCount) }} categories and {{ number_format($destinationCount) }} destinations</h6></div><div class="page-btn d-flex flex-wrap gap-2"><a href="{{ route('travel-tours.admin.catalog.categories') }}" class="btn btn-outline-secondary"><i class="ti ti-category me-2"></i>Categories</a><a href="{{ route('travel-tours.admin.catalog.destinations') }}" class="btn btn-outline-secondary"><i class="ti ti-map-pin me-2"></i>Destinations</a></div></div><section class="card aureon-panel"><div class="card-header"><h3 class="card-title mb-0">Tours</h3></div><div class="table-responsive"><table class="table mb-0"><thead><tr><th>Tour</th><th>Type</th><th>Duration</th><th>Destinations</th><th>Status</th><th>Public</th></tr></thead><tbody>@forelse($tours as $tour)<tr><td><strong>{{ $tour->name }}</strong><small class="d-block text-muted">{{ $tour->code }}</small></td><td>{{ $tour->type->label() }}</td><td>{{ $tour->duration_days }} days</td><td>{{ $tour->destinations->pluck('name')->join(', ') ?: 'Not assigned' }}</td><td><span class="badge text-bg-light">{{ $tour->status->label() }}</span></td><td>@if($tour->status->value === 'published')<a class="btn btn-icon btn-sm btn-outline-secondary" href="{{ route('travel-tours.storefront.tours.show',$tour->slug) }}" target="_blank" rel="noopener noreferrer" aria-label="View {{ $tour->name }}"><i class="ti ti-external-link"></i></a>@else<span class="text-muted">Draft</span>@endif</td></tr>@empty<tr><td colspan="6" class="text-center py-4">No tours have been created.</td></tr>@endforelse</tbody></table></div><div class="card-footer">{{ $tours->links() }}</div></section></main>
+    <main class="travel-admin">
+        <div class="page-header">
+            <div class="page-title">
+                <h4>Tour catalog</h4>
+                <h6>Build tour products, organize their discovery, and define each route</h6>
+            </div>
+            <div class="page-btn d-flex flex-wrap gap-2">
+                <a href="{{ route('travel-tours.admin.catalog.categories') }}" class="btn btn-outline-secondary"><i class="ti ti-category me-2" aria-hidden="true"></i>Categories</a>
+                <a href="{{ route('travel-tours.admin.catalog.destinations') }}" class="btn btn-outline-secondary"><i class="ti ti-map-pin me-2" aria-hidden="true"></i>Destinations</a>
+            </div>
+        </div>
+        <livewire:travel-tours.admin.tour-catalog />
+    </main>
 @endsection

@@ -90,7 +90,7 @@ final class TravelToursCatalogAccessTest extends TestCase
         $this->assertTrue(Gate::forUser($administrator)->allows('publish', $tour));
     }
 
-    /** Implemented K2 catalog workspaces are authorized while the unfinished tour editor stays absent. */
+    /** Completed K2 catalog routes expose only their matching read or write capabilities. */
     public function test_catalog_routes_expose_only_completed_workspaces(): void
     {
         $viewer = $this->operator(TravelToursRole::BOOKING_AGENT);
@@ -110,7 +110,9 @@ final class TravelToursCatalogAccessTest extends TestCase
         $this->actingAs($viewer)->get(route('travel-tours.admin.catalog.destinations'))->assertOk();
         $this->assertTrue(app('router')->has('travel-tours.admin.catalog.categories'));
         $this->assertTrue(app('router')->has('travel-tours.admin.catalog.destinations'));
-        $this->assertFalse(app('router')->has('travel-tours.admin.catalog.tours.create'));
+        $this->assertTrue(app('router')->has('travel-tours.admin.catalog.tours.create'));
+        $this->assertTrue(app('router')->has('travel-tours.admin.catalog.tours.edit'));
+        $this->actingAs($viewer)->get(route('travel-tours.admin.catalog.tours.create'))->assertForbidden();
     }
 
     /** Staff list queries enforce the same collection policy as their routes. */

@@ -1,14 +1,15 @@
 # TravelTours K2 Catalog Administration Implementation
 
-Status: K2A and K2B implemented and verified on the phase branch, 2026-09-16.
-K2C-K2F remain pending.
+Status: K2A and K2B committed previously. K2C implemented and locally verified
+on 2026-09-17, uncommitted pending user review. K2D-K2F remain pending.
 
 ## 1. Increment Scope
 
 K2A establishes the access and typed service boundary required before Livewire
 catalog writes. K2B delivers the first complete staff-facing write surfaces for
-tour categories and destinations. Neither increment alters departures, prices,
-availability, checkout, booking desk operations, or public publication rules.
+tour categories and destinations. K2C adds tour basics and route assignments.
+None of these increments alters departures, prices, availability, checkout,
+booking desk operations, or public publication rules.
 
 Implemented:
 
@@ -64,17 +65,17 @@ single global super-user mechanism.
 
 ### Routes follow completed behavior
 
-K2A exposed only the existing catalog overview. K2B registers category and
+K2A exposed only the existing catalog overview. K2B registered category and
 destination routes after their services, Forms, managers, views, authorization,
-and tests exist. Tour-create, tour-edit, and preview routes remain asserted
-absent until K2C/K2E provide their complete behavior.
+and tests existed. K2C registers tour create and edit; preview remains absent
+until K2E supplies its governed publication and privacy behavior.
 
 ### Typed inputs precede Forms
 
 K2B Livewire Forms normalize category and destination UI values into the K2A
-DTOs. K2C Forms will do the same for tours. Services accept those DTOs rather
-than request arrays. Relational assignments use documented array shapes pending
-service-owned normalization in K2C.
+DTOs. K2C TourForm and TourAssignmentForm now do the same for tours and routes.
+Services accept those DTOs rather than request arrays. Route rows reject
+unrecognized pivot identifiers before the service replaces assignments.
 
 ### Metadata editing cannot publish
 
@@ -176,11 +177,79 @@ Authenticated multi-viewport browser acceptance is intentionally not claimed
 by K2B. It remains a named K2F gate after the tour editor exists, avoiding a
 throwaway harness that cannot inspect the full catalog workflow.
 
-## 5. Next Increment: K2C
+## 5. K2C Scope Boundary
 
 K2C implements the paginated tour index, base tour editor, and category and
-destination assignment services. It must preserve typed DTO/service writes,
-enforce exactly one primary category when assignments exist, validate related
-IDs and destination order against the current tour, and reject cross-tour or
-cross-resource tampering. It does not yet own itinerary/content children (K2D),
-publication/media readiness (K2E), or any departure/pricing behavior (K3).
+destination assignment services. It preserves typed DTO/service writes,
+enforces exactly one primary category when assignments exist, validates active
+targets and route sequence, and rejects client-supplied pivot identifiers.
+It does not own itinerary/content children (K2D), publication/media readiness
+(K2E), or any departure/pricing behavior (K3).
+
+## 6. K2C Tour Catalog And Editor, Awaiting Review
+
+### Delivered behavior
+
+- `TourService` creates drafts and updates base tour metadata through an
+  immutable `TourData` contract. It normalizes code, slug, optional text, and
+  languages, validates participant/duration/coordinate boundaries, enforces
+  retained-row uniqueness, and attributes writes to the acting user. It does
+  not change publication status or publish a new tour.
+- `TourAssignmentService` validates a complete category/destination replacement
+  before deleting any existing pivot rows. Categories are distinct and have
+  one primary when nonempty; destinations are distinct, active, ordered from
+  one without gaps, and public when an already published tour depends on them.
+  Client-provided pivot IDs and unknown row keys are rejected.
+- `TourCatalog` exposes literal-safe name/code search, status/type/category/
+  destination filters, stable bounded Bootstrap pagination, publication-state
+  counts, cover thumbnails, and permission-aware edit/public actions. Drafts
+  do not receive misleading public links.
+- `TourEditor` uses module-owned Livewire Forms and typed services for Basics
+  and Route. It reauthorizes on hydration and before writes, locks the tour ID,
+  supports route sequencing, and shows only implemented tabs. New records
+  redirect to their ULID edit URL; K2E still owns status transitions.
+- The destination manager and catalog render original media when queued Spatie
+  conversions are not yet available, preventing broken first-load images.
+  Existing taxonomy/destination dialogs now use visible theme-aware close icons.
+
+### Changed areas
+
+- New services: `Catalog/Services/{TourService,TourAssignmentService}.php`.
+- New Forms: `Catalog/Livewire/Forms/{TourForm,TourAssignmentForm}.php`.
+- New components: `Catalog/Livewire/Admin/{TourCatalog,TourEditor}.php`.
+- New page controller: `Catalog/Http/Controllers/TourEditorController.php`.
+- New page/Livewire views under `Resources/views/admin/catalog/` and
+  `Resources/views/livewire/admin/catalog/`; shared `admin.css` extended.
+- `Routes/admin.php`, `TravelToursServiceProvider.php`, catalog controller,
+  existing destination/category dialogs, package QA script registration, and
+  catalog access test were updated.
+- New focused suite `TravelToursTourEditorTest.php` and browser harness
+  `scripts/qa-travel-tours-admin.mjs`.
+
+### Verification evidence
+
+| Gate | Result |
+| --- | --- |
+| `php artisan test tests/Feature/TravelTours/TravelToursTourEditorTest.php --compact` | 8 passed, 37 assertions |
+| `php artisan test tests/Feature/TravelTours --compact` | 37 passed, 1,823 assertions |
+| `php artisan test --compact` | 160 passed, 2,482 assertions |
+| `php vendor/bin/pint --test app/Modules/TravelTours tests/Feature/TravelTours` | Passed |
+| `php scripts/audit-travel-tours-docblocks.php` | Passed |
+| `php scripts/probe-travel-tours-foundation.php` | 34 tables, 645 documented columns, no missing comments |
+| `php artisan view:cache` | Passed |
+| `npm.cmd run build` | Passed, eight static-copy targets; inherited runtime-resolved asset warnings remain |
+| `npm.cmd run qa:travel-tours-admin` | Seven authenticated captures, no recorded runtime/network errors or failed assertions |
+
+The browser harness used a newly created SQLite database under `storage/qa`,
+seeded with the opt-in TravelTours demonstration catalog and operator roles.
+It captured desktop 1440/1280, tablet 820, and mobile 390 widths in light/dark
+modes, a reduced-motion route tab, an open category dialog, and a destination
+media dialog with a visibly loaded cover. Evidence is under `qa/admin/`.
+It did not migrate or reseed the development database. Browser QA did use the
+host's existing public media disk, so future harness isolation should consider
+a dedicated media root before repeated seeded runs.
+
+The local PHP binary still reports the pre-existing Imagick/ImageMagick
+1808/1810 warning. It did not fail the verified gates. No K2C commit or push
+has been made; user review is the next gate. K2D itinerary/content work must
+wait for that approval and the subsequent K2C commit.

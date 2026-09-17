@@ -44,7 +44,9 @@ focused tests. Container resolvability alone is not behavioral acceptance.
 | TourCategoryService | Implemented K2B: create/update/setActive using TourCategoryData | Transactional hierarchy locks; cycles, inactive parents, active children, and published-tour dependencies rejected; activity belongs to K7 |
 | DestinationService | Implemented K2B: create/update/setActive using DestinationData | Draft/review metadata only; validates levels, geography, timezone, coordinates, cycles, active parents, and deactivation dependencies; publication belongs to K2E |
 | CatalogMediaService | Implemented K2B: destination cover replace/remove; gallery add/reorder/remove; metadata update | Owned media only, accessible alt text, configured MIME/size/count limits, deterministic gallery order; tour media follows in K2E |
-| TourCatalogService | create/update/publish/archive/assign categories/destinations | TourData, AssignmentData; publication checks |
+| TourService | Implemented K2C: create draft/update basics using TourData | Transactional identity, participant, duration, coordinate, uniqueness, actor, and publication-state-preservation checks |
+| TourAssignmentService | Implemented K2C: replace categories/destinations using TourAssignmentData | Validates active targets, one primary category, unique ordered route, and no client pivot IDs before transactional replacement |
+| TourPublicationService | Planned K2E: preview/publish/unpublish/archive | Separate capability and readiness workflow; not exposed by K2C |
 | ItineraryService | save day/activity, reorder, remove draft content | ItineraryDayData/ActivityData; same-tour ownership |
 | TourContentService | save/remove/reorder content, FAQs, extras | Content/FAQ/ExtraData; sanitize, currency and retention |
 | TourMediaService | attach/reorder/replace/remove | Authorized MediaInput; limits, collections, conversion evidence |
@@ -98,7 +100,8 @@ the transaction boundary, not partially completed side effects.
 ## 6. Service Delivery Order And Evidence
 
 1. Catalog CRUD/media with ownership/publication tests. K2B completes category
-   and destination metadata/media; K2C-K2E complete tours and publication.
+   and destination metadata/media. K2C completes tour basics and ordered route
+   assignment. K2D adds tour children; K2E completes media and publication.
 2. Scheduling/rate validation plus pure exact-money calculation fixtures.
 3. Holds and booking placement with real concurrent-connection tests.
 4. Identity/lifecycle/payment/refund and signed privacy projections.
