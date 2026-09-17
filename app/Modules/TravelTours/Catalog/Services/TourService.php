@@ -11,6 +11,7 @@ use App\Modules\TravelTours\Catalog\Data\TourData;
 use App\Modules\TravelTours\Catalog\Enums\PublicationStatus;
 use App\Modules\TravelTours\Catalog\Exceptions\CatalogException;
 use App\Modules\TravelTours\Catalog\Exceptions\PublicationBlocked;
+use App\Modules\TravelTours\Catalog\Models\ItineraryDay;
 use App\Modules\TravelTours\Catalog\Models\Tour;
 use Illuminate\Database\DatabaseManager;
 use Illuminate\Support\Str;
@@ -102,6 +103,9 @@ final readonly class TourService
         if ($tour->duration_days < 1 || $tour->duration_days > 365 || $tour->duration_nights < 0 || $tour->duration_nights > $tour->duration_days
             || $tour->minimum_age < 0 || $tour->minimum_age > 120) {
             throw new CatalogException('Tour duration, nights, or minimum age is outside the supported range.');
+        }
+        if ($tour->exists && ItineraryDay::query()->where('tour_id', $tour->id)->where('day_number', '>', $tour->duration_days)->exists()) {
+            throw new CatalogException('Tour duration cannot be shorter than its existing itinerary.');
         }
         if ($tour->minimum_participants < 1 || $tour->minimum_participants > 1000
             || ($tour->maximum_participants !== null && ($tour->maximum_participants < $tour->minimum_participants || $tour->maximum_participants > 1000))) {

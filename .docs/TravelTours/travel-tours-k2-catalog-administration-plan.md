@@ -1,9 +1,8 @@
 # TravelTours K2 Catalog Administration Plan
 
-Status: active on `feature/travel-tours-k2-catalog-administration`; K2A and K2B
-were committed previously. K2C is implemented and locally verified but remains
-uncommitted pending user review. K2D and later work must not start before that
-review and an approved K2C commit.
+Status: active. K2A-K2C are committed; K2C is commit `38f0710`. K2D is
+implemented and locally verified on `feature/travel-tours-k2-itinerary-content`
+but remains uncommitted pending user review. K2E must not start before approval.
 
 ## 1. Objective
 
@@ -221,8 +220,8 @@ appropriate. A draft never links to the public route as if it were published.
 | --- | --- | --- | --- |
 | K2A | Complete | Permissions, policies, scoped queries, DTOs, exceptions, authorized overview route | Role matrix, policy registration/action, query authorization, route and typed-data tests |
 | K2B | Complete | Category and destination services, Forms, managers, media | CRUD, cycles, parent state, coordinate/timezone, media ownership/order/limit and Livewire tests |
-| K2C | Implemented, awaiting review | Tour index, base editor, category/destination assignments, and authenticated browser QA | 8 focused tests / 37 assertions; full 160 / 2,482; seven cross-viewport captures; no commit yet |
-| K2D | Pending | Itinerary, content, FAQ, and extra management | Ordering, ownership, validation, exact-money tests |
+| K2C | Complete, commit `38f0710` | Tour index, base editor, category/destination assignments, and authenticated browser QA | 8 focused tests / 37 assertions; full 160 / 2,482; seven cross-viewport captures |
+| K2D | Implemented, awaiting review | Itinerary, activity, content, FAQ, and exact-money extra management | Focused service/Livewire tests and 11 authenticated browser captures; no commit yet |
 | K2E | Pending | Media, SEO, readiness, preview, publish/unpublish/archive | Publication blocker, draft privacy, archive/history tests |
 | K2F | Pending | Responsive/theme/accessibility QA and documentation reconciliation | Focused/full suites, build, screenshots, diagnostics, ledger update |
 

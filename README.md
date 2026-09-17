@@ -8,7 +8,7 @@ to the host institution and branding configuration.
 
 - Clean independent source baseline: `f4139b7`, imported from Aureon subtree
   commit `c7aaddbb40e85dd1796576ce350c8a4a97af0189`.
-- Working phase branch: `feature/travel-tours-k2-catalog-administration`.
+- Working phase branch: `feature/travel-tours-k2-itinerary-content`.
 - Commerce and Property Booking are retained as implementation references and
   disabled by default. Their inherited descriptions below do not mean those
   modules are enabled for Kenfam.
@@ -25,8 +25,9 @@ to the host institution and branding configuration.
   authority, context-owned policies, typed catalog inputs, and scoped staff
   queries. K2B adds operational category/destination workspaces, hierarchy and
   geography rules, and owned accessible destination media. K2C tour catalog,
-  base editor, route assignments, and browser QA are implemented locally and
-  await review before commit. Publication remains reserved for K2E.
+  base editor, route assignments, and browser QA are committed as `38f0710`.
+  K2D itinerary, activity, experience, FAQ and exact-money extra editing is
+  implemented and awaits review before commit. Publication remains K2E.
 
 Start with [the TravelTours master plan](.docs/TravelTours/travel-tours-module-plan.md),
 [foundation audit](.docs/TravelTours/travel-tours-foundation-audit.md), and

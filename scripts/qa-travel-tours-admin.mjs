@@ -7,7 +7,7 @@ import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 
 const root = path.dirname(path.dirname(fileURLToPath(import.meta.url)));
-const outputDirectory = path.join(root, '.docs', 'TravelTours', 'qa', 'admin');
+const outputDirectory = path.join(root, '.docs', 'TravelTours', 'qa', process.env.AUREON_QA_PHASE === 'k2d' ? 'admin-k2d' : 'admin');
 const siteUrl = process.env.AUREON_QA_URL || 'http://127.0.0.1:8013';
 const email = process.env.AUREON_QA_EMAIL || 'admin@kenfam.test';
 const password = process.env.AUREON_QA_PASSWORD || 'password';
@@ -183,7 +183,7 @@ try {
     const editPath = await evaluate(`document.querySelector('#travel-tour-catalog a[title="Edit tour"]')?.getAttribute('href')`);
     assert(Boolean(editPath), 'The seeded catalog did not expose an editable tour');
 
-    async function capture({ name, route, width, height, mobile, mode, reducedMotion = false, before = null, expected = null }) {
+    async function capture({ name, route, width, height, mobile, mode, reducedMotion = false, before = null, expected = null, after = null, afterExpected = null, scrollSelector = null }) {
         await setViewport(width, height, mobile);
         await client.send('Emulation.setEmulatedMedia', { media: 'screen', features: [{ name: 'prefers-reduced-motion', value: reducedMotion ? 'reduce' : 'no-preference' }] });
         await setTheme(mode);
@@ -193,6 +193,14 @@ try {
             await evaluate(before);
             assert(Boolean(await waitFor(expected, 12000)), `${name}: requested interactive state did not open`);
             if (name === 'tablet-dark-destination-media') await waitFor("document.querySelector('#travel-destination-manager .modal.show .travel-admin-media-item img')?.complete", 8000);
+            await delay(180);
+        }
+        if (after) {
+            await evaluate(after);
+            assert(Boolean(await waitFor(afterExpected, 12000)), `${name}: requested child form did not open`);
+        }
+        if (scrollSelector) {
+            await evaluate(`document.querySelector(${JSON.stringify(scrollSelector)})?.scrollIntoView({ block: 'start' })`);
             await delay(180);
         }
         const snapshot = await evaluate(`(() => {
@@ -225,8 +233,11 @@ try {
                 reducedMotion: matchMedia('(prefers-reduced-motion: reduce)').matches,
                 modalPresent: Boolean(modal),
                 modalInsideViewport: !modal || (modal.left >= 0 && modal.right <= innerWidth && modal.top >= 0 && modal.bottom <= innerHeight),
+                modalFocusInside: !modal || Boolean(root?.querySelector('.travel-child-modal')?.contains(document.activeElement)),
                 mediaCoverWidth: root?.querySelector('.modal.show .travel-admin-media-item img')?.naturalWidth || 0,
                 mediaCoverSrc: root?.querySelector('.modal.show .travel-admin-media-item img')?.currentSrc || null,
+                selectedEditorTab: root?.querySelector('#travel-tour-editor [role="tab"][aria-selected="true"]')?.textContent.trim() || null,
+                childFormPresent: Boolean(root?.querySelector('.travel-child-modal form')),
             };
         })()`);
         diagnostics.push(snapshot);
@@ -248,6 +259,10 @@ try {
         assert(snapshot.reducedMotion === reducedMotion, `${name}: reduced-motion preference was not applied`);
         assert(snapshot.modalInsideViewport, `${name}: open modal exceeds the viewport`);
         if (expected?.includes('modal.show')) assert(snapshot.modalPresent, `${name}: modal is absent from the capture`);
+        if (afterExpected?.includes('travel-child-modal')) {
+            assert(snapshot.modalPresent && snapshot.childFormPresent, `${name}: contextual child dialog is absent`);
+            assert(snapshot.modalFocusInside, `${name}: keyboard focus did not enter the child dialog`);
+        }
         if (name === 'tablet-dark-destination-media') assert(snapshot.mediaCoverWidth > 0, `${name}: destination cover did not render`);
         const screenshot = await client.send('Page.captureScreenshot', { format: 'png', fromSurface: true, captureBeyondViewport: false });
         await writeFile(path.join(outputDirectory, `${name}.png`), Buffer.from(screenshot.data, 'base64'));
@@ -257,12 +272,19 @@ try {
     const captures = [
         { name: 'desktop-light-tour-catalog', route: '/admin/travel/catalog', width: 1440, height: 1000, mobile: false, mode: 'light' },
         { name: 'desktop-dark-tour-editor-basics', route: editorRoute, width: 1280, height: 900, mobile: false, mode: 'dark' },
-        { name: 'tablet-light-tour-editor-route-reduced-motion', route: editorRoute, width: 820, height: 1080, mobile: false, mode: 'light', reducedMotion: true, before: `document.querySelector('#travel-tour-editor [role="tab"]:last-child')?.click()`, expected: `document.querySelector('#travel-tour-editor [role="tab"]:last-child')?.getAttribute('aria-selected') === 'true'` },
+        { name: 'tablet-light-tour-editor-route-reduced-motion', route: editorRoute, width: 820, height: 1080, mobile: false, mode: 'light', reducedMotion: true, before: `document.querySelectorAll('#travel-tour-editor [role="tab"]')[1]?.click()`, expected: `document.querySelectorAll('#travel-tour-editor [role="tab"]')[1]?.getAttribute('aria-selected') === 'true'` },
         { name: 'mobile-dark-tour-editor-basics', route: editorRoute, width: 390, height: 844, mobile: true, mode: 'dark' },
         { name: 'mobile-light-tour-catalog', route: '/admin/travel/catalog', width: 390, height: 844, mobile: true, mode: 'light' },
         { name: 'desktop-light-category-dialog', route: '/admin/travel/catalog/categories', width: 1440, height: 1000, mobile: false, mode: 'light', before: `document.querySelector('#travel-tour-category-manager .card-header button')?.click()`, expected: `Boolean(document.querySelector('#travel-tour-category-manager .modal.show[aria-modal="true"]'))` },
         { name: 'tablet-dark-destination-media', route: '/admin/travel/catalog/destinations', width: 820, height: 1080, mobile: false, mode: 'dark', before: `document.querySelector('#travel-destination-manager button[title="Manage images"]')?.click()`, expected: `Boolean(document.querySelector('#travel-destination-manager .modal.show[aria-modal="true"]'))` },
     ];
+    if (process.env.AUREON_QA_PHASE === 'k2d') captures.push(
+        { name: 'desktop-light-tour-itinerary-day-modal', route: editorRoute, width: 1440, height: 1000, mobile: false, mode: 'light', before: `document.querySelectorAll('#travel-tour-editor [role="tab"]')[2]?.click()`, expected: `document.querySelector('[aria-label="Itinerary editor"]') !== null`, after: `document.querySelector('[aria-label="Itinerary editor"] .travel-child-toolbar button')?.click()`, afterExpected: `document.querySelector('.travel-child-modal #itinerary-day-title') !== null` },
+        { name: 'tablet-dark-tour-experience-faq-modal', route: editorRoute, width: 820, height: 1080, mobile: false, mode: 'dark', before: `document.querySelectorAll('#travel-tour-editor [role="tab"]')[3]?.click()`, expected: `document.querySelector('[aria-label="Tour experience editor"]') !== null`, after: `document.querySelector('#experience-faq-heading')?.closest('.travel-child-toolbar')?.querySelector('button')?.click()`, afterExpected: `document.querySelector('.travel-child-modal #experience-faq-question') !== null` },
+        { name: 'desktop-dark-tour-experience-item-modal', route: editorRoute, width: 1280, height: 900, mobile: false, mode: 'dark', before: `document.querySelectorAll('#travel-tour-editor [role="tab"]')[3]?.click()`, expected: `document.querySelector('[aria-label="Tour experience editor"]') !== null`, after: `document.querySelector('#experience-content-heading')?.closest('.travel-child-toolbar')?.querySelector('button')?.click()`, afterExpected: `document.querySelector('.travel-child-modal #experience-item-content') !== null` },
+        { name: 'mobile-dark-tour-itinerary-activity-modal', route: editorRoute, width: 390, height: 844, mobile: true, mode: 'dark', before: `document.querySelectorAll('#travel-tour-editor [role="tab"]')[2]?.click()`, expected: `document.querySelector('[aria-label="Itinerary editor"]') !== null`, after: `[...document.querySelectorAll('[aria-label="Itinerary editor"] .travel-activity-list button')].find((button) => button.textContent.includes('Add activity'))?.click()`, afterExpected: `document.querySelector('.travel-child-modal #itinerary-activity-title') !== null` },
+        { name: 'mobile-light-tour-experience-extra-modal', route: editorRoute, width: 390, height: 844, mobile: true, mode: 'light', before: `document.querySelectorAll('#travel-tour-editor [role="tab"]')[3]?.click()`, expected: `document.querySelector('[aria-label="Tour experience editor"]') !== null`, after: `document.querySelector('#experience-extra-heading')?.closest('.travel-child-toolbar')?.querySelector('button')?.click()`, afterExpected: `document.querySelector('.travel-child-modal #experience-extra-code') !== null` },
+    );
     for (const definition of captures) await capture(definition);
 
     assert(runtimeErrors.length === 0, `Runtime errors: ${runtimeErrors.join(' | ')}`);

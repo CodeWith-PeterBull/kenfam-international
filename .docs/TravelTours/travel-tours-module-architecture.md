@@ -197,6 +197,17 @@ updates; `TourAssignmentService` validates a full assignment set, then
 replaces tour-owned category/destination pivot rows in one transaction.
 The component does not mutate models or relationship pivots directly.
 
+K2D extends the same page with nested Itinerary and Experience components.
+`TourItineraryEditor` uses separate day/activity Forms and delegates all writes
+to `TourItineraryService`; that service locks the tour, resolves children
+through the tour/day relationship, bounds the itinerary by `duration_days`,
+and owns adjacent ordering and gap closure. `TourExperienceEditor` uses
+content/FAQ/extra Forms and `TourContentService`; extras retain exact integer
+minor-unit prices and archive through soft deletion. Nested components receive
+only the locked internal tour ID and reauthorize the parent on every request.
+They do not accept actor IDs, sort positions, foreign child IDs, lifecycle
+state, departure data, or calculated booking prices from the browser.
+
 `TourCatalog` owns authorized list presentation: literal-safe search,
 bounded status/type/category/destination filters, counts, and Bootstrap
 pagination. It is not the persistence service. Public preview and status

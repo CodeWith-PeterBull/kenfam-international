@@ -11,6 +11,8 @@
         <div class="travel-editor-tabs" role="tablist" aria-label="Tour editor sections">
             <button type="button" role="tab" aria-selected="{{ $tab === 'basics' ? 'true' : 'false' }}" class="travel-editor-tab {{ $tab === 'basics' ? 'is-active' : '' }}" wire:click="switchTab('basics')"><i class="ti ti-file-description" aria-hidden="true"></i>Basics</button>
             <button type="button" role="tab" aria-selected="{{ $tab === 'route' ? 'true' : 'false' }}" class="travel-editor-tab {{ $tab === 'route' ? 'is-active' : '' }}" wire:click="switchTab('route')" @disabled(!$this->currentTour)><i class="ti ti-route" aria-hidden="true"></i>Route</button>
+            <button type="button" role="tab" aria-selected="{{ $tab === 'itinerary' ? 'true' : 'false' }}" class="travel-editor-tab {{ $tab === 'itinerary' ? 'is-active' : '' }}" wire:click="switchTab('itinerary')" @disabled(!$this->currentTour)><i class="ti ti-map-2" aria-hidden="true"></i>Itinerary</button>
+            <button type="button" role="tab" aria-selected="{{ $tab === 'experience' ? 'true' : 'false' }}" class="travel-editor-tab {{ $tab === 'experience' ? 'is-active' : '' }}" wire:click="switchTab('experience')" @disabled(!$this->currentTour)><i class="ti ti-sparkles" aria-hidden="true"></i>Experience</button>
         </div>
 
         @if($tab === 'basics')
@@ -70,7 +72,7 @@
                 </section>
                 <div class="travel-editor-actions"><a href="{{ route('travel-tours.admin.catalog.index') }}" class="btn btn-outline-secondary">Cancel</a><button type="submit" class="btn btn-primary" wire:loading.attr="disabled" wire:target="saveBasics">{{ $this->currentTour ? 'Save basics' : 'Create tour draft' }}</button></div>
             </form>
-        @else
+        @elseif($tab === 'route')
             <form wire:submit="saveRoute" class="travel-editor-form" novalidate>
                 <section class="travel-editor-section" aria-labelledby="travel-categories-title">
                     <div class="travel-editor-section-heading"><span>01</span><div><h4 id="travel-categories-title">Catalog categories</h4><p>Select discovery groups and one primary category.</p></div></div>
@@ -101,6 +103,10 @@
                 </section>
                 <div class="travel-editor-actions"><button type="button" class="btn btn-outline-secondary" wire:click="switchTab('basics')">Back to basics</button><button type="submit" class="btn btn-primary" wire:loading.attr="disabled" wire:target="saveRoute">Save route</button></div>
             </form>
+        @elseif($tab === 'itinerary')
+            <livewire:travel-tours.admin.tour-itinerary-editor :tour-id="$tourId" :key="'tour-itinerary-'.$tourId" />
+        @else
+            <livewire:travel-tours.admin.tour-experience-editor :tour-id="$tourId" :key="'tour-experience-'.$tourId" />
         @endif
     </div>
 </section>

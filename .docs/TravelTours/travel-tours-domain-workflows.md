@@ -29,6 +29,17 @@ assignment contract. Draft routes may be empty; published tours must retain
 their valid category and destination dependencies. Price and departure writes
 do not occur in this workflow.
 
+K2D adds tour-owned itinerary and experience children. Days append within the
+tour duration and retain one-based order; activities append and reorder only
+inside their day. Optional destination references must remain active and local
+activity times are stored as clock values. Content items use the controlled
+content vocabulary and order within type; FAQs retain explicit public state.
+Extras use ISO currency and integer minor units, reserve codes even after
+archive, and are soft-deleted rather than erased. Every update/removal resolves
+the child through its tour (and day for activities), so a foreign ID fails
+without mutating either aggregate. A base-tour update cannot shorten duration
+below already persisted itinerary days.
+
 Destination media is attached only through `CatalogMediaService`. Cover and
 gallery files require JPEG, PNG, or WebP content, configured size/count limits,
 accessible alternative text, and destination ownership for metadata, reorder,

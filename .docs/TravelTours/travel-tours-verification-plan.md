@@ -12,10 +12,12 @@ MySQL integration: dedicated empty test database and independent connections for
 row-lock/unique-index/race behavior. SQLite cannot establish those guarantees.
 Browser QA: isolated local seeded database and test identities, not production.
 
-K2C local evidence is recorded in `travel-tours-k2-catalog-administration-
+K2C evidence is recorded in `travel-tours-k2-catalog-administration-
 implementation.md`: eight focused tests, 37 TravelTours tests, 160 full-suite
-tests, and seven authenticated admin browser captures. This is an increment
-gate, not release acceptance of later itinerary, publication, or booking work.
+tests, and seven authenticated admin browser captures. K2D evidence is recorded
+in `travel-tours-k2d-itinerary-content-implementation.md`: typed child-service
+and Livewire tests plus 11 authenticated captures including both new tabs.
+These are increment gates, not release acceptance of publication or booking.
 
 Lock versions to composer.lock/package-lock. Capture PHP/framework/Livewire and
 database versions. Local PHP currently emits an Imagick/ImageMagick version

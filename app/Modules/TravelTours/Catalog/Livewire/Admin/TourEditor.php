@@ -1,6 +1,6 @@
 <?php
 
-/** Coordinates the K2C tour basics and route workspaces. */
+/** Coordinates the tour basics, route, itinerary, and experience workspaces. */
 
 declare(strict_types=1);
 
@@ -62,8 +62,8 @@ final class TourEditor extends Component
     /** Switch only between implemented editor tabs. */
     public function switchTab(string $tab): void
     {
-        abort_unless(in_array($tab, ['basics', 'route'], true), 404);
-        abort_if($tab === 'route' && $this->tourId === null, 404);
+        abort_unless(in_array($tab, ['basics', 'route', 'itinerary', 'experience'], true), 404);
+        abort_if($tab !== 'basics' && $this->tourId === null, 404);
         $this->tab = $tab;
     }
 

@@ -16,6 +16,8 @@ use App\Modules\TravelTours\Catalog\Livewire\Admin\DestinationManager;
 use App\Modules\TravelTours\Catalog\Livewire\Admin\TourCatalog;
 use App\Modules\TravelTours\Catalog\Livewire\Admin\TourCategoryManager;
 use App\Modules\TravelTours\Catalog\Livewire\Admin\TourEditor;
+use App\Modules\TravelTours\Catalog\Livewire\Admin\TourExperienceEditor;
+use App\Modules\TravelTours\Catalog\Livewire\Admin\TourItineraryEditor;
 use App\Modules\TravelTours\Catalog\Models\Destination;
 use App\Modules\TravelTours\Catalog\Models\Tour;
 use App\Modules\TravelTours\Catalog\Models\TourCategory;
@@ -98,5 +100,7 @@ final class TravelToursServiceProvider extends ServiceProvider
         Livewire::component('travel-tours.admin.destination-manager', DestinationManager::class);
         Livewire::component('travel-tours.admin.tour-catalog', TourCatalog::class);
         Livewire::component('travel-tours.admin.tour-editor', TourEditor::class);
+        Livewire::component('travel-tours.admin.tour-itinerary-editor', TourItineraryEditor::class);
+        Livewire::component('travel-tours.admin.tour-experience-editor', TourExperienceEditor::class);
     }
 }

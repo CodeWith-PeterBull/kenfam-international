@@ -44,11 +44,11 @@ focused tests. Container resolvability alone is not behavioral acceptance.
 | TourCategoryService | Implemented K2B: create/update/setActive using TourCategoryData | Transactional hierarchy locks; cycles, inactive parents, active children, and published-tour dependencies rejected; activity belongs to K7 |
 | DestinationService | Implemented K2B: create/update/setActive using DestinationData | Draft/review metadata only; validates levels, geography, timezone, coordinates, cycles, active parents, and deactivation dependencies; publication belongs to K2E |
 | CatalogMediaService | Implemented K2B: destination cover replace/remove; gallery add/reorder/remove; metadata update | Owned media only, accessible alt text, configured MIME/size/count limits, deterministic gallery order; tour media follows in K2E |
-| TourService | Implemented K2C: create draft/update basics using TourData | Transactional identity, participant, duration, coordinate, uniqueness, actor, and publication-state-preservation checks |
+| TourService | Implemented K2C/K2D: create draft/update basics using TourData | Transactional identity, participant, coordinate, uniqueness, actor and state checks; duration cannot contract below existing itinerary |
 | TourAssignmentService | Implemented K2C: replace categories/destinations using TourAssignmentData | Validates active targets, one primary category, unique ordered route, and no client pivot IDs before transactional replacement |
 | TourPublicationService | Planned K2E: preview/publish/unpublish/archive | Separate capability and readiness workflow; not exposed by K2C |
-| ItineraryService | save day/activity, reorder, remove draft content | ItineraryDayData/ActivityData; same-tour ownership |
-| TourContentService | save/remove/reorder content, FAQs, extras | Content/FAQ/ExtraData; sanitize, currency and retention |
+| TourItineraryService | Implemented K2D: save/reorder/remove days and activities | Typed DTOs; same-tour/day ownership, consecutive order, duration, active destination, local-time and coordinate checks |
+| TourContentService | Implemented K2D: save/remove/reorder content, FAQs and extras | Typed DTOs; tour ownership, controlled content types, deterministic order, integer minor units, ISO currency and soft-deleted extra retention |
 | TourMediaService | attach/reorder/replace/remove | Authorized MediaInput; limits, collections, conversion evidence |
 | DepartureService | schedule/update/open/close/cancel/assign staff | DepartureData; UTC conversion, capacity and impacted bookings |
 | RatePlanService | save/default/deactivate, participant rate changes | RatePlanData/ParticipantRateData; age/window overlap validation |
