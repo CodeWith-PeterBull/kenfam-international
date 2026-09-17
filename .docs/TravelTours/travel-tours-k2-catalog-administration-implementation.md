@@ -253,3 +253,65 @@ The local PHP binary still reports the pre-existing Imagick/ImageMagick
 1808/1810 warning. It did not fail the verified gates. No K2C commit or push
 has been made; user review is the next gate. K2D itinerary/content work must
 wait for that approval and the subsequent K2C commit.
+
+## 7. Category Manager UX Enhancement, 2026-09-18
+
+Status: implemented and locally verified; uncommitted. Scope is the committed
+K2B category manager only. No destination, tour, pricing, or storefront file
+changed.
+
+### What changed and why
+
+| Change | Rationale |
+| --- | --- |
+| Numeric `Order` column replaced by up/down arrows | Operators reorder by intent, not by editing integers. `TourCategoryService::move()` mirrors the module's existing content/itinerary ordering: service-owned transaction, siblings locked, swap with the neighbour, dense 1..n renumbering. Arrows are disabled at each boundary. The numeric field stays in the form as the manual override. |
+| Hierarchy rendered depth-first with indentation | The previous flat `sort_order` sort interleaved levels, so a child could render above its own parent and the arrows appeared not to work. `categories()` now flattens the tree so siblings stay contiguous; each row carries `data-depth`. |
+| Visibility became a switch that states its blocker | The switch keeps the service guard (active children, published tours) and shows the reason inline before the service refuses, closing UAT finding 8. `wire:click.prevent` stops the browser's optimistic flip so a refused change never leaves the control out of step with the server. |
+| Eye icon now opens a read-only details dialog | Follows the parent's `openDetails()` + `Gate::authorize('view')` pattern. Shows identity, SEO, description, child categories, and assigned tours with publication state and an editor link where permitted. Viewers can inspect; only editors see the edit affordance. |
+| Row actions laid out inline | Uses the existing `.travel-admin-row-actions` flex container; rows dropped from 77 px to 62 px. Closes UAT finding 5. |
+| `novalidate` on the form | Parent parity; Livewire's inline error path now answers a blank submit instead of the browser tooltip. Closes UAT finding 2. |
+| Focus moves into dialogs on open; `aria-invalid` and `aria-describedby` on invalid fields | Partial closure of UAT findings 6 and 7 for this component. Focus trapping and a live region remain K2F items. |
+| Dark-mode close-button rule in `admin.css` | Carries the parent's `[data-bs-theme="dark"] .btn-close` filter fix. Closes UAT finding 3 for every `.travel-admin` dialog. |
+
+### Files
+
+- `Catalog/Services/TourCategoryService.php`: `move()`.
+- `Catalog/Livewire/Admin/TourCategoryManager.php`: tree-ordered `categories()`,
+  `positions()`, `selectedCategory()`, `openDetails()`, `move()`, `refreshHierarchy()`.
+- `Resources/views/livewire/admin/catalog/tour-category-manager.blade.php`: rewritten.
+- `Resources/assets/css/admin.css`: ordering, switch, detail-grid, tree, and dark close-button rules.
+- `tests/Feature/TravelTours/TravelToursCategoryOrderingTest.php`: seven cases.
+
+### Verification
+
+```text
+php vendor/bin/phpunit tests/Feature/TravelTours/TravelToursCategoryOrderingTest.php
+OK (7 tests, 28 assertions)
+
+php vendor/bin/phpunit tests/Feature/TravelTours
+OK (64 tests, 1973 assertions)
+
+php artisan test
+187 passed (2632 assertions)
+
+Pint, PHPDoc audit, view:cache, npm run build, git diff --check: pass
+```
+
+Browser evidence: `qa/catalog-taxonomy/category-manager-enhancement/` (nine
+authenticated captures as tour editor and booking agent; tree order, move,
+boundary arrows, refused hide, child hide, details, form validation a11y,
+dark close button, mobile, and viewer isolation all asserted; zero assertion,
+runtime, or network failures).
+
+A defect was found and fixed during verification: the first switch
+implementation let the browser flip the checkbox before the server answered,
+so a refused hide showed "Active" beside an unchecked control. `.prevent`
+resolved it and the harness asserts the restored state.
+
+### Still open for this component
+
+- Row actions sit off-screen on phones (UAT finding 4); a card layout below
+  576 px is a K2F decision that should apply to every admin table at once.
+- Focus trapping and a validation live region (UAT findings 6 and 7).
+- Search and filter URL state does not apply here; the category table is not
+  filtered.

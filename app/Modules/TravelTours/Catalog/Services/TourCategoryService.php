@@ -77,6 +77,48 @@ final readonly class TourCategoryService
         });
     }
 
+    /**
+     * Move one category a single step among its siblings and renumber them.
+     *
+     * Ordering is scoped to the parent: a top-level node never trades places
+     * with a nested one. Every sibling is rewritten to a dense 1..n sequence so
+     * the persisted order matches what the operator sees, even when historic
+     * rows share a `sort_order`. A request at either boundary is a no-op.
+     */
+    public function move(TourCategory $category, string $direction): TourCategory
+    {
+        if (! in_array($direction, ['up', 'down'], true)) {
+            throw new CatalogException('Invalid category ordering direction.');
+        }
+
+        return $this->database->transaction(function () use ($category, $direction): TourCategory {
+            $category = TourCategory::query()->lockForUpdate()->findOrFail($category->getKey());
+            $siblings = TourCategory::query()
+                ->where('parent_id', $category->parent_id)
+                ->orderBy('sort_order')
+                ->orderBy('name')
+                ->orderBy('id')
+                ->lockForUpdate()
+                ->get();
+
+            $index = $siblings->search(fn (TourCategory $candidate): bool => $candidate->is($category));
+            $target = $index + ($direction === 'up' ? -1 : 1);
+            if ($index === false || $target < 0 || $target >= $siblings->count()) {
+                return $category->load('parent');
+            }
+
+            $ordered = $siblings->values()->all();
+            [$ordered[$index], $ordered[$target]] = [$ordered[$target], $ordered[$index]];
+            foreach ($ordered as $position => $sibling) {
+                if ($sibling->sort_order !== $position + 1) {
+                    $sibling->forceFill(['sort_order' => $position + 1])->save();
+                }
+            }
+
+            return $category->refresh()->load('parent');
+        });
+    }
+
     /** Convert the immutable input object into normalized persistence values. */
     private function payload(TourCategoryData $data): array
     {
