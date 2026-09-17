@@ -13,6 +13,9 @@
             <button type="button" role="tab" aria-selected="{{ $tab === 'route' ? 'true' : 'false' }}" class="travel-editor-tab {{ $tab === 'route' ? 'is-active' : '' }}" wire:click="switchTab('route')" @disabled(!$this->currentTour)><i class="ti ti-route" aria-hidden="true"></i>Route</button>
             <button type="button" role="tab" aria-selected="{{ $tab === 'itinerary' ? 'true' : 'false' }}" class="travel-editor-tab {{ $tab === 'itinerary' ? 'is-active' : '' }}" wire:click="switchTab('itinerary')" @disabled(!$this->currentTour)><i class="ti ti-map-2" aria-hidden="true"></i>Itinerary</button>
             <button type="button" role="tab" aria-selected="{{ $tab === 'experience' ? 'true' : 'false' }}" class="travel-editor-tab {{ $tab === 'experience' ? 'is-active' : '' }}" wire:click="switchTab('experience')" @disabled(!$this->currentTour)><i class="ti ti-sparkles" aria-hidden="true"></i>Experience</button>
+            @can(\App\Modules\TravelTours\Support\TravelToursPermission::VIEW_PRICING)<button type="button" role="tab" aria-selected="{{ $tab === 'pricing' ? 'true' : 'false' }}" class="travel-editor-tab {{ $tab === 'pricing' ? 'is-active' : '' }}" wire:click="switchTab('pricing')" @disabled(!$this->currentTour)><i class="ti ti-currency-dollar" aria-hidden="true"></i>Pricing</button>@endcan
+            <button type="button" role="tab" aria-selected="{{ $tab === 'media' ? 'true' : 'false' }}" class="travel-editor-tab {{ $tab === 'media' ? 'is-active' : '' }}" wire:click="switchTab('media')" @disabled(!$this->currentTour)><i class="ti ti-photo" aria-hidden="true"></i>Media</button>
+            <button type="button" role="tab" aria-selected="{{ $tab === 'publication' ? 'true' : 'false' }}" class="travel-editor-tab {{ $tab === 'publication' ? 'is-active' : '' }}" wire:click="switchTab('publication')" @disabled(!$this->currentTour)><i class="ti ti-world-upload" aria-hidden="true"></i>Publication</button>
         </div>
 
         @if($tab === 'basics')
@@ -105,8 +108,14 @@
             </form>
         @elseif($tab === 'itinerary')
             <livewire:travel-tours.admin.tour-itinerary-editor :tour-id="$tourId" :key="'tour-itinerary-'.$tourId" />
-        @else
+        @elseif($tab === 'experience')
             <livewire:travel-tours.admin.tour-experience-editor :tour-id="$tourId" :key="'tour-experience-'.$tourId" />
+        @elseif($tab === 'pricing')
+            <livewire:travel-tours.admin.tour-base-price-editor :tour-id="$tourId" :key="'tour-pricing-'.$tourId" />
+        @elseif($tab === 'media')
+            <livewire:travel-tours.admin.tour-media-editor :tour-id="$tourId" :key="'tour-media-'.$tourId" />
+        @else
+            <livewire:travel-tours.admin.tour-publication-editor :tour-id="$tourId" :key="'tour-publication-'.$tourId" />
         @endif
     </div>
 </section>

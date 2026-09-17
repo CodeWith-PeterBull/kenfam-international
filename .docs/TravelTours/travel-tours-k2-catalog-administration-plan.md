@@ -1,8 +1,8 @@
 # TravelTours K2 Catalog Administration Plan
 
-Status: active. K2A-K2C are committed; K2C is commit `38f0710`. K2D is
-implemented and locally verified on `feature/travel-tours-k2-itinerary-content`
-but remains uncommitted pending user review. K2E must not start before approval.
+Status: active. K2A-K2D are committed; K2D is commit `a17e937`.
+K2E is implemented and locally verified on
+`feature/travel-tours-k2-catalog-completion`, awaiting review before commit.
 
 ## 1. Objective
 
@@ -28,13 +28,15 @@ K2 owns these existing models:
 - `TourFaq` and `TourExtra`;
 - tour/destination media collections and SEO/publication fields.
 
-K2 may read departure and rate-plan summaries to explain storefront readiness,
-but it may not create or edit them. Those writes belong to K3.
+K2 may read departure summaries to explain storefront readiness. K2E writes
+only the simple default public adult/child/infant base rate plan. K3 owns
+departure and advanced rate-plan administration.
 
 ## 3. Explicit Exclusions
 
 - departure scheduling, capacity, staffing, availability, and holds;
-- rate plans, participant rates, pricing rules, promotions, and tax policy;
+- non-default or date-bound rate plans, advanced participant rates, pricing
+  rules, promotions, and tax policy;
 - checkout, travelers, lifecycle transitions, payments, and refunds;
 - booking-desk registers, shifts, receipt printing, and reconciliation;
 - production notification delivery, PDF adapter completion, reporting, and
@@ -221,14 +223,15 @@ appropriate. A draft never links to the public route as if it were published.
 | K2A | Complete | Permissions, policies, scoped queries, DTOs, exceptions, authorized overview route | Role matrix, policy registration/action, query authorization, route and typed-data tests |
 | K2B | Complete | Category and destination services, Forms, managers, media | CRUD, cycles, parent state, coordinate/timezone, media ownership/order/limit and Livewire tests |
 | K2C | Complete, commit `38f0710` | Tour index, base editor, category/destination assignments, and authenticated browser QA | 8 focused tests / 37 assertions; full 160 / 2,482; seven cross-viewport captures |
-| K2D | Implemented, awaiting review | Itinerary, activity, content, FAQ, and exact-money extra management | Focused service/Livewire tests and 11 authenticated browser captures; no commit yet |
-| K2E | Pending | Media, SEO, readiness, preview, publish/unpublish/archive | Publication blocker, draft privacy, archive/history tests |
-| K2F | Pending | Responsive/theme/accessibility QA and documentation reconciliation | Focused/full suites, build, screenshots, diagnostics, ledger update |
+| K2D | Complete, commit `a17e937` | Itinerary, activity, content, FAQ, and exact-money extra management | Focused service/Livewire tests and 12 authenticated browser captures |
+| K2E | Implemented, awaiting review | Base adult/child/infant pricing, tour and destination media previews, gallery, public documents, readiness, preview, publication, catalog cues | Focused 9 / 70; module 57 / 1,945; host 180 / 2,604; gallery and admin browser evidence |
+| K2F | Locally verified; review pending | Responsive/theme/accessibility QA and documentation reconciliation | 12 authenticated admin and nine public captures; no runtime/network/overflow errors; final review and commit outstanding |
 
 K2A deliberately omitted unfinished routes. K2B registered category and
 destination routes after their service/Form/Livewire surfaces were tested.
-K2C now registers tour create/edit routes, while preview remains absent until
-K2E implements the publication and privacy workflow.
+K2C registered tour create/edit routes. K2E adds private preview and governed
+publication. K3 retains departures, complex rate plans, pricing rules, and
+promotions.
 
 ## 11. Verification Matrix
 

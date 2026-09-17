@@ -7,7 +7,8 @@ import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 
 const root = path.dirname(path.dirname(fileURLToPath(import.meta.url)));
-const outputDirectory = path.join(root, '.docs', 'TravelTours', 'qa', process.env.AUREON_QA_PHASE === 'k2d' ? 'admin-k2d' : 'admin');
+const qaPhase = process.env.AUREON_QA_PHASE || '';
+const outputDirectory = path.join(root, '.docs', 'TravelTours', 'qa', ['k2d', 'k2e'].includes(qaPhase) ? `admin-${qaPhase}` : 'admin');
 const siteUrl = process.env.AUREON_QA_URL || 'http://127.0.0.1:8013';
 const email = process.env.AUREON_QA_EMAIL || 'admin@kenfam.test';
 const password = process.env.AUREON_QA_PASSWORD || 'password';
@@ -278,12 +279,19 @@ try {
         { name: 'desktop-light-category-dialog', route: '/admin/travel/catalog/categories', width: 1440, height: 1000, mobile: false, mode: 'light', before: `document.querySelector('#travel-tour-category-manager .card-header button')?.click()`, expected: `Boolean(document.querySelector('#travel-tour-category-manager .modal.show[aria-modal="true"]'))` },
         { name: 'tablet-dark-destination-media', route: '/admin/travel/catalog/destinations', width: 820, height: 1080, mobile: false, mode: 'dark', before: `document.querySelector('#travel-destination-manager button[title="Manage images"]')?.click()`, expected: `Boolean(document.querySelector('#travel-destination-manager .modal.show[aria-modal="true"]'))` },
     ];
-    if (process.env.AUREON_QA_PHASE === 'k2d') captures.push(
+    if (qaPhase === 'k2d') captures.push(
         { name: 'desktop-light-tour-itinerary-day-modal', route: editorRoute, width: 1440, height: 1000, mobile: false, mode: 'light', before: `document.querySelectorAll('#travel-tour-editor [role="tab"]')[2]?.click()`, expected: `document.querySelector('[aria-label="Itinerary editor"]') !== null`, after: `document.querySelector('[aria-label="Itinerary editor"] .travel-child-toolbar button')?.click()`, afterExpected: `document.querySelector('.travel-child-modal #itinerary-day-title') !== null` },
         { name: 'tablet-dark-tour-experience-faq-modal', route: editorRoute, width: 820, height: 1080, mobile: false, mode: 'dark', before: `document.querySelectorAll('#travel-tour-editor [role="tab"]')[3]?.click()`, expected: `document.querySelector('[aria-label="Tour experience editor"]') !== null`, after: `document.querySelector('#experience-faq-heading')?.closest('.travel-child-toolbar')?.querySelector('button')?.click()`, afterExpected: `document.querySelector('.travel-child-modal #experience-faq-question') !== null` },
         { name: 'desktop-dark-tour-experience-item-modal', route: editorRoute, width: 1280, height: 900, mobile: false, mode: 'dark', before: `document.querySelectorAll('#travel-tour-editor [role="tab"]')[3]?.click()`, expected: `document.querySelector('[aria-label="Tour experience editor"]') !== null`, after: `document.querySelector('#experience-content-heading')?.closest('.travel-child-toolbar')?.querySelector('button')?.click()`, afterExpected: `document.querySelector('.travel-child-modal #experience-item-content') !== null` },
         { name: 'mobile-dark-tour-itinerary-activity-modal', route: editorRoute, width: 390, height: 844, mobile: true, mode: 'dark', before: `document.querySelectorAll('#travel-tour-editor [role="tab"]')[2]?.click()`, expected: `document.querySelector('[aria-label="Itinerary editor"]') !== null`, after: `[...document.querySelectorAll('[aria-label="Itinerary editor"] .travel-activity-list button')].find((button) => button.textContent.includes('Add activity'))?.click()`, afterExpected: `document.querySelector('.travel-child-modal #itinerary-activity-title') !== null` },
         { name: 'mobile-light-tour-experience-extra-modal', route: editorRoute, width: 390, height: 844, mobile: true, mode: 'light', before: `document.querySelectorAll('#travel-tour-editor [role="tab"]')[3]?.click()`, expected: `document.querySelector('[aria-label="Tour experience editor"]') !== null`, after: `document.querySelector('#experience-extra-heading')?.closest('.travel-child-toolbar')?.querySelector('button')?.click()`, afterExpected: `document.querySelector('.travel-child-modal #experience-extra-code') !== null` },
+    );
+    if (qaPhase === 'k2e') captures.push(
+        { name: 'desktop-dark-tour-pricing', route: editorRoute, width: 1280, height: 900, mobile: false, mode: 'dark', before: `document.querySelectorAll('#travel-tour-editor [role="tab"]')[4]?.click()`, expected: `document.querySelector('#tour-base-pricing-heading') !== null` },
+        { name: 'tablet-light-tour-media', route: editorRoute, width: 820, height: 1080, mobile: false, mode: 'light', before: `document.querySelectorAll('#travel-tour-editor [role="tab"]')[5]?.click()`, expected: `document.querySelector('#tour-gallery-heading') !== null`, scrollSelector: '#tour-gallery-heading' },
+        { name: 'mobile-dark-tour-gallery-dialog', route: editorRoute, width: 390, height: 844, mobile: true, mode: 'dark', before: `document.querySelectorAll('#travel-tour-editor [role="tab"]')[5]?.click()`, expected: `document.querySelector('#tour-gallery-heading') !== null`, after: `document.querySelector('#tour-gallery-heading')?.closest('.travel-child-toolbar')?.querySelector('button')?.click()`, afterExpected: `document.querySelector('.travel-child-modal #tour-gallery-upload') !== null` },
+        { name: 'tablet-dark-tour-publication', route: editorRoute, width: 820, height: 1080, mobile: false, mode: 'dark', before: `document.querySelectorAll('#travel-tour-editor [role="tab"]')[6]?.click()`, expected: `document.querySelector('#tour-readiness-heading') !== null` },
+        { name: 'mobile-light-tour-publication', route: editorRoute, width: 390, height: 844, mobile: true, mode: 'light', before: `document.querySelectorAll('#travel-tour-editor [role="tab"]')[6]?.click()`, expected: `document.querySelector('#tour-publish-heading') !== null`, scrollSelector: '#tour-publish-heading' },
     );
     for (const definition of captures) await capture(definition);
 

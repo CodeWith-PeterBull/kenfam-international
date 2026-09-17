@@ -7,7 +7,7 @@ import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 
 const root = path.dirname(path.dirname(fileURLToPath(import.meta.url)));
-const outputDirectory = path.join(root, '.docs', 'TravelTours', 'qa', 'storefront');
+const outputDirectory = path.join(root, '.docs', 'TravelTours', 'qa', process.env.AUREON_QA_PHASE === 'k2e' ? 'storefront-k2e' : 'storefront');
 const siteUrl = process.env.AUREON_QA_URL || 'http://127.0.0.1:8011';
 const debuggingPort = Number(process.env.AUREON_QA_PORT || 9491);
 const browserPath = [
@@ -187,6 +187,7 @@ try {
                 theme: document.documentElement.dataset.theme,
                 title: document.querySelector('main h1')?.textContent.trim() || '',
                 viewportWidth: innerWidth, documentWidth: document.documentElement.scrollWidth,
+                overflowSources: [...document.querySelectorAll('body *')].filter((element) => element.getBoundingClientRect().right > innerWidth + 2 && getComputedStyle(element).position !== 'fixed').slice(0, 6).map((element) => ({ tag: element.tagName, className: String(element.className).slice(0, 100), right: Math.round(element.getBoundingClientRect().right) })),
                 loaderHidden: !document.querySelector('[data-page-loader]') || document.querySelector('[data-page-loader]').hidden,
                 footer: Boolean(document.querySelector('.travel-footer')),
                 themeController: Boolean(document.querySelector('[data-theme-controller]')),
@@ -262,7 +263,7 @@ try {
     }))()`);
     diagnostics.push({ name: 'catalog-content', ...catalog });
     assert(catalog.count === 6 && catalog.grid === 'grid', 'Catalog cards or module stylesheet failed');
-    assert(catalog.filters === 3 && catalog.prices.every((price) => price.startsWith('From KES ')), 'Catalog filters or formatted prices are incomplete');
+    assert(catalog.filters === 6 && catalog.prices.every((price) => price.startsWith('From KES ')), 'Catalog filters or formatted prices are incomplete');
     assert(homeLight.surface !== catalogDark.surface, 'Light and dark theme surfaces did not change');
     await screenshot('desktop-dark-catalog');
 
@@ -281,6 +282,22 @@ try {
     assert(detail.departures === 2 && detail.itinerary >= 4 && detail.faqs === 2, 'Tour detail lacks departures, itinerary, or FAQs');
     assert(detail.inquiryControls >= 5 && detail.productSchema, 'Inquiry controls or TouristTrip schema is incomplete');
     await screenshot('desktop-light-tour-detail');
+    if (process.env.AUREON_QA_PHASE === 'k2e') {
+        assert(Boolean(await waitFor('document.querySelector(\'[data-tour-gallery][data-gallery-ready="true"]\')')), 'Tour gallery did not initialize');
+        await evaluate('document.querySelector("[data-tour-gallery-expand]")?.focus(); document.querySelector("[data-tour-gallery-expand]")?.click()');
+        const expanded = await evaluate('(() => { const box = document.querySelector("[data-tour-lightbox]"); const close = box?.querySelector(".travel-tour-lightbox__close"); return { open: Boolean(box && !box.hidden), closeFocused: document.activeElement === close, imageVisible: Boolean(box?.querySelector(".swiper-slide-active img")?.naturalWidth), caption: box?.querySelector(".swiper-slide-active figcaption")?.textContent.trim() || "", controls: box?.querySelectorAll("[data-tour-lightbox-prev], [data-tour-lightbox-next]").length, count: box?.querySelector("[data-tour-lightbox-count]")?.textContent.trim() || "" }; })()');
+        diagnostics.push({ name: 'tour-gallery-expanded', ...expanded });
+        assert(expanded.open && expanded.closeFocused && expanded.imageVisible, 'Full-screen tour gallery did not open with focus and a visible image');
+        assert(expanded.caption && expanded.controls === 2 && expanded.count.includes('/'), 'Expanded gallery is missing captions or navigation controls');
+        await screenshot('desktop-light-tour-gallery-expanded');
+        await evaluate('document.querySelector("[data-tour-lightbox-next]")?.click()');
+        assert(Boolean(await waitFor('document.querySelector("[data-tour-lightbox-count]")?.textContent.trim() === "2 / 2"')), 'Expanded gallery next arrow did not navigate');
+        const nextCaption = await evaluate('document.querySelector("[data-tour-lightbox] .swiper-slide-active figcaption")?.textContent.trim()');
+        assert(nextCaption.includes('Historic pilgrimage destination'), 'Expanded gallery did not update the image title');
+        await evaluate('document.activeElement.dispatchEvent(new KeyboardEvent("keydown", { key: "Escape", bubbles: true }))');
+        assert(Boolean(await waitFor('document.querySelector("[data-tour-lightbox]")?.hidden')), 'Gallery close control did not dismiss the overlay');
+        assert(Boolean(await evaluate('document.activeElement?.matches("[data-tour-gallery-expand]")')), 'Gallery did not restore focus to its opener');
+    }
 
     await setViewport(820, 1180);
     await navigate(`${siteUrl}/tours?destination=egypt`);
@@ -323,12 +340,19 @@ try {
     await setTheme('dark');
     await inspect('narrow-dark-tour-detail', detailPath, 'dark', 'mobile');
     await screenshot('narrow-dark-tour-detail');
+    if (process.env.AUREON_QA_PHASE === 'k2e') {
+        assert(Boolean(await waitFor('document.querySelector(\'[data-tour-gallery][data-gallery-ready="true"]\')')), 'Mobile tour gallery did not initialize');
+        await evaluate('document.querySelector("[data-tour-gallery-expand]")?.click()');
+        assert(Boolean(await evaluate('!document.querySelector("[data-tour-lightbox]")?.hidden')), 'Mobile gallery did not expand');
+        await screenshot('narrow-dark-tour-gallery-expanded');
+        await evaluate('document.querySelector(".travel-tour-lightbox__close")?.click()');
+    }
 
     assert(runtimeErrors.length === 0, `Runtime errors: ${runtimeErrors.join(' | ')}`);
     assert(networkErrors.length === 0, `Network errors: ${networkErrors.join(' | ')}`);
     await writeFile(path.join(outputDirectory, 'diagnostics.json'), `${JSON.stringify({ siteUrl, diagnostics, runtimeErrors, networkErrors, failures }, null, 2)}\n`);
     if (failures.length > 0) throw new Error(`TravelTours storefront QA failed:\n- ${failures.join('\n- ')}`);
-    process.stdout.write(`TravelTours storefront QA passed with ${diagnostics.length} inspections and six viewport captures.\n`);
+    process.stdout.write(`TravelTours storefront QA passed with ${diagnostics.length} inspections and ${process.env.AUREON_QA_PHASE === 'k2e' ? 9 : 7} viewport captures.\n`);
 } finally {
     client?.close();
     const browserExited = new Promise((resolve) => browser.once('exit', resolve));

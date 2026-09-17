@@ -1,5 +1,5 @@
 .travel-admin .aureon-table-panel { overflow: hidden; }
-.travel-admin-table { min-width: 700px; }
+.travel-admin-table { min-width: 1020px; }
 .travel-admin-table th { white-space: nowrap; }
 .travel-admin-table td { vertical-align: middle; }
 .travel-status { display: inline-flex; align-items: center; min-height: 24px; padding: 3px 8px; border: 1px solid var(--aureon-border); border-radius: 4px; font-size: 12px; font-weight: 600; line-height: 1.2; }
@@ -11,6 +11,15 @@
 .travel-admin-media-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(160px, 1fr)); gap: 12px; }
 .travel-admin-media-item { min-width: 0; border: 1px solid var(--aureon-border); border-radius: 4px; padding: 8px; }
 .travel-admin-media-item img { width: 100%; aspect-ratio: 3 / 2; object-fit: cover; border-radius: 3px; }
+.travel-tour-cover-preview { max-width: 380px; }
+.travel-admin-upload-preview { margin: 0; max-width: 340px; }
+.travel-admin-upload-preview img { width: 100%; aspect-ratio: 3 / 2; object-fit: cover; border: 1px solid var(--aureon-border); border-radius: 4px; }
+.travel-admin-upload-preview figcaption { margin-top: 5px; color: var(--aureon-muted); font-size: 12px; }
+.travel-readiness-list { display: grid; gap: 10px; max-width: 780px; margin: 0; padding: 0; list-style: none; }
+.travel-readiness-list li { display: flex; align-items: flex-start; gap: 10px; padding: 10px 12px; border: 1px solid var(--aureon-border); border-radius: 4px; }
+.travel-readiness-list i { color: var(--aureon-primary); font-size: 18px; }
+.travel-publication-actions { display: flex; align-items: end; flex-wrap: wrap; gap: 10px; }
+.travel-publish-schedule { min-width: min(100%, 250px); }
 .travel-admin-media-item p { margin: 6px 0; font-size: 12px; overflow-wrap: anywhere; }
 .travel-admin-media-actions { display: flex; gap: 4px; }
 .travel-admin .modal-content { color: var(--aureon-ink); background: var(--aureon-surface); border-color: var(--aureon-border); }

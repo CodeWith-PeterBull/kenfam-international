@@ -23,7 +23,8 @@ exit gate in the master plan is supported by named verification.
 | 2026-09-16 | K2A catalog access boundary | Verified locally | Added separate publication authority, context-owned policies, policy-scoped catalog queries, immutable catalog DTOs, named failures, and explicit absence of unfinished routes | `TravelToursCatalogAccessTest`: 5 tests / 33 assertions; module 25 / 1,755; host 148 / 2,414; Pint, PHPDoc, Blade and route inspection pass |
 | 2026-09-16 | K2B category and destination administration | Verified locally | Added DTO-driven transactional category/destination services, Livewire Forms/managers, hierarchy and geography rules, owned accessible destination media, completed routes, role-aware navigation, and Aureon token-based admin styling | Focused 9 tests / 62 assertions; module 29 / 1,784; host 152 / 2,443; PHPDoc, Pint, Blade, route inspection, and Vite build pass; authenticated browser matrix remains K2F |
 | 2026-09-17 | K2C tour catalog and base editor | Complete, committed and pushed as `38f0710` | Added bounded Livewire catalog search/filters/counts, draft tour basics, category/destination route assignment, ULID edit pages, queued-conversion image fallback, and authenticated admin browser harness | Focused 8 / 37; module 37 / 1,823; host 160 / 2,482; Pint, PHPDoc, schema probe, Blade, build, and seven desktop/tablet/mobile theme captures pass |
-| 2026-09-17 | K2D itinerary and experience editing | Implemented and locally verified; awaiting review, not committed | Added typed day/activity, content, FAQ and exact-money extra services, Forms, responsive editor tabs, and contextual CRUD dialogs; enforced tour ownership, order, duration and archive rules | Focused 11 / 52; module 48 / 1,875; host 171 / 2,534; 12 authenticated captures and five dialog focus/viewport probes pass across light/dark desktop/tablet/mobile; K2E untouched |
+| 2026-09-17 | K2D itinerary and experience editing | Complete; committed and pushed as `a17e937` | Added typed day/activity, content, FAQ and exact-money extra services, Forms, responsive editor tabs, and contextual CRUD dialogs; enforced tour ownership, order, duration and archive rules | Focused 11 / 52; module 48 / 1,875; host 171 / 2,534; 12 authenticated captures and five dialog focus/viewport probes pass |
+| 2026-09-17 | K2E catalog completion | Implemented and locally verified; awaiting review, not committed | Added default base participant pricing, tour cover/gallery/documents, filename alt suggestions and upload previews for tours/destinations, readiness and publication, private preview, catalog cues, public filters and expandable captioned gallery | Focused 9 / 70; module 57 / 1,945; host 180 / 2,604; Pint, PHPDoc, schema probe, Blade and build pass; 12 admin and nine public screenshots; browser gallery navigation/focus, responsive/theme checks pass |
 
 ## Current Phase State
 
@@ -31,9 +32,9 @@ exit gate in the master plan is supported by named verification.
 | --- | --- | --- |
 | K0 | Complete and published | Client approval remains required for institutional/legal copy |
 | K1 | Complete at foundation scope | Later operational controls remain hard gates in their owning K5-K7 phases; see the K1 reconciliation |
-| K2 | In progress: K2A-K2C committed; K2D verified locally | Review K2D code and screenshots; commit only after approval, then scope K2E media/publication |
+| K2 | K2A-K2D committed; K2E/K2F locally verified, uncommitted | Review K2E code, publication/pricing behavior, and screenshots before commit |
 | K3 | Not started | Departure/rate/rule/promotion administration and validation suite |
-| K4 | Public foundation accepted | Advanced discovery, map/gallery behavior, fuller inquiry UX, approved editorial content, and complete K4 acceptance |
+| K4 | Public foundation and tour lightbox locally verified | Advanced discovery, maps, fuller inquiry UX, approved editorial content, and complete K4 acceptance |
 | K5 | Service foundation only | Public hold/checkout, traveler workflow, quote expiry, lifecycle, and payment UX |
 | K6 | Not started | Booking administration, operations dashboard, booking-desk, register/shift, and real receipt printing |
 | K7 | Draft adapters only | Privacy DTOs, events, recipients, queue ownership, mail, PDFs, reporting, and system activity evidence |
@@ -43,14 +44,14 @@ exit gate in the master plan is supported by named verification.
 
 ```text
 php artisan test --compact
-PASS: 171 tests, 2534 assertions
+PASS: 180 tests, 2604 assertions
 
 composer validate --no-check-publish
 composer audit --locked --format=summary
 PASS: valid definition and lock; no known advisories
 
 php artisan test tests/Feature/TravelTours --compact
-PASS: 48 tests, 1875 assertions
+PASS: 57 tests, 1945 assertions
 
 php scripts/probe-travel-tours-foundation.php
 PASS: 34 tables, 645 documented columns, 0 missing comments
@@ -66,12 +67,12 @@ php artisan view:cache
 PASS
 
 npm run qa:travel-tours-storefront
-PASS: 11 inspections, six viewport captures, no recorded failures
+PASS: K2E 12 inspections, nine viewport captures, no recorded failures
 
-AUREON_QA_PHASE=k2d npm.cmd run qa:travel-tours-admin
+AUREON_QA_PHASE=k2e npm.cmd run qa:travel-tours-admin
 PASS: 12 authenticated desktop/tablet/mobile captures across light/dark and
-reduced-motion states, including category/media dialogs and contextual Day,
-Activity, Item, FAQ and Extra dialogs; no runtime, network, focus, overflow,
+reduced-motion states, including pricing, tour media, publication, catalog,
+and contextual gallery dialog; no runtime, network, focus, overflow,
 duplicate-ID, or unlabeled-button failures
 
 npm.cmd run build

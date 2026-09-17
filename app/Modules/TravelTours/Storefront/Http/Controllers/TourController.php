@@ -19,7 +19,10 @@ final class TourController extends Controller
     public function __invoke(Tour $tour): View
     {
         abort_unless(Tour::query()->published()->whereKey($tour->getKey())->exists(), 404);
-        $tour->load(['categories', 'destinations', 'itineraryDays.activities', 'contentItems', 'faqs', 'extras', 'ratePlans.participantRates', 'departures' => fn ($query) => $query->bookable()->limit(12)]);
+        $tour->load(['categories', 'destinations', 'itineraryDays.activities', 'contentItems', 'faqs', 'extras', 'media',
+            'ratePlans' => fn ($query) => $query->publiclyAvailable()->with('participantRates'),
+            'departures' => fn ($query) => $query->bookable()->limit(12),
+        ]);
 
         return view('travel-tours::storefront.catalog.show', compact('tour'));
     }

@@ -11,6 +11,7 @@ use App\Modules\TravelTours\Catalog\Enums\PublicationStatus;
 use App\Modules\TravelTours\Catalog\Enums\TourType;
 use App\Modules\TravelTours\Catalog\Models\Tour;
 use App\Modules\TravelTours\Catalog\Services\CatalogQueryService;
+use App\Modules\TravelTours\Catalog\Services\TourReadinessService;
 use Illuminate\Contracts\View\View;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Facades\Gate;
@@ -62,11 +63,11 @@ final class TourCatalog extends Component
     }
 
     /** Render a bounded tour page and valid filter options. */
-    public function render(CatalogQueryService $catalog): View
+    public function render(CatalogQueryService $catalog, TourReadinessService $readiness): View
     {
         $actor = auth()->user();
         abort_unless($actor instanceof User, 401);
-        $query = $catalog->tours($actor)->with(['categories', 'destinations', 'media']);
+        $query = $catalog->tours($actor)->with(['categories', 'destinations', 'media', 'ratePlans' => fn ($plans) => $plans->publiclyAvailable()->with('participantRates')]);
         $search = trim($this->search);
         if ($search !== '') {
             $escaped = '%'.str_replace(['!', '%', '_'], ['!!', '!%', '!_'], mb_substr($search, 0, 100)).'%';
@@ -87,8 +88,11 @@ final class TourCatalog extends Component
             $query->whereHas('destinations', fn (Builder $related) => $related->whereKey((int) $this->destinationFilter));
         }
 
+        $tours = $query->orderBy('sort_order')->orderByDesc('id')->paginate(in_array($this->perPage, [12, 24, 48], true) ? $this->perPage : 12, pageName: 'tourPage');
+
         return view('travel-tours::livewire.admin.catalog.tour-catalog', [
-            'tours' => $query->orderBy('sort_order')->orderByDesc('id')->paginate(in_array($this->perPage, [12, 24, 48], true) ? $this->perPage : 12, pageName: 'tourPage'),
+            'tours' => $tours,
+            'readiness' => $tours->getCollection()->mapWithKeys(fn (Tour $tour): array => [$tour->id => $readiness->reasons($tour)]),
             'statusCounts' => $catalog->tours($actor)->selectRaw('status, COUNT(*) AS total')->groupBy('status')->pluck('total', 'status'),
             'categories' => $catalog->categories($actor)->active()->orderBy('name')->get(),
             'destinations' => $catalog->destinations($actor)->where('is_active', true)->orderBy('name')->get(),

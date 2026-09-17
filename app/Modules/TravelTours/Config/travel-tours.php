@@ -46,6 +46,7 @@ return [
     ],
     'media' => [
         'tour_gallery_limit' => (int) env('TRAVEL_TOURS_TOUR_GALLERY_LIMIT', 18),
+        'tour_document_limit' => (int) env('TRAVEL_TOURS_TOUR_DOCUMENT_LIMIT', 12),
         'destination_gallery_limit' => (int) env('TRAVEL_TOURS_DESTINATION_GALLERY_LIMIT', 12),
         'upload_max_kilobytes' => (int) env('TRAVEL_TOURS_MEDIA_UPLOAD_MAX_KB', 6144),
     ],

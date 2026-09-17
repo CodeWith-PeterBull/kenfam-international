@@ -37,19 +37,23 @@
 
         <div class="table-responsive">
             <table class="table travel-admin-table mb-0">
-                <thead><tr><th>Tour</th><th>Format</th><th>Discovery</th><th>Status</th><th class="text-end">Actions</th></tr></thead>
+                <thead><tr><th>Tour</th><th>Format</th><th>Discovery</th><th>Base price</th><th>Status</th><th>Readiness</th><th class="text-end">Actions</th></tr></thead>
                 <tbody>
                     @forelse($tours as $tour)
                         @php($cover = $tour->getFirstMedia('tour_cover'))
+                        @php($plan = $tour->ratePlans->firstWhere('is_default', true) ?: $tour->ratePlans->first())
+                        @php($adult = $plan?->participantRates?->first(fn ($rate) => $rate->participant_type === \App\Modules\TravelTours\Bookings\Enums\ParticipantType::Adult && $rate->is_active))
                         <tr wire:key="travel-tour-{{ $tour->id }}">
                             <td><div class="d-flex align-items-center gap-3">@if($cover)<img class="travel-admin-thumb" src="{{ $cover->hasGeneratedConversion('thumb') ? $cover->getUrl('thumb') : $cover->getUrl() }}" alt="">@else<span class="travel-admin-thumb travel-admin-thumb--empty"><i class="ti ti-photo" aria-hidden="true"></i></span>@endif<div><strong class="d-block">{{ $tour->name }}</strong><small class="aureon-muted">{{ $tour->code }}</small></div></div></td>
                             <td><span class="d-block">{{ $tour->type->label() }}</span><small class="aureon-muted">{{ $tour->duration_days }} {{ Str::plural('day', $tour->duration_days) }} &middot; {{ $tour->difficulty->label() }}</small></td>
                             <td><span class="d-block">{{ $tour->categories->pluck('name')->join(', ') ?: 'No category' }}</span><small class="aureon-muted">{{ $tour->destinations->pluck('name')->join(' / ') ?: 'Route not assigned' }}</small></td>
-                            <td><span class="travel-status {{ $tour->status->value === 'published' ? 'travel-status--active' : ($tour->status->value === 'review' ? 'travel-status--review' : 'travel-status--muted') }}">{{ $tour->status->label() }}</span></td>
-                            <td><div class="travel-admin-row-actions justify-content-end">@can('update', $tour)<a class="btn btn-icon btn-sm btn-outline-secondary" href="{{ route('travel-tours.admin.catalog.tours.edit', $tour) }}" aria-label="Edit {{ $tour->name }}" title="Edit tour"><i class="ti ti-pencil" aria-hidden="true"></i></a>@endcan @if($tour->status->value === 'published')<a class="btn btn-icon btn-sm btn-outline-secondary" href="{{ route('travel-tours.storefront.tours.show', $tour->slug) }}" target="_blank" rel="noopener noreferrer" aria-label="View {{ $tour->name }} on the public site" title="View public tour"><i class="ti ti-external-link" aria-hidden="true"></i></a>@endif</div></td>
+                            <td>{{ $adult ? \App\Modules\TravelTours\Support\MoneyFormatter::format($adult->amount_minor, $plan->currency) : 'Not set' }}</td>
+                            <td><span class="travel-status {{ $tour->status->value === 'published' ? 'travel-status--active' : ($tour->status->value === 'review' ? 'travel-status--review' : 'travel-status--muted') }}">{{ $tour->status->value === 'published' && $tour->published_at?->isFuture() ? 'Scheduled' : $tour->status->label() }}</span></td>
+                            <td><span class="travel-status {{ $readiness[$tour->id] === [] ? 'travel-status--active' : 'travel-status--muted' }}" title="{{ $readiness[$tour->id] === [] ? 'All catalog essentials complete' : count($readiness[$tour->id]).' items remaining' }}">{{ $readiness[$tour->id] === [] ? 'Ready' : count($readiness[$tour->id]).' remaining' }}</span></td>
+                            <td><div class="travel-admin-row-actions justify-content-end">@can('update', $tour)<a class="btn btn-icon btn-sm btn-outline-secondary" href="{{ route('travel-tours.admin.catalog.tours.edit', $tour) }}" aria-label="Edit {{ $tour->name }}" title="Edit tour"><i class="ti ti-pencil" aria-hidden="true"></i></a>@endcan <a class="btn btn-icon btn-sm btn-outline-secondary" href="{{ route('travel-tours.admin.catalog.tours.preview', $tour) }}" target="_blank" rel="noopener noreferrer" aria-label="Preview {{ $tour->name }}" title="Private preview"><i class="ti ti-eye" aria-hidden="true"></i></a> @if($tour->status->value === 'published' && (!$tour->published_at || $tour->published_at->isPast()))<a class="btn btn-icon btn-sm btn-outline-secondary" href="{{ route('travel-tours.storefront.tours.show', $tour->slug) }}" target="_blank" rel="noopener noreferrer" aria-label="View {{ $tour->name }} on the public site" title="View public tour"><i class="ti ti-external-link" aria-hidden="true"></i></a>@endif</div></td>
                         </tr>
                     @empty
-                        <tr><td colspan="5"><div class="travel-admin-empty"><i class="ti ti-route" aria-hidden="true"></i><strong>No tours match these filters</strong><span>Clear the filters or create a tour draft.</span></div></td></tr>
+                        <tr><td colspan="7"><div class="travel-admin-empty"><i class="ti ti-route" aria-hidden="true"></i><strong>No tours match these filters</strong><span>Clear the filters or create a tour draft.</span></div></td></tr>
                     @endforelse
                 </tbody>
             </table>

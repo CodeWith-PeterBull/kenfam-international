@@ -18,6 +18,8 @@ use App\Modules\TravelTours\Catalog\Livewire\Admin\TourCategoryManager;
 use App\Modules\TravelTours\Catalog\Livewire\Admin\TourEditor;
 use App\Modules\TravelTours\Catalog\Livewire\Admin\TourExperienceEditor;
 use App\Modules\TravelTours\Catalog\Livewire\Admin\TourItineraryEditor;
+use App\Modules\TravelTours\Catalog\Livewire\Admin\TourMediaEditor;
+use App\Modules\TravelTours\Catalog\Livewire\Admin\TourPublicationEditor;
 use App\Modules\TravelTours\Catalog\Models\Destination;
 use App\Modules\TravelTours\Catalog\Models\Tour;
 use App\Modules\TravelTours\Catalog\Models\TourCategory;
@@ -45,6 +47,7 @@ use App\Modules\TravelTours\Policies\DeparturePolicy;
 use App\Modules\TravelTours\Policies\InquiryPolicy;
 use App\Modules\TravelTours\Policies\RegisterPolicy;
 use App\Modules\TravelTours\Policies\ShiftPolicy;
+use App\Modules\TravelTours\Pricing\Livewire\Admin\TourBasePriceEditor;
 use App\Modules\TravelTours\Pricing\Services\TourQuoteCalculator;
 use App\Modules\TravelTours\Scheduling\Models\TourDeparture;
 use App\Modules\TravelTours\Scheduling\Services\DepartureAvailabilityService;
@@ -102,5 +105,8 @@ final class TravelToursServiceProvider extends ServiceProvider
         Livewire::component('travel-tours.admin.tour-editor', TourEditor::class);
         Livewire::component('travel-tours.admin.tour-itinerary-editor', TourItineraryEditor::class);
         Livewire::component('travel-tours.admin.tour-experience-editor', TourExperienceEditor::class);
+        Livewire::component('travel-tours.admin.tour-media-editor', TourMediaEditor::class);
+        Livewire::component('travel-tours.admin.tour-publication-editor', TourPublicationEditor::class);
+        Livewire::component('travel-tours.admin.tour-base-price-editor', TourBasePriceEditor::class);
     }
 }

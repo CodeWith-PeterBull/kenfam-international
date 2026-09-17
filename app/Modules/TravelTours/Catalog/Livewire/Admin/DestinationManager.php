@@ -16,8 +16,10 @@ use App\Modules\TravelTours\Catalog\Services\CatalogMediaService;
 use App\Modules\TravelTours\Catalog\Services\DestinationService;
 use Illuminate\Contracts\View\View;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Gate;
+use Illuminate\Support\Str;
 use Livewire\Attributes\Computed;
 use Livewire\Attributes\Locked;
 use Livewire\Component;
@@ -50,9 +52,29 @@ final class DestinationManager extends Component
 
     public mixed $galleryUpload = null;
 
+    public string $coverAltText = '';
+
+    public string $coverCaption = '';
+
+    public string $galleryAltText = '';
+
+    public string $galleryCaption = '';
+
     public string $mediaAltText = '';
 
     public string $mediaCaption = '';
+
+    /** Suggest editable alt text from the selected cover filename. */
+    public function updatedCoverUpload(): void
+    {
+        $this->coverAltText = $this->filenameAltText($this->coverUpload);
+    }
+
+    /** Suggest editable alt text from the selected gallery filename. */
+    public function updatedGalleryUpload(): void
+    {
+        $this->galleryAltText = $this->filenameAltText($this->galleryUpload);
+    }
 
     /** Reauthorize every Livewire request, including hydration requests. */
     public function boot(): void
@@ -178,14 +200,14 @@ final class DestinationManager extends Component
         $this->validate($this->uploadRules('coverUpload'));
 
         try {
-            $media->replaceDestinationCover($destination, $this->coverUpload, $this->mediaAltText, $this->mediaCaption);
+            $media->replaceDestinationCover($destination, $this->coverUpload, $this->coverAltText, $this->coverCaption);
         } catch (CatalogException $exception) {
             $this->addError('media', $exception->getMessage());
 
             return;
         }
 
-        $this->resetMediaInput();
+        $this->resetCoverInput();
         unset($this->selectedDestination);
         session()->flash('success', 'Destination cover updated.');
     }
@@ -197,14 +219,14 @@ final class DestinationManager extends Component
         $this->validate($this->uploadRules('galleryUpload'));
 
         try {
-            $media->addDestinationGalleryImage($destination, $this->galleryUpload, $this->mediaAltText, $this->mediaCaption);
+            $media->addDestinationGalleryImage($destination, $this->galleryUpload, $this->galleryAltText, $this->galleryCaption);
         } catch (CatalogException $exception) {
             $this->addError('media', $exception->getMessage());
 
             return;
         }
 
-        $this->resetMediaInput();
+        $this->resetGalleryInput();
         unset($this->selectedDestination);
         session()->flash('success', 'Destination gallery image added.');
     }
@@ -367,20 +389,48 @@ final class DestinationManager extends Component
     private function uploadRules(string $field): array
     {
         $maximumKilobytes = max(1, (int) config('travel-tours.media.upload_max_kilobytes', 6144));
+        $altField = $field === 'coverUpload' ? 'coverAltText' : 'galleryAltText';
+        $captionField = $field === 'coverUpload' ? 'coverCaption' : 'galleryCaption';
 
         return [
             $field => ['required', 'image', 'mimes:jpg,jpeg,png,webp', 'max:'.$maximumKilobytes],
-            'mediaAltText' => ['required', 'string', 'max:180'],
-            'mediaCaption' => ['nullable', 'string', 'max:320'],
+            $altField => ['required', 'string', 'max:180'],
+            $captionField => ['nullable', 'string', 'max:320'],
         ];
     }
 
     /** Clear transient upload fields while keeping the media dialog open. */
     private function resetMediaInput(): void
     {
-        $this->coverUpload = null;
-        $this->galleryUpload = null;
+        $this->resetCoverInput();
+        $this->resetGalleryInput();
         $this->mediaAltText = '';
         $this->mediaCaption = '';
+    }
+
+    /** Clear only the cover draft after a successful upload. */
+    private function resetCoverInput(): void
+    {
+        $this->coverUpload = null;
+        $this->coverAltText = '';
+        $this->coverCaption = '';
+    }
+
+    /** Clear only the gallery draft after a successful upload. */
+    private function resetGalleryInput(): void
+    {
+        $this->galleryUpload = null;
+        $this->galleryAltText = '';
+        $this->galleryCaption = '';
+    }
+
+    /** Derive an editable, human-readable alt suggestion from a local filename. */
+    private function filenameAltText(mixed $upload): string
+    {
+        if (! $upload instanceof UploadedFile) {
+            return '';
+        }
+
+        return mb_substr(Str::headline(pathinfo($upload->getClientOriginalName(), PATHINFO_FILENAME)), 0, 180);
     }
 }

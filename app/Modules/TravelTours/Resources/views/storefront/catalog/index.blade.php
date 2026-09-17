@@ -27,6 +27,9 @@
                     @endforeach
                 </select>
             </label>
+            <label class="travel-field"><span>Category</span><select name="category"><option value="">All categories</option>@foreach($categories as $category)<option value="{{ $category->slug }}" @selected(($filters['category'] ?? '') === $category->slug)>{{ $category->name }}</option>@endforeach</select></label>
+            <label class="travel-field"><span>Tour type</span><select name="type"><option value="">All types</option>@foreach(\App\Modules\TravelTours\Catalog\Enums\TourType::cases() as $type)<option value="{{ $type->value }}" @selected(($filters['type'] ?? '') === $type->value)>{{ $type->label() }}</option>@endforeach</select></label>
+            <label class="travel-field"><span>Maximum days</span><input type="number" name="maximum_duration_days" min="1" max="365" value="{{ $filters['maximum_duration_days'] ?? '' }}" placeholder="Any duration"></label>
             <label class="travel-field">
                 <span>Travel from</span>
                 <input type="date" name="departure_date" value="{{ $filters['departure_date'] ?? '' }}">

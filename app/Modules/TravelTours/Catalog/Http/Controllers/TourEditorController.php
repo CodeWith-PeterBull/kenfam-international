@@ -9,6 +9,7 @@ namespace App\Modules\TravelTours\Catalog\Http\Controllers;
 use App\Http\Controllers\Controller;
 use App\Modules\TravelTours\Catalog\Models\Tour;
 use Illuminate\Contracts\View\View;
+use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Gate;
 
 /** Keep route-model binding and page authorization outside Livewire. */
@@ -28,5 +29,19 @@ final class TourEditorController extends Controller
         Gate::authorize('update', $tour);
 
         return view('travel-tours::admin.catalog.tour-editor', compact('tour'));
+    }
+
+    /** Render a private tour preview without adding a public discovery route. */
+    public function preview(Tour $tour): Response
+    {
+        Gate::authorize('view', $tour);
+        $tour->load(['categories', 'destinations', 'itineraryDays.activities', 'contentItems', 'faqs', 'extras', 'media',
+            'ratePlans' => fn ($query) => $query->publiclyAvailable()->with('participantRates'),
+            'departures' => fn ($query) => $query->bookable()->limit(12),
+        ]);
+
+        return response()->view('travel-tours::storefront.catalog.show', ['tour' => $tour, 'isPreview' => true])
+            ->header('Cache-Control', 'private, no-store, max-age=0')
+            ->header('X-Robots-Tag', 'noindex, nofollow, noarchive');
     }
 }

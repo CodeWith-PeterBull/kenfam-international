@@ -40,11 +40,18 @@
         });
     }
 
+    function initializeTourGallery() {
+        document.querySelectorAll('[data-tour-gallery]:not([data-gallery-ready="true"])').forEach((gallery) => {
+            import('./tour-gallery.js').then(({ initTourGallery }) => initTourGallery(gallery));
+        });
+    }
+
     function initialize() {
         createIcons();
         initializeHeader();
         initializeBackToTop();
         initializeMobileMenuLinks();
+        initializeTourGallery();
         document.querySelectorAll('[data-current-year]').forEach((element) => {
             element.textContent = String(new Date().getFullYear());
         });

@@ -22,6 +22,7 @@ final class TourSearchService implements SearchesTours
     {
         $perPage = max(1, min($perPage, (int) config('travel-tours.storefront.maximum_page_size', 48)));
         $keyword = trim((string) ($filters['keyword'] ?? ''));
+        $pattern = '%'.str_replace(['!', '%', '_'], ['!!', '!%', '!_'], mb_substr($keyword, 0, 120)).'%';
 
         return Tour::query()
             ->published()
@@ -31,10 +32,10 @@ final class TourSearchService implements SearchesTours
                 'ratePlans' => fn ($query) => $query->publiclyAvailable()->with('participantRates'),
                 'departures' => fn ($query) => $query->bookable()->limit(1),
             ])
-            ->when($keyword !== '', fn (Builder $query): Builder => $query->where(function (Builder $search) use ($keyword): void {
-                $search->where('name', 'like', "%{$keyword}%")
-                    ->orWhere('short_description', 'like', "%{$keyword}%")
-                    ->orWhere('code', 'like', "%{$keyword}%");
+            ->when($keyword !== '', fn (Builder $query): Builder => $query->where(function (Builder $search) use ($pattern): void {
+                $search->whereRaw("name LIKE ? ESCAPE '!'", [$pattern])
+                    ->orWhereRaw("short_description LIKE ? ESCAPE '!'", [$pattern])
+                    ->orWhereRaw("code LIKE ? ESCAPE '!'", [$pattern]);
             }))
             ->when(filled($filters['destination'] ?? null), fn (Builder $query): Builder => $query->whereHas(
                 'destinations', fn (Builder $destination): Builder => $destination->where('slug', (string) $filters['destination'])

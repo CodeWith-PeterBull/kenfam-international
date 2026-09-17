@@ -8,7 +8,7 @@ to the host institution and branding configuration.
 
 - Clean independent source baseline: `f4139b7`, imported from Aureon subtree
   commit `c7aaddbb40e85dd1796576ce350c8a4a97af0189`.
-- Working phase branch: `feature/travel-tours-k2-itinerary-content`.
+- Working phase branch: `feature/travel-tours-k2-catalog-completion` (uncommitted pending review).
 - Commerce and Property Booking are retained as implementation references and
   disabled by default. Their inherited descriptions below do not mean those
   modules are enabled for Kenfam.
@@ -27,7 +27,10 @@ to the host institution and branding configuration.
   geography rules, and owned accessible destination media. K2C tour catalog,
   base editor, route assignments, and browser QA are committed as `38f0710`.
   K2D itinerary, activity, experience, FAQ and exact-money extra editing is
-  implemented and awaits review before commit. Publication remains K2E.
+  committed as `a17e937`. K2E adds base participant pricing, accessible media
+  uploads and an expandable public gallery, publication readiness, private
+  preview, and governed publish/unpublish/archive actions. K2E passes local
+  regression and browser QA but awaits review before commit.
 
 Start with [the TravelTours master plan](.docs/TravelTours/travel-tours-module-plan.md),
 [foundation audit](.docs/TravelTours/travel-tours-foundation-audit.md), and
@@ -38,6 +41,8 @@ then use the [implementation ledger](.docs/TravelTours/travel-tours-implementati
 for current acceptance evidence. Read the [K1 reconciliation](.docs/TravelTours/travel-tours-k1-reconciliation.md)
 for delivery boundaries; the immediate next-phase contract is the
 [K2 catalog administration plan](.docs/TravelTours/travel-tours-k2-catalog-administration-plan.md).
+The current review package is the
+[K2E catalog completion record](.docs/TravelTours/travel-tours-k2e-catalog-completion-implementation.md).
 Repository provenance is recorded in the
 [scaffold initialization record](.docs/Kenfam/kenfam-scaffold-initialization.md).
 Client-specific documentation lives under [.docs/Kenfam](.docs/Kenfam).

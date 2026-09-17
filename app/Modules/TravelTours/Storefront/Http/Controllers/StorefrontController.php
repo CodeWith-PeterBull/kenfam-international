@@ -10,6 +10,7 @@ namespace App\Modules\TravelTours\Storefront\Http\Controllers;
 
 use App\Http\Controllers\Controller;
 use App\Modules\TravelTours\Catalog\Models\Destination;
+use App\Modules\TravelTours\Catalog\Models\TourCategory;
 use App\Modules\TravelTours\Contracts\SearchesTours;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\Request;
@@ -28,7 +29,8 @@ final class StorefrontController extends Controller
 
         return view('travel-tours::storefront.catalog.index', [
             'tours' => $search->search($filters, (int) config('travel-tours.storefront.page_size', 12)),
-            'destinations' => Destination::query()->published()->where('is_featured', true)->orderBy('sort_order')->limit(8)->get(),
+            'destinations' => Destination::query()->published()->orderBy('sort_order')->orderBy('name')->limit(100)->get(),
+            'categories' => TourCategory::query()->active()->orderBy('sort_order')->orderBy('name')->get(),
             'filters' => $filters,
         ]);
     }

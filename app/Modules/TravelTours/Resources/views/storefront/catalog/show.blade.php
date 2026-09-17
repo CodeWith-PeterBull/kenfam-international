@@ -2,6 +2,7 @@
 
 @php
     $profile = app(\App\Modules\TravelTours\Storefront\Services\TravelStorefrontProfileResolver::class)->current();
+    $isPreview = $isPreview ?? false;
     $cover = $tour->getFirstMediaUrl('tour_cover', 'hero') ?: $profile->heroImageUrl;
     $ratePlan = $tour->ratePlans->firstWhere('is_default', true) ?: $tour->ratePlans->first();
     $adultRate = $ratePlan?->participantRates?->first(
@@ -14,7 +15,7 @@
         '@type' => 'TouristTrip',
         'name' => $tour->name,
         'description' => $tour->short_description,
-        'url' => route('travel-tours.storefront.tours.show', $tour->slug),
+        'url' => $isPreview ? request()->url() : route('travel-tours.storefront.tours.show', $tour->slug),
         'image' => $cover,
         'touristType' => $tour->type->label(),
         'itinerary' => $destinationNames,
@@ -24,7 +25,8 @@
 
 @section('title', $tour->meta_title ?: $tour->name)
 @section('meta_description', $tour->meta_description ?: $tour->short_description)
-@section('canonical', route('travel-tours.storefront.tours.show', $tour->slug))
+@section('canonical', $isPreview ? request()->url() : route('travel-tours.storefront.tours.show', $tour->slug))
+@section('robots', $isPreview ? 'noindex, nofollow, noarchive' : 'index, follow, max-image-preview:large')
 @section('og_type', 'product')
 @section('social_image', $cover)
 @section('page', 'tour-detail')
@@ -56,11 +58,69 @@
 <section class="travel-section">
     <div class="container-xxl travel-detail-grid">
         <div class="travel-detail-content">
+            @if($isPreview)<div class="alert alert-warning" role="status">Private editorial preview. This tour is not publicly available until publication takes effect.</div>@endif
             <section aria-labelledby="tour-overview-title">
                 <p class="travel-eyebrow">The experience</p>
                 <h2 id="tour-overview-title">Journey overview</h2>
                 <div class="travel-copy">{!! nl2br(e($tour->description ?: $tour->short_description)) !!}</div>
             </section>
+
+            @if($tour->getMedia('tour_gallery')->isNotEmpty())
+                @php($gallery = $tour->getMedia('tour_gallery'))
+                <section class="travel-detail-gallery" data-tour-gallery aria-labelledby="tour-gallery-title">
+                    <p class="travel-eyebrow">In pictures</p>
+                    <h2 id="tour-gallery-title">Gallery</h2>
+                    <div class="travel-detail-gallery__stage swiper" data-tour-gallery-stage>
+                        <div class="swiper-wrapper">
+                            @foreach($gallery as $image)
+                                <figure class="swiper-slide">
+                                    <img src="{{ $image->getUrl() }}" alt="{{ $image->getCustomProperty('alt_text', $tour->name) }}" loading="lazy">
+                                    @if($image->getCustomProperty('caption'))<figcaption>{{ $image->getCustomProperty('caption') }}</figcaption>@endif
+                                </figure>
+                            @endforeach
+                        </div>
+                        @if($gallery->count() > 1)
+                            <button class="travel-detail-gallery__nav travel-detail-gallery__nav--prev" type="button" data-tour-gallery-prev aria-label="Previous image"><i data-lucide="chevron-left" aria-hidden="true"></i></button>
+                            <button class="travel-detail-gallery__nav travel-detail-gallery__nav--next" type="button" data-tour-gallery-next aria-label="Next image"><i data-lucide="chevron-right" aria-hidden="true"></i></button>
+                        @endif
+                        <button class="travel-detail-gallery__expand" type="button" data-tour-gallery-expand aria-label="Open full-screen tour gallery" title="View full screen"><i data-lucide="maximize-2" aria-hidden="true"></i></button>
+                    </div>
+                    @if($gallery->count() > 1)
+                        <div class="travel-detail-gallery__thumbs" role="tablist" aria-label="Choose tour image">
+                            @foreach($gallery as $image)
+                                <button type="button" role="tab" aria-label="View image {{ $loop->iteration }} of {{ $loop->count }}" aria-selected="{{ $loop->first ? 'true' : 'false' }}" data-tour-gallery-thumb>
+                                    <img src="{{ $image->hasGeneratedConversion('thumb') ? $image->getUrl('thumb') : $image->getUrl() }}" alt="" loading="lazy">
+                                </button>
+                            @endforeach
+                        </div>
+                    @endif
+                    <div class="travel-tour-lightbox" data-tour-lightbox hidden>
+                        <button class="travel-tour-lightbox__backdrop" type="button" tabindex="-1" data-tour-lightbox-close aria-label="Close full-screen gallery"></button>
+                        <div class="travel-tour-lightbox__dialog" role="dialog" aria-modal="true" aria-label="{{ $tour->name }} image gallery" tabindex="-1">
+                            <button class="travel-tour-lightbox__close" type="button" data-tour-lightbox-close aria-label="Close full-screen gallery"><i data-lucide="x" aria-hidden="true"></i></button>
+                            <div class="travel-tour-lightbox__stage swiper" data-tour-lightbox-stage>
+                                <div class="swiper-wrapper">
+                                    @foreach($gallery as $image)
+                                        <figure class="swiper-slide">
+                                            <div class="swiper-zoom-container"><img src="{{ $image->getUrl() }}" alt="{{ $image->getCustomProperty('alt_text', $tour->name) }}" loading="lazy"></div>
+                                            <figcaption><strong>{{ $image->getCustomProperty('alt_text', $tour->name) }}</strong>@if($image->getCustomProperty('caption'))<span>{{ $image->getCustomProperty('caption') }}</span>@endif</figcaption>
+                                        </figure>
+                                    @endforeach
+                                </div>
+                            </div>
+                            @if($gallery->count() > 1)
+                                <button class="travel-tour-lightbox__nav travel-tour-lightbox__nav--prev" type="button" data-tour-lightbox-prev aria-label="Previous image"><i data-lucide="chevron-left" aria-hidden="true"></i></button>
+                                <button class="travel-tour-lightbox__nav travel-tour-lightbox__nav--next" type="button" data-tour-lightbox-next aria-label="Next image"><i data-lucide="chevron-right" aria-hidden="true"></i></button>
+                                <div class="travel-tour-lightbox__count" data-tour-lightbox-count aria-live="polite">1 / {{ $gallery->count() }}</div>
+                            @endif
+                        </div>
+                    </div>
+                </section>
+            @endif
+
+            @if($tour->getMedia('tour_documents')->isNotEmpty())
+                <section aria-labelledby="tour-documents-title"><p class="travel-eyebrow">Travel resources</p><h2 id="tour-documents-title">Documents</h2><ul class="travel-detail-documents">@foreach($tour->getMedia('tour_documents') as $document)<li><a href="{{ $document->getUrl() }}" target="_blank" rel="noopener noreferrer"><i data-lucide="file-down" aria-hidden="true"></i><span>{{ $document->getCustomProperty('title', $document->name) }}</span></a>@if($document->getCustomProperty('description'))<p>{{ $document->getCustomProperty('description') }}</p>@endif</li>@endforeach</ul></section>
+            @endif
 
             @if ($tour->departures->isNotEmpty())
                 <section aria-labelledby="tour-departures-title">
@@ -161,6 +221,7 @@
             @if (session('inquiry_submitted'))
                 <div class="alert alert-success" role="status">{{ session('inquiry_submitted') }}</div>
             @endif
+            @if($isPreview)<p>This preview does not accept inquiries. Publish the tour before sharing it with travelers.</p>@else
             <form method="post" action="{{ route('travel-tours.storefront.inquiries.store') }}">
                 @csrf
                 @honeypot
@@ -188,6 +249,7 @@
                 @endif
                 <p class="travel-inquiry__assurance"><i data-lucide="shield-check" aria-hidden="true"></i><span>Your details are used only to respond to this travel inquiry.</span></p>
             </form>
+            @endif
         </aside>
     </div>
 </section>

@@ -26,6 +26,7 @@ Route::middleware(['web', 'auth', 'verified'])
         Route::get('/catalog', CatalogAdminController::class)->middleware('permission:'.TravelToursPermission::VIEW_CATALOG)->name('catalog.index');
         Route::get('/catalog/tours/create', [TourEditorController::class, 'create'])->middleware('permission:'.TravelToursPermission::MANAGE_CATALOG)->name('catalog.tours.create');
         Route::get('/catalog/tours/{tour}/edit', [TourEditorController::class, 'edit'])->middleware('permission:'.TravelToursPermission::MANAGE_CATALOG)->name('catalog.tours.edit');
+        Route::get('/catalog/tours/{tour}/preview', [TourEditorController::class, 'preview'])->middleware('permission:'.TravelToursPermission::VIEW_CATALOG)->name('catalog.tours.preview');
         Route::get('/catalog/categories', TourCategoryAdminController::class)->middleware('permission:'.TravelToursPermission::VIEW_CATALOG)->name('catalog.categories');
         Route::get('/catalog/destinations', DestinationAdminController::class)->middleware('permission:'.TravelToursPermission::VIEW_CATALOG)->name('catalog.destinations');
         Route::get('/departures', DepartureAdminController::class)->middleware('permission:'.TravelToursPermission::VIEW_DEPARTURES)->name('departures.index');
