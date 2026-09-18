@@ -16,6 +16,7 @@
             <div class="page-btn d-flex flex-wrap gap-2">
                 <a href="{{ route('travel-tours.admin.catalog.categories') }}" class="btn btn-outline-secondary"><i class="ti ti-category me-2" aria-hidden="true"></i>Categories</a>
                 <a href="{{ route('travel-tours.admin.catalog.destinations') }}" class="btn btn-outline-secondary"><i class="ti ti-map-pin me-2" aria-hidden="true"></i>Destinations</a>
+                <a href="{{ route('travel-tours.admin.pricing.index') }}" class="btn btn-outline-secondary"><i class="ti ti-coins me-2" aria-hidden="true"></i>Pricing</a>
             </div>
         </div>
         <livewire:travel-tours.admin.tour-catalog />

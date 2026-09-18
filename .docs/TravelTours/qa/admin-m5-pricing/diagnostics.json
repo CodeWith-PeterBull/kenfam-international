@@ -1,0 +1,674 @@
+{
+  "generatedAt": "2026-09-18T22:02:10.681Z",
+  "siteUrl": "http://127.0.0.1:8014",
+  "failures": [],
+  "runtimeErrors": [],
+  "networkErrors": [],
+  "observations": [],
+  "diagnostics": [
+    {
+      "name": "desktop-light-pricing-index",
+      "path": "/admin/travel/pricing",
+      "theme": "light",
+      "viewportWidth": 1440,
+      "documentWidth": 1440,
+      "modalOpen": false,
+      "modalWithinViewport": true,
+      "inputs": [],
+      "alerts": []
+    },
+    {
+      "name": "desktop-light-tour-pricing",
+      "path": "/admin/travel/pricing/tours/01M2RJVVMJRGZSKY351QGAD5B5",
+      "theme": "light",
+      "viewportWidth": 1440,
+      "documentWidth": 1440,
+      "modalOpen": false,
+      "modalWithinViewport": true,
+      "inputs": [],
+      "alerts": [],
+      "plans": "Standard escorted rate Default DEMO-STANDARD · KES · tax inclusive Active Public Adult: KES 329,000.00 Child: KES 249,000.00 Infant: KES 0.00 30.00% balance 45 days before 2 departures 0 bookings 0 rules"
+    },
+    {
+      "name": "desktop-light-rate-plan-dialog",
+      "path": "/admin/travel/pricing/tours/01M2RJVVMJRGZSKY351QGAD5B5",
+      "theme": "light",
+      "viewportWidth": 1440,
+      "documentWidth": 1440,
+      "modalOpen": true,
+      "modalWithinViewport": true,
+      "inputs": [
+        {
+          "id": "plan-code",
+          "labelled": true
+        },
+        {
+          "id": "plan-name",
+          "labelled": true
+        },
+        {
+          "id": "plan-currency",
+          "labelled": true
+        },
+        {
+          "id": "plan-tax",
+          "labelled": true
+        },
+        {
+          "id": "plan-deposit-type",
+          "labelled": true
+        },
+        {
+          "id": "plan-deposit-value",
+          "labelled": true
+        },
+        {
+          "id": "plan-balance-days",
+          "labelled": true
+        },
+        {
+          "id": "plan-min",
+          "labelled": true
+        },
+        {
+          "id": "plan-max",
+          "labelled": true
+        },
+        {
+          "id": "plan-order",
+          "labelled": true
+        },
+        {
+          "id": "plan-description",
+          "labelled": true
+        },
+        {
+          "id": "plan-tax-inclusive",
+          "labelled": true
+        },
+        {
+          "id": "plan-refundable",
+          "labelled": true
+        },
+        {
+          "id": "plan-active",
+          "labelled": true
+        },
+        {
+          "id": "plan-public",
+          "labelled": true
+        },
+        {
+          "id": "plan-default",
+          "labelled": true
+        },
+        {
+          "id": "rate-0-type",
+          "labelled": true
+        },
+        {
+          "id": "rate-0-amount",
+          "labelled": true
+        },
+        {
+          "id": "rate-0-min-age",
+          "labelled": true
+        },
+        {
+          "id": "rate-0-max-age",
+          "labelled": true
+        },
+        {
+          "id": "rate-0-from",
+          "labelled": true
+        },
+        {
+          "id": "rate-0-until",
+          "labelled": true
+        },
+        {
+          "id": "rate-0-active",
+          "labelled": true
+        },
+        {
+          "id": "rate-1-type",
+          "labelled": true
+        },
+        {
+          "id": "rate-1-amount",
+          "labelled": true
+        },
+        {
+          "id": "rate-1-min-age",
+          "labelled": true
+        },
+        {
+          "id": "rate-1-max-age",
+          "labelled": true
+        },
+        {
+          "id": "rate-1-from",
+          "labelled": true
+        },
+        {
+          "id": "rate-1-until",
+          "labelled": true
+        },
+        {
+          "id": "rate-1-active",
+          "labelled": true
+        }
+      ],
+      "alerts": []
+    },
+    {
+      "name": "desktop-light-rate-plan-overlap",
+      "path": "/admin/travel/pricing/tours/01M2RJVVMJRGZSKY351QGAD5B5",
+      "theme": "light",
+      "viewportWidth": 1440,
+      "documentWidth": 1440,
+      "modalOpen": true,
+      "modalWithinViewport": true,
+      "inputs": [
+        {
+          "id": "plan-code",
+          "labelled": true
+        },
+        {
+          "id": "plan-name",
+          "labelled": true
+        },
+        {
+          "id": "plan-currency",
+          "labelled": true
+        },
+        {
+          "id": "plan-tax",
+          "labelled": true
+        },
+        {
+          "id": "plan-deposit-type",
+          "labelled": true
+        },
+        {
+          "id": "plan-deposit-value",
+          "labelled": true
+        },
+        {
+          "id": "plan-balance-days",
+          "labelled": true
+        },
+        {
+          "id": "plan-min",
+          "labelled": true
+        },
+        {
+          "id": "plan-max",
+          "labelled": true
+        },
+        {
+          "id": "plan-order",
+          "labelled": true
+        },
+        {
+          "id": "plan-description",
+          "labelled": true
+        },
+        {
+          "id": "plan-tax-inclusive",
+          "labelled": true
+        },
+        {
+          "id": "plan-refundable",
+          "labelled": true
+        },
+        {
+          "id": "plan-active",
+          "labelled": true
+        },
+        {
+          "id": "plan-public",
+          "labelled": true
+        },
+        {
+          "id": "plan-default",
+          "labelled": true
+        },
+        {
+          "id": "rate-0-type",
+          "labelled": true
+        },
+        {
+          "id": "rate-0-amount",
+          "labelled": true
+        },
+        {
+          "id": "rate-0-min-age",
+          "labelled": true
+        },
+        {
+          "id": "rate-0-max-age",
+          "labelled": true
+        },
+        {
+          "id": "rate-0-from",
+          "labelled": true
+        },
+        {
+          "id": "rate-0-until",
+          "labelled": true
+        },
+        {
+          "id": "rate-0-active",
+          "labelled": true
+        },
+        {
+          "id": "rate-1-type",
+          "labelled": true
+        },
+        {
+          "id": "rate-1-amount",
+          "labelled": true
+        },
+        {
+          "id": "rate-1-min-age",
+          "labelled": true
+        },
+        {
+          "id": "rate-1-max-age",
+          "labelled": true
+        },
+        {
+          "id": "rate-1-from",
+          "labelled": true
+        },
+        {
+          "id": "rate-1-until",
+          "labelled": true
+        },
+        {
+          "id": "rate-1-active",
+          "labelled": true
+        }
+      ],
+      "alerts": [
+        "Adult fares overlap in time; give each a distinct date window or deactivate one."
+      ]
+    },
+    {
+      "name": "desktop-light-rate-plans-after-save",
+      "path": "/admin/travel/pricing/tours/01M2RJVVMJRGZSKY351QGAD5B5",
+      "theme": "light",
+      "viewportWidth": 1440,
+      "documentWidth": 1440,
+      "modalOpen": false,
+      "modalWithinViewport": true,
+      "inputs": [],
+      "alerts": [
+        "Rate plan created."
+      ]
+    },
+    {
+      "name": "desktop-light-rule-dialog",
+      "path": "/admin/travel/pricing/tours/01M2RJVVMJRGZSKY351QGAD5B5",
+      "theme": "light",
+      "viewportWidth": 1440,
+      "documentWidth": 1440,
+      "modalOpen": true,
+      "modalWithinViewport": true,
+      "inputs": [
+        {
+          "id": "rule-plan",
+          "labelled": true
+        },
+        {
+          "id": "rule-name",
+          "labelled": true
+        },
+        {
+          "id": "rule-type",
+          "labelled": true
+        },
+        {
+          "id": "rule-adjustment-type",
+          "labelled": true
+        },
+        {
+          "id": "rule-adjustment-value",
+          "labelled": true
+        },
+        {
+          "id": "rule-departure",
+          "labelled": true
+        },
+        {
+          "id": "rule-priority",
+          "labelled": true
+        },
+        {
+          "id": "rule-stackable",
+          "labelled": true
+        },
+        {
+          "id": "rule-active",
+          "labelled": true
+        },
+        {
+          "id": "rule-travel-from",
+          "labelled": true
+        },
+        {
+          "id": "rule-travel-until",
+          "labelled": true
+        },
+        {
+          "id": "rule-sales-from",
+          "labelled": true
+        },
+        {
+          "id": "rule-sales-until",
+          "labelled": true
+        },
+        {
+          "id": "rule-min-participants",
+          "labelled": true
+        },
+        {
+          "id": "rule-advance-days",
+          "labelled": true
+        }
+      ],
+      "alerts": [
+        "Rate plan created."
+      ]
+    },
+    {
+      "name": "desktop-light-rules-after-save",
+      "path": "/admin/travel/pricing/tours/01M2RJVVMJRGZSKY351QGAD5B5",
+      "theme": "light",
+      "viewportWidth": 1440,
+      "documentWidth": 1440,
+      "modalOpen": false,
+      "modalWithinViewport": true,
+      "inputs": [
+        {
+          "id": "rule-3-active",
+          "labelled": true
+        }
+      ],
+      "alerts": [
+        "Rate plan created.",
+        "Pricing rule deactivated."
+      ]
+    },
+    {
+      "name": "desktop-light-promotion-dialog",
+      "path": "/admin/travel/pricing/promotions",
+      "theme": "light",
+      "viewportWidth": 1440,
+      "documentWidth": 1440,
+      "modalOpen": true,
+      "modalWithinViewport": true,
+      "inputs": [
+        {
+          "id": "promotion-code",
+          "labelled": true
+        },
+        {
+          "id": "promotion-name",
+          "labelled": true
+        },
+        {
+          "id": "promotion-adjustment-type",
+          "labelled": true
+        },
+        {
+          "id": "promotion-adjustment-value",
+          "labelled": true
+        },
+        {
+          "id": "promotion-currency",
+          "labelled": true
+        },
+        {
+          "id": "promotion-valid-from",
+          "labelled": true
+        },
+        {
+          "id": "promotion-valid-until",
+          "labelled": true
+        },
+        {
+          "id": "promotion-min-booking",
+          "labelled": true
+        },
+        {
+          "id": "promotion-min-participants",
+          "labelled": true
+        },
+        {
+          "id": "promotion-max-uses",
+          "labelled": true
+        },
+        {
+          "id": "promotion-max-per-customer",
+          "labelled": true
+        },
+        {
+          "id": "promotion-description",
+          "labelled": true
+        },
+        {
+          "id": "promotion-all-tours",
+          "labelled": true
+        },
+        {
+          "id": "promotion-active",
+          "labelled": true
+        },
+        {
+          "id": "promotion-tours",
+          "labelled": true
+        }
+      ],
+      "alerts": []
+    },
+    {
+      "name": "desktop-light-promotions",
+      "path": "/admin/travel/pricing/promotions",
+      "theme": "light",
+      "viewportWidth": 1440,
+      "documentWidth": 1440,
+      "modalOpen": false,
+      "modalWithinViewport": true,
+      "inputs": [
+        {
+          "id": "promotion-search",
+          "labelled": true
+        },
+        {
+          "id": "promotion-1-active",
+          "labelled": true
+        },
+        {
+          "id": "promotion-5-active",
+          "labelled": true
+        }
+      ],
+      "alerts": [
+        "Promotion created."
+      ]
+    },
+    {
+      "name": "desktop-light-tour-pricing-editor",
+      "path": "/admin/travel/pricing/tours/01M2RJVVMJRGZSKY351QGAD5B5",
+      "theme": "light",
+      "viewportWidth": 1440,
+      "documentWidth": 1440,
+      "modalOpen": false,
+      "modalWithinViewport": true,
+      "inputs": [],
+      "alerts": []
+    },
+    {
+      "name": "desktop-dark-tour-pricing",
+      "path": "/admin/travel/pricing/tours/01M2RJVVMJRGZSKY351QGAD5B5",
+      "theme": "dark",
+      "viewportWidth": 1440,
+      "documentWidth": 1440,
+      "modalOpen": false,
+      "modalWithinViewport": true,
+      "inputs": [
+        {
+          "id": "rule-3-active",
+          "labelled": true
+        }
+      ],
+      "alerts": []
+    },
+    {
+      "name": "mobile-light-tour-pricing",
+      "path": "/admin/travel/pricing/tours/01M2RJVVMJRGZSKY351QGAD5B5",
+      "theme": "light",
+      "viewportWidth": 390,
+      "documentWidth": 390,
+      "modalOpen": false,
+      "modalWithinViewport": true,
+      "inputs": [
+        {
+          "id": "rule-3-active",
+          "labelled": true
+        }
+      ],
+      "alerts": []
+    },
+    {
+      "name": "mobile-light-rate-plan-dialog",
+      "path": "/admin/travel/pricing/tours/01M2RJVVMJRGZSKY351QGAD5B5",
+      "theme": "light",
+      "viewportWidth": 390,
+      "documentWidth": 390,
+      "modalOpen": true,
+      "modalWithinViewport": true,
+      "inputs": [
+        {
+          "id": "plan-code",
+          "labelled": true
+        },
+        {
+          "id": "plan-name",
+          "labelled": true
+        },
+        {
+          "id": "plan-currency",
+          "labelled": true
+        },
+        {
+          "id": "plan-tax",
+          "labelled": true
+        },
+        {
+          "id": "plan-deposit-type",
+          "labelled": true
+        },
+        {
+          "id": "plan-deposit-value",
+          "labelled": true
+        },
+        {
+          "id": "plan-balance-days",
+          "labelled": true
+        },
+        {
+          "id": "plan-min",
+          "labelled": true
+        },
+        {
+          "id": "plan-max",
+          "labelled": true
+        },
+        {
+          "id": "plan-order",
+          "labelled": true
+        },
+        {
+          "id": "plan-description",
+          "labelled": true
+        },
+        {
+          "id": "plan-tax-inclusive",
+          "labelled": true
+        },
+        {
+          "id": "plan-refundable",
+          "labelled": true
+        },
+        {
+          "id": "plan-active",
+          "labelled": true
+        },
+        {
+          "id": "plan-public",
+          "labelled": true
+        },
+        {
+          "id": "plan-default",
+          "labelled": true
+        },
+        {
+          "id": "rate-0-type",
+          "labelled": true
+        },
+        {
+          "id": "rate-0-amount",
+          "labelled": true
+        },
+        {
+          "id": "rate-0-min-age",
+          "labelled": true
+        },
+        {
+          "id": "rate-0-max-age",
+          "labelled": true
+        },
+        {
+          "id": "rate-0-from",
+          "labelled": true
+        },
+        {
+          "id": "rate-0-until",
+          "labelled": true
+        },
+        {
+          "id": "rate-0-active",
+          "labelled": true
+        }
+      ],
+      "alerts": []
+    },
+    {
+      "name": "mobile-light-promotions",
+      "path": "/admin/travel/pricing/promotions",
+      "theme": "light",
+      "viewportWidth": 390,
+      "documentWidth": 390,
+      "modalOpen": false,
+      "modalWithinViewport": true,
+      "inputs": [
+        {
+          "id": "promotion-search",
+          "labelled": true
+        },
+        {
+          "id": "promotion-1-active",
+          "labelled": true
+        },
+        {
+          "id": "promotion-5-active",
+          "labelled": true
+        }
+      ],
+      "alerts": []
+    }
+  ]
+}

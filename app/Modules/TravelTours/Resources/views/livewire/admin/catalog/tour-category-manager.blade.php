@@ -90,6 +90,7 @@
                                     <div class="form-check form-switch travel-admin-switch">
                                         {{-- .prevent stops the browser's optimistic flip so a refused change never leaves the switch out of step with the server. --}}
                                         <input id="travel-category-active-{{ $category->id }}" type="checkbox" role="switch"
+                                            wire:key="travel-category-switch-{{ $category->id }}-{{ $category->is_active ? 'on' : 'off' }}"
                                             class="form-check-input"
                                             wire:click.prevent="toggleActive({{ $category->id }})"
                                             wire:loading.attr="disabled" wire:target="toggleActive"

@@ -60,7 +60,7 @@ final readonly class TourBasePriceService
                 $rates = $plan->participantRates()->where('participant_type', $type)->lockForUpdate()->get();
                 $base = $rates->first(fn (ParticipantRate $rate): bool => $rate->active_from === null && $rate->active_until === null);
                 if ($rates->count() !== ($base ? 1 : 0)) {
-                    throw new CatalogException('This plan has date-bound or duplicate '.$type.' fares; manage them in the advanced pricing phase.');
+                    throw new CatalogException('This plan has date-bound or duplicate '.$type.' fares; manage them on the pricing page for this tour.');
                 }
                 if ($amount === null) {
                     if ($base) {
