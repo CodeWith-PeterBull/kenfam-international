@@ -1,8 +1,8 @@
 # TravelTours K2 Catalog Administration Plan
 
-Status: active. K2A-K2D are committed; K2D is commit `a17e937`.
-K2E is implemented and locally verified on
-`feature/travel-tours-k2-catalog-completion`, awaiting review before commit.
+Status: complete at the K2 catalog scope. K2E was reviewed, committed as
+`527d752`, and fast-forwarded into `main`. K3 owns departures and advanced
+pricing.
 
 ## 1. Objective
 
@@ -224,8 +224,8 @@ appropriate. A draft never links to the public route as if it were published.
 | K2B | Complete | Category and destination services, Forms, managers, media | CRUD, cycles, parent state, coordinate/timezone, media ownership/order/limit and Livewire tests |
 | K2C | Complete, commit `38f0710` | Tour index, base editor, category/destination assignments, and authenticated browser QA | 8 focused tests / 37 assertions; full 160 / 2,482; seven cross-viewport captures |
 | K2D | Complete, commit `a17e937` | Itinerary, activity, content, FAQ, and exact-money extra management | Focused service/Livewire tests and 12 authenticated browser captures |
-| K2E | Implemented, awaiting review | Base adult/child/infant pricing, tour and destination media previews, gallery, public documents, readiness, preview, publication, catalog cues | Focused 9 / 70; module 57 / 1,945; host 180 / 2,604; gallery and admin browser evidence |
-| K2F | Locally verified; review pending | Responsive/theme/accessibility QA and documentation reconciliation | 12 authenticated admin and nine public captures; no runtime/network/overflow errors; final review and commit outstanding |
+| K2E | Complete, commit `527d752` | Base adult/child/infant pricing, tour and destination media previews, gallery, public documents, readiness, preview, publication, catalog cues | Focused 9 / 70; module 57 / 1,945; host 180 / 2,604; gallery and admin browser evidence |
+| K2F | Complete at K2 scope | Responsive/theme/accessibility QA and documentation reconciliation | 12 authenticated admin and nine public captures; no runtime/network/overflow errors |
 
 K2A deliberately omitted unfinished routes. K2B registered category and
 destination routes after their service/Form/Livewire surfaces were tested.

@@ -1,8 +1,8 @@
 # TravelTours K2E: Catalog Completion And Base Pricing
 
-Status: implemented and locally verified on
-`feature/travel-tours-k2-catalog-completion`; branch base `a17e937`.
-Awaiting review; do not commit before approval. Delivery and evidence are in
+Status: complete. Reviewed and committed as `527d752` on
+`feature/travel-tours-k2-catalog-completion`, then included in `main`.
+Delivery and evidence are in
 `travel-tours-k2e-catalog-completion-implementation.md`.
 
 ## Purpose and boundary

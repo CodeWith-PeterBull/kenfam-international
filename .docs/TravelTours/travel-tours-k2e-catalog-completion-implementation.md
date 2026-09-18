@@ -1,8 +1,7 @@
 # TravelTours K2E Catalog Completion
 
-Status: implemented and locally verified on
-`feature/travel-tours-k2-catalog-completion`. Awaiting review; do not commit
-or start K3 until approved. Base commit: `a17e937`.
+Status: complete and reviewed. Feature commit `527d752` was fast-forwarded
+into `main`. Base commit: `a17e937`.
 
 ## Delivered
 
@@ -70,9 +69,9 @@ preview, and public gallery/document markup.
 
 ## Review And Next Phase
 
-Review the editor tabs, public catalog/detail, pricing authority, publication
-readiness text, and desktop/mobile screenshots. Commit only after approval.
-K3 should then branch from the reviewed K2 commit and deliver, in order:
+The editor tabs, public catalog/detail, pricing authority, publication
+readiness text, and desktop/mobile screenshots were reviewed. K3 should
+branch from the merged K2 commit and deliver, in order:
 
 1. Departure CRUD with timezone-aware booking windows, status, staff
    assignment, and capacity controls.

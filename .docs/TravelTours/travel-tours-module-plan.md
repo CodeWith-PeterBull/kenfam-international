@@ -71,8 +71,8 @@ Card recording stores a method/reference only, never card numbers or CVVs.
 | --- | --- | --- | --- |
 | K0 | Clean source import; private repo; metadata, config/env, branding, README/deployment; independent homepage shell | Published baseline, secret scan, application boot and build parity | Complete and published |
 | K1 | Provider/config, permissions, enums, DTO/contracts, all models/migrations/factories | Fresh/rollback/disabled-module tests; field/relationship/privacy review | Complete at foundation scope; later operational hardening is assigned to its owning phase in the K1 reconciliation |
-| K2 | Category, destination, tour, itinerary, content, FAQ, extras, media administration | Real CRUD Forms, action authorization, publication and validation tests | Implemented and locally verified through K2E/K2F; review before commit |
-| K3 | Departures, rate plans, participant prices, rules, promotions, availability and quotes | Exact-integer tests and real-database contention proof | Planned |
+| K2 | Category, destination, tour, itinerary, content, FAQ, extras, media administration | Real CRUD Forms, action authorization, publication and validation tests | Complete at catalog scope; K2E commit `527d752` merged into `main` |
+| K3 | Departures, rate plans, participant prices, rules, promotions, availability and quotes | Exact-integer tests and one realistic capacity-contention proof | Next; scope and departure UX documented in `travel-tours-k3-scope-and-departure-ux.md` |
 | K4 | Homepage integration, discovery, filters, tour details, maps/galleries and inquiries | Public-only data, SEO, accessible/responsive/theme evidence | Public foundation and expandable tour gallery accepted locally; advanced discovery/maps and complete inquiry UX remain |
 | K5 | Holds, checkout, customer/traveler capture, lifecycle, manual payments and signed pages | Transaction, replay, concurrency, privacy and confirmation tests | Planned |
 | K6 | Booking administration, overview, POB, registers, shifts, receipt/reconciliation | End-to-end ownership, cash, printing and operational tests | Planned |
