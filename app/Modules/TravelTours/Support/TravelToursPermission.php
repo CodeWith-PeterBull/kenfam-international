@@ -35,6 +35,10 @@ final class TravelToursPermission
 
     public const MANAGE_PAYMENTS = 'manage-tour-payments';
 
+    public const CONFIRM_PAYMENTS = 'confirm-tour-payments';
+
+    public const REFUND_PAYMENTS = 'refund-tour-payments';
+
     public const VIEW_INQUIRIES = 'view-tour-inquiries';
 
     public const MANAGE_INQUIRIES = 'manage-tour-inquiries';
@@ -62,7 +66,9 @@ final class TravelToursPermission
             self::VIEW_BOOKINGS => ['View tour bookings', 'Inspect bookings, travelers, totals, history, and documents.'],
             self::MANAGE_BOOKINGS => ['Manage tour bookings', 'Place, confirm, amend, cancel, expire, and complete bookings.'],
             self::MANAGE_CUSTOMERS => ['Manage travel customers', 'Maintain protected customer and traveler records.'],
-            self::MANAGE_PAYMENTS => ['Manage tour payments', 'Record instalments, payments, and refunds.'],
+            self::MANAGE_PAYMENTS => ['Manage tour payments', 'Record payment evidence awaiting confirmation.'],
+            self::CONFIRM_PAYMENTS => ['Confirm tour payments', 'Confirm or reject recorded payments and settle bookings.'],
+            self::REFUND_PAYMENTS => ['Refund tour payments', 'Record processed refunds against confirmed payments.'],
             self::VIEW_INQUIRIES => ['View tour inquiries', 'Inspect general, private, and custom tour enquiries.'],
             self::MANAGE_INQUIRIES => ['Manage tour inquiries', 'Assign, follow up, close, and convert enquiries.'],
             self::ACCESS_POB => ['Access booking desk', 'Operate the point-of-booking terminal during an open shift.'],

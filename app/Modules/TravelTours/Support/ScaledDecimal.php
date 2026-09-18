@@ -30,6 +30,26 @@ final class ScaledDecimal
         return $whole.'.'.$fraction;
     }
 
+    /**
+     * Parse a validated non-negative decimal string into minor units without floats.
+     *
+     * The string must already match a `\d+(\.\d{1,exponent})?` rule; more
+     * fraction digits than the exponent allows are refused, never rounded.
+     */
+    public static function toMinor(string $amount, int $exponent): int
+    {
+        $amount = trim($amount);
+        if ($exponent < 0 || $exponent > 6 || preg_match('/^\d{1,12}(\.\d{1,'.max($exponent, 1).'})?$/', $amount) !== 1) {
+            throw new InvalidArgumentException('Money input must be a non-negative decimal within the currency exponent.');
+        }
+        [$whole, $fraction] = array_pad(explode('.', $amount, 2), 2, '');
+        if ($exponent === 0 && $fraction !== '') {
+            throw new InvalidArgumentException('This currency does not use fractional amounts.');
+        }
+
+        return ((int) $whole * (10 ** $exponent)) + (int) str_pad($fraction, $exponent, '0');
+    }
+
     /** Prevent instantiation of this stateless decimal utility. */
     private function __construct() {}
 }

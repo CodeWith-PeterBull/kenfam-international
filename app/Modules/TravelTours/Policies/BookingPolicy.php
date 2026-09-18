@@ -27,6 +27,24 @@ final class BookingPolicy extends TravelResourcePolicy
         return TravelToursPermission::MANAGE_BOOKINGS;
     }
 
+    /** Determine whether the user may record payment evidence against a booking. */
+    public function recordPayment(User $user, Model $model): bool
+    {
+        return $user->can(TravelToursPermission::MANAGE_PAYMENTS);
+    }
+
+    /** Determine whether the user may confirm or reject recorded payments. */
+    public function confirmPayment(User $user, Model $model): bool
+    {
+        return $user->can(TravelToursPermission::CONFIRM_PAYMENTS);
+    }
+
+    /** Determine whether the user may record a refund. */
+    public function refund(User $user, Model $model): bool
+    {
+        return $user->can(TravelToursPermission::REFUND_PAYMENTS);
+    }
+
     /** Determine whether the user may archive this resource. */
     public function delete(User $user, Model $model): bool
     {

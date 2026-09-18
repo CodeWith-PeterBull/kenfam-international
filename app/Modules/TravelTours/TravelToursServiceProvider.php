@@ -8,6 +8,7 @@ declare(strict_types=1);
 
 namespace App\Modules\TravelTours;
 
+use App\Modules\TravelTours\Bookings\Livewire\Admin\BookingManager;
 use App\Modules\TravelTours\Bookings\Models\TourBooking;
 use App\Modules\TravelTours\Bookings\Services\BookingDocumentService;
 use App\Modules\TravelTours\Bookings\Services\BookingPaymentService;
@@ -117,6 +118,7 @@ final class TravelToursServiceProvider extends ServiceProvider
         Livewire::component('travel-tours.admin.tour-publication-editor', TourPublicationEditor::class);
         Livewire::component('travel-tours.admin.tour-base-price-editor', TourBasePriceEditor::class);
         Livewire::component('travel-tours.admin.departure-manager', DepartureManager::class);
+        Livewire::component('travel-tours.admin.booking-manager', BookingManager::class);
         Livewire::component('travel-tours.storefront.departure-selector', DepartureSelector::class);
         Livewire::component('travel-tours.storefront.booking-checkout', BookingCheckout::class);
     }

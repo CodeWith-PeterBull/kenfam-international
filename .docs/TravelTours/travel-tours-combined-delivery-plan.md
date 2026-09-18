@@ -106,3 +106,22 @@ Files: `Storefront/Services/CheckoutSession.php`, `Storefront/Data/QuoteAttempt.
 Verification: `php artisan test --filter=TravelTours` 90 passed (2161 assertions), Pint clean; browser harness `qa-m2-checkout.mjs` (scratchpad) walked select → Continue → checkout validation → placement → confirmation → PDF, the consumed-hold redirect, the foreign-session 403, and the expired page across desktop and mobile in both themes: 9 captures, zero runtime/network errors, evidence in `qa/storefront-m2-checkout/`.
 
 Carried forward: none new. A customer can now place a booking; M3 lets staff record and confirm the payment.
+
+### M3 — Manual payments & booking admin (K5 payments, admin surface) · 2026-09-19
+
+**Delivered.** Payments now move in two audited steps: an agent records evidence (`recordPending`) and someone holding `confirm-tour-payments` confirms or rejects it; only confirmation settles aggregates, instalments, and the desk cash movement. Refunds (`refund-tour-payments`) are recorded against confirmed money and drive `PartiallyRefunded`/`Refunded`. The `BookingManager` workspace replaces the read-only bookings table with filters, a full detail dialog, and every lifecycle and money action, each authorized per request.
+
+| Area | Result |
+|---|---|
+| Payment seam | `ProcessesBookingPayments` gains `recordPending`, `confirm`, `reject`, `refund`; `record()` is now pending + confirm in one transaction (desk cash, existing tests unchanged). A future gateway calls `recordPending` with provider + transaction identifier and then `confirm`; nothing else changes. |
+| Guards | Amount ≤ outstanding at recording and again at confirmation; refunds ≤ net paid and ≤ the named payment's remainder; rejected rows keep their reason in `safe_metadata`; terminal bookings refuse money. |
+| Lifecycle | `BookingLifecycleService::confirm` / `cancel` (reason required, releases the promotion redemption) / `complete` (only after the departure ends), each historied. |
+| Permissions | `CONFIRM_PAYMENTS`, `REFUND_PAYMENTS` added to the catalogue; manager holds both, agent keeps `MANAGE_PAYMENTS` (record only). `BookingPolicy` gains `recordPayment`, `confirmPayment`, `refund`. |
+| Workspace | `#[Url]` search/status/payment filters (LIKE wildcards escaped), pagination, detail dialog (journey, customer, travellers, price, payments, refunds, history), record/confirm/reject/refund/confirm/cancel/complete, operation keys minted when a money dialog opens so a double submit records once. |
+| Money input | `ScaledDecimal::toMinor()` parses operator decimals by the booking's exponent without floats. |
+
+Files: `Bookings/Services/BookingPaymentService.php`, `Bookings/Services/BookingLifecycleService.php`, `Bookings/Data/BookingRefundData.php`, `Bookings/Exceptions/BookingLifecycleException.php`, `Bookings/Livewire/Admin/BookingManager.php`, `Bookings/Livewire/Forms/PaymentRecordForm.php`, `Bookings/Livewire/Forms/RefundForm.php`, `Bookings/Http/Controllers/BookingAdminController.php`, `Contracts/ProcessesBookingPayments.php`, `Policies/BookingPolicy.php`, `Support/TravelToursPermission.php`, `Support/ScaledDecimal.php`, `Resources/views/livewire/admin/bookings/booking-manager.blade.php`, `Resources/views/admin/bookings/index.blade.php`, `Resources/assets/css/admin.css`, `TravelToursServiceProvider.php`, `tests/Feature/TravelTours/TravelToursPaymentConfirmationTest.php` (5 tests), `tests/Feature/TravelTours/TravelToursBookingManagerTest.php` (6 tests).
+
+Verification: `php artisan test --filter=TravelTours` 101 passed (2261 assertions), Pint clean; browser harness `qa-m3-bookings.mjs` (scratchpad): agent records evidence and sees no confirm control, manager confirms the payment and the booking, refund ceiling refused inline then a refund recorded, cancel requires a reason; desktop/mobile/narrow in both themes: 13 captures, zero runtime/network errors, dialogs within the viewport, every input labelled. Evidence in `qa/admin-m3-bookings/`.
+
+Outcome gate met: a customer can complete a booking and the travel desk can confirm the payment manually. M4 adds the customer and staff mail for these steps.

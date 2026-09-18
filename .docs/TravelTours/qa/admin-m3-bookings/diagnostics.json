@@ -1,0 +1,290 @@
+{
+  "generatedAt": "2026-09-18T21:19:55.011Z",
+  "siteUrl": "http://127.0.0.1:8014",
+  "failures": [],
+  "runtimeErrors": [],
+  "networkErrors": [],
+  "observations": [
+    "Working on WEB-TOUR-20260918-JA3BXVBQAF",
+    "Agent details: WEB-TOUR-20260918-JA3BXVBQAF Pending Unpaid Web · placed 18 Sep 2026, 20:58 Journey Tour Dubai City and Desert DEMO-UAE-01 Departure DEMO-UAE-01-1 · 20 Jan 2027 to 24 Jan 2027 Confirmation Approval · expires 19 Sep 2026,"
+  ],
+  "diagnostics": [
+    {
+      "name": "desktop-light-bookings-agent",
+      "path": "/admin/travel/bookings",
+      "theme": "light",
+      "viewportWidth": 1440,
+      "documentWidth": 1440,
+      "rows": 3,
+      "modalOpen": false,
+      "modalWithinViewport": true,
+      "inputs": [
+        {
+          "id": "booking-search",
+          "labelled": true
+        },
+        {
+          "id": "booking-status-filter",
+          "labelled": true
+        },
+        {
+          "id": "booking-payment-filter",
+          "labelled": true
+        }
+      ],
+      "alerts": []
+    },
+    {
+      "name": "desktop-light-payment-dialog",
+      "path": "/admin/travel/bookings",
+      "theme": "light",
+      "viewportWidth": 1440,
+      "documentWidth": 1440,
+      "rows": 2,
+      "modalOpen": true,
+      "modalWithinViewport": true,
+      "inputs": [
+        {
+          "id": "payment-method",
+          "labelled": true
+        },
+        {
+          "id": "payment-amount",
+          "labelled": true
+        },
+        {
+          "id": "payment-reference",
+          "labelled": true
+        },
+        {
+          "id": "payment-provider",
+          "labelled": true
+        },
+        {
+          "id": "payment-transaction",
+          "labelled": true
+        },
+        {
+          "id": "payment-note",
+          "labelled": true
+        }
+      ],
+      "alerts": []
+    },
+    {
+      "name": "desktop-light-payment-validation",
+      "path": "/admin/travel/bookings",
+      "theme": "light",
+      "viewportWidth": 1440,
+      "documentWidth": 1440,
+      "rows": 2,
+      "modalOpen": true,
+      "modalWithinViewport": true,
+      "inputs": [
+        {
+          "id": "payment-method",
+          "labelled": true
+        },
+        {
+          "id": "payment-amount",
+          "labelled": true
+        },
+        {
+          "id": "payment-reference",
+          "labelled": true
+        },
+        {
+          "id": "payment-provider",
+          "labelled": true
+        },
+        {
+          "id": "payment-transaction",
+          "labelled": true
+        },
+        {
+          "id": "payment-note",
+          "labelled": true
+        }
+      ],
+      "alerts": []
+    },
+    {
+      "name": "desktop-light-details-agent-pending",
+      "path": "/admin/travel/bookings",
+      "theme": "light",
+      "viewportWidth": 1440,
+      "documentWidth": 1440,
+      "rows": 5,
+      "modalOpen": true,
+      "modalWithinViewport": true,
+      "inputs": [],
+      "alerts": [
+        "Payment recorded and awaiting confirmation."
+      ]
+    },
+    {
+      "name": "desktop-light-details-manager",
+      "path": "/admin/travel/bookings",
+      "theme": "light",
+      "viewportWidth": 1440,
+      "documentWidth": 1440,
+      "rows": 4,
+      "modalOpen": true,
+      "modalWithinViewport": true,
+      "inputs": [],
+      "alerts": []
+    },
+    {
+      "name": "desktop-light-details-payment-confirmed",
+      "path": "/admin/travel/bookings",
+      "theme": "light",
+      "viewportWidth": 1440,
+      "documentWidth": 1440,
+      "rows": 4,
+      "modalOpen": true,
+      "modalWithinViewport": true,
+      "inputs": [],
+      "alerts": [
+        "Payment confirmed."
+      ]
+    },
+    {
+      "name": "desktop-light-refund-dialog",
+      "path": "/admin/travel/bookings",
+      "theme": "light",
+      "viewportWidth": 1440,
+      "documentWidth": 1440,
+      "rows": 1,
+      "modalOpen": true,
+      "modalWithinViewport": true,
+      "inputs": [
+        {
+          "id": "refund-payment",
+          "labelled": true
+        },
+        {
+          "id": "refund-amount",
+          "labelled": true
+        },
+        {
+          "id": "refund-reason",
+          "labelled": true
+        },
+        {
+          "id": "refund-processor",
+          "labelled": true
+        },
+        {
+          "id": "refund-transaction",
+          "labelled": true
+        }
+      ],
+      "alerts": []
+    },
+    {
+      "name": "desktop-light-details-refunded",
+      "path": "/admin/travel/bookings",
+      "theme": "light",
+      "viewportWidth": 1440,
+      "documentWidth": 1440,
+      "rows": 4,
+      "modalOpen": true,
+      "modalWithinViewport": true,
+      "inputs": [],
+      "alerts": [
+        "Refund recorded."
+      ]
+    },
+    {
+      "name": "desktop-light-cancel-dialog",
+      "path": "/admin/travel/bookings",
+      "theme": "light",
+      "viewportWidth": 1440,
+      "documentWidth": 1440,
+      "rows": 1,
+      "modalOpen": true,
+      "modalWithinViewport": true,
+      "inputs": [
+        {
+          "id": "reason",
+          "labelled": true
+        }
+      ],
+      "alerts": []
+    },
+    {
+      "name": "desktop-dark-details",
+      "path": "/admin/travel/bookings",
+      "theme": "dark",
+      "viewportWidth": 1440,
+      "documentWidth": 1440,
+      "rows": 4,
+      "modalOpen": true,
+      "modalWithinViewport": true,
+      "inputs": [],
+      "alerts": []
+    },
+    {
+      "name": "mobile-light-bookings",
+      "path": "/admin/travel/bookings",
+      "theme": "light",
+      "viewportWidth": 390,
+      "documentWidth": 390,
+      "rows": 3,
+      "modalOpen": false,
+      "modalWithinViewport": true,
+      "inputs": [
+        {
+          "id": "booking-search",
+          "labelled": true
+        },
+        {
+          "id": "booking-status-filter",
+          "labelled": true
+        },
+        {
+          "id": "booking-payment-filter",
+          "labelled": true
+        }
+      ],
+      "alerts": []
+    },
+    {
+      "name": "mobile-light-details",
+      "path": "/admin/travel/bookings",
+      "theme": "light",
+      "viewportWidth": 390,
+      "documentWidth": 390,
+      "rows": 4,
+      "modalOpen": true,
+      "modalWithinViewport": true,
+      "inputs": [],
+      "alerts": []
+    },
+    {
+      "name": "narrow-dark-bookings",
+      "path": "/admin/travel/bookings",
+      "theme": "dark",
+      "viewportWidth": 320,
+      "documentWidth": 320,
+      "rows": 3,
+      "modalOpen": false,
+      "modalWithinViewport": true,
+      "inputs": [
+        {
+          "id": "booking-search",
+          "labelled": true
+        },
+        {
+          "id": "booking-status-filter",
+          "labelled": true
+        },
+        {
+          "id": "booking-payment-filter",
+          "labelled": true
+        }
+      ],
+      "alerts": []
+    }
+  ]
+}

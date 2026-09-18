@@ -117,3 +117,12 @@
 .travel-departure-table .dropdown-toggle::after { display: none; }
 .travel-departure-table small { font-size: 11px; }
 @media (max-width: 575.98px) { .travel-departure-form { padding: 18px 16px 0; } .travel-departure-form .travel-editor-actions { margin-right: -16px; margin-left: -16px; } }
+
+/* Booking workspace: filters, traveller list, and dialog tables. */
+.travel-admin-filters { min-width: 0; }
+.travel-admin-filters .form-control, .travel-admin-filters .form-select { min-width: 160px; }
+.travel-admin-filters .form-control[type="search"] { min-width: 240px; }
+.travel-detail-people { display: grid; gap: 8px; margin: 0; padding-left: 20px; }
+.travel-detail-people li { display: grid; gap: 2px; }
+#travel-booking-manager .modal-body .table-responsive { border: 1px solid var(--aureon-border); border-radius: 6px; }
+@media (max-width: 575.98px) { .travel-admin-filters { width: 100%; } .travel-admin-filters .form-control, .travel-admin-filters .form-select, .travel-admin-filters .form-control[type="search"] { min-width: 0; flex: 1 1 100%; } }
