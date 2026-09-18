@@ -8,7 +8,7 @@ import { fileURLToPath } from 'node:url';
 
 const root = path.dirname(path.dirname(fileURLToPath(import.meta.url)));
 const qaPhase = process.env.AUREON_QA_PHASE || '';
-const outputDirectory = path.join(root, '.docs', 'TravelTours', 'qa', ['k2d', 'k2e'].includes(qaPhase) ? `admin-${qaPhase}` : 'admin');
+const outputDirectory = path.join(root, '.docs', 'TravelTours', 'qa', ['k2d', 'k2e', 'k3a'].includes(qaPhase) ? `admin-${qaPhase}` : 'admin');
 const siteUrl = process.env.AUREON_QA_URL || 'http://127.0.0.1:8013';
 const email = process.env.AUREON_QA_EMAIL || 'admin@kenfam.test';
 const password = process.env.AUREON_QA_PASSWORD || 'password';
@@ -292,6 +292,14 @@ try {
         { name: 'mobile-dark-tour-gallery-dialog', route: editorRoute, width: 390, height: 844, mobile: true, mode: 'dark', before: `document.querySelectorAll('#travel-tour-editor [role="tab"]')[5]?.click()`, expected: `document.querySelector('#tour-gallery-heading') !== null`, after: `document.querySelector('#tour-gallery-heading')?.closest('.travel-child-toolbar')?.querySelector('button')?.click()`, afterExpected: `document.querySelector('.travel-child-modal #tour-gallery-upload') !== null` },
         { name: 'tablet-dark-tour-publication', route: editorRoute, width: 820, height: 1080, mobile: false, mode: 'dark', before: `document.querySelectorAll('#travel-tour-editor [role="tab"]')[6]?.click()`, expected: `document.querySelector('#tour-readiness-heading') !== null` },
         { name: 'mobile-light-tour-publication', route: editorRoute, width: 390, height: 844, mobile: true, mode: 'light', before: `document.querySelectorAll('#travel-tour-editor [role="tab"]')[6]?.click()`, expected: `document.querySelector('#tour-publish-heading') !== null`, scrollSelector: '#tour-publish-heading' },
+    );
+    if (qaPhase === 'k3a') captures.push(
+        { name: 'desktop-light-departures', route: '/admin/travel/departures', width: 1440, height: 1000, mobile: false, mode: 'light' },
+        { name: 'desktop-dark-departure-form', route: '/admin/travel/departures', width: 1280, height: 900, mobile: false, mode: 'dark', before: `document.querySelector('.travel-departures .card-header button')?.click()`, expected: `document.querySelector('#departure-code') !== null` },
+        { name: 'tablet-light-tour-departures-reduced-motion', route: `${editorRoute}?section=departures`, width: 820, height: 1080, mobile: false, mode: 'light', reducedMotion: true, expected: `document.querySelector('#travel-departures-title') !== null` },
+        { name: 'tablet-dark-departure-team', route: '/admin/travel/departures', width: 820, height: 1080, mobile: false, mode: 'dark', before: `document.querySelector('.travel-departures button[title="Departure team"]')?.click()`, expected: `document.querySelector('#departure-staff-title') !== null` },
+        { name: 'mobile-dark-departure-form', route: '/admin/travel/departures', width: 390, height: 844, mobile: true, mode: 'dark', before: `document.querySelector('.travel-departures .card-header button')?.click()`, expected: `document.querySelector('#departure-code') !== null` },
+        { name: 'narrow-light-departures', route: '/admin/travel/departures', width: 320, height: 720, mobile: true, mode: 'light' },
     );
     for (const definition of captures) await capture(definition);
 

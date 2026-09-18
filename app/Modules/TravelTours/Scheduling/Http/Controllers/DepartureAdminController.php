@@ -9,15 +9,14 @@ declare(strict_types=1);
 namespace App\Modules\TravelTours\Scheduling\Http\Controllers;
 
 use App\Http\Controllers\Controller;
-use App\Modules\TravelTours\Scheduling\Models\TourDeparture;
 use Illuminate\Contracts\View\View;
 
 /** Presents scheduled departures and current capacity state. */
 final class DepartureAdminController extends Controller
 {
-    /** Render the DepartureAdminController response for an authorized request. */
+    /** Render the shared scheduling workspace after route middleware authorization. */
     public function __invoke(): View
     {
-        return view('travel-tours::admin.departures.index', ['departures' => TourDeparture::query()->with(['tour', 'ratePlan'])->orderBy('starts_at')->paginate(20)]);
+        return view('travel-tours::admin.departures.index');
     }
 }

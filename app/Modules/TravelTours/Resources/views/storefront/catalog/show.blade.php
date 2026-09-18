@@ -128,13 +128,16 @@
                     <h2 id="tour-departures-title">Available departures</h2>
                     <div class="travel-departure-list">
                         @foreach ($tour->departures as $departure)
+                            @php($departurePlan = $departure->ratePlan ?: $ratePlan)
+                            @php($departureAdult = $departurePlan?->participantRates?->first(fn ($rate) => $rate->participant_type === \App\Modules\TravelTours\Bookings\Enums\ParticipantType::Adult && $rate->is_active && $rate->active_from === null && $rate->active_until === null))
+                            @php($seats = $departureAvailability[$departure->id])
                             <article class="travel-departure-card">
                                 <div>
                                     <h3>{{ $departure->starts_at->timezone($departure->timezone)->format('d M Y') }} to {{ $departure->ends_at->timezone($departure->timezone)->format('d M Y') }}</h3>
-                                    <p>{{ $departure->code }} <span aria-hidden="true">&middot;</span> {{ $departure->status->label() }} <span aria-hidden="true">&middot;</span> {{ $departure->availableSeats() }} places currently available</p>
+                                    <p>{{ $departure->code }} <span aria-hidden="true">&middot;</span> {{ $departure->status->label() }} <span aria-hidden="true">&middot;</span> {{ $seats->availableSeats > 0 ? $seats->availableSeats.' places currently available' : 'Currently fully booked' }}</p>
                                 </div>
-                                @if ($adultRate)
-                                    <strong>{{ \App\Modules\TravelTours\Support\MoneyFormatter::format($adultRate->amount_minor, $ratePlan->currency) }}</strong>
+                                @if ($departureAdult && $departurePlan->is_active && $departurePlan->is_public)
+                                    <strong>{{ \App\Modules\TravelTours\Support\MoneyFormatter::format($departureAdult->amount_minor, $departurePlan->currency) }}</strong>
                                 @endif
                             </article>
                         @endforeach

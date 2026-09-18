@@ -10,7 +10,6 @@ namespace App\Modules\TravelTours\Catalog\Services;
 
 use App\Modules\TravelTours\Catalog\Models\Tour;
 use App\Modules\TravelTours\Contracts\SearchesTours;
-use App\Modules\TravelTours\Scheduling\Enums\DepartureStatus;
 use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 use Illuminate\Database\Eloquent\Builder;
 
@@ -46,9 +45,8 @@ final class TourSearchService implements SearchesTours
             ->when(filled($filters['type'] ?? null), fn (Builder $query): Builder => $query->where('type', (string) $filters['type']))
             ->when(filled($filters['maximum_duration_days'] ?? null), fn (Builder $query): Builder => $query->where('duration_days', '<=', (int) $filters['maximum_duration_days']))
             ->when(filled($filters['departure_date'] ?? null), fn (Builder $query): Builder => $query->whereHas(
-                'departures', fn (Builder $departure): Builder => $departure
+                'departures', fn (Builder $departure): Builder => $departure->bookable()
                     ->whereDate('starts_at', '>=', (string) $filters['departure_date'])
-                    ->whereIn('status', [DepartureStatus::Open->value, DepartureStatus::Guaranteed->value])
             ))
             ->orderByDesc('is_featured')
             ->orderBy('sort_order')

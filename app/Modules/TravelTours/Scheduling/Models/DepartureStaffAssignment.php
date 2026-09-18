@@ -9,8 +9,10 @@ declare(strict_types=1);
 
 namespace App\Modules\TravelTours\Scheduling\Models;
 
+use App\Models\User;
 use App\Modules\TravelTours\Support\Concerns\HasTravelToursFactory;
 use App\Modules\TravelTours\Support\Concerns\HasUlid;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\Pivot;
 
 /** Staff responsibility and leadership assignment for one departure. */
@@ -33,5 +35,11 @@ final class DepartureStaffAssignment extends Pivot
     protected function casts(): array
     {
         return ['is_lead' => 'boolean'];
+    }
+
+    /** Resolve the assigned operator for the scheduling workspace. */
+    public function user(): BelongsTo
+    {
+        return $this->belongsTo(User::class);
     }
 }

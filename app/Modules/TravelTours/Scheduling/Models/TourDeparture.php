@@ -139,6 +139,7 @@ final class TourDeparture extends TravelToursModel
     public function scopeBookable(Builder $query): Builder
     {
         return $query->whereIn('status', [DepartureStatus::Open->value, DepartureStatus::Guaranteed->value])
+            ->where('starts_at', '>', now())
             ->where(fn (Builder $window): Builder => $window->whereNull('booking_opens_at')->orWhere('booking_opens_at', '<=', now()))
             ->where(fn (Builder $window): Builder => $window->whereNull('booking_closes_at')->orWhere('booking_closes_at', '>=', now()));
     }

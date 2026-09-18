@@ -49,6 +49,9 @@ final class TourEditor extends Component
             $tour = $this->tour();
             $this->form->fillFromTour($tour);
             $this->assignments->fillFromTour($tour);
+            if (request()->query('section') === 'departures') {
+                $this->tab = 'departures';
+            }
         }
     }
 
@@ -62,7 +65,7 @@ final class TourEditor extends Component
     /** Switch only between implemented editor tabs. */
     public function switchTab(string $tab): void
     {
-        abort_unless(in_array($tab, ['basics', 'route', 'itinerary', 'experience', 'pricing', 'media', 'publication'], true), 404);
+        abort_unless(in_array($tab, ['basics', 'route', 'itinerary', 'experience', 'pricing', 'media', 'publication', 'departures'], true), 404);
         abort_if($tab !== 'basics' && $this->tourId === null, 404);
         $this->tab = $tab;
     }

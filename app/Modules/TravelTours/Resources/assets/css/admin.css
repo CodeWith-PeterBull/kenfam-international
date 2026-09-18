@@ -106,3 +106,14 @@
 @media (max-width: 767.98px) { .travel-detail-grid { grid-template-columns: minmax(0, 1fr); } }
 .travel-category-name { display: flex; align-items: flex-start; gap: 6px; padding-left: calc(var(--travel-depth, 0) * 22px); }
 .travel-category-branch { flex: 0 0 auto; margin-top: 3px; color: var(--aureon-muted); font-size: 14px; }
+.travel-departure-form { padding: 22px 24px 0; background: color-mix(in srgb, var(--aureon-primary) 3%, var(--aureon-surface)); }
+.travel-departure-form__heading { display: flex; align-items: flex-start; justify-content: space-between; gap: 16px; margin-bottom: 18px; }
+.travel-departure-form__heading h4 { margin: 0 0 4px; color: var(--aureon-ink); font-size: 16px; }
+.travel-departure-form__heading p { margin: 0; color: var(--aureon-muted); font-size: 12px; }
+.travel-departure-form .travel-editor-actions { margin: 20px -24px 0; border-top: 1px solid var(--aureon-border); }
+.travel-departure-filters { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 12px; align-items: end; }
+.travel-departure-table { min-width: 790px; }
+.travel-departure-table td { vertical-align: middle; }
+.travel-departure-table .dropdown-toggle::after { display: none; }
+.travel-departure-table small { font-size: 11px; }
+@media (max-width: 575.98px) { .travel-departure-form { padding: 18px 16px 0; } .travel-departure-form .travel-editor-actions { margin-right: -16px; margin-left: -16px; } }

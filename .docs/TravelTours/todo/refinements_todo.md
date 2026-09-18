@@ -40,3 +40,13 @@ review of 2026-09-18, and `claude-review/concern_file.md`.
 
 `claude-review/remediation-status.md` holds C-04 through C-10 with their owning
 phases (K5, K6, K7). They are not repeated here.
+
+## Scheduling administration (K3A surface)
+
+| # | Item | Owner | Status |
+| --- | --- | --- | --- |
+| D-1 | `DepartureForm` hard-codes `Africa/Nairobi`; read `travel-tours.defaults.timezone` so the module stays client-neutral. | K3E | Open |
+| D-2 | `departure-manager.blade.php` uses compressed single-line Blade (longest line 1,130 chars); reformat to the parent's multi-line convention alongside the other K2 views. | K3E | Open |
+| D-3 | List searches (`DepartureManager`, `DestinationManager`, `TourCatalog`, `TourSearchService`) pass `%`/`_` through to `LIKE` unescaped; the verification plan requires wildcard treatment tests. | K3E | Open |
+| D-4 | `DepartureException` and `CatalogException` extend `RuntimeException` directly while K1 exceptions extend `TravelToursException`; settle one base. | K3E | Open |
+| D-5 | The central departures workspace loads every tour for its selector on each render; bound or search it before the catalogue grows. | K3E | Open |

@@ -15,6 +15,7 @@
             <button type="button" role="tab" aria-selected="{{ $tab === 'experience' ? 'true' : 'false' }}" class="travel-editor-tab {{ $tab === 'experience' ? 'is-active' : '' }}" wire:click="switchTab('experience')" @disabled(!$this->currentTour)><i class="ti ti-sparkles" aria-hidden="true"></i>Experience</button>
             @can(\App\Modules\TravelTours\Support\TravelToursPermission::VIEW_PRICING)<button type="button" role="tab" aria-selected="{{ $tab === 'pricing' ? 'true' : 'false' }}" class="travel-editor-tab {{ $tab === 'pricing' ? 'is-active' : '' }}" wire:click="switchTab('pricing')" @disabled(!$this->currentTour)><i class="ti ti-currency-dollar" aria-hidden="true"></i>Pricing</button>@endcan
             <button type="button" role="tab" aria-selected="{{ $tab === 'media' ? 'true' : 'false' }}" class="travel-editor-tab {{ $tab === 'media' ? 'is-active' : '' }}" wire:click="switchTab('media')" @disabled(!$this->currentTour)><i class="ti ti-photo" aria-hidden="true"></i>Media</button>
+            @can(\App\Modules\TravelTours\Support\TravelToursPermission::VIEW_DEPARTURES)<button type="button" role="tab" aria-selected="{{ $tab === 'departures' ? 'true' : 'false' }}" class="travel-editor-tab {{ $tab === 'departures' ? 'is-active' : '' }}" wire:click="switchTab('departures')" @disabled(!$this->currentTour)><i class="ti ti-calendar-event" aria-hidden="true"></i>Departures</button>@endcan
             <button type="button" role="tab" aria-selected="{{ $tab === 'publication' ? 'true' : 'false' }}" class="travel-editor-tab {{ $tab === 'publication' ? 'is-active' : '' }}" wire:click="switchTab('publication')" @disabled(!$this->currentTour)><i class="ti ti-world-upload" aria-hidden="true"></i>Publication</button>
         </div>
 
@@ -114,6 +115,8 @@
             <livewire:travel-tours.admin.tour-base-price-editor :tour-id="$tourId" :key="'tour-pricing-'.$tourId" />
         @elseif($tab === 'media')
             <livewire:travel-tours.admin.tour-media-editor :tour-id="$tourId" :key="'tour-media-'.$tourId" />
+        @elseif($tab === 'departures')
+            <livewire:travel-tours.admin.departure-manager :tour-id="$tourId" :key="'tour-departures-'.$tourId" />
         @else
             <livewire:travel-tours.admin.tour-publication-editor :tour-id="$tourId" :key="'tour-publication-'.$tourId" />
         @endif
