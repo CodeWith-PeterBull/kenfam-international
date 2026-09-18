@@ -1,0 +1,630 @@
+{
+  "generatedAt": "2026-09-18T17:12:59.206Z",
+  "siteUrl": "http://127.0.0.1:8014",
+  "failures": [],
+  "runtimeErrors": [],
+  "networkErrors": [],
+  "observations": [
+    "Initial quote: Your price Adult fare 1 × KES 218,000.00 KES 218,000.00 Total for 1 traveller KES 218,000.00 Secure your places with a deposit of KES 65,400.00; the balance is due 45 days before departure. Prices are confirmed at booking for the dates shown. Infants share a seat and are not counted against places.",
+    "Mixed quote: Your price Adult fare 2 × KES 218,000.00 KES 436,000.00 Child fare 1 × KES 165,000.00 KES 165,000.00 Total for 3 travellers KES 601,000.00 Secure your places with a deposit of KES 180,300.00; the balance is due 45 days before departure. Prices are confirmed at booking for the dates shown. Infants share a seat and are not counted against places.",
+    "Short fall copy: Your price Only 2 places remain on this departure."
+  ],
+  "diagnostics": [
+    {
+      "name": "desktop-light-selector-initial",
+      "path": "/tours/dubai-city-and-desert",
+      "theme": "light",
+      "viewportWidth": 1440,
+      "documentWidth": 1440,
+      "cards": [
+        {
+          "id": "5",
+          "selected": true,
+          "soldOut": false,
+          "disabled": false,
+          "seats": "18 places available",
+          "price": "From KES 218,000.00"
+        },
+        {
+          "id": "6",
+          "selected": false,
+          "soldOut": false,
+          "disabled": false,
+          "seats": "18 places available",
+          "price": "From KES 218,000.00"
+        }
+      ],
+      "inputs": [
+        {
+          "id": "selector-adults",
+          "labelled": true,
+          "invalid": false
+        },
+        {
+          "id": "selector-children",
+          "labelled": true,
+          "invalid": false
+        },
+        {
+          "id": "selector-infants",
+          "labelled": true,
+          "invalid": false
+        },
+        {
+          "id": "selector-promotion-code",
+          "labelled": true,
+          "invalid": false
+        }
+      ],
+      "errors": [],
+      "quote": "Your price Adult fare 1 × KES 218,000.00 KES 218,000.00 Total for 1 traveller KES 218,000.00 Secure your places with a deposit of KES 65,400.00; the balance is due 45 days before departure. Prices are confirmed at booking for the dates shown. Infants share a seat and are not counted against places.",
+      "selectorHeading": "Available departures",
+      "lucideRendered": 2
+    },
+    {
+      "name": "desktop-light-selector-mixed",
+      "path": "/tours/dubai-city-and-desert",
+      "theme": "light",
+      "viewportWidth": 1440,
+      "documentWidth": 1440,
+      "cards": [
+        {
+          "id": "5",
+          "selected": true,
+          "soldOut": false,
+          "disabled": false,
+          "seats": "18 places available",
+          "price": "From KES 218,000.00"
+        },
+        {
+          "id": "6",
+          "selected": false,
+          "soldOut": false,
+          "disabled": false,
+          "seats": "18 places available",
+          "price": "From KES 218,000.00"
+        }
+      ],
+      "inputs": [
+        {
+          "id": "selector-adults",
+          "labelled": true,
+          "invalid": false
+        },
+        {
+          "id": "selector-children",
+          "labelled": true,
+          "invalid": false
+        },
+        {
+          "id": "selector-infants",
+          "labelled": true,
+          "invalid": false
+        },
+        {
+          "id": "selector-promotion-code",
+          "labelled": true,
+          "invalid": false
+        }
+      ],
+      "errors": [],
+      "quote": "Your price Adult fare 2 × KES 218,000.00 KES 436,000.00 Child fare 1 × KES 165,000.00 KES 165,000.00 Total for 3 travellers KES 601,000.00 Secure your places with a deposit of KES 180,300.00; the balance is due 45 days before departure. Prices are confirmed at booking for the dates shown. Infants share a seat and are not counted against places.",
+      "selectorHeading": "Available departures",
+      "lucideRendered": 2
+    },
+    {
+      "name": "desktop-light-selector-promotion",
+      "path": "/tours/dubai-city-and-desert",
+      "theme": "light",
+      "viewportWidth": 1440,
+      "documentWidth": 1440,
+      "cards": [
+        {
+          "id": "5",
+          "selected": true,
+          "soldOut": false,
+          "disabled": false,
+          "seats": "18 places available",
+          "price": "From KES 218,000.00"
+        },
+        {
+          "id": "6",
+          "selected": false,
+          "soldOut": false,
+          "disabled": false,
+          "seats": "18 places available",
+          "price": "From KES 218,000.00"
+        }
+      ],
+      "inputs": [
+        {
+          "id": "selector-adults",
+          "labelled": true,
+          "invalid": false
+        },
+        {
+          "id": "selector-children",
+          "labelled": true,
+          "invalid": false
+        },
+        {
+          "id": "selector-infants",
+          "labelled": true,
+          "invalid": false
+        },
+        {
+          "id": "selector-promotion-code",
+          "labelled": true,
+          "invalid": false
+        }
+      ],
+      "errors": [],
+      "quote": "Your price Adult fare 2 × KES 218,000.00 KES 436,000.00 Child fare 1 × KES 165,000.00 KES 165,000.00 Launch offer 10% off −KES 60,100.00 Total for 3 travellers KES 540,900.00 Secure your places with a deposit of KES 162,270.00; the balance is due 45 days before departure. Prices are confirmed at booking for the dates shown. Infants share a seat and are not counted against places.",
+      "selectorHeading": "Available departures",
+      "lucideRendered": 2
+    },
+    {
+      "name": "desktop-light-selector-promotion-refused",
+      "path": "/tours/dubai-city-and-desert",
+      "theme": "light",
+      "viewportWidth": 1440,
+      "documentWidth": 1440,
+      "cards": [
+        {
+          "id": "5",
+          "selected": true,
+          "soldOut": false,
+          "disabled": false,
+          "seats": "18 places available",
+          "price": "From KES 218,000.00"
+        },
+        {
+          "id": "6",
+          "selected": false,
+          "soldOut": false,
+          "disabled": false,
+          "seats": "18 places available",
+          "price": "From KES 218,000.00"
+        }
+      ],
+      "inputs": [
+        {
+          "id": "selector-adults",
+          "labelled": true,
+          "invalid": false
+        },
+        {
+          "id": "selector-children",
+          "labelled": true,
+          "invalid": false
+        },
+        {
+          "id": "selector-infants",
+          "labelled": true,
+          "invalid": false
+        },
+        {
+          "id": "selector-promotion-code",
+          "labelled": true,
+          "invalid": true
+        }
+      ],
+      "errors": [
+        "The supplied promotion is not applicable to this quote."
+      ],
+      "quote": "Your price Adjust the traveller details above to see a price.",
+      "selectorHeading": "Available departures",
+      "lucideRendered": 1
+    },
+    {
+      "name": "desktop-light-selector-validation",
+      "path": "/tours/dubai-city-and-desert",
+      "theme": "light",
+      "viewportWidth": 1440,
+      "documentWidth": 1440,
+      "cards": [
+        {
+          "id": "5",
+          "selected": true,
+          "soldOut": false,
+          "disabled": false,
+          "seats": "18 places available",
+          "price": "From KES 218,000.00"
+        },
+        {
+          "id": "6",
+          "selected": false,
+          "soldOut": false,
+          "disabled": false,
+          "seats": "18 places available",
+          "price": "From KES 218,000.00"
+        }
+      ],
+      "inputs": [
+        {
+          "id": "selector-adults",
+          "labelled": true,
+          "invalid": true
+        },
+        {
+          "id": "selector-children",
+          "labelled": true,
+          "invalid": false
+        },
+        {
+          "id": "selector-infants",
+          "labelled": true,
+          "invalid": false
+        },
+        {
+          "id": "selector-promotion-code",
+          "labelled": true,
+          "invalid": false
+        }
+      ],
+      "errors": [
+        "At least one adult travels on every booking."
+      ],
+      "quote": "Your price Adjust the traveller details above to see a price.",
+      "selectorHeading": "Available departures",
+      "lucideRendered": 1
+    },
+    {
+      "name": "desktop-light-selector-scarce-and-sold-out",
+      "path": "/tours/cairo-and-the-nile-heritage-journey",
+      "theme": "light",
+      "viewportWidth": 1440,
+      "documentWidth": 1440,
+      "cards": [
+        {
+          "id": "1",
+          "selected": true,
+          "soldOut": false,
+          "disabled": false,
+          "seats": "Only 2 places left",
+          "price": "From KES 385,000.00"
+        },
+        {
+          "id": "2",
+          "selected": false,
+          "soldOut": true,
+          "disabled": true,
+          "seats": "Fully booked",
+          "price": "From KES 385,000.00"
+        }
+      ],
+      "inputs": [
+        {
+          "id": "selector-adults",
+          "labelled": true,
+          "invalid": false
+        },
+        {
+          "id": "selector-children",
+          "labelled": true,
+          "invalid": false
+        },
+        {
+          "id": "selector-infants",
+          "labelled": true,
+          "invalid": false
+        },
+        {
+          "id": "selector-promotion-code",
+          "labelled": true,
+          "invalid": false
+        }
+      ],
+      "errors": [],
+      "quote": "Your price Adult fare 1 × KES 385,000.00 KES 385,000.00 Total for 1 traveller KES 385,000.00 Secure your places with a deposit of KES 115,500.00; the balance is due 45 days before departure. Prices are confirmed at booking for the dates shown. Infants share a seat and are not counted against places.",
+      "selectorHeading": "Available departures",
+      "lucideRendered": 2
+    },
+    {
+      "name": "desktop-light-selector-shortfall",
+      "path": "/tours/cairo-and-the-nile-heritage-journey",
+      "theme": "light",
+      "viewportWidth": 1440,
+      "documentWidth": 1440,
+      "cards": [
+        {
+          "id": "1",
+          "selected": true,
+          "soldOut": false,
+          "disabled": false,
+          "seats": "Only 2 places left",
+          "price": "From KES 385,000.00"
+        },
+        {
+          "id": "2",
+          "selected": false,
+          "soldOut": true,
+          "disabled": true,
+          "seats": "Fully booked",
+          "price": "From KES 385,000.00"
+        }
+      ],
+      "inputs": [
+        {
+          "id": "selector-adults",
+          "labelled": true,
+          "invalid": false
+        },
+        {
+          "id": "selector-children",
+          "labelled": true,
+          "invalid": false
+        },
+        {
+          "id": "selector-infants",
+          "labelled": true,
+          "invalid": false
+        },
+        {
+          "id": "selector-promotion-code",
+          "labelled": true,
+          "invalid": false
+        }
+      ],
+      "errors": [],
+      "quote": "Your price Only 2 places remain on this departure.",
+      "selectorHeading": "Available departures",
+      "lucideRendered": 1
+    },
+    {
+      "name": "desktop-dark-selector",
+      "path": "/tours/dubai-city-and-desert",
+      "theme": "dark",
+      "viewportWidth": 1440,
+      "documentWidth": 1440,
+      "cards": [
+        {
+          "id": "5",
+          "selected": true,
+          "soldOut": false,
+          "disabled": false,
+          "seats": "18 places available",
+          "price": "From KES 218,000.00"
+        },
+        {
+          "id": "6",
+          "selected": false,
+          "soldOut": false,
+          "disabled": false,
+          "seats": "18 places available",
+          "price": "From KES 218,000.00"
+        }
+      ],
+      "inputs": [
+        {
+          "id": "selector-adults",
+          "labelled": true,
+          "invalid": false
+        },
+        {
+          "id": "selector-children",
+          "labelled": true,
+          "invalid": false
+        },
+        {
+          "id": "selector-infants",
+          "labelled": true,
+          "invalid": false
+        },
+        {
+          "id": "selector-promotion-code",
+          "labelled": true,
+          "invalid": false
+        }
+      ],
+      "errors": [],
+      "quote": "Your price Adult fare 1 × KES 218,000.00 KES 218,000.00 Total for 1 traveller KES 218,000.00 Secure your places with a deposit of KES 65,400.00; the balance is due 45 days before departure. Prices are confirmed at booking for the dates shown. Infants share a seat and are not counted against places.",
+      "selectorHeading": "Available departures",
+      "lucideRendered": 2
+    },
+    {
+      "name": "mobile-light-selector",
+      "path": "/tours/dubai-city-and-desert",
+      "theme": "light",
+      "viewportWidth": 390,
+      "documentWidth": 390,
+      "cards": [
+        {
+          "id": "5",
+          "selected": true,
+          "soldOut": false,
+          "disabled": false,
+          "seats": "18 places available",
+          "price": "From KES 218,000.00"
+        },
+        {
+          "id": "6",
+          "selected": false,
+          "soldOut": false,
+          "disabled": false,
+          "seats": "18 places available",
+          "price": "From KES 218,000.00"
+        }
+      ],
+      "inputs": [
+        {
+          "id": "selector-adults",
+          "labelled": true,
+          "invalid": false
+        },
+        {
+          "id": "selector-children",
+          "labelled": true,
+          "invalid": false
+        },
+        {
+          "id": "selector-infants",
+          "labelled": true,
+          "invalid": false
+        },
+        {
+          "id": "selector-promotion-code",
+          "labelled": true,
+          "invalid": false
+        }
+      ],
+      "errors": [],
+      "quote": "Your price Adult fare 1 × KES 218,000.00 KES 218,000.00 Total for 1 traveller KES 218,000.00 Secure your places with a deposit of KES 65,400.00; the balance is due 45 days before departure. Prices are confirmed at booking for the dates shown. Infants share a seat and are not counted against places.",
+      "selectorHeading": "Available departures",
+      "lucideRendered": 2
+    },
+    {
+      "name": "mobile-light-selector-quote",
+      "path": "/tours/dubai-city-and-desert",
+      "theme": "light",
+      "viewportWidth": 390,
+      "documentWidth": 390,
+      "cards": [
+        {
+          "id": "5",
+          "selected": true,
+          "soldOut": false,
+          "disabled": false,
+          "seats": "18 places available",
+          "price": "From KES 218,000.00"
+        },
+        {
+          "id": "6",
+          "selected": false,
+          "soldOut": false,
+          "disabled": false,
+          "seats": "18 places available",
+          "price": "From KES 218,000.00"
+        }
+      ],
+      "inputs": [
+        {
+          "id": "selector-adults",
+          "labelled": true,
+          "invalid": false
+        },
+        {
+          "id": "selector-children",
+          "labelled": true,
+          "invalid": false
+        },
+        {
+          "id": "selector-infants",
+          "labelled": true,
+          "invalid": false
+        },
+        {
+          "id": "selector-promotion-code",
+          "labelled": true,
+          "invalid": false
+        }
+      ],
+      "errors": [],
+      "quote": "Your price Adult fare 2 × KES 218,000.00 KES 436,000.00 Total for 2 travellers KES 436,000.00 Secure your places with a deposit of KES 130,800.00; the balance is due 45 days before departure. Prices are confirmed at booking for the dates shown. Infants share a seat and are not counted against places.",
+      "selectorHeading": "Available departures",
+      "lucideRendered": 2
+    },
+    {
+      "name": "mobile-dark-selector-scarce",
+      "path": "/tours/cairo-and-the-nile-heritage-journey",
+      "theme": "dark",
+      "viewportWidth": 390,
+      "documentWidth": 390,
+      "cards": [
+        {
+          "id": "1",
+          "selected": true,
+          "soldOut": false,
+          "disabled": false,
+          "seats": "Only 2 places left",
+          "price": "From KES 385,000.00"
+        },
+        {
+          "id": "2",
+          "selected": false,
+          "soldOut": true,
+          "disabled": true,
+          "seats": "Fully booked",
+          "price": "From KES 385,000.00"
+        }
+      ],
+      "inputs": [
+        {
+          "id": "selector-adults",
+          "labelled": true,
+          "invalid": false
+        },
+        {
+          "id": "selector-children",
+          "labelled": true,
+          "invalid": false
+        },
+        {
+          "id": "selector-infants",
+          "labelled": true,
+          "invalid": false
+        },
+        {
+          "id": "selector-promotion-code",
+          "labelled": true,
+          "invalid": false
+        }
+      ],
+      "errors": [],
+      "quote": "Your price Adult fare 1 × KES 385,000.00 KES 385,000.00 Total for 1 traveller KES 385,000.00 Secure your places with a deposit of KES 115,500.00; the balance is due 45 days before departure. Prices are confirmed at booking for the dates shown. Infants share a seat and are not counted against places.",
+      "selectorHeading": "Available departures",
+      "lucideRendered": 2
+    },
+    {
+      "name": "narrow-light-selector",
+      "path": "/tours/dubai-city-and-desert",
+      "theme": "light",
+      "viewportWidth": 320,
+      "documentWidth": 320,
+      "cards": [
+        {
+          "id": "5",
+          "selected": true,
+          "soldOut": false,
+          "disabled": false,
+          "seats": "18 places available",
+          "price": "From KES 218,000.00"
+        },
+        {
+          "id": "6",
+          "selected": false,
+          "soldOut": false,
+          "disabled": false,
+          "seats": "18 places available",
+          "price": "From KES 218,000.00"
+        }
+      ],
+      "inputs": [
+        {
+          "id": "selector-adults",
+          "labelled": true,
+          "invalid": false
+        },
+        {
+          "id": "selector-children",
+          "labelled": true,
+          "invalid": false
+        },
+        {
+          "id": "selector-infants",
+          "labelled": true,
+          "invalid": false
+        },
+        {
+          "id": "selector-promotion-code",
+          "labelled": true,
+          "invalid": false
+        }
+      ],
+      "errors": [],
+      "quote": "Your price Adult fare 1 × KES 218,000.00 KES 218,000.00 Total for 1 traveller KES 218,000.00 Secure your places with a deposit of KES 65,400.00; the balance is due 45 days before departure. Prices are confirmed at booking for the dates shown. Infants share a seat and are not counted against places.",
+      "selectorHeading": "Available departures",
+      "lucideRendered": 2
+    }
+  ]
+}

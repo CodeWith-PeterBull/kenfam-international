@@ -50,3 +50,18 @@ phases (K5, K6, K7). They are not repeated here.
 | D-3 | List searches (`DepartureManager`, `DestinationManager`, `TourCatalog`, `TourSearchService`) pass `%`/`_` through to `LIKE` unescaped; the verification plan requires wildcard treatment tests. | K3E | Open |
 | D-4 | `DepartureException` and `CatalogException` extend `RuntimeException` directly while K1 exceptions extend `TravelToursException`; settle one base. | K3E | Open |
 | D-5 | The central departures workspace loads every tour for its selector on each render; bound or search it before the catalogue grows. | K3E | Open |
+
+## Deferred by the combined delivery plan
+
+Scope decisions recorded in `travel-tours-combined-delivery-plan.md`; each item
+is intentionally outside M1–M7 so the booking journey ships without speculative
+structure.
+
+| # | Item | Owner | Status |
+| --- | --- | --- | --- |
+| P-1 | Reports surface (`VIEW_REPORTS`): sales, settlements, shift reconciliation exports. | Post-M7 | Open |
+| P-2 | Reusable `Traveler` profiles and private traveller document uploads; checkout captures `BookingParticipant` snapshots only. | Post-M7 | Open |
+| P-3 | Per-record agent scoping of bookings (agents currently see every booking their permission allows). | Post-M7 | Open |
+| P-4 | Departure calendar / bulk scheduler and instalment-plan tables beyond `PaymentSchedule`. | Post-M7 | Open |
+| P-5 | Payment gateway integration: implement against the `recordPending` → `confirm` seam with `provider` + `transaction_identifier`; no interface is introduced ahead of a real provider. | Post-M7 | Open |
+| P-6 | Relocate root `Events/`, `Listeners/`, `Notifications/` under their bounded contexts. | Post-M7 | Open |

@@ -1797,3 +1797,266 @@ html[data-theme="dark"] .travel-empty {
         transition-duration: .01ms !important;
     }
 }
+
+/* Departure selector: availability, traveller mix, and the live server quote. */
+.travel-selector [aria-busy="true"] {
+    opacity: .6;
+    transition: opacity var(--travel-transition);
+}
+
+.travel-selector__empty,
+.travel-selector__note {
+    margin: 0;
+    color: var(--travel-muted);
+    line-height: 1.6;
+}
+
+.travel-selector__note {
+    margin-top: 14px;
+    font-size: var(--type-13, .8125rem);
+}
+
+.travel-selector .travel-departure-list {
+    margin: 0;
+    padding: 0;
+    border: 0;
+}
+
+.travel-selector .travel-departure-card {
+    grid-template-columns: auto minmax(0, 1fr) auto;
+    cursor: pointer;
+    transition: border-color var(--travel-transition), box-shadow var(--travel-transition);
+}
+
+.travel-selector .travel-departure-card:hover,
+.travel-selector .travel-departure-card:focus-within {
+    border-color: var(--travel-secondary);
+}
+
+.travel-selector .travel-departure-card.is-selected {
+    border-color: var(--travel-primary);
+    box-shadow: 0 0 0 1px var(--travel-primary);
+}
+
+.travel-selector .travel-departure-card.is-sold-out {
+    cursor: not-allowed;
+    color: var(--travel-muted);
+    background: var(--travel-surface-muted);
+}
+
+.travel-storefront .travel-departure-card__input {
+    width: 20px;
+    height: 20px;
+    min-height: 0;
+    margin: 0;
+    padding: 0;
+    accent-color: var(--travel-primary);
+}
+
+.travel-departure-card__body {
+    display: grid;
+    gap: 6px;
+    min-width: 0;
+}
+
+.travel-departure-card__dates {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    color: var(--travel-heading);
+    font-weight: var(--font-weight-semibold, 600);
+}
+
+.travel-departure-card__meta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px 14px;
+    color: var(--travel-muted);
+    font-size: var(--type-13, .8125rem);
+}
+
+.travel-departure-card__flag {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    color: var(--travel-secondary);
+    font-weight: var(--font-weight-semibold, 600);
+}
+
+.travel-departure-card__flag svg {
+    width: 15px;
+    height: 15px;
+}
+
+.travel-departure-card__seats.is-scarce {
+    color: var(--travel-accent);
+    font-weight: var(--font-weight-semibold, 600);
+}
+
+.travel-departure-card__seats.is-sold-out {
+    font-weight: var(--font-weight-semibold, 600);
+}
+
+.travel-departure-card__price {
+    display: grid;
+    justify-items: end;
+    text-align: right;
+}
+
+.travel-departure-card__price small {
+    color: var(--travel-muted);
+    font-weight: 400;
+}
+
+.travel-selector__panel {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+    gap: 24px;
+    margin-top: 18px;
+    padding: 24px;
+    border: 1px solid var(--travel-border);
+    border-radius: var(--travel-radius);
+    background: var(--travel-surface-muted);
+}
+
+.travel-selector__panel h3 {
+    margin: 0 0 14px;
+    font-size: 1.05rem;
+}
+
+.travel-selector__travellers {
+    display: grid;
+    align-content: start;
+    gap: 14px;
+}
+
+.travel-selector__counts {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 12px;
+}
+
+.travel-selector__travellers label {
+    display: grid;
+    gap: 6px;
+    min-width: 0;
+}
+
+.travel-selector__travellers label > span {
+    color: var(--travel-heading);
+    font-size: var(--type-12, .75rem);
+    font-weight: var(--font-weight-semibold, 600);
+}
+
+.travel-selector__travellers label > span small {
+    color: var(--travel-muted);
+    font-weight: 400;
+}
+
+.travel-selector__travellers input[aria-invalid="true"] {
+    border-color: #b42318;
+}
+
+.travel-selector__error {
+    color: #b42318;
+    font-size: var(--type-12, .75rem);
+    line-height: 1.4;
+}
+
+.travel-selector__quote {
+    align-self: start;
+    padding: 20px;
+    border: 1px solid var(--travel-border);
+    border-radius: var(--travel-radius);
+    background: var(--travel-elevated);
+}
+
+.travel-selector__lines {
+    display: grid;
+    margin: 0;
+    border-top: 1px solid var(--travel-border);
+}
+
+.travel-selector__lines > div {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 16px;
+    padding: 10px 0;
+    border-bottom: 1px solid var(--travel-border);
+}
+
+.travel-selector__lines dt {
+    display: grid;
+    gap: 2px;
+    color: var(--travel-text);
+    font-weight: 400;
+}
+
+.travel-selector__lines dt small {
+    color: var(--travel-muted);
+}
+
+.travel-selector__lines dd {
+    margin: 0;
+    color: var(--travel-heading);
+    font-weight: var(--font-weight-semibold, 600);
+    white-space: nowrap;
+}
+
+.travel-selector__lines .is-credit dd {
+    color: var(--travel-secondary);
+}
+
+.travel-selector__lines .travel-selector__total dt,
+.travel-selector__lines .travel-selector__total dd {
+    color: var(--travel-primary);
+    font-size: 1.05rem;
+    font-weight: var(--font-weight-semibold, 600);
+}
+
+.travel-selector__deposit,
+.travel-selector__failure {
+    display: flex;
+    gap: 9px;
+    margin: 14px 0 0;
+    color: var(--travel-text);
+    line-height: 1.55;
+}
+
+.travel-selector__failure {
+    margin: 0;
+    color: var(--travel-muted);
+}
+
+.travel-selector__deposit svg,
+.travel-selector__failure svg {
+    width: 18px;
+    height: 18px;
+    flex: 0 0 18px;
+    margin-top: 2px;
+    color: var(--travel-secondary);
+}
+
+@media (max-width: 767.98px) {
+    .travel-selector__panel {
+        grid-template-columns: 1fr;
+        padding: 18px;
+    }
+
+    .travel-selector .travel-departure-card {
+        grid-template-columns: auto minmax(0, 1fr);
+    }
+
+    .travel-departure-card__price {
+        grid-column: 2;
+        justify-items: start;
+        text-align: left;
+    }
+}
+
+@media (max-width: 575.98px) {
+    .travel-selector__counts {
+        grid-template-columns: 1fr;
+    }
+}

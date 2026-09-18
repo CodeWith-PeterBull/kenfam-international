@@ -24,7 +24,7 @@
 @endphp
 
 @section('title', $tour->meta_title ?: $tour->name)
-@section('meta_description', $tour->meta_description ?: $tour->short_description)
+@section('meta_description', $tour->meta_description ?: $tour->short_description ?: $profile->metaDescription)
 @section('canonical', $isPreview ? request()->url() : route('travel-tours.storefront.tours.show', $tour->slug))
 @section('robots', $isPreview ? 'noindex, nofollow, noarchive' : 'index, follow, max-image-preview:large')
 @section('og_type', 'product')
@@ -122,28 +122,7 @@
                 <section aria-labelledby="tour-documents-title"><p class="travel-eyebrow">Travel resources</p><h2 id="tour-documents-title">Documents</h2><ul class="travel-detail-documents">@foreach($tour->getMedia('tour_documents') as $document)<li><a href="{{ $document->getUrl() }}" target="_blank" rel="noopener noreferrer"><i data-lucide="file-down" aria-hidden="true"></i><span>{{ $document->getCustomProperty('title', $document->name) }}</span></a>@if($document->getCustomProperty('description'))<p>{{ $document->getCustomProperty('description') }}</p>@endif</li>@endforeach</ul></section>
             @endif
 
-            @if ($tour->departures->isNotEmpty())
-                <section aria-labelledby="tour-departures-title">
-                    <p class="travel-eyebrow">Plan ahead</p>
-                    <h2 id="tour-departures-title">Available departures</h2>
-                    <div class="travel-departure-list">
-                        @foreach ($tour->departures as $departure)
-                            @php($departurePlan = $departure->ratePlan ?: $ratePlan)
-                            @php($departureAdult = $departurePlan?->participantRates?->first(fn ($rate) => $rate->participant_type === \App\Modules\TravelTours\Bookings\Enums\ParticipantType::Adult && $rate->is_active && $rate->active_from === null && $rate->active_until === null))
-                            @php($seats = $departureAvailability[$departure->id])
-                            <article class="travel-departure-card">
-                                <div>
-                                    <h3>{{ $departure->starts_at->timezone($departure->timezone)->format('d M Y') }} to {{ $departure->ends_at->timezone($departure->timezone)->format('d M Y') }}</h3>
-                                    <p>{{ $departure->code }} <span aria-hidden="true">&middot;</span> {{ $departure->status->label() }} <span aria-hidden="true">&middot;</span> {{ $seats->availableSeats > 0 ? $seats->availableSeats.' places currently available' : 'Currently fully booked' }}</p>
-                                </div>
-                                @if ($departureAdult && $departurePlan->is_active && $departurePlan->is_public)
-                                    <strong>{{ \App\Modules\TravelTours\Support\MoneyFormatter::format($departureAdult->amount_minor, $departurePlan->currency) }}</strong>
-                                @endif
-                            </article>
-                        @endforeach
-                    </div>
-                </section>
-            @endif
+            <livewire:travel-tours.storefront.departure-selector :tour="$tour" />
 
             @if ($contentGroups->isNotEmpty())
                 <section aria-labelledby="tour-details-title">

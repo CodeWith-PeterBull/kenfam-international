@@ -202,14 +202,11 @@ final class TravelToursDepartureManagementTest extends TestCase
 
         $bufferLevel = ob_get_level();
         $this->get(route('travel-tours.storefront.tours.show', $tour->slug))
-            ->assertOk()->assertSee('DEP-PREMIUM')->assertSee('2 places currently available')
+            ->assertOk()->assertSee('DEP-PREMIUM')->assertSee('Only 2 places left')
             ->assertSee('20,000.00')->assertDontSee('DEP-PAST');
         $this->actingAs($this->manager)->get(route('travel-tours.admin.catalog.tours.preview', $tour))
-            ->assertOk()->assertSee('DEP-PREMIUM')->assertSee('2 places currently available');
-        while (ob_get_level() > $bufferLevel) {
-            $this->assertSame("\n", ob_get_contents());
-            ob_end_clean();
-        }
+            ->assertOk()->assertSee('DEP-PREMIUM')->assertSee('Only 2 places left');
+        $this->assertSame($bufferLevel, ob_get_level(), 'A tour page without descriptions must not leave a Blade section buffer open.');
     }
 
     /** Build the small validated service input used by focused invariants. */

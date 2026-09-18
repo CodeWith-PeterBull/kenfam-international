@@ -52,6 +52,7 @@ use App\Modules\TravelTours\Pricing\Services\TourQuoteCalculator;
 use App\Modules\TravelTours\Scheduling\Livewire\Admin\DepartureManager;
 use App\Modules\TravelTours\Scheduling\Models\TourDeparture;
 use App\Modules\TravelTours\Scheduling\Services\DepartureAvailabilityService;
+use App\Modules\TravelTours\Storefront\Livewire\DepartureSelector;
 use Illuminate\Support\Facades\Event;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\ServiceProvider;
@@ -110,5 +111,6 @@ final class TravelToursServiceProvider extends ServiceProvider
         Livewire::component('travel-tours.admin.tour-publication-editor', TourPublicationEditor::class);
         Livewire::component('travel-tours.admin.tour-base-price-editor', TourBasePriceEditor::class);
         Livewire::component('travel-tours.admin.departure-manager', DepartureManager::class);
+        Livewire::component('travel-tours.storefront.departure-selector', DepartureSelector::class);
     }
 }

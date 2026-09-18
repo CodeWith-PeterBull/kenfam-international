@@ -8,7 +8,6 @@ namespace App\Modules\TravelTours\Catalog\Http\Controllers;
 
 use App\Http\Controllers\Controller;
 use App\Modules\TravelTours\Catalog\Models\Tour;
-use App\Modules\TravelTours\Scheduling\Services\DepartureAvailabilityService;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Gate;
@@ -33,17 +32,15 @@ final class TourEditorController extends Controller
     }
 
     /** Render a private tour preview without adding a public discovery route. */
-    public function preview(Tour $tour, DepartureAvailabilityService $availability): Response
+    public function preview(Tour $tour): Response
     {
         Gate::authorize('view', $tour);
         $tour->load(['categories', 'destinations', 'itineraryDays.activities', 'contentItems', 'faqs', 'extras', 'media',
             'ratePlans' => fn ($query) => $query->publiclyAvailable()->with('participantRates'),
-            'departures' => fn ($query) => $query->bookable()->with('ratePlan.participantRates')->limit(12),
+            'departures' => fn ($query) => $query->bookable()->orderBy('starts_at')->limit(12),
         ]);
 
-        $departureAvailability = $tour->departures->mapWithKeys(fn ($departure): array => [$departure->id => $availability->check($departure)]);
-
-        return response()->view('travel-tours::storefront.catalog.show', ['tour' => $tour, 'isPreview' => true, 'departureAvailability' => $departureAvailability])
+        return response()->view('travel-tours::storefront.catalog.show', ['tour' => $tour, 'isPreview' => true])
             ->header('Cache-Control', 'private, no-store, max-age=0')
             ->header('X-Robots-Tag', 'noindex, nofollow, noarchive');
     }
