@@ -11,6 +11,7 @@ namespace App\Modules\TravelTours\Storefront\Http\Controllers;
 use App\Http\Controllers\Controller;
 use App\Modules\TravelTours\Bookings\Models\TourBooking;
 use App\Modules\TravelTours\Contracts\RendersBookingDocuments;
+use App\Modules\TravelTours\Storefront\Services\BookingAccessUrlService;
 use Symfony\Component\HttpFoundation\Response;
 
 /** Serves private signed booking status and document resources. */
@@ -25,21 +26,15 @@ final class BookingAccessController extends Controller
     ];
 
     /** Render the signed booking confirmation for its intended recipient. */
-    public function confirmation(TourBooking $booking): Response
+    public function confirmation(TourBooking $booking, BookingAccessUrlService $urls): Response
     {
-        return response()->view('travel-tours::storefront.bookings.show', [
-            'booking' => $booking->load(['departure.tour', 'participants', 'payments']),
-            'isConfirmation' => true,
-        ], 200, self::PRIVATE_HEADERS);
+        return $this->status($booking, $urls, true);
     }
 
     /** Render the signed booking tracking view for its intended recipient. */
-    public function track(TourBooking $booking): Response
+    public function track(TourBooking $booking, BookingAccessUrlService $urls): Response
     {
-        return response()->view('travel-tours::storefront.bookings.show', [
-            'booking' => $booking->load(['departure.tour', 'participants', 'payments']),
-            'isConfirmation' => false,
-        ], 200, self::PRIVATE_HEADERS);
+        return $this->status($booking, $urls, false);
     }
 
     /** Stream the authorized booking document through the host report adapter. */
@@ -52,5 +47,18 @@ final class BookingAccessController extends Controller
             'Content-Type' => 'application/pdf',
             'Content-Disposition' => 'inline; filename="'.$pdf->filename.'"',
         ]);
+    }
+
+    /** Render the shared status page with fresh signed links for its follow-up actions. */
+    private function status(TourBooking $booking, BookingAccessUrlService $urls, bool $isConfirmation): Response
+    {
+        $booking->load(['departure.tour', 'participants', 'payments' => fn ($query) => $query->orderBy('paid_at')->orderBy('id')]);
+
+        return response()->view('travel-tours::storefront.bookings.show', [
+            'booking' => $booking,
+            'isConfirmation' => $isConfirmation,
+            'trackingUrl' => $urls->tracking($booking),
+            'documentUrl' => $urls->document($booking),
+        ], 200, self::PRIVATE_HEADERS);
     }
 }

@@ -86,3 +86,23 @@ Files: `Storefront/Livewire/DepartureSelector.php`, `Storefront/Livewire/Forms/S
 Verification: `php artisan test --filter=TravelTours` 81 passed (2066 assertions), Pint clean; browser harness `qa-m1-selection.mjs` (scratchpad) against the isolated environment: 12 captures, zero runtime/network errors, no horizontal overflow, evidence in `qa/storefront-m1-selection/`.
 
 Carried forward: none new. M2 adds Continue → hold → checkout on top of this selection.
+
+### M2 — Hold & checkout (K5 holds, checkout, travellers) · 2026-09-18
+
+**Delivered.** Continue on the selector reserves the quoted seats through `AvailabilityHoldService` and hands over to `/tours/checkout/{hold}`, where `BookingCheckout` collects the customer, one identity per held seat, a payment preference, and terms acceptance, then places the booking through the existing `TourBookingService::place`. The confirmation and tracking pages now explain the next step for the chosen payment method and link the booking document. Two scheduled sweeps free expired holds and expire unpaid pending bookings.
+
+| Area | Result |
+|---|---|
+| Hold identity | `CheckoutSession` keeps a secret owner token in the session; operation keys are `sha256(owner \| nonce \| quote fingerprint)`, so repeating a selection reuses the active hold and rotating the nonce (after placement or expiry) allows a fresh one. |
+| Checkout guards | Ownership proven on the page request, on mount, and on every Livewire request (`hydrate`); foreign sessions get 403; consumed holds redirect to the confirmation; expired or released holds answer 410 with the expired page and rotate the nonce. |
+| Travellers | Rows fixed by the held mix (adults, children, infants); traveller 1 can reuse the customer's details; child and infant dates of birth are required; fields validate on blur. The service still re-verifies the mix, price fingerprint, and terms version before writing. |
+| Payment preference | From `storefront.payment_methods` ∩ `PaymentMethod`; recorded as `preferred_payment_method` only. No money is taken online. |
+| Status page | "What happens next" per method with deposit due and pay-by time; travellers; confirmed payments; PDF and tracking links. |
+| Sweeps | `travel-tours:release-expired-holds` (every minute) and `travel-tours:expire-pending-bookings` (every 15 minutes) via `BookingLifecycleService::expirePending()`, which skips bookings with any recorded money. |
+| Fixes found | `MoneyFormatter` threw on negative amounts, so the booking PDF failed for any booking with a promotion; it now renders a leading minus. Livewire never caches a computed property that returns `null`, so the selector's pricing is wrapped in `QuoteAttempt` to stop validation re-running (and clearing errors) on every access. Unused `booking.quote_minutes` removed. |
+
+Files: `Storefront/Services/CheckoutSession.php`, `Storefront/Data/QuoteAttempt.php`, `Storefront/Http/Controllers/CheckoutController.php`, `Storefront/Livewire/BookingCheckout.php`, `Storefront/Livewire/Forms/CheckoutForm.php`, `Storefront/Livewire/DepartureSelector.php`, `Storefront/Http/Controllers/BookingAccessController.php`, `Bookings/Services/BookingLifecycleService.php`, `Console/Commands/ReleaseExpiredHoldsCommand.php`, `Console/Commands/ExpirePendingBookingsCommand.php`, `Resources/views/storefront/checkout/{show,expired}.blade.php`, `Resources/views/livewire/storefront/{booking-checkout,departure-selector}.blade.php`, `Resources/views/storefront/bookings/show.blade.php`, `Resources/assets/css/storefront.css`, `Routes/storefront.php`, `Config/travel-tours.php`, `Support/MoneyFormatter.php`, `TravelToursServiceProvider.php`, `routes/console.php`, `tests/Feature/TravelTours/TravelToursCheckoutTest.php` (9 tests), `tests/Feature/TravelTours/TravelToursStorefrontTest.php`.
+
+Verification: `php artisan test --filter=TravelTours` 90 passed (2161 assertions), Pint clean; browser harness `qa-m2-checkout.mjs` (scratchpad) walked select → Continue → checkout validation → placement → confirmation → PDF, the consumed-hold redirect, the foreign-session 403, and the expired page across desktop and mobile in both themes: 9 captures, zero runtime/network errors, evidence in `qa/storefront-m2-checkout/`.
+
+Carried forward: none new. A customer can now place a booking; M3 lets staff record and confirm the payment.

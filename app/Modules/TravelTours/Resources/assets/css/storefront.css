@@ -2060,3 +2060,227 @@ html[data-theme="dark"] .travel-empty {
         grid-template-columns: 1fr;
     }
 }
+
+/* Checkout: customer, travellers, payment preference, terms, and the held quote summary. */
+.travel-checkout {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) 360px;
+    gap: 40px;
+    align-items: start;
+}
+
+.travel-checkout__form {
+    display: grid;
+    gap: 34px;
+}
+
+.travel-checkout__block h2 {
+    margin: 0 0 8px;
+    font-size: 1.35rem;
+}
+
+.travel-checkout__hint {
+    margin: 0 0 16px;
+    color: var(--travel-muted);
+    line-height: 1.6;
+}
+
+.travel-checkout__grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 14px 18px;
+}
+
+.travel-checkout__traveller {
+    margin: 0 0 16px;
+    padding: 18px 20px 20px;
+    border: 1px solid var(--travel-border);
+    border-radius: var(--travel-radius);
+    background: var(--travel-elevated);
+}
+
+.travel-checkout__traveller legend {
+    float: left;
+    width: 100%;
+    margin: 0 0 12px;
+    padding: 0;
+    color: var(--travel-heading);
+    font-weight: var(--font-weight-semibold, 600);
+}
+
+.travel-checkout__traveller legend small {
+    margin-left: 8px;
+    color: var(--travel-muted);
+    font-weight: 400;
+}
+
+.travel-checkout__traveller legend + * {
+    clear: both;
+}
+
+.travel-checkbox {
+    display: flex;
+    gap: 10px;
+    align-items: flex-start;
+    margin: 0 0 14px;
+    color: var(--travel-text);
+    line-height: 1.5;
+    cursor: pointer;
+}
+
+.travel-storefront .travel-checkbox input[type="checkbox"] {
+    width: 20px;
+    height: 20px;
+    min-height: 0;
+    margin: 2px 0 0;
+    padding: 0;
+    flex: 0 0 20px;
+    accent-color: var(--travel-primary);
+}
+
+.travel-checkout__methods {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+    gap: 10px;
+    margin: 0 0 16px;
+    padding: 0;
+    border: 0;
+}
+
+.travel-checkout__method {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+    padding: 12px 14px;
+    border: 1px solid var(--travel-border);
+    border-radius: var(--travel-radius);
+    background: var(--travel-elevated);
+    color: var(--travel-heading);
+    font-weight: var(--font-weight-semibold, 600);
+    cursor: pointer;
+}
+
+.travel-checkout__method:has(input:checked) {
+    border-color: var(--travel-primary);
+    box-shadow: 0 0 0 1px var(--travel-primary);
+}
+
+.travel-storefront .travel-checkout__method input[type="radio"] {
+    width: 18px;
+    height: 18px;
+    min-height: 0;
+    margin: 0;
+    padding: 0;
+    flex: 0 0 18px;
+    accent-color: var(--travel-primary);
+}
+
+.travel-checkout__terms {
+    margin: 0 0 16px;
+    border: 1px solid var(--travel-border);
+    border-radius: var(--travel-radius);
+    background: var(--travel-elevated);
+}
+
+.travel-checkout__terms summary {
+    padding: 12px 16px;
+    color: var(--travel-primary);
+    font-weight: var(--font-weight-semibold, 600);
+    cursor: pointer;
+}
+
+.travel-checkout__terms .travel-copy {
+    max-height: 320px;
+    padding: 0 16px 16px;
+    overflow: auto;
+}
+
+.travel-selector__error--block {
+    display: block;
+    margin: 0 0 12px;
+}
+
+.travel-checkout__summary h2 {
+    margin: 0 0 10px;
+    font-size: 1.25rem;
+}
+
+.travel-checkout__timer {
+    margin: 0 0 16px;
+    padding: 10px 12px;
+    border-radius: var(--travel-radius);
+    color: var(--travel-secondary);
+    background: color-mix(in srgb, var(--travel-secondary) 12%, transparent);
+    font-weight: var(--font-weight-semibold, 600);
+}
+
+.travel-checkout__timer.is-expired {
+    color: #b42318;
+    background: color-mix(in srgb, #b42318 10%, transparent);
+}
+
+.travel-checkout__lines {
+    margin-top: 16px;
+}
+
+.travel-checkout__change {
+    display: inline-block;
+    margin-top: 16px;
+    color: var(--travel-primary);
+    font-weight: var(--font-weight-semibold, 600);
+}
+
+.travel-selector__continue {
+    margin-top: 18px;
+}
+
+.travel-booking-next {
+    margin-top: 36px;
+    padding: 24px;
+    border: 1px solid var(--travel-border);
+    border-radius: var(--travel-radius);
+    background: var(--travel-surface-muted);
+}
+
+.travel-booking-next h2 {
+    margin: 0 0 12px;
+    font-size: 1.3rem;
+}
+
+.travel-booking-travellers {
+    display: grid;
+    gap: 10px;
+    margin: 0;
+    padding: 0 0 0 22px;
+}
+
+.travel-booking-travellers li {
+    display: grid;
+    gap: 2px;
+}
+
+.travel-booking-travellers span {
+    color: var(--travel-muted);
+    font-size: var(--type-13, .8125rem);
+}
+
+@media (max-width: 991.98px) {
+    .travel-checkout {
+        grid-template-columns: 1fr;
+    }
+
+    .travel-checkout__summary {
+        position: static;
+        order: -1;
+    }
+}
+
+@media (max-width: 575.98px) {
+    .travel-checkout__grid {
+        grid-template-columns: 1fr;
+    }
+
+    .travel-checkout__traveller {
+        padding: 16px;
+    }
+}

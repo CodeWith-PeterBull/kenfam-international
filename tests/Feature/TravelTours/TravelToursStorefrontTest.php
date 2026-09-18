@@ -113,6 +113,7 @@ final class TravelToursStorefrontTest extends TestCase
         $this->assertSame('JPY 12,500', MoneyFormatter::format(12500, 'jpy', 0));
         $this->assertSame('KES 12,500.75', MoneyFormatter::format(1250075, 'kes', 2));
         $this->assertSame('KWD 1,250.075', MoneyFormatter::format(1250075, 'kwd', 3));
+        $this->assertSame('−KES 60,100.00', MoneyFormatter::format(-6010000, 'KES'), 'Discount and refund lines render with a leading minus sign.');
     }
 
     /** Signed booking links must consume the documented booking configuration. */

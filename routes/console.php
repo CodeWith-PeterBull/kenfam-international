@@ -11,3 +11,10 @@ Artisan::command('inspire', function () {
 // Two-factor housekeeping: prune expired verified sessions and audit
 // attempts past the retention window (see config/two-factor.php).
 Schedule::command('two-factor:prune')->daily();
+
+// Travel & Tours housekeeping: free expired seat holds every minute and close
+// unpaid pending bookings whose approval window has passed (module-gated).
+if (config('travel-tours.enabled', false)) {
+    Schedule::command('travel-tours:release-expired-holds')->everyMinute();
+    Schedule::command('travel-tours:expire-pending-bookings')->everyFifteenMinutes();
+}

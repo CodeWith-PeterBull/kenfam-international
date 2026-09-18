@@ -8,6 +8,7 @@ namespace App\Modules\TravelTours\Storefront\Livewire;
 
 use App\Modules\TravelTours\Bookings\Enums\ParticipantType;
 use App\Modules\TravelTours\Bookings\Exceptions\AvailabilityException;
+use App\Modules\TravelTours\Bookings\Exceptions\DuplicateOperationConflict;
 use App\Modules\TravelTours\Catalog\Models\Tour;
 use App\Modules\TravelTours\Contracts\CalculatesTourQuotes;
 use App\Modules\TravelTours\Contracts\ChecksDepartureAvailability;
@@ -16,9 +17,15 @@ use App\Modules\TravelTours\Pricing\Exceptions\InvalidRateConfiguration;
 use App\Modules\TravelTours\Pricing\Exceptions\PromotionNotApplicable;
 use App\Modules\TravelTours\Pricing\Models\ParticipantRate;
 use App\Modules\TravelTours\Pricing\Models\TourRatePlan;
+use App\Modules\TravelTours\Scheduling\Data\AvailabilityHoldRequest;
 use App\Modules\TravelTours\Scheduling\Data\DepartureAvailability;
+use App\Modules\TravelTours\Scheduling\Enums\HoldStatus;
+use App\Modules\TravelTours\Scheduling\Exceptions\HoldOwnershipMismatch;
 use App\Modules\TravelTours\Scheduling\Models\TourDeparture;
+use App\Modules\TravelTours\Scheduling\Services\AvailabilityHoldService;
+use App\Modules\TravelTours\Storefront\Data\QuoteAttempt;
 use App\Modules\TravelTours\Storefront\Livewire\Forms\SelectionForm;
+use App\Modules\TravelTours\Storefront\Services\CheckoutSession;
 use Illuminate\Contracts\View\View;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Support\Carbon;
@@ -31,7 +38,7 @@ use Livewire\Component;
  * Let a visitor choose a bookable departure and participant mix and see the
  * authoritative server quote for it. Every figure shown here is recomputed
  * from persisted pricing on each request; nothing priced is trusted from the
- * browser. Holds and checkout build on this selection in the next milestone.
+ * browser. Continue reserves the quoted seats and hands over to checkout.
  */
 final class DepartureSelector extends Component
 {
@@ -45,8 +52,9 @@ final class DepartureSelector extends Component
 
     public ?int $departureId = null;
 
-    /** Explanation for a selection that cannot be quoted; set while computing the quote. */
-    private ?string $quoteFailure = null;
+    private ?TourRatePlan $defaultRatePlan = null;
+
+    private bool $defaultRatePlanResolved = false;
 
     /** Bind the selector to its tour and preselect the first departure with seats. */
     public function mount(Tour $tour): void
@@ -104,11 +112,19 @@ final class DepartureSelector extends Component
         return $this->departures->firstWhere('id', $this->departureId);
     }
 
-    /** The tour's default public rate plan, used when a departure has no public plan of its own. */
-    #[Computed]
+    /**
+     * The tour's default public rate plan, used when a departure has no public plan of its own.
+     *
+     * Memoised by hand because a null result would never be cached by Livewire.
+     */
     public function defaultRatePlan(): ?TourRatePlan
     {
-        return TourRatePlan::query()
+        if ($this->defaultRatePlanResolved) {
+            return $this->defaultRatePlan;
+        }
+        $this->defaultRatePlanResolved = true;
+
+        return $this->defaultRatePlan = TourRatePlan::query()
             ->where('tour_id', $this->tourId)
             ->publiclyAvailable()
             ->with('participantRates')
@@ -119,23 +135,23 @@ final class DepartureSelector extends Component
     }
 
     /**
-     * The authoritative quote for the current selection, or null with the
-     * reason exposed through quoteFailure() and the error bag.
+     * The authoritative pricing attempt for the current selection.
+     *
+     * Validation failures land on the form fields, a refused promotion on its
+     * field, and anything else (no public plan, too few seats, a closed
+     * departure) becomes the attempt's failure text.
      */
     #[Computed]
-    public function quote(): ?TourQuote
+    public function pricing(): QuoteAttempt
     {
-        $this->quoteFailure = null;
         $departure = $this->selectedDeparture;
         if (! $departure instanceof TourDeparture) {
-            return null;
+            return QuoteAttempt::none();
         }
 
         $plan = $this->ratePlanFor($departure);
         if (! $plan instanceof TourRatePlan) {
-            $this->quoteFailure = 'Pricing for this departure is available on request.';
-
-            return null;
+            return QuoteAttempt::failed('Pricing for this departure is available on request.');
         }
 
         try {
@@ -143,36 +159,59 @@ final class DepartureSelector extends Component
         } catch (ValidationException $exception) {
             $this->setErrorBag($exception->validator->errors());
 
-            return null;
+            return QuoteAttempt::none();
         }
 
         $seats = $this->form->mix()->seats();
         $available = $this->availability[$departure->getKey()]->availableSeats;
         if ($available < $seats) {
-            $this->quoteFailure = $available === 0
+            return QuoteAttempt::failed($available === 0
                 ? 'This departure is fully booked.'
-                : "Only {$available} ".($available === 1 ? 'place remains' : 'places remain').' on this departure.';
-
-            return null;
+                : "Only {$available} ".($available === 1 ? 'place remains' : 'places remain').' on this departure.');
         }
 
         try {
-            return app(CalculatesTourQuotes::class)->calculate($this->form->toRequest($departure->getKey(), $plan->getKey()));
+            return QuoteAttempt::priced(app(CalculatesTourQuotes::class)->calculate($this->form->toRequest($departure->getKey(), $plan->getKey())));
         } catch (PromotionNotApplicable $exception) {
             $this->addError('form.promotionCode', $exception->getMessage());
-        } catch (InvalidRateConfiguration|AvailabilityException $exception) {
-            $this->quoteFailure = $exception->getMessage();
-        }
 
-        return null;
+            return QuoteAttempt::none();
+        } catch (InvalidRateConfiguration|AvailabilityException $exception) {
+            return QuoteAttempt::failed($exception->getMessage());
+        }
     }
 
-    /** Return why the current selection has no quote, after the quote has been attempted. */
-    public function quoteFailure(): ?string
+    /**
+     * Reserve the quoted seats for this visitor and continue to checkout.
+     *
+     * The hold is keyed on the session owner, a rotating nonce, and the quote
+     * fingerprint, so repeating the same selection returns the same active hold.
+     * A hold that is no longer active under that key rotates the nonce and is
+     * reserved again once.
+     */
+    public function continue(AvailabilityHoldService $holds, CheckoutSession $checkout): void
     {
-        $this->quote;
+        $quote = $this->pricing->quote;
+        if (! $quote instanceof TourQuote) {
+            $this->addError('selection', $this->pricing->failure ?? 'Complete the traveller details to continue.');
 
-        return $this->quoteFailure;
+            return;
+        }
+
+        try {
+            $hold = $holds->create(new AvailabilityHoldRequest($checkout->holdOperationKey($quote->fingerprint), $quote, $checkout->ownerToken()));
+            if ($hold->status !== HoldStatus::Active || $hold->expires_at->isPast()) {
+                $checkout->rotate();
+                $hold = $holds->create(new AvailabilityHoldRequest($checkout->holdOperationKey($quote->fingerprint), $quote, $checkout->ownerToken()));
+            }
+        } catch (AvailabilityException|DuplicateOperationConflict|HoldOwnershipMismatch $exception) {
+            unset($this->availability, $this->pricing);
+            $this->addError('selection', $exception->getMessage());
+
+            return;
+        }
+
+        $this->redirect(route('travel-tours.storefront.checkout', $hold->ulid));
     }
 
     /** Resolve the public rate plan that prices a departure, preferring its own assignment. */
@@ -183,7 +222,7 @@ final class DepartureSelector extends Component
             return $assigned;
         }
 
-        return $this->defaultRatePlan;
+        return $this->defaultRatePlan();
     }
 
     /** Return today's active adult fare for a plan, or null when none is configured. */
@@ -196,7 +235,7 @@ final class DepartureSelector extends Component
     public function ageBand(ParticipantType $type): ?string
     {
         $departure = $this->selectedDeparture;
-        $plan = $departure instanceof TourDeparture ? $this->ratePlanFor($departure) : $this->defaultRatePlan;
+        $plan = $departure instanceof TourDeparture ? $this->ratePlanFor($departure) : $this->defaultRatePlan();
         $rate = $this->currentRate($plan, $type);
         if (! $rate instanceof ParticipantRate || ($rate->minimum_age === null && $rate->maximum_age === null)) {
             return null;
@@ -212,13 +251,13 @@ final class DepartureSelector extends Component
     }
 
     /**
-     * Render the selector. The quote is computed here, before Livewire shares
-     * the error bag with the view, so validation and promotion messages raised
-     * while quoting are the ones the template displays.
+     * Render the selector. Pricing runs here, before Livewire shares the error
+     * bag with the view, so validation and promotion messages raised while
+     * quoting are the ones the template displays.
      */
     public function render(): View
     {
-        $this->quote;
+        $this->pricing;
 
         return view('travel-tours::livewire.storefront.departure-selector');
     }

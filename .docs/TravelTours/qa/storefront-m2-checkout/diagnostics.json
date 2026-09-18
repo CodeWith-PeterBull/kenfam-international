@@ -1,0 +1,777 @@
+{
+  "generatedAt": "2026-09-18T18:05:58.867Z",
+  "siteUrl": "http://127.0.0.1:8014",
+  "failures": [],
+  "runtimeErrors": [],
+  "networkErrors": [],
+  "observations": [
+    "Checkout summary: YOUR SELECTION Dubai City and Desert Places held for 14:54 Travel dates Wed 20 Jan 2027 to Sun 24 Jan 2027 Departure DEMO-UAE-01-1 Travellers 2 adults, 1 child Adult fare 2 × KES 218,000.00 KES 436,000.00 Child fare 1 × KES 165,000.00 KES 165,000.00 Launch offer 10% off −KES 60,100.00 Total KES 540,900.00 Deposit to secure KES 162,270.00 Change departure or travellers",
+    "Confirmation: WEB-TOUR-20260918-0EKMJTZW62",
+    "Foreign session status: 403; own cookies: 2"
+  ],
+  "diagnostics": [
+    {
+      "name": "desktop-light-selector-ready",
+      "path": "/tours/dubai-city-and-desert",
+      "status": "Dubai City and Desert | Escorted travel | Kenfam International",
+      "theme": "light",
+      "viewportWidth": 1440,
+      "documentWidth": 1440,
+      "h1": "Dubai City and Desert",
+      "inputs": [
+        {
+          "id": "",
+          "type": "radio",
+          "labelled": true,
+          "invalid": false
+        },
+        {
+          "id": "",
+          "type": "radio",
+          "labelled": true,
+          "invalid": false
+        },
+        {
+          "id": "selector-adults",
+          "type": "number",
+          "labelled": true,
+          "invalid": false
+        },
+        {
+          "id": "selector-children",
+          "type": "number",
+          "labelled": true,
+          "invalid": false
+        },
+        {
+          "id": "selector-infants",
+          "type": "number",
+          "labelled": true,
+          "invalid": false
+        },
+        {
+          "id": "selector-promotion-code",
+          "type": "text",
+          "labelled": true,
+          "invalid": false
+        },
+        {
+          "id": "",
+          "type": "text",
+          "labelled": true,
+          "invalid": false
+        },
+        {
+          "id": "",
+          "type": "email",
+          "labelled": true,
+          "invalid": false
+        },
+        {
+          "id": "",
+          "type": "text",
+          "labelled": true,
+          "invalid": false
+        },
+        {
+          "id": "",
+          "type": "number",
+          "labelled": true,
+          "invalid": false
+        },
+        {
+          "id": "",
+          "type": "number",
+          "labelled": true,
+          "invalid": false
+        },
+        {
+          "id": "",
+          "type": "textarea",
+          "labelled": true,
+          "invalid": false
+        }
+      ],
+      "errors": [],
+      "timer": null,
+      "lucideRendered": 13,
+      "continueEnabled": true
+    },
+    {
+      "name": "desktop-light-checkout-initial",
+      "path": "/tours/checkout/01M2TV32CV20MN2TKNNAR46F0X",
+      "status": "Complete your booking | Kenfam International",
+      "theme": "light",
+      "viewportWidth": 1440,
+      "documentWidth": 1440,
+      "h1": "Complete your booking",
+      "inputs": [
+        {
+          "id": "checkout-first-name",
+          "type": "text",
+          "labelled": true,
+          "invalid": false
+        },
+        {
+          "id": "checkout-last-name",
+          "type": "text",
+          "labelled": true,
+          "invalid": false
+        },
+        {
+          "id": "checkout-email",
+          "type": "email",
+          "labelled": true,
+          "invalid": false
+        },
+        {
+          "id": "checkout-phone",
+          "type": "tel",
+          "labelled": true,
+          "invalid": false
+        },
+        {
+          "id": "checkout-lead-travels",
+          "type": "checkbox",
+          "labelled": true,
+          "invalid": false
+        },
+        {
+          "id": "checkout-participant-0-dob",
+          "type": "date",
+          "labelled": true,
+          "invalid": false
+        },
+        {
+          "id": "checkout-participant-1-first-name",
+          "type": "text",
+          "labelled": true,
+          "invalid": false
+        },
+        {
+          "id": "checkout-participant-1-last-name",
+          "type": "text",
+          "labelled": true,
+          "invalid": false
+        },
+        {
+          "id": "checkout-participant-1-dob",
+          "type": "date",
+          "labelled": true,
+          "invalid": false
+        },
+        {
+          "id": "checkout-participant-2-first-name",
+          "type": "text",
+          "labelled": true,
+          "invalid": false
+        },
+        {
+          "id": "checkout-participant-2-last-name",
+          "type": "text",
+          "labelled": true,
+          "invalid": false
+        },
+        {
+          "id": "checkout-participant-2-dob",
+          "type": "date",
+          "labelled": true,
+          "invalid": false
+        },
+        {
+          "id": "checkout-method-mobile_money",
+          "type": "radio",
+          "labelled": true,
+          "invalid": false
+        },
+        {
+          "id": "checkout-method-card",
+          "type": "radio",
+          "labelled": true,
+          "invalid": false
+        },
+        {
+          "id": "checkout-method-bank_transfer",
+          "type": "radio",
+          "labelled": true,
+          "invalid": false
+        },
+        {
+          "id": "checkout-method-cash",
+          "type": "radio",
+          "labelled": true,
+          "invalid": false
+        },
+        {
+          "id": "checkout-special-requests",
+          "type": "textarea",
+          "labelled": true,
+          "invalid": false
+        },
+        {
+          "id": "checkout-accept-terms",
+          "type": "checkbox",
+          "labelled": true,
+          "invalid": false
+        }
+      ],
+      "errors": [],
+      "timer": "Places held for 14:54",
+      "lucideRendered": 1
+    },
+    {
+      "name": "desktop-light-checkout-validation",
+      "path": "/tours/checkout/01M2TV32CV20MN2TKNNAR46F0X",
+      "status": "Complete your booking | Kenfam International",
+      "theme": "light",
+      "viewportWidth": 1440,
+      "documentWidth": 1440,
+      "h1": "Complete your booking",
+      "inputs": [
+        {
+          "id": "checkout-first-name",
+          "type": "text",
+          "labelled": true,
+          "invalid": true
+        },
+        {
+          "id": "checkout-last-name",
+          "type": "text",
+          "labelled": true,
+          "invalid": true
+        },
+        {
+          "id": "checkout-email",
+          "type": "email",
+          "labelled": true,
+          "invalid": true
+        },
+        {
+          "id": "checkout-phone",
+          "type": "tel",
+          "labelled": true,
+          "invalid": true
+        },
+        {
+          "id": "checkout-lead-travels",
+          "type": "checkbox",
+          "labelled": true,
+          "invalid": false
+        },
+        {
+          "id": "checkout-participant-0-dob",
+          "type": "date",
+          "labelled": true,
+          "invalid": false
+        },
+        {
+          "id": "checkout-participant-1-first-name",
+          "type": "text",
+          "labelled": true,
+          "invalid": true
+        },
+        {
+          "id": "checkout-participant-1-last-name",
+          "type": "text",
+          "labelled": true,
+          "invalid": true
+        },
+        {
+          "id": "checkout-participant-1-dob",
+          "type": "date",
+          "labelled": true,
+          "invalid": false
+        },
+        {
+          "id": "checkout-participant-2-first-name",
+          "type": "text",
+          "labelled": true,
+          "invalid": true
+        },
+        {
+          "id": "checkout-participant-2-last-name",
+          "type": "text",
+          "labelled": true,
+          "invalid": true
+        },
+        {
+          "id": "checkout-participant-2-dob",
+          "type": "date",
+          "labelled": true,
+          "invalid": true
+        },
+        {
+          "id": "checkout-method-mobile_money",
+          "type": "radio",
+          "labelled": true,
+          "invalid": false
+        },
+        {
+          "id": "checkout-method-card",
+          "type": "radio",
+          "labelled": true,
+          "invalid": false
+        },
+        {
+          "id": "checkout-method-bank_transfer",
+          "type": "radio",
+          "labelled": true,
+          "invalid": false
+        },
+        {
+          "id": "checkout-method-cash",
+          "type": "radio",
+          "labelled": true,
+          "invalid": false
+        },
+        {
+          "id": "checkout-special-requests",
+          "type": "textarea",
+          "labelled": true,
+          "invalid": false
+        },
+        {
+          "id": "checkout-accept-terms",
+          "type": "checkbox",
+          "labelled": true,
+          "invalid": true
+        }
+      ],
+      "errors": [
+        "The first name field is required.",
+        "The last name field is required.",
+        "The email field is required.",
+        "The phone field is required.",
+        "Enter traveller 2's first name.",
+        "Enter traveller 2's last name.",
+        "Enter traveller 3's first name.",
+        "Enter traveller 3's last name.",
+        "Enter traveller 3's date of birth so the fare can be confirmed.",
+        "Please accept the booking terms to continue.",
+        "Please review the highlighted details above."
+      ],
+      "timer": "Places held for 14:53",
+      "lucideRendered": 1
+    },
+    {
+      "name": "desktop-light-checkout-filled",
+      "path": "/tours/checkout/01M2TV32CV20MN2TKNNAR46F0X",
+      "status": "Complete your booking | Kenfam International",
+      "theme": "light",
+      "viewportWidth": 1440,
+      "documentWidth": 1440,
+      "h1": "Complete your booking",
+      "inputs": [
+        {
+          "id": "checkout-first-name",
+          "type": "text",
+          "labelled": true,
+          "invalid": true
+        },
+        {
+          "id": "checkout-last-name",
+          "type": "text",
+          "labelled": true,
+          "invalid": true
+        },
+        {
+          "id": "checkout-email",
+          "type": "email",
+          "labelled": true,
+          "invalid": true
+        },
+        {
+          "id": "checkout-phone",
+          "type": "tel",
+          "labelled": true,
+          "invalid": true
+        },
+        {
+          "id": "checkout-lead-travels",
+          "type": "checkbox",
+          "labelled": true,
+          "invalid": false
+        },
+        {
+          "id": "checkout-participant-0-dob",
+          "type": "date",
+          "labelled": true,
+          "invalid": false
+        },
+        {
+          "id": "checkout-participant-1-first-name",
+          "type": "text",
+          "labelled": true,
+          "invalid": true
+        },
+        {
+          "id": "checkout-participant-1-last-name",
+          "type": "text",
+          "labelled": true,
+          "invalid": true
+        },
+        {
+          "id": "checkout-participant-1-dob",
+          "type": "date",
+          "labelled": true,
+          "invalid": false
+        },
+        {
+          "id": "checkout-participant-2-first-name",
+          "type": "text",
+          "labelled": true,
+          "invalid": true
+        },
+        {
+          "id": "checkout-participant-2-last-name",
+          "type": "text",
+          "labelled": true,
+          "invalid": true
+        },
+        {
+          "id": "checkout-participant-2-dob",
+          "type": "date",
+          "labelled": true,
+          "invalid": true
+        },
+        {
+          "id": "checkout-method-mobile_money",
+          "type": "radio",
+          "labelled": true,
+          "invalid": false
+        },
+        {
+          "id": "checkout-method-card",
+          "type": "radio",
+          "labelled": true,
+          "invalid": false
+        },
+        {
+          "id": "checkout-method-bank_transfer",
+          "type": "radio",
+          "labelled": true,
+          "invalid": false
+        },
+        {
+          "id": "checkout-method-cash",
+          "type": "radio",
+          "labelled": true,
+          "invalid": false
+        },
+        {
+          "id": "checkout-special-requests",
+          "type": "textarea",
+          "labelled": true,
+          "invalid": false
+        },
+        {
+          "id": "checkout-accept-terms",
+          "type": "checkbox",
+          "labelled": true,
+          "invalid": true
+        }
+      ],
+      "errors": [
+        "The first name field is required.",
+        "The last name field is required.",
+        "The email field is required.",
+        "The phone field is required.",
+        "Enter traveller 2's first name.",
+        "Enter traveller 2's last name.",
+        "Enter traveller 3's first name.",
+        "Enter traveller 3's last name.",
+        "Enter traveller 3's date of birth so the fare can be confirmed.",
+        "Please accept the booking terms to continue.",
+        "Please review the highlighted details above."
+      ],
+      "timer": "Places held for 14:47",
+      "lucideRendered": 1
+    },
+    {
+      "name": "desktop-light-confirmation",
+      "path": "/tours/bookings/01M2TV3FC5851DDM6YJC1A5AFX/confirmation",
+      "status": "Booking received WEB-TOUR-20260918-0EKMJTZW62 | Kenfam International",
+      "theme": "light",
+      "viewportWidth": 1440,
+      "documentWidth": 1440,
+      "h1": "WEB-TOUR-20260918-0EKMJTZW62",
+      "inputs": [],
+      "errors": [],
+      "timer": null,
+      "lucideRendered": 6,
+      "bodyText": "BOOKING RECEIVED WEB-TOUR-20260918-0EKMJTZW62 Your journey request has been recorded. Keep this private link available for current status information. Pending JOURNEY DETAILS Dubai City and Desert Lead customer Amina Wanjiru Travel dates 20 Jan 2027 to 24 Jan 2027 Travelers 3 travelers Booking status Pending Payment status Unpaid Amount received KES 0.00 of KES 540,900.00 WHAT HAPPENS NEXT Secure your places with the deposit Preferred payment Bank Transfer Deposit due KES 162,270.00 Please pay by 19 Sep 2026, 22:05 (Asia/Dubai) Our travel desk will send the bank account details by email. Quote your booking number on the transfer. WHO IS TRAVELLING Travellers Amina Wanjiru Adult · lead traveller Brian Wanjiru Adult Chloe Wanjiru Child KEEP THIS HANDY Your booking documents Quote your booking number whenever you contact the travel desk. Booking summary (PDF) Private tracking link Bookmark the tracking link; it stays valid for 180 days and shows the latest status. Ask on WhatsApp Email the travel desk"
+    },
+    {
+      "name": "mobile-dark-checkout",
+      "path": "/tours/checkout/01M2TV40WYHV9F879E9E0939N9",
+      "status": "Complete your booking | Kenfam International",
+      "theme": "dark",
+      "viewportWidth": 390,
+      "documentWidth": 390,
+      "h1": "Complete your booking",
+      "inputs": [
+        {
+          "id": "checkout-first-name",
+          "type": "text",
+          "labelled": true,
+          "invalid": false
+        },
+        {
+          "id": "checkout-last-name",
+          "type": "text",
+          "labelled": true,
+          "invalid": false
+        },
+        {
+          "id": "checkout-email",
+          "type": "email",
+          "labelled": true,
+          "invalid": false
+        },
+        {
+          "id": "checkout-phone",
+          "type": "tel",
+          "labelled": true,
+          "invalid": false
+        },
+        {
+          "id": "checkout-lead-travels",
+          "type": "checkbox",
+          "labelled": true,
+          "invalid": false
+        },
+        {
+          "id": "checkout-participant-0-dob",
+          "type": "date",
+          "labelled": true,
+          "invalid": false
+        },
+        {
+          "id": "checkout-method-mobile_money",
+          "type": "radio",
+          "labelled": true,
+          "invalid": false
+        },
+        {
+          "id": "checkout-method-card",
+          "type": "radio",
+          "labelled": true,
+          "invalid": false
+        },
+        {
+          "id": "checkout-method-bank_transfer",
+          "type": "radio",
+          "labelled": true,
+          "invalid": false
+        },
+        {
+          "id": "checkout-method-cash",
+          "type": "radio",
+          "labelled": true,
+          "invalid": false
+        },
+        {
+          "id": "checkout-special-requests",
+          "type": "textarea",
+          "labelled": true,
+          "invalid": false
+        },
+        {
+          "id": "checkout-accept-terms",
+          "type": "checkbox",
+          "labelled": true,
+          "invalid": false
+        }
+      ],
+      "errors": [],
+      "timer": "Places held for 14:55",
+      "lucideRendered": 1
+    },
+    {
+      "name": "mobile-light-checkout-top",
+      "path": "/tours/checkout/01M2TV40WYHV9F879E9E0939N9",
+      "status": "Complete your booking | Kenfam International",
+      "theme": "light",
+      "viewportWidth": 390,
+      "documentWidth": 390,
+      "h1": "Complete your booking",
+      "inputs": [
+        {
+          "id": "checkout-first-name",
+          "type": "text",
+          "labelled": true,
+          "invalid": false
+        },
+        {
+          "id": "checkout-last-name",
+          "type": "text",
+          "labelled": true,
+          "invalid": false
+        },
+        {
+          "id": "checkout-email",
+          "type": "email",
+          "labelled": true,
+          "invalid": false
+        },
+        {
+          "id": "checkout-phone",
+          "type": "tel",
+          "labelled": true,
+          "invalid": false
+        },
+        {
+          "id": "checkout-lead-travels",
+          "type": "checkbox",
+          "labelled": true,
+          "invalid": false
+        },
+        {
+          "id": "checkout-participant-0-dob",
+          "type": "date",
+          "labelled": true,
+          "invalid": false
+        },
+        {
+          "id": "checkout-method-mobile_money",
+          "type": "radio",
+          "labelled": true,
+          "invalid": false
+        },
+        {
+          "id": "checkout-method-card",
+          "type": "radio",
+          "labelled": true,
+          "invalid": false
+        },
+        {
+          "id": "checkout-method-bank_transfer",
+          "type": "radio",
+          "labelled": true,
+          "invalid": false
+        },
+        {
+          "id": "checkout-method-cash",
+          "type": "radio",
+          "labelled": true,
+          "invalid": false
+        },
+        {
+          "id": "checkout-special-requests",
+          "type": "textarea",
+          "labelled": true,
+          "invalid": false
+        },
+        {
+          "id": "checkout-accept-terms",
+          "type": "checkbox",
+          "labelled": true,
+          "invalid": false
+        }
+      ],
+      "errors": [],
+      "timer": "Places held for 14:50",
+      "lucideRendered": 1
+    },
+    {
+      "name": "desktop-dark-checkout",
+      "path": "/tours/checkout/01M2TV40WYHV9F879E9E0939N9",
+      "status": "Complete your booking | Kenfam International",
+      "theme": "dark",
+      "viewportWidth": 1440,
+      "documentWidth": 1440,
+      "h1": "Complete your booking",
+      "inputs": [
+        {
+          "id": "checkout-first-name",
+          "type": "text",
+          "labelled": true,
+          "invalid": false
+        },
+        {
+          "id": "checkout-last-name",
+          "type": "text",
+          "labelled": true,
+          "invalid": false
+        },
+        {
+          "id": "checkout-email",
+          "type": "email",
+          "labelled": true,
+          "invalid": false
+        },
+        {
+          "id": "checkout-phone",
+          "type": "tel",
+          "labelled": true,
+          "invalid": false
+        },
+        {
+          "id": "checkout-lead-travels",
+          "type": "checkbox",
+          "labelled": true,
+          "invalid": false
+        },
+        {
+          "id": "checkout-participant-0-dob",
+          "type": "date",
+          "labelled": true,
+          "invalid": false
+        },
+        {
+          "id": "checkout-method-mobile_money",
+          "type": "radio",
+          "labelled": true,
+          "invalid": false
+        },
+        {
+          "id": "checkout-method-card",
+          "type": "radio",
+          "labelled": true,
+          "invalid": false
+        },
+        {
+          "id": "checkout-method-bank_transfer",
+          "type": "radio",
+          "labelled": true,
+          "invalid": false
+        },
+        {
+          "id": "checkout-method-cash",
+          "type": "radio",
+          "labelled": true,
+          "invalid": false
+        },
+        {
+          "id": "checkout-special-requests",
+          "type": "textarea",
+          "labelled": true,
+          "invalid": false
+        },
+        {
+          "id": "checkout-accept-terms",
+          "type": "checkbox",
+          "labelled": true,
+          "invalid": false
+        }
+      ],
+      "errors": [],
+      "timer": "Places held for 14:45",
+      "lucideRendered": 1
+    },
+    {
+      "name": "desktop-light-checkout-expired",
+      "path": "/tours/checkout/01M2TV40WYHV9F879E9E0939N9",
+      "status": "Your held places have been released | Kenfam International",
+      "theme": "light",
+      "viewportWidth": 1440,
+      "documentWidth": 1440,
+      "h1": "Your held places have been released",
+      "inputs": [],
+      "errors": [],
+      "timer": null,
+      "lucideRendered": 2,
+      "bodyText": "TIME RAN OUT Your held places have been released Places are held for 15 minutes so that other travellers are not kept waiting. Nothing has been booked or charged. Start again in a moment Return to Dubai City and Desert, choose your departure and travellers again, and your places will be held afresh. Back to Dubai City and Desert"
+    }
+  ]
+}

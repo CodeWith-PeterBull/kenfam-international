@@ -4,9 +4,9 @@
 @php
     $departures = $this->departures;
     $selected = $this->selectedDeparture;
-    $quote = $this->quote;
-    $failure = $this->quoteFailure();
-    $plan = $selected ? $this->ratePlanFor($selected) : $this->defaultRatePlan;
+    $quote = $this->pricing->quote;
+    $failure = $this->pricing->failure;
+    $plan = $selected ? $this->ratePlanFor($selected) : $this->defaultRatePlan();
     $currency = $plan?->currency ?? config('travel-tours.defaults.currency', 'KES');
     $maximum = $form->maximumParticipants();
 @endphp
@@ -116,7 +116,7 @@
                                         <small>{{ $line->quantity }} &times; {{ MoneyFormatter::format($line->unitAmountMinor, $quote->currency) }}</small>
                                     @endif
                                 </dt>
-                                <dd>{{ $line->totalMinor < 0 ? '−' : '' }}{{ MoneyFormatter::format(abs($line->totalMinor), $quote->currency) }}</dd>
+                                <dd>{{ MoneyFormatter::format($line->totalMinor, $quote->currency) }}</dd>
                             </div>
                         @endforeach
                         @if ($quote->taxMinor > 0)
@@ -147,6 +147,22 @@
                 @else
                     <p class="travel-selector__failure" role="status"><i data-lucide="info" aria-hidden="true"></i><span>Adjust the traveller details above to see a price.</span></p>
                 @endif
+                @error('selection')
+                    <p class="travel-selector__error travel-selector__error--block" role="alert">{{ $message }}</p>
+                @enderror
+                <button
+                    type="button"
+                    class="travel-button travel-button--wide travel-selector__continue"
+                    wire:click="continue"
+                    wire:loading.attr="disabled"
+                    @disabled(! $quote)
+                    aria-describedby="travel-selector-continue-hint"
+                >
+                    <span wire:loading.remove wire:target="continue">Continue to checkout</span>
+                    <span wire:loading wire:target="continue">Reserving your places&hellip;</span>
+                    <i data-lucide="arrow-right" aria-hidden="true"></i>
+                </button>
+                <p class="travel-selector__note" id="travel-selector-continue-hint">Your places are held for {{ (int) config('travel-tours.booking.hold_minutes', 15) }} minutes while you enter traveller details. No payment is taken online.</p>
             </div>
         </div>
     @endif

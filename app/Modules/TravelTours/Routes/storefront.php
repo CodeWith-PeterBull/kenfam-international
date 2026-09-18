@@ -7,6 +7,7 @@
 declare(strict_types=1);
 
 use App\Modules\TravelTours\Storefront\Http\Controllers\BookingAccessController;
+use App\Modules\TravelTours\Storefront\Http\Controllers\CheckoutController;
 use App\Modules\TravelTours\Storefront\Http\Controllers\InquiryController;
 use App\Modules\TravelTours\Storefront\Http\Controllers\StorefrontController;
 use App\Modules\TravelTours\Storefront\Http\Controllers\TourController;
@@ -20,6 +21,7 @@ Route::middleware(['web', 'throttle:120,1'])
     ->group(function (): void {
         Route::get('/', StorefrontController::class)->name('catalog.index');
         Route::post('/inquiries', [InquiryController::class, 'store'])->middleware(ProtectAgainstSpam::class)->name('inquiries.store');
+        Route::get('/checkout/{hold:ulid}', CheckoutController::class)->name('checkout');
         Route::middleware('signed')->group(function (): void {
             Route::get('/bookings/{booking}/confirmation', [BookingAccessController::class, 'confirmation'])->name('bookings.confirmation');
             Route::get('/bookings/{booking}/track', [BookingAccessController::class, 'track'])->name('bookings.track');

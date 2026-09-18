@@ -22,7 +22,6 @@ return [
     'booking' => [
         'hold_minutes' => (int) env('TRAVEL_TOURS_HOLD_MINUTES', 15),
         'pending_minutes' => (int) env('TRAVEL_TOURS_PENDING_MINUTES', 1440),
-        'quote_minutes' => (int) env('TRAVEL_TOURS_QUOTE_MINUTES', 10),
         'maximum_participants' => (int) env('TRAVEL_TOURS_MAX_PARTICIPANTS', 100),
         'confirmation_link_minutes' => (int) env('TRAVEL_TOURS_CONFIRMATION_LINK_MINUTES', 120),
         'tracking_link_days' => (int) env('TRAVEL_TOURS_TRACKING_LINK_DAYS', 180),

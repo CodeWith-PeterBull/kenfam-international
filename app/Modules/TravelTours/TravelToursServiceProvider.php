@@ -27,6 +27,8 @@ use App\Modules\TravelTours\Catalog\Policies\DestinationPolicy;
 use App\Modules\TravelTours\Catalog\Policies\TourCategoryPolicy;
 use App\Modules\TravelTours\Catalog\Policies\TourPolicy;
 use App\Modules\TravelTours\Catalog\Services\TourSearchService;
+use App\Modules\TravelTours\Console\Commands\ExpirePendingBookingsCommand;
+use App\Modules\TravelTours\Console\Commands\ReleaseExpiredHoldsCommand;
 use App\Modules\TravelTours\Contracts\CalculatesTourQuotes;
 use App\Modules\TravelTours\Contracts\ChecksDepartureAvailability;
 use App\Modules\TravelTours\Contracts\PlacesTourBookings;
@@ -52,6 +54,7 @@ use App\Modules\TravelTours\Pricing\Services\TourQuoteCalculator;
 use App\Modules\TravelTours\Scheduling\Livewire\Admin\DepartureManager;
 use App\Modules\TravelTours\Scheduling\Models\TourDeparture;
 use App\Modules\TravelTours\Scheduling\Services\DepartureAvailabilityService;
+use App\Modules\TravelTours\Storefront\Livewire\BookingCheckout;
 use App\Modules\TravelTours\Storefront\Livewire\DepartureSelector;
 use Illuminate\Support\Facades\Event;
 use Illuminate\Support\Facades\Gate;
@@ -90,6 +93,9 @@ final class TravelToursServiceProvider extends ServiceProvider
         $this->loadRoutesFrom(__DIR__.'/Routes/storefront.php');
         $this->loadRoutesFrom(__DIR__.'/Routes/admin.php');
         $this->loadRoutesFrom(__DIR__.'/Routes/pob.php');
+        if ($this->app->runningInConsole()) {
+            $this->commands([ReleaseExpiredHoldsCommand::class, ExpirePendingBookingsCommand::class]);
+        }
         Event::listen(TourBookingPlaced::class, SendTourBookingPlacedNotification::class);
         Event::listen(BookingPaymentConfirmed::class, SendBookingPaymentConfirmedNotification::class);
         Gate::policy(Tour::class, TourPolicy::class);
@@ -112,5 +118,6 @@ final class TravelToursServiceProvider extends ServiceProvider
         Livewire::component('travel-tours.admin.tour-base-price-editor', TourBasePriceEditor::class);
         Livewire::component('travel-tours.admin.departure-manager', DepartureManager::class);
         Livewire::component('travel-tours.storefront.departure-selector', DepartureSelector::class);
+        Livewire::component('travel-tours.storefront.booking-checkout', BookingCheckout::class);
     }
 }
