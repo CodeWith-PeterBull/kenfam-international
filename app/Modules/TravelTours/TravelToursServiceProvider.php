@@ -38,9 +38,13 @@ use App\Modules\TravelTours\Contracts\RendersBookingDocuments;
 use App\Modules\TravelTours\Contracts\SearchesTours;
 use App\Modules\TravelTours\Customers\Models\TravelCustomer;
 use App\Modules\TravelTours\Events\BookingPaymentConfirmed;
+use App\Modules\TravelTours\Events\BookingPaymentRecorded;
+use App\Modules\TravelTours\Events\TourBookingConfirmed;
 use App\Modules\TravelTours\Events\TourBookingPlaced;
 use App\Modules\TravelTours\Inquiries\Models\TourInquiry;
+use App\Modules\TravelTours\Listeners\NotifyStaffOfPendingPayment;
 use App\Modules\TravelTours\Listeners\SendBookingPaymentConfirmedNotification;
+use App\Modules\TravelTours\Listeners\SendTourBookingConfirmedNotification;
 use App\Modules\TravelTours\Listeners\SendTourBookingPlacedNotification;
 use App\Modules\TravelTours\PointOfBooking\Models\BookingRegister;
 use App\Modules\TravelTours\PointOfBooking\Models\BookingShift;
@@ -99,6 +103,8 @@ final class TravelToursServiceProvider extends ServiceProvider
         }
         Event::listen(TourBookingPlaced::class, SendTourBookingPlacedNotification::class);
         Event::listen(BookingPaymentConfirmed::class, SendBookingPaymentConfirmedNotification::class);
+        Event::listen(BookingPaymentRecorded::class, NotifyStaffOfPendingPayment::class);
+        Event::listen(TourBookingConfirmed::class, SendTourBookingConfirmedNotification::class);
         Gate::policy(Tour::class, TourPolicy::class);
         Gate::policy(TourCategory::class, TourCategoryPolicy::class);
         Gate::policy(Destination::class, DestinationPolicy::class);

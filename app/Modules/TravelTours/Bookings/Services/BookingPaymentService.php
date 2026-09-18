@@ -22,6 +22,7 @@ use App\Modules\TravelTours\Bookings\Models\PaymentSchedule;
 use App\Modules\TravelTours\Bookings\Models\TourBooking;
 use App\Modules\TravelTours\Contracts\ProcessesBookingPayments;
 use App\Modules\TravelTours\Events\BookingPaymentConfirmed;
+use App\Modules\TravelTours\Events\BookingPaymentRecorded;
 use App\Modules\TravelTours\PointOfBooking\Enums\ShiftMovementType;
 use App\Modules\TravelTours\PointOfBooking\Enums\ShiftStatus;
 use App\Modules\TravelTours\PointOfBooking\Models\BookingShift;
@@ -108,6 +109,7 @@ final class BookingPaymentService implements ProcessesBookingPayments
                 'safe_metadata' => $data->safeMetadata,
             ]);
             $payment->save();
+            BookingPaymentRecorded::dispatch($payment);
 
             return $payment;
         }, 3);

@@ -1,0 +1,38 @@
+{
+    "generatedAt": "2026-09-19T00:31:56+03:00",
+    "booking": "WEB-TOUR-20260918-0EKMJTZW62",
+    "notifications": {
+        "booking-placed": {
+            "subject": "Booking WEB-TOUR-20260918-0EKMJTZW62 received",
+            "queue": "notifications",
+            "afterCommit": true,
+            "tries": 3,
+            "bytes": 13500,
+            "action": "View booking"
+        },
+        "payment-recorded-staff": {
+            "subject": "Payment awaiting confirmation: WEB-TOUR-20260918-0EKMJTZW62",
+            "queue": "notifications",
+            "afterCommit": true,
+            "tries": 3,
+            "bytes": 12869,
+            "action": "Review in the bookings workspace"
+        },
+        "payment-confirmed": {
+            "subject": "Payment received for WEB-TOUR-20260918-0EKMJTZW62",
+            "queue": "notifications",
+            "afterCommit": true,
+            "tries": 3,
+            "bytes": 12764,
+            "action": "View booking"
+        },
+        "booking-confirmed": {
+            "subject": "Booking WEB-TOUR-20260918-0EKMJTZW62 confirmed",
+            "queue": "notifications",
+            "afterCommit": true,
+            "tries": 3,
+            "bytes": 13416,
+            "action": "View booking"
+        }
+    }
+}

@@ -12,6 +12,7 @@ use App\Modules\TravelTours\Bookings\Enums\BookingStatus;
 use App\Modules\TravelTours\Bookings\Exceptions\BookingLifecycleException;
 use App\Modules\TravelTours\Bookings\Models\BookingStatusHistory;
 use App\Modules\TravelTours\Bookings\Models\TourBooking;
+use App\Modules\TravelTours\Events\TourBookingConfirmed;
 use Illuminate\Database\DatabaseManager;
 
 /**
@@ -73,6 +74,7 @@ final readonly class BookingLifecycleService
             }
 
             $this->transition($locked, BookingStatus::Confirmed, $actorId, $source, $reason ?? 'Confirmed by the travel desk.');
+            TourBookingConfirmed::dispatch($locked);
 
             return $locked->fresh();
         });

@@ -125,3 +125,20 @@ Files: `Bookings/Services/BookingPaymentService.php`, `Bookings/Services/Booking
 Verification: `php artisan test --filter=TravelTours` 101 passed (2261 assertions), Pint clean; browser harness `qa-m3-bookings.mjs` (scratchpad): agent records evidence and sees no confirm control, manager confirms the payment and the booking, refund ceiling refused inline then a refund recorded, cancel requires a reason; desktop/mobile/narrow in both themes: 13 captures, zero runtime/network errors, dialogs within the viewport, every input labelled. Evidence in `qa/admin-m3-bookings/`.
 
 Outcome gate met: a customer can complete a booking and the travel desk can confirm the payment manually. M4 adds the customer and staff mail for these steps.
+
+### M4 — Communications (K7 lean) · 2026-09-19
+
+**Delivered.** One domain event now produces exactly one queued mail job: listeners run synchronously inside the request and hand off to a notification that extends `QueuedTravelNotification` (`afterCommit`, module queue from `notifications.queue`, 3 tries, 30/120/300 s backoff). Delivery is gated by `notifications.enabled` at the listener, so the domain writes never depend on mail. Two events join the existing two.
+
+| Event | Recipient | Notification |
+|---|---|---|
+| `TourBookingPlaced` | customer email snapshot | `TourBookingPlacedNotification` — total, deposit, pay-by time, private tracking link |
+| `BookingPaymentRecorded` (new, dispatched by `recordPending`) | active users holding `confirm-tour-payments` via `StaffRecipientResolver` | `BookingPaymentRecordedNotification` — amount, method, reference, link into the bookings workspace |
+| `BookingPaymentConfirmed` | customer | `BookingPaymentConfirmedNotification` — amount, reference, outstanding balance |
+| `TourBookingConfirmed` (new, dispatched by `BookingLifecycleService::confirm`) | customer | `TourBookingConfirmedNotification` — travel dates, balance, tracking link |
+
+Resolves the K1 review's double-queue concern (listener and notification both queued) and the unused `notifications.*` configuration. Root `Events/`, `Listeners/`, `Notifications/` stay where they are (P-6).
+
+Files: `Notifications/QueuedTravelNotification.php`, `Notifications/TourBookingPlacedNotification.php`, `Notifications/BookingPaymentConfirmedNotification.php`, `Notifications/TourBookingConfirmedNotification.php`, `Notifications/BookingPaymentRecordedNotification.php`, `Events/TourBookingConfirmed.php`, `Events/BookingPaymentRecorded.php`, `Listeners/SendTourBookingPlacedNotification.php`, `Listeners/SendBookingPaymentConfirmedNotification.php`, `Listeners/SendTourBookingConfirmedNotification.php`, `Listeners/NotifyStaffOfPendingPayment.php`, `Support/StaffRecipientResolver.php`, `Bookings/Services/BookingPaymentService.php`, `Bookings/Services/BookingLifecycleService.php`, `TravelToursServiceProvider.php`, `tests/Feature/TravelTours/TravelToursNotificationsTest.php` (5 tests).
+
+Verification: `php artisan test --filter=TravelTours` 106 passed (2275 assertions), Pint clean; each notification rendered against the isolated QA database (`qa/communications-m4/*.html`, `diagnostics.json`): subjects, queue, after-commit flag, retries, and links checked.

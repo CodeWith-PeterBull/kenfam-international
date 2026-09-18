@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Handles one TravelTours event through an isolated side effect.
+ * Provides a documented component of the independent TravelTours module.
  */
 
 declare(strict_types=1);
@@ -10,19 +10,20 @@ namespace App\Modules\TravelTours\Listeners;
 
 use App\Modules\TravelTours\Events\BookingPaymentConfirmed;
 use App\Modules\TravelTours\Notifications\BookingPaymentConfirmedNotification;
-use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Support\Facades\Notification;
 
-/** Routes one payment notice to the retained booking email snapshot. */
-final class SendBookingPaymentConfirmedNotification implements ShouldQueue
+/** Routes one payment notice to the retained booking email snapshot; the notification itself is queued. */
+final class SendBookingPaymentConfirmedNotification
 {
-    /** Handle the committed event through its isolated notification side effect. */
+    /** Hand the committed event to one queued notification when delivery is enabled. */
     public function handle(BookingPaymentConfirmed $event): void
     {
         $payment = $event->payment->loadMissing('booking');
         $email = trim((string) $payment->booking->customer_email_snapshot);
-        if ($email !== '') {
-            Notification::route('mail', $email)->notify(new BookingPaymentConfirmedNotification($payment));
+        if (! config('travel-tours.notifications.enabled', true) || $email === '') {
+            return;
         }
+
+        Notification::route('mail', $email)->notify(new BookingPaymentConfirmedNotification($payment));
     }
 }

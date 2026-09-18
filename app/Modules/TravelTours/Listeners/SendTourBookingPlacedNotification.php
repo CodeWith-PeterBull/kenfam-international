@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Handles one TravelTours event through an isolated side effect.
+ * Provides a documented component of the independent TravelTours module.
  */
 
 declare(strict_types=1);
@@ -10,18 +10,19 @@ namespace App\Modules\TravelTours\Listeners;
 
 use App\Modules\TravelTours\Events\TourBookingPlaced;
 use App\Modules\TravelTours\Notifications\TourBookingPlacedNotification;
-use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Support\Facades\Notification;
 
-/** Routes booking confirmation only to the booking email snapshot. */
-final class SendTourBookingPlacedNotification implements ShouldQueue
+/** Routes booking confirmation only to the booking email snapshot; the notification itself is queued. */
+final class SendTourBookingPlacedNotification
 {
-    /** Handle the committed event through its isolated notification side effect. */
+    /** Hand the committed event to one queued notification when delivery is enabled. */
     public function handle(TourBookingPlaced $event): void
     {
         $email = trim((string) $event->booking->customer_email_snapshot);
-        if ($email !== '') {
-            Notification::route('mail', $email)->notify(new TourBookingPlacedNotification($event->booking));
+        if (! config('travel-tours.notifications.enabled', true) || $email === '') {
+            return;
         }
+
+        Notification::route('mail', $email)->notify(new TourBookingPlacedNotification($event->booking));
     }
 }
