@@ -47,7 +47,7 @@ final class BookingPaymentService implements ProcessesBookingPayments
     public function record(TourBooking $booking, BookingPaymentData $data): BookingPayment
     {
         return DB::transaction(function () use ($booking, $data): BookingPayment {
-            $payment = $this->recordPending($booking, $data);
+            $payment = $this->createPending($booking, $data);
 
             return $this->confirm($payment, $data->actorId);
         }, 3);
@@ -55,6 +55,19 @@ final class BookingPaymentService implements ProcessesBookingPayments
 
     /** Record payment evidence awaiting confirmation; aggregates are untouched until then. */
     public function recordPending(TourBooking $booking, BookingPaymentData $data): BookingPayment
+    {
+        return DB::transaction(function () use ($booking, $data): BookingPayment {
+            $payment = $this->createPending($booking, $data);
+            if ($payment->wasRecentlyCreated) {
+                BookingPaymentRecorded::dispatch($payment);
+            }
+
+            return $payment;
+        }, 3);
+    }
+
+    /** Write the pending row (or return the retry's original) without announcing it; callers decide who hears. */
+    private function createPending(TourBooking $booking, BookingPaymentData $data): BookingPayment
     {
         return DB::transaction(function () use ($booking, $data): BookingPayment {
             $locked = TourBooking::query()->lockForUpdate()->findOrFail($booking->getKey());
@@ -109,7 +122,6 @@ final class BookingPaymentService implements ProcessesBookingPayments
                 'safe_metadata' => $data->safeMetadata,
             ]);
             $payment->save();
-            BookingPaymentRecorded::dispatch($payment);
 
             return $payment;
         }, 3);

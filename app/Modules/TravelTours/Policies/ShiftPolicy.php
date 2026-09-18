@@ -28,6 +28,12 @@ final class ShiftPolicy extends TravelResourcePolicy
         return TravelToursPermission::MANAGE_SHIFTS;
     }
 
+    /** Any desk operator may open a shift for themselves; managing other people's shifts stays with MANAGE_SHIFTS. */
+    public function open(User $user): bool
+    {
+        return $user->can(TravelToursPermission::ACCESS_POB);
+    }
+
     /** Determine whether the user may inspect the requested resource. */
     public function view(User $user, Model $model): bool
     {

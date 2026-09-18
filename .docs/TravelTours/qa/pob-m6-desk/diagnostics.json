@@ -1,0 +1,659 @@
+{
+  "generatedAt": "2026-09-18T22:38:12.748Z",
+  "siteUrl": "http://127.0.0.1:8014",
+  "failures": [],
+  "runtimeErrors": [],
+  "networkErrors": [],
+  "observations": [
+    "Desk quote: 3. Price And Settlement Adult fare × 2 KES 436,000.00 Total KES 436,000.00 Deposit to confirm KES 130,800.00 Paying by Mobile Money Card Bank Transfer Cash Other Received now (KES) Payment reference ("
+  ],
+  "diagnostics": [
+    {
+      "name": "desktop-light-shifts-empty",
+      "path": "/admin/travel/shifts",
+      "theme": "light",
+      "viewportWidth": 1440,
+      "documentWidth": 1440,
+      "modalOpen": false,
+      "modalWithinViewport": true,
+      "inputs": [],
+      "alerts": []
+    },
+    {
+      "name": "desktop-light-register-dialog",
+      "path": "/admin/travel/shifts",
+      "theme": "light",
+      "viewportWidth": 1440,
+      "documentWidth": 1440,
+      "modalOpen": true,
+      "modalWithinViewport": true,
+      "inputs": [
+        {
+          "id": "register-code",
+          "labelled": true
+        },
+        {
+          "id": "register-name",
+          "labelled": true
+        },
+        {
+          "id": "register-location",
+          "labelled": true
+        },
+        {
+          "id": "register-paper",
+          "labelled": true
+        },
+        {
+          "id": "register-auto-print",
+          "labelled": true
+        },
+        {
+          "id": "register-active",
+          "labelled": true
+        }
+      ],
+      "alerts": []
+    },
+    {
+      "name": "desktop-light-terminal-no-shift",
+      "path": "/travel-booking-desk",
+      "theme": "light",
+      "viewportWidth": 1440,
+      "documentWidth": 1440,
+      "modalOpen": false,
+      "modalWithinViewport": true,
+      "inputs": [
+        {
+          "id": "desk-tour",
+          "labelled": true
+        },
+        {
+          "id": "desk-departure",
+          "labelled": true
+        },
+        {
+          "id": "desk-adults",
+          "labelled": true
+        },
+        {
+          "id": "desk-children",
+          "labelled": true
+        },
+        {
+          "id": "desk-infants",
+          "labelled": true
+        },
+        {
+          "id": "desk-promotion",
+          "labelled": true
+        },
+        {
+          "id": "desk-first-name",
+          "labelled": true
+        },
+        {
+          "id": "desk-last-name",
+          "labelled": true
+        },
+        {
+          "id": "desk-phone",
+          "labelled": true
+        },
+        {
+          "id": "desk-email",
+          "labelled": true
+        },
+        {
+          "id": "desk-lead-travels",
+          "labelled": true
+        },
+        {
+          "id": "desk-participant-0-dob",
+          "labelled": true
+        },
+        {
+          "id": "desk-special-requests",
+          "labelled": true
+        },
+        {
+          "id": "desk-payment-method",
+          "labelled": true
+        },
+        {
+          "id": "desk-amount-received",
+          "labelled": true
+        },
+        {
+          "id": "desk-payment-reference",
+          "labelled": true
+        }
+      ],
+      "alerts": [],
+      "text": "No Open Shift Open a shift on a register before taking payment. Bookings and receipts are attributed to it. Open shift 1. Journey Tour Choose a tour Cairo and the Nile Heritage Journey (DEMO-EGY-01) Cape Town and Garden Route (DEMO-ZAF-01) Dubai City and Desert (DEMO-UAE-01) European Capitals by Rail (DEMO-EUR-01) Holy Land Heritage Pilgrimage (DEMO-HLY-01) Singapore and Kuala Lumpur (DEMO-ASIA-01) Departure Choose a tour first Adults Children Infants Promotion code (optional) 2. Customer And Travellers First name Last name Phone Email (optional) The customer is traveller 1 Traveller 1 Adult Uses the customer's name and contact details. Date of birth (optional) Special requests (optional) 3. Price And Settlement Choose a tour, a departure, and the travellers to see the price. Paying by Mobile Money Card Bank Transfer Cash Other Received now (KES) Payment reference (optional) Money entered here is recorded as received and confirmed at once. A cash amount goes into this shift's drawer. When the deposit is covered the booking is confirmed; otherwise it stays pending for the travel desk. Record booking"
+    },
+    {
+      "name": "desktop-light-open-shift-dialog",
+      "path": "/travel-booking-desk",
+      "theme": "light",
+      "viewportWidth": 1440,
+      "documentWidth": 1440,
+      "modalOpen": true,
+      "modalWithinViewport": true,
+      "inputs": [
+        {
+          "id": "shift-register",
+          "labelled": true
+        },
+        {
+          "id": "shift-float",
+          "labelled": true
+        }
+      ],
+      "alerts": []
+    },
+    {
+      "name": "desktop-light-terminal-filled",
+      "path": "/travel-booking-desk",
+      "theme": "light",
+      "viewportWidth": 1440,
+      "documentWidth": 1440,
+      "modalOpen": false,
+      "modalWithinViewport": true,
+      "inputs": [
+        {
+          "id": "desk-tour",
+          "labelled": true
+        },
+        {
+          "id": "desk-departure",
+          "labelled": true
+        },
+        {
+          "id": "desk-adults",
+          "labelled": true
+        },
+        {
+          "id": "desk-children",
+          "labelled": true
+        },
+        {
+          "id": "desk-infants",
+          "labelled": true
+        },
+        {
+          "id": "desk-promotion",
+          "labelled": true
+        },
+        {
+          "id": "desk-first-name",
+          "labelled": true
+        },
+        {
+          "id": "desk-last-name",
+          "labelled": true
+        },
+        {
+          "id": "desk-phone",
+          "labelled": true
+        },
+        {
+          "id": "desk-email",
+          "labelled": true
+        },
+        {
+          "id": "desk-lead-travels",
+          "labelled": true
+        },
+        {
+          "id": "desk-participant-0-dob",
+          "labelled": true
+        },
+        {
+          "id": "desk-participant-1-first",
+          "labelled": true
+        },
+        {
+          "id": "desk-participant-1-last",
+          "labelled": true
+        },
+        {
+          "id": "desk-participant-1-dob",
+          "labelled": true
+        },
+        {
+          "id": "desk-special-requests",
+          "labelled": true
+        },
+        {
+          "id": "desk-payment-method",
+          "labelled": true
+        },
+        {
+          "id": "desk-amount-received",
+          "labelled": true
+        },
+        {
+          "id": "desk-payment-reference",
+          "labelled": true
+        }
+      ],
+      "alerts": []
+    },
+    {
+      "name": "desktop-light-terminal-done",
+      "path": "/travel-booking-desk",
+      "theme": "light",
+      "viewportWidth": 1440,
+      "documentWidth": 1440,
+      "modalOpen": false,
+      "modalWithinViewport": true,
+      "inputs": [
+        {
+          "id": "desk-tour",
+          "labelled": true
+        },
+        {
+          "id": "desk-departure",
+          "labelled": true
+        },
+        {
+          "id": "desk-adults",
+          "labelled": true
+        },
+        {
+          "id": "desk-children",
+          "labelled": true
+        },
+        {
+          "id": "desk-infants",
+          "labelled": true
+        },
+        {
+          "id": "desk-promotion",
+          "labelled": true
+        },
+        {
+          "id": "desk-first-name",
+          "labelled": true
+        },
+        {
+          "id": "desk-last-name",
+          "labelled": true
+        },
+        {
+          "id": "desk-phone",
+          "labelled": true
+        },
+        {
+          "id": "desk-email",
+          "labelled": true
+        },
+        {
+          "id": "desk-lead-travels",
+          "labelled": true
+        },
+        {
+          "id": "desk-participant-0-dob",
+          "labelled": true
+        },
+        {
+          "id": "desk-participant-1-first",
+          "labelled": true
+        },
+        {
+          "id": "desk-participant-1-last",
+          "labelled": true
+        },
+        {
+          "id": "desk-participant-1-dob",
+          "labelled": true
+        },
+        {
+          "id": "desk-special-requests",
+          "labelled": true
+        },
+        {
+          "id": "desk-payment-method",
+          "labelled": true
+        },
+        {
+          "id": "desk-amount-received",
+          "labelled": true
+        },
+        {
+          "id": "desk-payment-reference",
+          "labelled": true
+        }
+      ],
+      "alerts": [
+        "Booking POB-TOUR-20260919-NY5BEA1BKP recorded."
+      ],
+      "text": "POB-TOUR-20260919-NY5BEA1BKP Recorded Grace Achieng · 2 travellers · Dubai City and Desert · Confirmed Partial · received KES 150,000.00 of KES 436,000.00 Print receipt (80 mm) Open booking Next customer"
+    },
+    {
+      "name": "desktop-light-receipt",
+      "path": "/travel-booking-desk/receipts/01M2VANN0X9K16KGKXE2H7QJKM",
+      "viewportWidth": 1440,
+      "documentWidth": 1440,
+      "modalOpen": false,
+      "modalWithinViewport": true,
+      "inputs": [],
+      "alerts": [],
+      "text": "KENFAM Kenfam International +254 714 884 069 Receipt CASH-QA-1 19 Sep 2026 02:37 Booking POB-TOUR-20260919-NY5BEA1BKP Grace Achieng Register FRONT-JFZS6 · booking.agent Dubai City and Desert 21 Jan 2027 to 25 Jan 2027 Grace Achieng (Adult) KES 218,000.00 Peter Achieng (Adult) KES 218,000.00 Booking total KES 436,000.00 Paid now (Cash) KES 150,000.00 Paid to date KES 150,000.00 Balance due KES 286,000.00 Booking status: Confirmed Thank you for travelling with us."
+    },
+    {
+      "name": "desktop-light-movement-dialog",
+      "path": "/travel-booking-desk",
+      "theme": "light",
+      "viewportWidth": 1440,
+      "documentWidth": 1440,
+      "modalOpen": true,
+      "modalWithinViewport": true,
+      "inputs": [
+        {
+          "id": "movement-type",
+          "labelled": true
+        },
+        {
+          "id": "movement-amount",
+          "labelled": true
+        },
+        {
+          "id": "movement-reason",
+          "labelled": true
+        }
+      ],
+      "alerts": []
+    },
+    {
+      "name": "desktop-light-close-dialog",
+      "path": "/travel-booking-desk",
+      "theme": "light",
+      "viewportWidth": 1440,
+      "documentWidth": 1440,
+      "modalOpen": true,
+      "modalWithinViewport": true,
+      "inputs": [
+        {
+          "id": "shift-counted",
+          "labelled": true
+        },
+        {
+          "id": "shift-notes",
+          "labelled": true
+        }
+      ],
+      "alerts": []
+    },
+    {
+      "name": "desktop-light-terminal-closed",
+      "path": "/travel-booking-desk",
+      "theme": "light",
+      "viewportWidth": 1440,
+      "documentWidth": 1440,
+      "modalOpen": false,
+      "modalWithinViewport": true,
+      "inputs": [
+        {
+          "id": "desk-tour",
+          "labelled": true
+        },
+        {
+          "id": "desk-departure",
+          "labelled": true
+        },
+        {
+          "id": "desk-adults",
+          "labelled": true
+        },
+        {
+          "id": "desk-children",
+          "labelled": true
+        },
+        {
+          "id": "desk-infants",
+          "labelled": true
+        },
+        {
+          "id": "desk-promotion",
+          "labelled": true
+        },
+        {
+          "id": "desk-first-name",
+          "labelled": true
+        },
+        {
+          "id": "desk-last-name",
+          "labelled": true
+        },
+        {
+          "id": "desk-phone",
+          "labelled": true
+        },
+        {
+          "id": "desk-email",
+          "labelled": true
+        },
+        {
+          "id": "desk-lead-travels",
+          "labelled": true
+        },
+        {
+          "id": "desk-participant-0-dob",
+          "labelled": true
+        },
+        {
+          "id": "desk-special-requests",
+          "labelled": true
+        },
+        {
+          "id": "desk-payment-method",
+          "labelled": true
+        },
+        {
+          "id": "desk-amount-received",
+          "labelled": true
+        },
+        {
+          "id": "desk-payment-reference",
+          "labelled": true
+        }
+      ],
+      "alerts": [
+        "Shift closed with a variance of −KES 500.00."
+      ]
+    },
+    {
+      "name": "desktop-light-shifts-closed",
+      "path": "/admin/travel/shifts",
+      "theme": "light",
+      "viewportWidth": 1440,
+      "documentWidth": 1440,
+      "modalOpen": false,
+      "modalWithinViewport": true,
+      "inputs": [],
+      "alerts": [],
+      "text": "Registers Desks an operator can open a shift on; one open shift per register Add register Register Receipts Open shift State Actions Front desk FRONT-JDRI0 · Westlands 80 mm · manual print — Active Front desk FRONT-JFZS6 · Westlands 80 mm · manual print — Active Shifts Expected cash is the float plus cash payments and cash-in, less cash refunds and cash-out; variances above KES 100.00 are flagged Shift Operator Bookings Expected Counted Variance Status Actions Front desk 19 Sep 2026, 01:37 to 01:37 booking.agent 1 KES 150,000.00 KES 149,500.00 −KES 500.00 Closed Reconcile Front desk 19 Sep 2026, 01:35 to 01:35 booking.agent 1 KES 150,000.00 KES 149,500.00 −KES 500.00 Reconciled by travel.manager"
+    },
+    {
+      "name": "desktop-light-reconcile-dialog",
+      "path": "/admin/travel/shifts",
+      "theme": "light",
+      "viewportWidth": 1440,
+      "documentWidth": 1440,
+      "modalOpen": true,
+      "modalWithinViewport": true,
+      "inputs": [
+        {
+          "id": "reconcile-notes",
+          "labelled": true
+        }
+      ],
+      "alerts": []
+    },
+    {
+      "name": "desktop-dark-shifts",
+      "path": "/admin/travel/shifts",
+      "theme": "dark",
+      "viewportWidth": 1440,
+      "documentWidth": 1440,
+      "modalOpen": false,
+      "modalWithinViewport": true,
+      "inputs": [],
+      "alerts": []
+    },
+    {
+      "name": "mobile-light-terminal",
+      "path": "/travel-booking-desk",
+      "theme": "light",
+      "viewportWidth": 390,
+      "documentWidth": 390,
+      "modalOpen": false,
+      "modalWithinViewport": true,
+      "inputs": [
+        {
+          "id": "desk-tour",
+          "labelled": true
+        },
+        {
+          "id": "desk-departure",
+          "labelled": true
+        },
+        {
+          "id": "desk-adults",
+          "labelled": true
+        },
+        {
+          "id": "desk-children",
+          "labelled": true
+        },
+        {
+          "id": "desk-infants",
+          "labelled": true
+        },
+        {
+          "id": "desk-promotion",
+          "labelled": true
+        },
+        {
+          "id": "desk-first-name",
+          "labelled": true
+        },
+        {
+          "id": "desk-last-name",
+          "labelled": true
+        },
+        {
+          "id": "desk-phone",
+          "labelled": true
+        },
+        {
+          "id": "desk-email",
+          "labelled": true
+        },
+        {
+          "id": "desk-lead-travels",
+          "labelled": true
+        },
+        {
+          "id": "desk-participant-0-dob",
+          "labelled": true
+        },
+        {
+          "id": "desk-special-requests",
+          "labelled": true
+        },
+        {
+          "id": "desk-payment-method",
+          "labelled": true
+        },
+        {
+          "id": "desk-amount-received",
+          "labelled": true
+        },
+        {
+          "id": "desk-payment-reference",
+          "labelled": true
+        }
+      ],
+      "alerts": []
+    },
+    {
+      "name": "mobile-dark-terminal",
+      "path": "/travel-booking-desk",
+      "theme": "dark",
+      "viewportWidth": 390,
+      "documentWidth": 390,
+      "modalOpen": false,
+      "modalWithinViewport": true,
+      "inputs": [
+        {
+          "id": "desk-tour",
+          "labelled": true
+        },
+        {
+          "id": "desk-departure",
+          "labelled": true
+        },
+        {
+          "id": "desk-adults",
+          "labelled": true
+        },
+        {
+          "id": "desk-children",
+          "labelled": true
+        },
+        {
+          "id": "desk-infants",
+          "labelled": true
+        },
+        {
+          "id": "desk-promotion",
+          "labelled": true
+        },
+        {
+          "id": "desk-first-name",
+          "labelled": true
+        },
+        {
+          "id": "desk-last-name",
+          "labelled": true
+        },
+        {
+          "id": "desk-phone",
+          "labelled": true
+        },
+        {
+          "id": "desk-email",
+          "labelled": true
+        },
+        {
+          "id": "desk-lead-travels",
+          "labelled": true
+        },
+        {
+          "id": "desk-participant-0-dob",
+          "labelled": true
+        },
+        {
+          "id": "desk-special-requests",
+          "labelled": true
+        },
+        {
+          "id": "desk-payment-method",
+          "labelled": true
+        },
+        {
+          "id": "desk-amount-received",
+          "labelled": true
+        },
+        {
+          "id": "desk-payment-reference",
+          "labelled": true
+        }
+      ],
+      "alerts": []
+    }
+  ]
+}

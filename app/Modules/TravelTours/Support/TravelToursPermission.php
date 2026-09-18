@@ -71,8 +71,8 @@ final class TravelToursPermission
             self::REFUND_PAYMENTS => ['Refund tour payments', 'Record processed refunds against confirmed payments.'],
             self::VIEW_INQUIRIES => ['View tour inquiries', 'Inspect general, private, and custom tour enquiries.'],
             self::MANAGE_INQUIRIES => ['Manage tour inquiries', 'Assign, follow up, close, and convert enquiries.'],
-            self::ACCESS_POB => ['Access booking desk', 'Operate the point-of-booking terminal during an open shift.'],
-            self::MANAGE_SHIFTS => ['Manage booking shifts', 'Configure registers and open or reconcile operator shifts.'],
+            self::ACCESS_POB => ['Access booking desk', 'Operate the point-of-booking terminal and open or close your own shift.'],
+            self::MANAGE_SHIFTS => ['Manage booking shifts', 'Configure registers and reconcile or close operator shifts.'],
             self::VIEW_REPORTS => ['View travel reports', 'View and export authorized operational and financial reports.'],
             self::MANAGE_SETTINGS => ['Manage travel settings', 'Change authorized module operating defaults.'],
         ];

@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Verifies the deliberately narrow K1 runtime closeout boundary.
+ * Verifies the K1 runtime closeout boundary as it stands after the booking desk shipped.
  */
 
 declare(strict_types=1);
@@ -9,14 +9,16 @@ declare(strict_types=1);
 namespace Tests\Feature\TravelTours;
 
 use App\Modules\TravelTours\Contracts\PrintsBookingReceipts;
+use App\Modules\TravelTours\PointOfBooking\Printing\BrowserReceiptPrinterDriver;
 use Tests\TestCase;
 
-/** Keep deferred operational capabilities out of the enabled K1 container. */
+/** The receipt contract is bound only to a driver that does real work. */
 final class TravelToursFoundationCloseoutTest extends TestCase
 {
-    /** K1 must not advertise a printer implementation that only writes a log. */
-    public function test_receipt_printing_contract_is_deferred_until_a_real_driver_exists(): void
+    /** K1 refused a log-only stub; M6 binds the browser driver, which hands the print to the terminal. */
+    public function test_receipt_printing_contract_is_bound_to_the_browser_driver(): void
     {
-        $this->assertFalse(app()->bound(PrintsBookingReceipts::class));
+        $this->assertTrue(app()->bound(PrintsBookingReceipts::class));
+        $this->assertInstanceOf(BrowserReceiptPrinterDriver::class, app(PrintsBookingReceipts::class));
     }
 }

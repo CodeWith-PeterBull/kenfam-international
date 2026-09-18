@@ -126,3 +126,10 @@
 .travel-detail-people li { display: grid; gap: 2px; }
 #travel-booking-manager .modal-body .table-responsive { border: 1px solid var(--aureon-border); border-radius: 6px; }
 @media (max-width: 575.98px) { .travel-admin-filters { width: 100%; } .travel-admin-filters .form-control, .travel-admin-filters .form-select, .travel-admin-filters .form-control[type="search"] { min-width: 0; flex: 1 1 100%; } }
+
+/* Booking desk terminal. */
+.travel-desk__traveller { margin: 0 0 12px; padding: 12px 14px; border: 1px solid var(--aureon-border); border-radius: 6px; }
+.travel-desk__traveller legend { float: left; width: 100%; margin: 0 0 8px; padding: 0; font-size: 13px; font-weight: 700; }
+.travel-desk__traveller legend + * { clear: both; }
+.travel-desk__summary { position: sticky; top: 90px; }
+@media (max-width: 1199.98px) { .travel-desk__summary { position: static; } }

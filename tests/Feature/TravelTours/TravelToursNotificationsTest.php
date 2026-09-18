@@ -99,6 +99,19 @@ final class TravelToursNotificationsTest extends TestCase
         Notification::assertCount(2);
     }
 
+    /** Money confirmed in the same step (desk cash) never asks anyone to confirm it. */
+    public function test_immediately_confirmed_payments_do_not_notify_confirmers(): void
+    {
+        $booking = $this->booking();
+        $manager = $this->operator(TravelToursRole::MANAGER);
+
+        app(BookingPaymentService::class)->record($booking, new BookingPaymentData('cash-1', PaymentMethod::Cash, 10_000_00, 'KES', actorId: $manager->getKey()));
+
+        Notification::assertNotSentTo($manager, BookingPaymentRecordedNotification::class);
+        Notification::assertSentOnDemand(BookingPaymentConfirmedNotification::class);
+        Notification::assertCount(1);
+    }
+
     /** Booking confirmation mails the customer once with the travel dates. */
     public function test_booking_confirmation_mails_the_customer_once(): void
     {
