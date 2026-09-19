@@ -1,0 +1,13 @@
+{
+  "generatedAt": "2026-09-19T20:01:07.541Z",
+  "failures": [],
+  "runtimeErrors": [],
+  "networkErrors": [],
+  "observations": [
+    "Olive active item: {\"activeColor\":\"rgb(106, 117, 61)\",\"activeSpan\":\"rgb(106, 117, 61)\",\"activeBg\":\"color(srgb 0.929882 0.935059 0.908706)\",\"dot\":\"rgb(106, 117, 61)\",\"inactiveColor\":\"rgb(33, 43, 54)\",\"toggle\":\"rgb(106, 117, 61)\"}",
+    "Olive hovered item: {\"color\":\"rgb(106, 117, 61)\",\"span\":\"rgb(106, 117, 61)\",\"bg\":\"color(srgb 0.953255 0.956706 0.939137)\",\"dot\":\"rgb(106, 117, 61)\"}",
+    "Teal active item: {\"activeColor\":\"rgb(40, 101, 107)\",\"activeSpan\":\"rgb(40, 101, 107)\",\"activeBg\":\"color(srgb 0.898824 0.927529 0.930353)\",\"dot\":\"rgb(40, 101, 107)\",\"inactiveColor\":\"rgb(40, 101, 107)\",\"toggle\":\"rgb(40, 101, 107)\"}",
+    "Teal hovered item: {\"color\":\"rgb(40, 101, 107)\",\"span\":\"rgb(40, 101, 107)\",\"bg\":\"color(srgb 0.932549 0.951686 0.953569)\",\"dot\":\"rgb(40, 101, 107)\"}",
+    "Dark active item: {\"activeColor\":\"rgb(255, 255, 255)\",\"activeSpan\":\"rgb(255, 255, 255)\",\"activeBg\":\"rgba(255, 255, 255, 0.12)\",\"dot\":\"rgb(106, 117, 61)\",\"inactiveColor\":\"rgb(255, 255, 255)\",\"toggle\":\"rgb(106, 117, 61)\"}"
+  ]
+}

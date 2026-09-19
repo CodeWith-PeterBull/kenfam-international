@@ -338,6 +338,77 @@ html[data-bs-theme="dark"] div#global-loader.aureon-loader {
     background: color-mix(in srgb, var(--aureon-primary) 10%, transparent);
 }
 
+/* Active and hover menu items. The template stylesheet pins these to a
+   literal wine with selectors more specific than the rule above, so the
+   same selectors are repeated here and bound to the palette: text in the
+   primary, the active row on a 12% tint, the hovered row on an 8% tint,
+   and the marker dot, arrows, and collapse toggle in the primary. */
+.sidebar .sidebar-menu > ul > li.submenu-open ul > li.active a,
+.sidebar .sidebar-menu > ul > li.submenu-open ul > li.active a span,
+.sidebar .sidebar-menu > ul > li.submenu-open ul > li.active a i,
+.sidebar .sidebar-menu > ul > li.submenu-open ul > li.active a svg,
+.sidebar .sidebar-menu > ul > li.submenu-open ul li a.active,
+.sidebar .sidebar-menu > ul > li.submenu-open ul li a.active span,
+.sidebar .sidebar-menu > ul li .submenu > a.active,
+.sidebar .sidebar-menu > ul li .submenu > a.active span,
+.sidebar .sidebar-menu > ul li .submenu > a.active i,
+.sidebar .sidebar-menu > ul > li > ul > li.submenu > a.subdrop,
+.sidebar .sidebar-menu > ul > li > ul > li.submenu > a.subdrop span,
+.sidebar .sidebar-menu > ul > li > ul > li.submenu > a.subdrop i,
+.sidebar .sidebar-menu > ul li .submenu .submenu-two > a.subdrop,
+.sidebar .sidebar-menu > ul > li.active a span,
+.sidebar .sidebar-menu > ul > li.active svg,
+.sidebar .sidebar-menu > ul li.active a,
+.sidebar .sidebar-menu > ul li.active svg,
+.sidebar .sidebar-menu > ul > li > a.active,
+.sidebar .sidebar-menu > ul > li > a.active span,
+.sidebar .nav-link.active {
+    color: var(--aureon-primary);
+}
+
+.sidebar .sidebar-menu > ul > li.submenu-open ul > li.active a,
+.sidebar .sidebar-menu > ul > li.submenu-open ul li a.active,
+.sidebar .sidebar-menu > ul li .submenu > a.active,
+.sidebar .sidebar-menu > ul > li > ul > li.submenu > a.subdrop {
+    background: color-mix(in srgb, var(--aureon-primary) 12%, var(--aureon-surface));
+}
+
+.sidebar .sidebar-menu > ul > li.submenu-open ul li a:hover,
+.sidebar .sidebar-menu > ul > li.submenu-open ul li a:hover span,
+.sidebar .sidebar-menu > ul > li.submenu-open ul li a:hover i,
+.sidebar .sidebar-menu > ul > li.submenu ul li a:hover,
+.sidebar .sidebar-menu .submenu-open .submenu ul li a:hover,
+.sidebar .sidebar-menu > ul > li > a:hover,
+.sidebar .sidebar-menu > ul > li > a:hover span,
+.sidebar .sidebar-menu > ul > li > a:hover svg {
+    color: var(--aureon-primary);
+}
+
+.sidebar .sidebar-menu > ul > li.submenu-open ul li a:hover {
+    background: color-mix(in srgb, var(--aureon-primary) 8%, var(--aureon-surface));
+}
+
+.sidebar .sidebar-menu > ul > li.submenu-open ul > li.active a:after,
+.sidebar .sidebar-menu > ul > li.submenu-open ul li a.active:after,
+.sidebar .sidebar-menu > ul > li.submenu-open ul li a:hover:after,
+.sidebar .sidebar-menu > ul > li.submenu ul li a.active:after,
+.sidebar .sidebar-menu > ul > li.submenu ul li a:hover:after,
+.sidebar .sidebar-menu .submenu-open .submenu ul li a:hover:after,
+.sidebar .sidebar-menu > ul li .submenu .submenu-two > a.subdrop::after {
+    background: var(--aureon-primary);
+}
+
+.sidebar .sidebar-menu > ul > li > a.active .menu-arrow::before,
+.sidebar .sidebar-menu > ul li .submenu > a.active .menu-arrow::before,
+.sidebar .sidebar-menu > ul > li > ul > li.submenu > a.subdrop .menu-arrow::before {
+    border-color: var(--aureon-primary);
+}
+
+.header-left #toggle_btn,
+.sidebar .sidebar-logo #toggle_btn {
+    background: var(--aureon-primary);
+}
+
 .aureon-user-panel {
     border: 1px solid var(--aureon-border);
     background: var(--aureon-canvas);
