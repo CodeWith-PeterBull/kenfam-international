@@ -21,4 +21,10 @@ enum InquiryStatus: string
     case Converted = 'converted';
     case Closed = 'closed';
     case Spam = 'spam';
+
+    /** Whether the inquiry has left the follow-up queue. */
+    public function isTerminal(): bool
+    {
+        return in_array($this, [self::Converted, self::Closed, self::Spam], true);
+    }
 }

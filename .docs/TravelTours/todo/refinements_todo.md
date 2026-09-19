@@ -18,15 +18,15 @@ review of 2026-09-18, and `claude-review/concern_file.md`.
 
 | # | Item | Owner | Status |
 | --- | --- | --- | --- |
-| C-1 | Region destinations seeded without a country code cannot be re-saved: `countryCode` rule is `required_unless:type,continent`. Exempt `region`; add a domain message. | K2F | Open |
-| C-2 | `novalidate` on the destination form so Livewire's inline error path answers a blank submit (done for categories). | K2F | Open |
-| C-3 | Row actions sit off-screen on phones inside the scrolling table; adopt a card layout or pinned action column below 576 px for every admin table at once. | K2F | Open |
-| C-4 | Vertically stacked `.btn-icon` actions inflate destination rows to ~105 px; wrap in `.travel-admin-row-actions` as the category manager now does. | K2F | Open |
+| C-1 | Region destinations seeded without a country code cannot be re-saved: `countryCode` rule is `required_unless:type,continent`. Exempt `region`; add a domain message. | Admin alignment | Done |
+| C-2 | `novalidate` on the destination form so Livewire's inline error path answers a blank submit (done for categories). | Admin alignment | Done |
+| C-3 | Row actions sit off-screen on phones inside the scrolling table; adopt a card layout or pinned action column below 576 px for every admin table at once. | Admin alignment | Done (pinned `#` and Actions columns below 1200 px on `.travel-admin-table`) |
+| C-4 | Vertically stacked `.btn-icon` actions inflate destination rows to ~105 px; wrap in `.travel-admin-row-actions` as the category manager now does. | Admin alignment | Done |
 | C-5 | Dialogs: focus trap and body scroll lock; a live region for validation errors. Focus-on-open and `aria-invalid`/`aria-describedby` are done for the category manager only. | K2F | Open |
-| C-6 | Destination search and filters are not URL state (`#[Url]`); the tour catalog already is. | K2F | Open |
-| C-7 | "1 tours" / "0 child destinations" pluralisation. | K2F | Open |
+| C-6 | Destination search and filters are not URL state (`#[Url]`); the tour catalog already is. | Admin alignment | Done (destinations, departures, inquiries) |
+| C-7 | "1 tours" / "0 child destinations" pluralisation. | Admin alignment | Done |
 | C-8 | Mobile filter block fills the first screen; collapse type/status below 576 px. | K2F | Open |
-| C-9 | Category details dialog: offer the same read-only detail view for destinations and tours. | K2C/K2F | Open |
+| C-9 | Category details dialog: offer the same read-only detail view for destinations and tours. | Admin alignment | Done for destinations and departures; tours still open in the editor |
 
 ## Verification and tooling
 

@@ -195,63 +195,89 @@
             </div>
         @endif
 
-        <div class="card-body border-bottom travel-departure-filters">
-            <div>
-                <label for="departure-search" class="form-label">Search</label>
-                <input id="departure-search" type="search" class="form-control" placeholder="Code or tour" wire:model.live.debounce.350ms="search">
-            </div>
-            @if (! $tourId)
-                <div>
-                    <label for="departure-tour-filter" class="form-label">Tour</label>
-                    <select id="departure-tour-filter" class="form-select" wire:model.live="tourFilter">
-                        <option value="">All tours</option>
-                        @foreach ($tours as $tour)
-                            <option value="{{ $tour->id }}">{{ $tour->name }}</option>
+        <div class="card-body border-bottom">
+            <div class="travel-admin-filters">
+                <div class="travel-admin-filter travel-admin-filter--search">
+                    <label for="departure-search" class="form-label">Search departures</label>
+                    <div class="input-group">
+                        <span class="input-group-text"><i class="ti ti-search" aria-hidden="true"></i></span>
+                        <input id="departure-search" type="search" class="form-control" placeholder="Code or tour" wire:model.live.debounce.350ms="search">
+                    </div>
+                </div>
+                @if (! $tourId)
+                    <div class="travel-admin-filter">
+                        <label for="departure-tour-filter" class="form-label">Tour</label>
+                        <select id="departure-tour-filter" class="form-select" wire:model.live="tourFilter">
+                            <option value="">All tours</option>
+                            @foreach ($tours as $tour)
+                                <option value="{{ $tour->id }}">{{ $tour->name }}</option>
+                            @endforeach
+                        </select>
+                    </div>
+                @endif
+                <div class="travel-admin-filter">
+                    <label for="departure-status-filter" class="form-label">Status</label>
+                    <select id="departure-status-filter" class="form-select" wire:model.live="statusFilter">
+                        <option value="">All statuses</option>
+                        @foreach (DepartureStatus::cases() as $status)
+                            <option value="{{ $status->value }}">{{ $status->label() }}</option>
                         @endforeach
                     </select>
                 </div>
-            @endif
-            <div>
-                <label for="departure-status-filter" class="form-label">Status</label>
-                <select id="departure-status-filter" class="form-select" wire:model.live="statusFilter">
-                    <option value="">All statuses</option>
-                    @foreach (DepartureStatus::cases() as $status)
-                        <option value="{{ $status->value }}">{{ $status->label() }}</option>
-                    @endforeach
-                </select>
+                <div class="travel-admin-filter travel-admin-filter--action">
+                    <button type="button" class="btn btn-outline-secondary" wire:click="clearFilters"><i class="ti ti-filter-off me-2" aria-hidden="true"></i>Clear</button>
+                </div>
             </div>
         </div>
 
         <div class="table-responsive">
-            <table class="table travel-departure-table mb-0">
+            <table class="table table-hover align-middle mb-0 travel-admin-table travel-departure-table">
                 <thead>
                     <tr>
-                        <th>Departure</th>
-                        @if (! $tourId)<th>Tour</th>@endif
-                        <th>Local travel window</th>
-                        <th>Rate / mode</th>
-                        <th>Seats</th>
-                        <th>Status</th>
-                        <th class="text-end">Actions</th>
+                        <th scope="col" class="travel-admin-index">#</th>
+                        <th scope="col">Departure</th>
+                        @if (! $tourId)<th scope="col">Tour</th>@endif
+                        <th scope="col">Local travel window</th>
+                        <th scope="col">Rate / confirmation</th>
+                        <th scope="col">Seats</th>
+                        <th scope="col">Sales</th>
+                        <th scope="col" class="text-end">Actions</th>
                     </tr>
                 </thead>
                 <tbody>
                     @forelse ($departures as $departure)
                         @php
                             $availability = $capacity[$departure->id];
+                            $canUpdate = auth()->user()->can('update', $departure);
+                            $selling = in_array($departure->status, [DepartureStatus::Open, DepartureStatus::Guaranteed], true);
+                            $switchable = in_array($departure->status, [DepartureStatus::Draft, DepartureStatus::Open, DepartureStatus::Guaranteed, DepartureStatus::Closed], true);
+                            $salesHint = match ($departure->status) {
+                                DepartureStatus::SoldOut => 'Sold out',
+                                DepartureStatus::Departed, DepartureStatus::Completed => 'Travel is under way or complete',
+                                DepartureStatus::Cancelled => 'Cancelled',
+                                DepartureStatus::Draft => $departure->starts_at->isPast() ? 'Start date has passed' : null,
+                                default => null,
+                            };
                             $next = match ($departure->status->value) {
-                                'draft' => ['open' => 'Open sales', 'cancelled' => 'Cancel'],
-                                'open' => ['guaranteed' => 'Guarantee', 'closed' => 'Close sales', 'cancelled' => 'Cancel'],
-                                'guaranteed' => ['closed' => 'Close sales', 'departed' => 'Mark departed', 'cancelled' => 'Cancel'],
-                                'closed' => ['open' => 'Reopen sales', 'cancelled' => 'Cancel'],
-                                'departed' => ['completed' => 'Complete'],
+                                'draft' => ['cancelled' => 'Cancel departure'],
+                                'open' => ['guaranteed' => 'Guarantee departure', 'cancelled' => 'Cancel departure'],
+                                'guaranteed' => ['departed' => 'Mark departed', 'cancelled' => 'Cancel departure'],
+                                'closed' => ['cancelled' => 'Cancel departure'],
+                                'departed' => ['completed' => 'Mark completed'],
                                 default => [],
                             };
                         @endphp
                         <tr wire:key="departure-row-{{ $departure->id }}">
-                            <td><strong class="d-block">{{ $departure->code }}</strong><small class="aureon-muted">{{ $departure->timezone }}</small></td>
+                            <td class="travel-admin-index">{{ $departures->firstItem() + $loop->index }}</td>
+                            <td>
+                                <strong class="d-block">{{ $departure->code }}</strong>
+                                <small class="aureon-muted">{{ $departure->timezone }}</small>
+                            </td>
                             @if (! $tourId)
-                                <td><a href="{{ route('travel-tours.admin.catalog.tours.edit', ['tour' => $departure->tour, 'section' => 'departures']) }}">{{ $departure->tour->name }}</a></td>
+                                <td>
+                                    <a class="d-block text-break" href="{{ route('travel-tours.admin.catalog.tours.edit', ['tour' => $departure->tour, 'section' => 'departures']) }}">{{ $departure->tour->name }}</a>
+                                    <small class="aureon-muted">{{ $departure->tour->code }}</small>
+                                </td>
                             @endif
                             <td>
                                 <span class="d-block">{{ $departure->starts_at->timezone($departure->timezone)->format('d M Y, H:i') }}</span>
@@ -265,15 +291,38 @@
                                 <strong class="d-block">{{ $availability->availableSeats }} / {{ $availability->capacity }} available</strong>
                                 <small class="aureon-muted">{{ $availability->bookedSeats }} booked &middot; {{ $availability->heldSeats }} held</small>
                             </td>
-                            <td><span class="travel-status {{ in_array($departure->status->value, ['open', 'guaranteed'], true) ? 'travel-status--active' : 'travel-status--muted' }}">{{ $departure->status->label() }}</span></td>
                             <td>
+                                @if ($canUpdate && $switchable)
+                                    <div class="form-check form-switch travel-admin-switch">
+                                        {{-- .prevent stops the browser's optimistic flip so a refused transition never leaves the switch out of step with the server. --}}
+                                        <input id="departure-sales-{{ $departure->id }}" type="checkbox" role="switch"
+                                            wire:key="departure-sales-{{ $departure->id }}-{{ $selling ? 'on' : 'off' }}"
+                                            class="form-check-input"
+                                            wire:click.prevent="toggleSales({{ $departure->id }})"
+                                            wire:loading.attr="disabled" wire:target="toggleSales"
+                                            @checked($selling)
+                                            @if ($salesHint) aria-describedby="departure-sales-hint-{{ $departure->id }}" @endif>
+                                        <label for="departure-sales-{{ $departure->id }}" class="form-check-label">{{ $departure->status->label() }}</label>
+                                    </div>
+                                    @if ($salesHint)
+                                        <small id="departure-sales-hint-{{ $departure->id }}" class="d-block aureon-muted travel-admin-switch-hint"><i class="ti ti-lock" aria-hidden="true"></i>{{ $salesHint }}</small>
+                                    @endif
+                                @else
+                                    <span class="travel-status {{ $selling ? 'travel-status--active' : 'travel-status--muted' }}">{{ $departure->status->label() }}</span>
+                                    @if ($canUpdate && $salesHint)
+                                        <small class="d-block aureon-muted travel-admin-switch-hint"><i class="ti ti-lock" aria-hidden="true"></i>{{ $salesHint }}</small>
+                                    @endif
+                                @endif
+                            </td>
+                            <td class="text-end">
                                 <div class="travel-admin-row-actions justify-content-end">
-                                    @can('update', $departure)
-                                        <button type="button" class="btn btn-icon btn-sm btn-outline-secondary" wire:click="openEdit({{ $departure->id }})" aria-label="Edit {{ $departure->code }}" title="Edit"><i class="ti ti-pencil" aria-hidden="true"></i></button>
+                                    <button type="button" class="btn btn-icon btn-sm btn-outline-secondary" wire:click="openDetails({{ $departure->id }})" aria-label="View {{ $departure->code }}" title="View departure"><i class="ti ti-eye" aria-hidden="true"></i></button>
+                                    @if ($canUpdate)
+                                        <button type="button" class="btn btn-icon btn-sm btn-outline-secondary" wire:click="openEdit({{ $departure->id }})" aria-label="Edit {{ $departure->code }}" title="Edit departure"><i class="ti ti-edit" aria-hidden="true"></i></button>
                                         <button type="button" class="btn btn-icon btn-sm btn-outline-secondary" wire:click="openStaff({{ $departure->id }})" aria-label="Assign team to {{ $departure->code }}" title="Departure team"><i class="ti ti-users" aria-hidden="true"></i></button>
                                         @if ($next)
                                             <div class="dropdown">
-                                                <button type="button" class="btn btn-icon btn-sm btn-outline-secondary dropdown-toggle" data-bs-toggle="dropdown" aria-label="Change status of {{ $departure->code }}" title="Change status"><i class="ti ti-dots-vertical" aria-hidden="true"></i></button>
+                                                <button type="button" class="btn btn-icon btn-sm btn-outline-secondary dropdown-toggle" data-bs-toggle="dropdown" aria-label="More actions for {{ $departure->code }}" title="More actions"><i class="ti ti-dots-vertical" aria-hidden="true"></i></button>
                                                 <ul class="dropdown-menu dropdown-menu-end">
                                                     @foreach ($next as $status => $label)
                                                         <li><button type="button" class="dropdown-item" wire:click="changeStatus({{ $departure->id }}, '{{ $status }}')">{{ $label }}</button></li>
@@ -281,13 +330,13 @@
                                                 </ul>
                                             </div>
                                         @endif
-                                    @endcan
+                                    @endif
                                 </div>
                             </td>
                         </tr>
                     @empty
                         <tr>
-                            <td colspan="{{ $tourId ? 6 : 7 }}">
+                            <td colspan="{{ $tourId ? 7 : 8 }}">
                                 <div class="travel-admin-empty"><i class="ti ti-calendar-event" aria-hidden="true"></i><strong>No departures found</strong><span>Add a date or adjust the filters.</span></div>
                             </td>
                         </tr>
@@ -299,4 +348,90 @@
             <div class="card-footer">{{ $departures->links() }}</div>
         @endif
     </div>
+
+    @if ($detailsId && $this->selectedDeparture)
+        @php
+            $detail = $this->selectedDeparture;
+            $detailSelling = in_array($detail->status, [DepartureStatus::Open, DepartureStatus::Guaranteed], true);
+        @endphp
+        <div class="modal fade show d-block" tabindex="-1" role="dialog" aria-modal="true"
+            aria-labelledby="departure-detail-title" wire:keydown.escape.window="closeDetails"
+            x-data x-init="$nextTick(() => $el.querySelector('.btn-close')?.focus())">
+            <div class="modal-dialog modal-lg modal-dialog-centered modal-dialog-scrollable" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <div>
+                            <h3 id="departure-detail-title" class="modal-title fs-18">{{ $detail->code }}</h3>
+                            <p class="aureon-muted fs-12 mb-0">{{ $detail->tour->name }} &middot; {{ strtolower($detail->status->label()) }}</p>
+                        </div>
+                        <button type="button" class="btn-close" wire:click="closeDetails" aria-label="Close departure details"></button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="travel-detail-grid">
+                            <section aria-labelledby="departure-detail-window">
+                                <h4 id="departure-detail-window">Travel window</h4>
+                                <dl class="travel-detail-list">
+                                    <div><dt>Starts</dt><dd>{{ $detail->starts_at->timezone($detail->timezone)->format('D d M Y, H:i') }}</dd></div>
+                                    <div><dt>Ends</dt><dd>{{ $detail->ends_at->timezone($detail->timezone)->format('D d M Y, H:i') }}</dd></div>
+                                    <div><dt>Timezone</dt><dd>{{ $detail->timezone }}</dd></div>
+                                    <div><dt>Booking opens</dt><dd>{{ $detail->booking_opens_at?->timezone($detail->timezone)->format('d M Y, H:i') ?: 'Immediately' }}</dd></div>
+                                    <div><dt>Booking closes</dt><dd>{{ $detail->booking_closes_at?->timezone($detail->timezone)->format('d M Y, H:i') ?: 'At departure' }}</dd></div>
+                                </dl>
+                            </section>
+                            <section aria-labelledby="departure-detail-capacity">
+                                <h4 id="departure-detail-capacity">Capacity and sales</h4>
+                                <dl class="travel-detail-list">
+                                    <div><dt>Status</dt><dd><span class="travel-status {{ $detailSelling ? 'travel-status--active' : 'travel-status--muted' }}">{{ $detail->status->label() }}</span></dd></div>
+                                    @if ($selectedAvailability)
+                                        <div><dt>Seats</dt><dd>{{ $selectedAvailability->availableSeats }} of {{ $selectedAvailability->capacity }} available</dd></div>
+                                        <div><dt>Booked / held</dt><dd>{{ $selectedAvailability->bookedSeats }} booked &middot; {{ $selectedAvailability->heldSeats }} held</dd></div>
+                                    @endif
+                                    <div><dt>Minimum group</dt><dd>{{ number_format($detail->minimum_participants) }}</dd></div>
+                                    <div><dt>Bookings</dt><dd>{{ number_format($detail->bookings_count) }} total &middot; {{ number_format($detail->confirmed_bookings_count) }} confirmed &middot; {{ number_format($detail->pending_bookings_count) }} pending</dd></div>
+                                    <div><dt>Rate plan</dt><dd>{{ $detail->ratePlan?->name ?: 'Tour default' }}</dd></div>
+                                    <div><dt>Confirmation</dt><dd>{{ $detail->booking_mode?->label() ?: 'Tour setting' }}</dd></div>
+                                </dl>
+                            </section>
+                            <section class="travel-detail-grid__wide" aria-labelledby="departure-detail-notes">
+                                <h4 id="departure-detail-notes">Operations</h4>
+                                <dl class="travel-detail-list">
+                                    <div><dt>Meeting instructions</dt><dd>{{ $detail->meeting_instructions ?: 'Not set' }}</dd></div>
+                                    <div><dt>Internal notes</dt><dd>{{ $detail->operational_notes ?: 'Not set' }}</dd></div>
+                                    <div><dt>Created</dt><dd>{{ $detail->created_at?->format('d M Y, H:i') ?: 'Unknown' }}</dd></div>
+                                    <div><dt>Updated</dt><dd>{{ $detail->updated_at?->format('d M Y, H:i') ?: 'Unknown' }}</dd></div>
+                                </dl>
+                            </section>
+                            <section class="travel-detail-grid__wide" aria-labelledby="departure-detail-team">
+                                <h4 id="departure-detail-team">Departure team ({{ number_format($detail->staff->count()) }})</h4>
+                                @if ($detail->staff->isEmpty())
+                                    <p class="aureon-muted mb-0">No team members assigned yet.</p>
+                                @else
+                                    <ul class="travel-detail-rows">
+                                        @foreach ($detail->staff as $member)
+                                            <li>
+                                                <div class="min-w-0">
+                                                    <strong class="d-block text-break">{{ $member->name }}</strong>
+                                                    <small class="aureon-muted">{{ ucfirst($member->pivot->role) }}@if ($member->pivot->notes) &middot; {{ $member->pivot->notes }}@endif</small>
+                                                </div>
+                                                <span class="travel-status {{ $member->pivot->is_lead ? 'travel-status--active' : 'travel-status--muted' }}">{{ $member->pivot->is_lead ? 'Lead' : 'Member' }}</span>
+                                                <span></span>
+                                            </li>
+                                        @endforeach
+                                    </ul>
+                                @endif
+                            </section>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        @can('update', $detail)
+                            <button type="button" class="btn btn-outline-secondary" wire:click="openStaff({{ $detail->id }})"><i class="ti ti-users me-2" aria-hidden="true"></i>Team</button>
+                            <button type="button" class="btn btn-outline-secondary" wire:click="openEdit({{ $detail->id }})"><i class="ti ti-edit me-2" aria-hidden="true"></i>Edit departure</button>
+                        @endcan
+                        <button type="button" class="btn btn-primary" wire:click="closeDetails">Done</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="modal-backdrop fade show"></div>
+    @endif
 </section>

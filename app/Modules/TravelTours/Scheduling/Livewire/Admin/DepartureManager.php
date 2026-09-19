@@ -7,7 +7,9 @@ declare(strict_types=1);
 namespace App\Modules\TravelTours\Scheduling\Livewire\Admin;
 
 use App\Models\User;
+use App\Modules\TravelTours\Bookings\Enums\BookingStatus;
 use App\Modules\TravelTours\Catalog\Models\Tour;
+use App\Modules\TravelTours\Scheduling\Data\DepartureAvailability;
 use App\Modules\TravelTours\Scheduling\Enums\DepartureStatus;
 use App\Modules\TravelTours\Scheduling\Exceptions\DepartureException;
 use App\Modules\TravelTours\Scheduling\Livewire\Forms\DepartureForm;
@@ -19,11 +21,19 @@ use App\Modules\TravelTours\Support\LikePattern;
 use App\Modules\TravelTours\Support\TravelToursRole;
 use Illuminate\Contracts\View\View;
 use Illuminate\Support\Facades\Gate;
+use Livewire\Attributes\Computed;
 use Livewire\Attributes\Locked;
+use Livewire\Attributes\Url;
 use Livewire\Component;
 use Livewire\WithPagination;
 
-/** Authorize every action and keep central and tour-scoped scheduling identical. */
+/**
+ * Authorize every action and keep central and tour-scoped scheduling identical.
+ *
+ * The table follows the category manager: an enumerated list, a sales
+ * switch that opens or closes sales and states why it cannot, a details
+ * dialog for inspection, and the remaining lifecycle steps behind one menu.
+ */
 final class DepartureManager extends Component
 {
     use WithPagination;
@@ -42,12 +52,18 @@ final class DepartureManager extends Component
     #[Locked]
     public ?int $staffDepartureId = null;
 
+    #[Locked]
+    public ?int $detailsId = null;
+
     public bool $showForm = false;
 
+    #[Url(as: 'q', except: '')]
     public string $search = '';
 
+    #[Url(as: 'status', except: '')]
     public string $statusFilter = '';
 
+    #[Url(as: 'tour', except: '')]
     public string $tourFilter = '';
 
     public string $staffUserId = '';
@@ -96,6 +112,7 @@ final class DepartureManager extends Component
     public function openCreate(): void
     {
         Gate::authorize('create', TourDeparture::class);
+        $this->detailsId = null;
         $this->editingId = null;
         $this->form->start($this->tourId);
         $this->resetErrorBag();
@@ -107,6 +124,7 @@ final class DepartureManager extends Component
     {
         $departure = $this->departure($id);
         Gate::authorize('update', $departure);
+        $this->detailsId = null;
         $this->editingId = $departure->id;
         $this->form->fillFromDeparture($departure);
         $this->resetErrorBag();
@@ -121,11 +139,85 @@ final class DepartureManager extends Component
         $this->resetErrorBag();
     }
 
+    /** Clear the filters and return to the first page. */
+    public function clearFilters(): void
+    {
+        $this->reset('search', 'statusFilter', 'tourFilter');
+        $this->resetPage();
+    }
+
+    /** Open the read-only details dialog for anyone allowed to inspect the departure. */
+    public function openDetails(int $id): void
+    {
+        $departure = $this->departure($id);
+        Gate::authorize('view', $departure);
+        $this->detailsId = $departure->id;
+        $this->resetErrorBag();
+        unset($this->selectedDeparture);
+    }
+
+    /** Close the details dialog. */
+    public function closeDetails(): void
+    {
+        $this->detailsId = null;
+        unset($this->selectedDeparture);
+    }
+
+    /** The departure open in the details dialog with its team, capacity, and booking counts. */
+    #[Computed]
+    public function selectedDeparture(): ?TourDeparture
+    {
+        if ($this->detailsId === null) {
+            return null;
+        }
+
+        return TourDeparture::query()
+            ->with(['tour', 'ratePlan', 'staff' => fn ($query) => $query->orderByDesc('travel_departure_staff.is_lead')->orderBy('travel_departure_staff.role')])
+            ->withCount([
+                'bookings',
+                'bookings as confirmed_bookings_count' => fn ($query) => $query->where('status', BookingStatus::Confirmed->value),
+                'bookings as pending_bookings_count' => fn ($query) => $query->where('status', BookingStatus::Pending->value),
+            ])
+            ->when($this->tourId, fn ($query) => $query->where('tour_id', $this->tourId))
+            ->find($this->detailsId);
+    }
+
+    /** The authoritative capacity figures for the departure open in the details dialog. */
+    public function selectedAvailability(DepartureAvailabilityService $availability): ?DepartureAvailability
+    {
+        $departure = $this->selectedDeparture;
+
+        return $departure instanceof TourDeparture ? $availability->check($departure) : null;
+    }
+
+    /**
+     * Open or close sales with one switch: on takes a draft or closed
+     * departure to open, off takes an open or guaranteed one to closed.
+     * Every other lifecycle step stays an explicit menu action.
+     */
+    public function toggleSales(int $id, DepartureManagementService $service): void
+    {
+        $departure = $this->departure($id);
+        Gate::authorize('update', $departure);
+        $target = in_array($departure->status, [DepartureStatus::Open, DepartureStatus::Guaranteed], true) ? DepartureStatus::Closed : DepartureStatus::Open;
+
+        try {
+            $service->transition($departure, $target, $this->actor());
+        } catch (DepartureException $exception) {
+            $this->addError('schedule', $exception->getMessage());
+
+            return;
+        }
+        $this->resetErrorBag('schedule');
+        session()->flash('success', $target === DepartureStatus::Open ? 'Sales opened.' : 'Sales closed.');
+    }
+
     /** Open team assignment beside the schedule being managed. */
     public function openStaff(int $id): void
     {
         $departure = $this->departure($id);
         Gate::authorize('update', $departure);
+        $this->detailsId = null;
         $this->staffDepartureId = $departure->id;
         $this->staffUserId = '';
         $this->staffRole = 'guide';
@@ -238,6 +330,7 @@ final class DepartureManager extends Component
             'ratePlans' => $selectedTour ? Tour::query()->findOrFail($selectedTour)->ratePlans()->orderBy('name')->get() : collect(),
             'staffOptions' => $this->staffDepartureId ? User::query()->role([TravelToursRole::MANAGER, TravelToursRole::BOOKING_AGENT, TravelToursRole::TOUR_EDITOR])->where('is_active', true)->orderBy('name')->limit(200)->get(['id', 'name', 'email']) : collect(),
             'staffAssignments' => $this->staffDepartureId ? DepartureStaffAssignment::query()->with('user')->where('departure_id', $this->staffDepartureId)->orderByDesc('is_lead')->orderBy('role')->get() : collect(),
+            'selectedAvailability' => $this->selectedAvailability($availability),
         ]);
     }
 

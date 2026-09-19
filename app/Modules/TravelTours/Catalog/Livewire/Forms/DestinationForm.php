@@ -58,7 +58,7 @@ final class DestinationForm extends Form
             'name' => ['required', 'string', 'max:180'],
             'slug' => ['nullable', 'string', 'max:180'],
             'parentId' => ['nullable', 'integer', Rule::exists('travel_destinations', 'id')->whereNull('deleted_at')],
-            'countryCode' => ['required_unless:type,continent', 'nullable', 'string', 'size:2', 'alpha'],
+            'countryCode' => ['required_unless:type,continent,region', 'nullable', 'string', 'size:2', 'alpha'],
             'code' => ['nullable', 'string', 'max:40'],
             'shortDescription' => ['nullable', 'string', 'max:320'],
             'description' => ['nullable', 'string', 'max:50000'],

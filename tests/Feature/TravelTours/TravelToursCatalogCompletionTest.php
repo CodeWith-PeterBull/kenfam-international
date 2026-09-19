@@ -148,7 +148,7 @@ final class TravelToursCatalogCompletionTest extends TestCase
         Storage::fake('public');
         $destination = Destination::factory()->create();
         Livewire::actingAs($this->editor)->test(DestinationManager::class)
-            ->call('openMedia', $destination->id)
+            ->call('openDetails', $destination->id)
             ->set('coverUpload', UploadedFile::fake()->image('old-town-square.webp'))
             ->assertSet('coverAltText', 'Old Town Square')
             ->assertSee('travel-admin-upload-preview')

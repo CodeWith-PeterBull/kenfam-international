@@ -9,15 +9,14 @@ declare(strict_types=1);
 namespace App\Modules\TravelTours\Inquiries\Http\Controllers;
 
 use App\Http\Controllers\Controller;
-use App\Modules\TravelTours\Inquiries\Models\TourInquiry;
 use Illuminate\Contracts\View\View;
 
-/** Presents the inquiry follow-up queue. */
+/** Presents the inquiry follow-up queue; the manager itself is Livewire. */
 final class InquiryAdminController extends Controller
 {
-    /** Render the InquiryAdminController response for an authorized request. */
+    /** Render the inquiry workspace for an authorized operator. */
     public function __invoke(): View
     {
-        return view('travel-tours::admin.inquiries.index', ['inquiries' => TourInquiry::query()->with(['tour', 'assignee'])->latest()->paginate(20)]);
+        return view('travel-tours::admin.inquiries.index');
     }
 }

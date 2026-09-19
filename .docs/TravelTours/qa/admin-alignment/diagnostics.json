@@ -1,0 +1,908 @@
+{
+  "generatedAt": "2026-09-19T22:13:52.430Z",
+  "siteUrl": "http://127.0.0.1:8014",
+  "failures": [],
+  "runtimeErrors": [],
+  "networkErrors": [],
+  "observations": [
+    "Destinations: {\"enumeration\":\"1\",\"switches\":12,\"eyes\":6,\"eyeOff\":0,\"filters\":[322,322,322,322]}",
+    "Publishable leaf switch: null",
+    "Departures: {\"enumeration\":\"1\",\"switches\":12,\"eyes\":12,\"filters\":[337,337,337,337]}",
+    "Inquiries: {\"enumeration\":\"1\",\"eyes\":3,\"filters\":[322,322,322,322,322,322]}",
+    "tablet destinations: actions visible true, enumeration 1",
+    "tablet departures: actions visible true, enumeration 1",
+    "tablet inquiries: actions visible true, enumeration 1",
+    "mobile destinations: actions visible true, enumeration 1",
+    "mobile departures: actions visible true, enumeration 1",
+    "mobile inquiries: actions visible true, enumeration 1"
+  ],
+  "diagnostics": [
+    {
+      "name": "desktop-light-destinations",
+      "path": "/admin/travel/catalog/destinations",
+      "viewportWidth": 1440,
+      "documentWidth": 1440,
+      "modalOpen": false,
+      "modalWithinViewport": true,
+      "inputs": [
+        {
+          "id": "travel-destination-search",
+          "labelled": true
+        },
+        {
+          "id": "travel-destination-type-filter",
+          "labelled": true
+        },
+        {
+          "id": "travel-destination-status-filter",
+          "labelled": true
+        },
+        {
+          "id": "travel-destination-active-1",
+          "labelled": true
+        },
+        {
+          "id": "travel-destination-published-1",
+          "labelled": true
+        },
+        {
+          "id": "travel-destination-active-2",
+          "labelled": true
+        },
+        {
+          "id": "travel-destination-published-2",
+          "labelled": true
+        },
+        {
+          "id": "travel-destination-active-3",
+          "labelled": true
+        },
+        {
+          "id": "travel-destination-published-3",
+          "labelled": true
+        },
+        {
+          "id": "travel-destination-active-4",
+          "labelled": true
+        },
+        {
+          "id": "travel-destination-published-4",
+          "labelled": true
+        },
+        {
+          "id": "travel-destination-active-5",
+          "labelled": true
+        },
+        {
+          "id": "travel-destination-published-5",
+          "labelled": true
+        },
+        {
+          "id": "travel-destination-active-6",
+          "labelled": true
+        },
+        {
+          "id": "travel-destination-published-6",
+          "labelled": true
+        }
+      ],
+      "enumeration": "1",
+      "eyeIcons": 6,
+      "eyeOffIcons": 0,
+      "switches": 12,
+      "actionsVisible": true,
+      "filters": [
+        322,
+        322,
+        322,
+        322
+      ]
+    },
+    {
+      "name": "desktop-light-destination-details",
+      "path": "/admin/travel/catalog/destinations",
+      "viewportWidth": 1440,
+      "documentWidth": 1440,
+      "modalOpen": true,
+      "modalWithinViewport": true,
+      "inputs": [
+        {
+          "id": "travel-cover-upload",
+          "labelled": true
+        },
+        {
+          "id": "travel-cover-alt",
+          "labelled": true
+        },
+        {
+          "id": "travel-cover-caption",
+          "labelled": true
+        },
+        {
+          "id": "travel-gallery-upload",
+          "labelled": true
+        },
+        {
+          "id": "travel-gallery-alt",
+          "labelled": true
+        },
+        {
+          "id": "travel-gallery-caption",
+          "labelled": true
+        }
+      ],
+      "enumeration": "1",
+      "eyeIcons": 6,
+      "eyeOffIcons": 0,
+      "switches": 12,
+      "actionsVisible": true,
+      "filters": [
+        322,
+        322,
+        322,
+        322
+      ],
+      "text": "Egypt Region · top level · published Identity URL slug egypt Operational code EG Country EG Timezone Africa/Cairo Coordinates 30.0444200, 31.2357120 Sort order 1 Publication Status Published Published 18 Sep 2026, 01:34 Availability Active for assignment Placement Featured Created 19 Sep 2026, 01:34 Updated 19 Sep 2026, 01:34 Search presentation SEO title Egypt tours and journeys SEO description D",
+      "images": 1
+    },
+    {
+      "name": "desktop-light-departures",
+      "path": "/admin/travel/departures",
+      "viewportWidth": 1440,
+      "documentWidth": 1440,
+      "modalOpen": false,
+      "modalWithinViewport": true,
+      "inputs": [
+        {
+          "id": "departure-search",
+          "labelled": true
+        },
+        {
+          "id": "departure-tour-filter",
+          "labelled": true
+        },
+        {
+          "id": "departure-status-filter",
+          "labelled": true
+        },
+        {
+          "id": "departure-sales-1",
+          "labelled": true
+        },
+        {
+          "id": "departure-sales-3",
+          "labelled": true
+        },
+        {
+          "id": "departure-sales-5",
+          "labelled": true
+        },
+        {
+          "id": "departure-sales-7",
+          "labelled": true
+        },
+        {
+          "id": "departure-sales-9",
+          "labelled": true
+        },
+        {
+          "id": "departure-sales-11",
+          "labelled": true
+        },
+        {
+          "id": "departure-sales-2",
+          "labelled": true
+        },
+        {
+          "id": "departure-sales-4",
+          "labelled": true
+        },
+        {
+          "id": "departure-sales-6",
+          "labelled": true
+        },
+        {
+          "id": "departure-sales-8",
+          "labelled": true
+        },
+        {
+          "id": "departure-sales-10",
+          "labelled": true
+        },
+        {
+          "id": "departure-sales-12",
+          "labelled": true
+        }
+      ],
+      "enumeration": "1",
+      "eyeIcons": 12,
+      "eyeOffIcons": 0,
+      "switches": 12,
+      "actionsVisible": false,
+      "filters": [
+        337,
+        337,
+        337,
+        337
+      ]
+    },
+    {
+      "name": "desktop-light-departure-details",
+      "path": "/admin/travel/departures",
+      "viewportWidth": 1440,
+      "documentWidth": 1440,
+      "modalOpen": true,
+      "modalWithinViewport": true,
+      "inputs": [],
+      "enumeration": "1",
+      "eyeIcons": 12,
+      "eyeOffIcons": 0,
+      "switches": 12,
+      "actionsVisible": false,
+      "filters": [
+        337,
+        337,
+        337,
+        337
+      ]
+    },
+    {
+      "name": "desktop-light-departure-closed",
+      "path": "/admin/travel/departures",
+      "viewportWidth": 1440,
+      "documentWidth": 1440,
+      "modalOpen": false,
+      "modalWithinViewport": true,
+      "inputs": [
+        {
+          "id": "departure-search",
+          "labelled": true
+        },
+        {
+          "id": "departure-tour-filter",
+          "labelled": true
+        },
+        {
+          "id": "departure-status-filter",
+          "labelled": true
+        },
+        {
+          "id": "departure-sales-1",
+          "labelled": true
+        },
+        {
+          "id": "departure-sales-3",
+          "labelled": true
+        },
+        {
+          "id": "departure-sales-5",
+          "labelled": true
+        },
+        {
+          "id": "departure-sales-7",
+          "labelled": true
+        },
+        {
+          "id": "departure-sales-9",
+          "labelled": true
+        },
+        {
+          "id": "departure-sales-11",
+          "labelled": true
+        },
+        {
+          "id": "departure-sales-2",
+          "labelled": true
+        },
+        {
+          "id": "departure-sales-4",
+          "labelled": true
+        },
+        {
+          "id": "departure-sales-6",
+          "labelled": true
+        },
+        {
+          "id": "departure-sales-8",
+          "labelled": true
+        },
+        {
+          "id": "departure-sales-10",
+          "labelled": true
+        },
+        {
+          "id": "departure-sales-12",
+          "labelled": true
+        }
+      ],
+      "enumeration": "1",
+      "eyeIcons": 12,
+      "eyeOffIcons": 0,
+      "switches": 12,
+      "actionsVisible": false,
+      "filters": [
+        395,
+        395,
+        395,
+        395
+      ]
+    },
+    {
+      "name": "desktop-light-inquiries",
+      "path": "/admin/travel/inquiries",
+      "viewportWidth": 1440,
+      "documentWidth": 1440,
+      "modalOpen": false,
+      "modalWithinViewport": true,
+      "inputs": [
+        {
+          "id": "travel-inquiry-search",
+          "labelled": true
+        },
+        {
+          "id": "travel-inquiry-status-filter",
+          "labelled": true
+        },
+        {
+          "id": "travel-inquiry-type-filter",
+          "labelled": true
+        },
+        {
+          "id": "travel-inquiry-owner-filter",
+          "labelled": true
+        },
+        {
+          "id": "travel-inquiry-due-filter",
+          "labelled": true
+        }
+      ],
+      "enumeration": "1",
+      "eyeIcons": 3,
+      "eyeOffIcons": 0,
+      "switches": 0,
+      "actionsVisible": false,
+      "filters": [
+        322,
+        322,
+        322,
+        322,
+        322,
+        322
+      ]
+    },
+    {
+      "name": "desktop-light-inquiry-details",
+      "path": "/admin/travel/inquiries",
+      "viewportWidth": 1440,
+      "documentWidth": 1440,
+      "modalOpen": true,
+      "modalWithinViewport": true,
+      "inputs": [
+        {
+          "id": "travel-inquiry-assignee",
+          "labelled": true
+        },
+        {
+          "id": "travel-inquiry-status",
+          "labelled": true
+        },
+        {
+          "id": "travel-inquiry-follow-up",
+          "labelled": true
+        },
+        {
+          "id": "travel-inquiry-activity-type",
+          "labelled": true
+        },
+        {
+          "id": "travel-inquiry-activity-note",
+          "labelled": true
+        }
+      ],
+      "enumeration": "1",
+      "eyeIcons": 3,
+      "eyeOffIcons": 0,
+      "switches": 0,
+      "actionsVisible": false,
+      "filters": [
+        322,
+        322,
+        322,
+        322,
+        322,
+        322
+      ]
+    },
+    {
+      "name": "desktop-dark-destinations",
+      "path": "/admin/travel/catalog/destinations",
+      "viewportWidth": 1440,
+      "documentWidth": 1440,
+      "modalOpen": false,
+      "modalWithinViewport": true,
+      "inputs": [
+        {
+          "id": "travel-destination-search",
+          "labelled": true
+        },
+        {
+          "id": "travel-destination-type-filter",
+          "labelled": true
+        },
+        {
+          "id": "travel-destination-status-filter",
+          "labelled": true
+        },
+        {
+          "id": "travel-destination-active-1",
+          "labelled": true
+        },
+        {
+          "id": "travel-destination-published-1",
+          "labelled": true
+        },
+        {
+          "id": "travel-destination-active-2",
+          "labelled": true
+        },
+        {
+          "id": "travel-destination-published-2",
+          "labelled": true
+        },
+        {
+          "id": "travel-destination-active-3",
+          "labelled": true
+        },
+        {
+          "id": "travel-destination-published-3",
+          "labelled": true
+        },
+        {
+          "id": "travel-destination-active-4",
+          "labelled": true
+        },
+        {
+          "id": "travel-destination-published-4",
+          "labelled": true
+        },
+        {
+          "id": "travel-destination-active-5",
+          "labelled": true
+        },
+        {
+          "id": "travel-destination-published-5",
+          "labelled": true
+        },
+        {
+          "id": "travel-destination-active-6",
+          "labelled": true
+        },
+        {
+          "id": "travel-destination-published-6",
+          "labelled": true
+        }
+      ],
+      "enumeration": "1",
+      "eyeIcons": 6,
+      "eyeOffIcons": 0,
+      "switches": 12,
+      "actionsVisible": true,
+      "filters": [
+        322,
+        322,
+        322,
+        322
+      ]
+    },
+    {
+      "name": "tablet-light-destinations",
+      "path": "/admin/travel/catalog/destinations",
+      "viewportWidth": 820,
+      "documentWidth": 820,
+      "modalOpen": false,
+      "modalWithinViewport": true,
+      "inputs": [
+        {
+          "id": "travel-destination-search",
+          "labelled": true
+        },
+        {
+          "id": "travel-destination-type-filter",
+          "labelled": true
+        },
+        {
+          "id": "travel-destination-status-filter",
+          "labelled": true
+        },
+        {
+          "id": "travel-destination-active-1",
+          "labelled": true
+        },
+        {
+          "id": "travel-destination-published-1",
+          "labelled": true
+        },
+        {
+          "id": "travel-destination-active-2",
+          "labelled": true
+        },
+        {
+          "id": "travel-destination-published-2",
+          "labelled": true
+        },
+        {
+          "id": "travel-destination-active-3",
+          "labelled": true
+        },
+        {
+          "id": "travel-destination-published-3",
+          "labelled": true
+        },
+        {
+          "id": "travel-destination-active-4",
+          "labelled": true
+        },
+        {
+          "id": "travel-destination-published-4",
+          "labelled": true
+        },
+        {
+          "id": "travel-destination-active-5",
+          "labelled": true
+        },
+        {
+          "id": "travel-destination-published-5",
+          "labelled": true
+        },
+        {
+          "id": "travel-destination-active-6",
+          "labelled": true
+        },
+        {
+          "id": "travel-destination-published-6",
+          "labelled": true
+        }
+      ],
+      "enumeration": "1",
+      "eyeIcons": 6,
+      "eyeOffIcons": 0,
+      "switches": 12,
+      "actionsVisible": true,
+      "filters": [
+        311,
+        387,
+        387,
+        434
+      ]
+    },
+    {
+      "name": "tablet-light-departures",
+      "path": "/admin/travel/departures",
+      "viewportWidth": 820,
+      "documentWidth": 820,
+      "modalOpen": false,
+      "modalWithinViewport": true,
+      "inputs": [
+        {
+          "id": "departure-search",
+          "labelled": true
+        },
+        {
+          "id": "departure-tour-filter",
+          "labelled": true
+        },
+        {
+          "id": "departure-status-filter",
+          "labelled": true
+        },
+        {
+          "id": "departure-sales-1",
+          "labelled": true
+        },
+        {
+          "id": "departure-sales-3",
+          "labelled": true
+        },
+        {
+          "id": "departure-sales-5",
+          "labelled": true
+        },
+        {
+          "id": "departure-sales-7",
+          "labelled": true
+        },
+        {
+          "id": "departure-sales-9",
+          "labelled": true
+        },
+        {
+          "id": "departure-sales-11",
+          "labelled": true
+        },
+        {
+          "id": "departure-sales-2",
+          "labelled": true
+        },
+        {
+          "id": "departure-sales-4",
+          "labelled": true
+        },
+        {
+          "id": "departure-sales-6",
+          "labelled": true
+        },
+        {
+          "id": "departure-sales-8",
+          "labelled": true
+        },
+        {
+          "id": "departure-sales-10",
+          "labelled": true
+        },
+        {
+          "id": "departure-sales-12",
+          "labelled": true
+        }
+      ],
+      "enumeration": "1",
+      "eyeIcons": 12,
+      "eyeOffIcons": 0,
+      "switches": 12,
+      "actionsVisible": true,
+      "filters": [
+        326,
+        402,
+        402,
+        449
+      ]
+    },
+    {
+      "name": "tablet-light-inquiries",
+      "path": "/admin/travel/inquiries",
+      "viewportWidth": 820,
+      "documentWidth": 820,
+      "modalOpen": false,
+      "modalWithinViewport": true,
+      "inputs": [
+        {
+          "id": "travel-inquiry-search",
+          "labelled": true
+        },
+        {
+          "id": "travel-inquiry-status-filter",
+          "labelled": true
+        },
+        {
+          "id": "travel-inquiry-type-filter",
+          "labelled": true
+        },
+        {
+          "id": "travel-inquiry-owner-filter",
+          "labelled": true
+        },
+        {
+          "id": "travel-inquiry-due-filter",
+          "labelled": true
+        }
+      ],
+      "enumeration": "1",
+      "eyeIcons": 3,
+      "eyeOffIcons": 0,
+      "switches": 0,
+      "actionsVisible": true,
+      "filters": [
+        311,
+        387,
+        387,
+        463,
+        463,
+        510
+      ]
+    },
+    {
+      "name": "mobile-light-destinations",
+      "path": "/admin/travel/catalog/destinations",
+      "viewportWidth": 390,
+      "documentWidth": 390,
+      "modalOpen": false,
+      "modalWithinViewport": true,
+      "inputs": [
+        {
+          "id": "travel-destination-search",
+          "labelled": true
+        },
+        {
+          "id": "travel-destination-type-filter",
+          "labelled": true
+        },
+        {
+          "id": "travel-destination-status-filter",
+          "labelled": true
+        },
+        {
+          "id": "travel-destination-active-1",
+          "labelled": true
+        },
+        {
+          "id": "travel-destination-published-1",
+          "labelled": true
+        },
+        {
+          "id": "travel-destination-active-2",
+          "labelled": true
+        },
+        {
+          "id": "travel-destination-published-2",
+          "labelled": true
+        },
+        {
+          "id": "travel-destination-active-3",
+          "labelled": true
+        },
+        {
+          "id": "travel-destination-published-3",
+          "labelled": true
+        },
+        {
+          "id": "travel-destination-active-4",
+          "labelled": true
+        },
+        {
+          "id": "travel-destination-published-4",
+          "labelled": true
+        },
+        {
+          "id": "travel-destination-active-5",
+          "labelled": true
+        },
+        {
+          "id": "travel-destination-published-5",
+          "labelled": true
+        },
+        {
+          "id": "travel-destination-active-6",
+          "labelled": true
+        },
+        {
+          "id": "travel-destination-published-6",
+          "labelled": true
+        }
+      ],
+      "enumeration": "1",
+      "eyeIcons": 6,
+      "eyeOffIcons": 0,
+      "switches": 12,
+      "actionsVisible": true,
+      "filters": [
+        456,
+        532,
+        608,
+        655
+      ]
+    },
+    {
+      "name": "mobile-light-departures",
+      "path": "/admin/travel/departures",
+      "viewportWidth": 390,
+      "documentWidth": 390,
+      "modalOpen": false,
+      "modalWithinViewport": true,
+      "inputs": [
+        {
+          "id": "departure-search",
+          "labelled": true
+        },
+        {
+          "id": "departure-tour-filter",
+          "labelled": true
+        },
+        {
+          "id": "departure-status-filter",
+          "labelled": true
+        },
+        {
+          "id": "departure-sales-1",
+          "labelled": true
+        },
+        {
+          "id": "departure-sales-3",
+          "labelled": true
+        },
+        {
+          "id": "departure-sales-5",
+          "labelled": true
+        },
+        {
+          "id": "departure-sales-7",
+          "labelled": true
+        },
+        {
+          "id": "departure-sales-9",
+          "labelled": true
+        },
+        {
+          "id": "departure-sales-11",
+          "labelled": true
+        },
+        {
+          "id": "departure-sales-2",
+          "labelled": true
+        },
+        {
+          "id": "departure-sales-4",
+          "labelled": true
+        },
+        {
+          "id": "departure-sales-6",
+          "labelled": true
+        },
+        {
+          "id": "departure-sales-8",
+          "labelled": true
+        },
+        {
+          "id": "departure-sales-10",
+          "labelled": true
+        },
+        {
+          "id": "departure-sales-12",
+          "labelled": true
+        }
+      ],
+      "enumeration": "1",
+      "eyeIcons": 12,
+      "eyeOffIcons": 0,
+      "switches": 12,
+      "actionsVisible": true,
+      "filters": [
+        450,
+        526,
+        602,
+        649
+      ]
+    },
+    {
+      "name": "mobile-light-inquiries",
+      "path": "/admin/travel/inquiries",
+      "viewportWidth": 390,
+      "documentWidth": 390,
+      "modalOpen": false,
+      "modalWithinViewport": true,
+      "inputs": [
+        {
+          "id": "travel-inquiry-search",
+          "labelled": true
+        },
+        {
+          "id": "travel-inquiry-status-filter",
+          "labelled": true
+        },
+        {
+          "id": "travel-inquiry-type-filter",
+          "labelled": true
+        },
+        {
+          "id": "travel-inquiry-owner-filter",
+          "labelled": true
+        },
+        {
+          "id": "travel-inquiry-due-filter",
+          "labelled": true
+        }
+      ],
+      "enumeration": "1",
+      "eyeIcons": 3,
+      "eyeOffIcons": 0,
+      "switches": 0,
+      "actionsVisible": true,
+      "filters": [
+        399,
+        475,
+        551,
+        627,
+        703,
+        750
+      ]
+    }
+  ]
+}

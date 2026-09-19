@@ -29,6 +29,7 @@
             <table class="table table-hover align-middle mb-0 travel-admin-table travel-category-table">
                 <thead>
                     <tr>
+                        <th scope="col" class="travel-admin-index">#</th>
                         <th scope="col">Category</th>
                         <th scope="col">Parent</th>
                         <th scope="col" class="text-center">Tours</th>
@@ -50,6 +51,7 @@
                             };
                         @endphp
                         <tr wire:key="travel-category-{{ $category->id }}" data-depth="{{ $category->depth }}">
+                            <td class="travel-admin-index">{{ $loop->iteration }}</td>
                             <td>
                                 <div class="travel-category-name" style="--travel-depth: {{ $category->depth }}">
                                     @if ($category->depth > 0)
@@ -130,7 +132,7 @@
                         </tr>
                     @empty
                         <tr>
-                            <td colspan="6">
+                            <td colspan="7">
                                 <div class="travel-admin-empty">
                                     <i class="ti ti-category" aria-hidden="true"></i>
                                     <strong>No tour categories yet</strong>

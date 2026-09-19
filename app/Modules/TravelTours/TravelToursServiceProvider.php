@@ -42,6 +42,7 @@ use App\Modules\TravelTours\Events\BookingPaymentConfirmed;
 use App\Modules\TravelTours\Events\BookingPaymentRecorded;
 use App\Modules\TravelTours\Events\TourBookingConfirmed;
 use App\Modules\TravelTours\Events\TourBookingPlaced;
+use App\Modules\TravelTours\Inquiries\Livewire\Admin\InquiryManager;
 use App\Modules\TravelTours\Inquiries\Models\TourInquiry;
 use App\Modules\TravelTours\Listeners\NotifyStaffOfPendingPayment;
 use App\Modules\TravelTours\Listeners\SendBookingPaymentConfirmedNotification;
@@ -148,6 +149,7 @@ final class TravelToursServiceProvider extends ServiceProvider
         Livewire::component('travel-tours.admin.promotion-manager', PromotionManager::class);
         Livewire::component('travel-tours.admin.departure-manager', DepartureManager::class);
         Livewire::component('travel-tours.admin.booking-manager', BookingManager::class);
+        Livewire::component('travel-tours.admin.inquiry-manager', InquiryManager::class);
         Livewire::component('travel-tours.storefront.tour-search', TourSearch::class);
         Livewire::component('travel-tours.storefront.departure-selector', DepartureSelector::class);
         Livewire::component('travel-tours.storefront.booking-checkout', BookingCheckout::class);

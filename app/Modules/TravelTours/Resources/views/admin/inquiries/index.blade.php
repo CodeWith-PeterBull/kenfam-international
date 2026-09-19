@@ -2,35 +2,22 @@
 
 @section('title', 'Tour Inquiries')
 
+@push('styles')
+    @vite('app/Modules/TravelTours/Resources/assets/css/admin.css')
+@endpush
+
 @section('content')
-<main>
-    <div class="page-header">
-        <div class="page-title"><h4>Tour inquiries</h4><h6>Private, custom, and published-tour conversations</h6></div>
-    </div>
-    <section class="card aureon-panel">
-        <div class="table-responsive">
-            <table class="table mb-0">
-                <thead>
-                    <tr><th>Inquiry</th><th>Contact</th><th>Tour</th><th>Travel dates</th><th>Owner</th><th>Follow-up</th><th>Status</th></tr>
-                </thead>
-                <tbody>
-                    @forelse ($inquiries as $inquiry)
-                        <tr>
-                            <td><strong>{{ $inquiry->reference }}</strong><small class="d-block text-muted">{{ $inquiry->inquiry_type->label() }}</small></td>
-                            <td>{{ $inquiry->contact_name }}<small class="d-block text-muted">{{ $inquiry->contact_email ?: $inquiry->contact_phone }}</small></td>
-                            <td>{{ $inquiry->tour?->name ?: $inquiry->requested_destinations ?: 'General' }}</td>
-                            <td>{{ $inquiry->preferred_start_date?->format('d M Y') ?: 'Flexible' }}</td>
-                            <td>{{ $inquiry->assignee?->name ?: 'Unassigned' }}</td>
-                            <td>{{ $inquiry->follow_up_at?->format('d M Y, H:i') ?: 'Not scheduled' }}</td>
-                            <td><span class="badge text-bg-light">{{ $inquiry->status->label() }}</span></td>
-                        </tr>
-                    @empty
-                        <tr><td colspan="7" class="text-center py-4">No inquiries have been submitted.</td></tr>
-                    @endforelse
-                </tbody>
-            </table>
+    <main class="travel-admin">
+        <div class="page-header">
+            <div class="page-title">
+                <h4>Tour inquiries</h4>
+                <h6>Private, custom, and published-tour conversations and their follow-up</h6>
+            </div>
+            <div class="page-btn d-flex flex-wrap gap-2">
+                <a class="btn btn-outline-secondary" href="{{ route('travel-tours.admin.bookings.index') }}"><i class="ti ti-ticket me-2" aria-hidden="true"></i>Bookings</a>
+                <a class="btn btn-outline-secondary" href="{{ route('travel-tours.admin.catalog.index') }}"><i class="ti ti-map-route me-2" aria-hidden="true"></i>Tour catalog</a>
+            </div>
         </div>
-        <div class="card-footer">{{ $inquiries->links() }}</div>
-    </section>
-</main>
+        <livewire:travel-tours.admin.inquiry-manager />
+    </main>
 @endsection
