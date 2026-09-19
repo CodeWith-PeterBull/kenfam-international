@@ -54,7 +54,7 @@
     @stack('head')
 </head>
 <body class="travel-storefront" data-travel-page="@yield('page', 'general')">
-    <x-loader context="travel experience" />
+    <x-loader context="travel experience" :icon="$travelProfile->iconUrl" />
     <a class="travel-skip-link" href="#main-content">Skip to main content</a>
     @include('travel-tours::storefront.partials.header')
     <main id="main-content">@yield('content')</main>

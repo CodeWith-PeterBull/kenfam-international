@@ -62,7 +62,7 @@ final class TravelToursBookingManagerTest extends TestCase
             ->set('paymentFilter', 'unpaid')
             ->assertSee($pending->booking_number)->assertDontSee($confirmed->booking_number)
             ->set('search', '100%')
-            ->assertSee('No bookings match these filters.');
+            ->assertSee('No bookings match the current filters');
     }
 
     /** Editors have no booking visibility at all. */

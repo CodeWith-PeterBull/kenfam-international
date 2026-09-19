@@ -6,6 +6,7 @@ declare(strict_types=1);
 
 namespace App\Modules\TravelTours\Bookings\Livewire\Admin;
 
+use App\Modules\TravelTours\Bookings\Enums\BookingChannel;
 use App\Modules\TravelTours\Bookings\Enums\BookingStatus;
 use App\Modules\TravelTours\Bookings\Enums\PaymentRecordStatus;
 use App\Modules\TravelTours\Bookings\Enums\PaymentStatus;
@@ -55,6 +56,12 @@ final class BookingManager extends Component
     #[Url(as: 'payment', except: '')]
     public string $paymentFilter = '';
 
+    #[Url(as: 'channel', except: '')]
+    public string $channelFilter = '';
+
+    #[Url(as: 'attention', except: '')]
+    public string $attentionFilter = '';
+
     #[Locked]
     public ?int $selectedId = null;
 
@@ -76,20 +83,17 @@ final class BookingManager extends Component
     }
 
     /** Clear pagination when a filter changes. */
-    public function updatedSearch(): void
+    public function updated(string $property): void
     {
-        $this->resetPage();
+        if (in_array($property, ['search', 'statusFilter', 'paymentFilter', 'channelFilter', 'attentionFilter'], true)) {
+            $this->resetPage();
+        }
     }
 
-    /** Clear pagination when a filter changes. */
-    public function updatedStatusFilter(): void
+    /** Clear every filter and return to the first page. */
+    public function clearFilters(): void
     {
-        $this->resetPage();
-    }
-
-    /** Clear pagination when a filter changes. */
-    public function updatedPaymentFilter(): void
-    {
+        $this->reset('search', 'statusFilter', 'paymentFilter', 'channelFilter', 'attentionFilter');
         $this->resetPage();
     }
 
@@ -116,9 +120,31 @@ final class BookingManager extends Component
             })
             ->when(BookingStatus::tryFrom($this->statusFilter), fn ($query, BookingStatus $status) => $query->where('status', $status->value))
             ->when(PaymentStatus::tryFrom($this->paymentFilter), fn ($query, PaymentStatus $status) => $query->where('payment_status', $status->value))
+            ->when(BookingChannel::tryFrom($this->channelFilter), fn ($query, BookingChannel $channel) => $query->where('channel', $channel->value))
+            ->when($this->attentionFilter === 'payments', fn ($query) => $query->whereHas('payments', fn ($payment) => $payment->where('status', PaymentRecordStatus::Pending->value)))
+            ->when($this->attentionFilter === 'bookings', fn ($query) => $query->where('status', BookingStatus::Pending->value))
+            ->when($this->attentionFilter === 'balance', fn ($query) => $query->where('status', BookingStatus::Confirmed->value)->whereColumn('paid_minor', '<', 'total_minor'))
+            ->when($this->attentionFilter === 'departing', fn ($query) => $query->where('status', BookingStatus::Confirmed->value)->whereBetween('departure_starts_at_snapshot', [now(), now()->addDays(30)]))
             ->orderByDesc('placed_at')
             ->orderByDesc('id')
             ->paginate(self::PER_PAGE);
+    }
+
+    /**
+     * Bookings by status, and the number waiting on someone here.
+     *
+     * @return array{statuses: array<string, int>, awaiting_payment_confirmation: int, awaiting_booking_confirmation: int}
+     */
+    #[Computed]
+    public function statusCounts(): array
+    {
+        $counts = TourBooking::query()->selectRaw('status, count(*) as total')->groupBy('status')->pluck('total', 'status');
+
+        return [
+            'statuses' => collect(BookingStatus::cases())->mapWithKeys(fn (BookingStatus $status): array => [$status->value => (int) ($counts[$status->value] ?? 0)])->all(),
+            'awaiting_payment_confirmation' => BookingPayment::query()->where('status', PaymentRecordStatus::Pending->value)->count(),
+            'awaiting_booking_confirmation' => (int) ($counts[BookingStatus::Pending->value] ?? 0),
+        ];
     }
 
     /** The booking open in a dialog with everything the detail view shows. */
@@ -326,6 +352,7 @@ final class BookingManager extends Component
         return view('travel-tours::livewire.admin.bookings.booking-manager', [
             'statuses' => BookingStatus::cases(),
             'paymentStatuses' => PaymentStatus::cases(),
+            'channels' => BookingChannel::cases(),
             'pendingRecordStatus' => PaymentRecordStatus::Pending,
         ]);
     }

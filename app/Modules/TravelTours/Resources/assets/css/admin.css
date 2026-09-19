@@ -35,13 +35,16 @@
 .travel-admin-filter--action .btn { width: 100%; }
 .travel-admin-row-actions, .travel-route-actions { display: flex; align-items: center; flex-wrap: nowrap; gap: 6px; }
 .travel-admin-index { width: 52px; color: var(--aureon-muted); font-variant-numeric: tabular-nums; text-align: center; }
-/* Below the wide breakpoint the table scrolls sideways; the enumeration and the actions stay pinned so a row can always be identified and acted on. */
-@media (max-width: 1199.98px) {
-    .travel-admin-table th:last-child, .travel-admin-table td:last-child { position: sticky; right: 0; z-index: 1; background: var(--aureon-surface); box-shadow: -10px 0 12px -12px rgba(0, 0, 0, 0.35); }
-    .travel-admin-table th.travel-admin-index, .travel-admin-table td.travel-admin-index { position: sticky; left: 0; z-index: 1; background: var(--aureon-surface); }
-    .travel-admin-table .table-hover > tbody > tr:hover > td:last-child, .travel-admin-table.table-hover > tbody > tr:hover > td.travel-admin-index { background: var(--aureon-surface); }
-}
+/* Whenever a table scrolls sideways (sticky has no effect otherwise) the enumeration and the actions stay pinned so a row can always be identified and acted on. */
+.travel-admin-table th:last-child, .travel-admin-table td:last-child { position: sticky; right: 0; z-index: 1; background: var(--aureon-surface); box-shadow: -10px 0 12px -12px rgba(0, 0, 0, 0.35); }
+.travel-admin-table th.travel-admin-index, .travel-admin-table td.travel-admin-index { position: sticky; left: 0; z-index: 1; background: var(--aureon-surface); }
+.travel-admin-table.table-hover > tbody > tr:hover > td:last-child, .travel-admin-table.table-hover > tbody > tr:hover > td.travel-admin-index { background: var(--aureon-surface); }
 .travel-inquiry-message { white-space: pre-line; overflow-wrap: anywhere; }
+/* Loading status: the list dims and is marked busy while a filter, page, or row action runs; the header shows a refresh pill. */
+.travel-admin-list { position: relative; transition: opacity 160ms ease; }
+.travel-admin-list[aria-busy="true"] { opacity: .55; pointer-events: none; }
+.travel-admin-refresh { display: inline-flex; align-items: center; gap: 6px; color: var(--aureon-muted); font-size: 12px; }
+.travel-admin-refresh .spinner-border { width: 14px; height: 14px; border-width: 2px; }
 .travel-admin-empty { min-height: 180px; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 7px; color: var(--aureon-muted); text-align: center; }
 .travel-admin-empty > i { font-size: 28px; }
 .travel-admin-empty > strong { color: var(--aureon-ink); }

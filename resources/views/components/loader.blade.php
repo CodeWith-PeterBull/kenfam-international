@@ -1,4 +1,4 @@
-@props(['context' => 'page'])
+@props(['context' => 'page', 'icon' => null])
 
 <div
     id="global-loader"
@@ -9,8 +9,9 @@
     aria-label="Loading {{ config('app.name') }}"
 >
     <div class="aureon-loader__content">
+        {{-- The mark is the site favicon (config kenfam.brand.favicon) unless a storefront hands over its resolved icon. --}}
         <img
-            src="{{ asset('aureon/assets/brand/logo-icon.png') }}"
+            src="{{ $icon ?: asset(config('kenfam.brand.favicon')) }}"
             width="256"
             height="256"
             alt=""

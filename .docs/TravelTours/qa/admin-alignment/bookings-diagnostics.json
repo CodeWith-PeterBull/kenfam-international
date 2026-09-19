@@ -1,0 +1,197 @@
+{
+  "generatedAt": "2026-09-19T22:39:47.322Z",
+  "siteUrl": "http://127.0.0.1:8014",
+  "failures": [],
+  "runtimeErrors": [],
+  "networkErrors": [],
+  "observations": [
+    "Storefront loader http://127.0.0.1:8014/kenfam/assets/brand/favicon.png | favicon http://127.0.0.1:8014/kenfam/assets/brand/favicon.png",
+    "Dashboard loader http://127.0.0.1:8014/kenfam/assets/brand/favicon.png | favicon http://127.0.0.1:8014/kenfam/assets/brand/favicon.png",
+    "Bookings: {\"headerBottom\":235,\"filtersTop\":255,\"filterBottoms\":[322,322,322,322,322,322],\"enumeration\":\"1\"}",
+    "Loading status while filtering: {\"busy\":true,\"shown\":true}",
+    "Mobile bookings actions visible: true"
+  ],
+  "diagnostics": [
+    {
+      "name": "desktop-light-bookings",
+      "path": "/admin/travel/bookings",
+      "viewportWidth": 1440,
+      "documentWidth": 1440,
+      "modalOpen": false,
+      "inputs": [
+        {
+          "id": "booking-search",
+          "labelled": true
+        },
+        {
+          "id": "booking-status-filter",
+          "labelled": true
+        },
+        {
+          "id": "booking-payment-filter",
+          "labelled": true
+        },
+        {
+          "id": "booking-channel-filter",
+          "labelled": true
+        },
+        {
+          "id": "booking-attention-filter",
+          "labelled": true
+        }
+      ],
+      "headerBottom": 235,
+      "filtersTop": 255,
+      "filterBottoms": [
+        322,
+        322,
+        322,
+        322,
+        322,
+        322
+      ],
+      "enumeration": "1"
+    },
+    {
+      "name": "desktop-light-bookings-filtered",
+      "path": "/admin/travel/bookings",
+      "viewportWidth": 1440,
+      "documentWidth": 1440,
+      "modalOpen": false,
+      "inputs": [
+        {
+          "id": "booking-search",
+          "labelled": true
+        },
+        {
+          "id": "booking-status-filter",
+          "labelled": true
+        },
+        {
+          "id": "booking-payment-filter",
+          "labelled": true
+        },
+        {
+          "id": "booking-channel-filter",
+          "labelled": true
+        },
+        {
+          "id": "booking-attention-filter",
+          "labelled": true
+        }
+      ],
+      "headerBottom": 235,
+      "filtersTop": 255,
+      "filterBottoms": [
+        322,
+        322,
+        322,
+        322,
+        322,
+        322
+      ],
+      "enumeration": "1",
+      "url": "?status=confirmed"
+    },
+    {
+      "name": "desktop-light-booking-details",
+      "path": "/admin/travel/bookings",
+      "viewportWidth": 1440,
+      "documentWidth": 1440,
+      "modalOpen": true,
+      "inputs": [],
+      "headerBottom": 235,
+      "filtersTop": 255,
+      "filterBottoms": [
+        322,
+        322,
+        322,
+        322,
+        322,
+        322
+      ],
+      "enumeration": "1"
+    },
+    {
+      "name": "desktop-dark-bookings",
+      "path": "/admin/travel/bookings",
+      "viewportWidth": 1440,
+      "documentWidth": 1440,
+      "modalOpen": false,
+      "inputs": [
+        {
+          "id": "booking-search",
+          "labelled": true
+        },
+        {
+          "id": "booking-status-filter",
+          "labelled": true
+        },
+        {
+          "id": "booking-payment-filter",
+          "labelled": true
+        },
+        {
+          "id": "booking-channel-filter",
+          "labelled": true
+        },
+        {
+          "id": "booking-attention-filter",
+          "labelled": true
+        }
+      ],
+      "headerBottom": 235,
+      "filtersTop": 255,
+      "filterBottoms": [
+        322,
+        322,
+        322,
+        322,
+        322,
+        322
+      ],
+      "enumeration": "1"
+    },
+    {
+      "name": "mobile-light-bookings",
+      "path": "/admin/travel/bookings",
+      "viewportWidth": 390,
+      "documentWidth": 390,
+      "modalOpen": false,
+      "inputs": [
+        {
+          "id": "booking-search",
+          "labelled": true
+        },
+        {
+          "id": "booking-status-filter",
+          "labelled": true
+        },
+        {
+          "id": "booking-payment-filter",
+          "labelled": true
+        },
+        {
+          "id": "booking-channel-filter",
+          "labelled": true
+        },
+        {
+          "id": "booking-attention-filter",
+          "labelled": true
+        }
+      ],
+      "headerBottom": 296,
+      "filtersTop": 316,
+      "filterBottoms": [
+        384,
+        460,
+        536,
+        612,
+        688,
+        735
+      ],
+      "enumeration": "1",
+      "actionsVisible": true
+    }
+  ]
+}

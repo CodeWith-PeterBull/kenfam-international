@@ -270,6 +270,23 @@ Files: `Catalog/Services/DestinationService.php`, `Catalog/Livewire/Admin/Destin
 
 Verification: `php artisan test --filter=TravelTours` 136 passed (2673 assertions), Pint clean; browser harness `qa-admin-alignment.mjs` (scratchpad) as the travel manager: each table enumerated from 1 with switches and no eye-off icons, filter controls on one baseline, destination details with the cover and gallery controls, departure details, sales switch closed and reopened, inquiry details with a note recorded on the timeline; dark theme; tablet and phone widths with the row actions measured inside the viewport; 13 captures, zero runtime/network errors, every input labelled. Evidence in `qa/admin-alignment/`.
 
+### Admin alignment — bookings manager, and the favicon as the preloader mark · 2026-09-20
+
+**Delivered** on `feature/travel-tours-bookings-alignment`. The bookings manager now follows the same list pattern as the other aligned managers, and every preloader on the platform shows the configured favicon.
+
+| Area | Result |
+|---|---|
+| Filter bar | The horizontal filter row is gone. The card header holds the title, the count, and the refresh pill; the filters sit directly beneath it in the shared `.travel-admin-filters` grid (search spans two tracks; status, payment, **channel**, **needs attention**, clear) on one baseline. Channel and attention are new URL state (`?channel=`, `?attention=`); attention offers payments to confirm, bookings to confirm, confirmed with a balance, and departing within 30 days. One `updated()` hook resets the page for every filter; `clearFilters` resets state, page, and URL. |
+| Count strip | `.travel-catalog-status-counts` under the filters: bookings by status plus the number of payments waiting on confirmation (`#[Computed] statusCounts`). |
+| Table | `#` enumeration from `firstItem()`, booking (number, channel, placed at), customer (name, email or phone), departure (tour, local date, departure code), travellers, total with the amount received, payment and status as `travel-status` pills, and actions (eye → details, cash → record payment, check → confirm pending). Empty state is the shared `.travel-admin-empty`. The `#` and Actions columns stay pinned at every width, since the nine-column table scrolls even on a 1440 px desktop. |
+| Loading status | The list is `wire:loading.attr="aria-busy"` scoped with `wire:target` to the filters, clear, paging, and row confirm; `.travel-admin-list[aria-busy]` dims it and blocks clicks while the header shows the `.travel-admin-refresh` pill. Dialog actions (confirm, complete, confirm payment) carry scoped `wire:target` with a loading label. |
+| Details dialog | Status badges replaced by the same `travel-status` pills as the table; the unused Bootstrap badge helper is gone. |
+| Preloader | `x-loader` takes an `icon` prop and otherwise renders `asset(config('kenfam.brand.favicon'))` instead of the hard-coded Aureon mark, so the dashboard and the site preloaders show the site favicon; the travel storefront passes `$travelProfile->iconUrl`, which is the same favicon unless the module overrides it. |
+
+Files: `Bookings/Livewire/Admin/BookingManager.php`, `Resources/views/livewire/admin/bookings/booking-manager.blade.php`, `Resources/views/layouts/storefront.blade.php`, `Resources/assets/css/admin.css`, `resources/views/components/loader.blade.php`, `tests/Feature/TravelTours/TravelToursBookingManagerTest.php`.
+
+Verification: `php artisan test` 261 passed (3345 assertions), Pint clean; browser harness `qa-bookings-alignment.mjs` (scratchpad) as the travel manager: filters begin 20 px under the header with every control on one baseline, enumeration from 1, the list marked busy with the refresh pill visible during a filter request, filtered state in the URL, details dialog, dark theme, and phone width with the row actions inside the viewport; the loader `src` equals the document favicon on both the storefront and the dashboard; five captures, zero runtime/network errors, every input labelled. Evidence in `qa/admin-alignment/` (`bookings-diagnostics.json`, `*-bookings*.png`, `desktop-light-booking-details.png`).
+
 ## Close-out
 
 All seven milestones are on `main`. A customer completes a booking from `/tours/{slug}` through a staff-confirmed manual payment; an operator completes the same at the desk on a shift a manager opened, with a receipt and a reconciled drawer. Items outside this shipment are listed in `todo/refinements_todo.md` (P-1..P-8).

@@ -1,17 +1,25 @@
 @use('App\Modules\TravelTours\Bookings\Enums\BookingStatus')
 @use('App\Modules\TravelTours\Bookings\Enums\PaymentMethod')
 @use('App\Modules\TravelTours\Bookings\Enums\PaymentRecordStatus')
+@use('App\Modules\TravelTours\Bookings\Enums\PaymentStatus')
 @use('App\Modules\TravelTours\Support\MoneyFormatter')
 @php
     $bookings = $this->bookings;
     $selected = $this->selected;
+    $counts = $this->statusCounts;
     $user = auth()->user();
     $money = static fn (int $minor, $booking): string => MoneyFormatter::format($minor, $booking->currency, $booking->currency_exponent);
-    $badge = static fn (BookingStatus $status): string => match ($status) {
-        BookingStatus::Confirmed, BookingStatus::Completed => 'text-bg-success',
-        BookingStatus::Cancelled, BookingStatus::Expired => 'text-bg-secondary',
-        default => 'text-bg-warning',
+    $statusClass = static fn (BookingStatus $status): string => match ($status) {
+        BookingStatus::Confirmed, BookingStatus::Completed => 'travel-status--active',
+        BookingStatus::Pending, BookingStatus::Held => 'travel-status--review',
+        default => 'travel-status--muted',
     };
+    $paymentClass = static fn (PaymentStatus $status): string => match ($status) {
+        PaymentStatus::Paid => 'travel-status--active',
+        PaymentStatus::Partial, PaymentStatus::PartiallyRefunded => 'travel-status--review',
+        default => 'travel-status--muted',
+    };
+    $listTargets = 'search, statusFilter, paymentFilter, channelFilter, attentionFilter, clearFilters, gotoPage, nextPage, previousPage, confirmBooking';
     $canRecord = $selected && $user->can('recordPayment', $selected) && ! $selected->status->isTerminal();
     $canConfirmPayments = $selected && $user->can('confirmPayment', $selected);
     $canRefund = $selected && $user->can('refund', $selected) && $selected->paid_minor > $selected->refunded_minor;
@@ -32,32 +40,76 @@
         <div class="card-header d-flex align-items-center justify-content-between gap-3 flex-wrap">
             <div>
                 <h3 id="travel-bookings-title" class="card-title mb-1">Bookings</h3>
-                <p class="aureon-muted mb-0">{{ number_format($bookings->total()) }} {{ Str::plural('booking', $bookings->total()) }} across every channel</p>
+                <p class="aureon-muted mb-0">{{ number_format($bookings->total()) }} {{ Str::plural('booking', $bookings->total()) }} across every channel, newest first</p>
             </div>
-            <form class="d-flex flex-wrap gap-2 travel-admin-filters" wire:submit.prevent novalidate aria-label="Filter bookings">
-                <label class="visually-hidden" for="booking-search">Search bookings</label>
-                <input id="booking-search" type="search" class="form-control" placeholder="Booking number, customer, or tour" wire:model.live.debounce.400ms="search">
-                <label class="visually-hidden" for="booking-status-filter">Booking status</label>
-                <select id="booking-status-filter" class="form-select" wire:model.live="statusFilter">
-                    <option value="">All statuses</option>
-                    @foreach ($statuses as $status)
-                        <option value="{{ $status->value }}">{{ $status->label() }}</option>
-                    @endforeach
-                </select>
-                <label class="visually-hidden" for="booking-payment-filter">Payment status</label>
-                <select id="booking-payment-filter" class="form-select" wire:model.live="paymentFilter">
-                    <option value="">All payment states</option>
-                    @foreach ($paymentStatuses as $status)
-                        <option value="{{ $status->value }}">{{ $status->label() }}</option>
-                    @endforeach
-                </select>
-            </form>
+            <span class="travel-admin-refresh" wire:loading.inline-flex wire:target="{{ $listTargets }}" role="status">
+                <span class="spinner-border" aria-hidden="true"></span>Updating list…
+            </span>
         </div>
 
-        <div class="table-responsive">
+        <div class="card-body border-bottom">
+            <div class="travel-admin-filters">
+                <div class="travel-admin-filter travel-admin-filter--search">
+                    <label for="booking-search" class="form-label">Search bookings</label>
+                    <div class="input-group">
+                        <span class="input-group-text"><i class="ti ti-search" aria-hidden="true"></i></span>
+                        <input id="booking-search" type="search" class="form-control" placeholder="Booking number, customer, or tour" wire:model.live.debounce.400ms="search">
+                    </div>
+                </div>
+                <div class="travel-admin-filter">
+                    <label for="booking-status-filter" class="form-label">Status</label>
+                    <select id="booking-status-filter" class="form-select" wire:model.live="statusFilter">
+                        <option value="">All statuses</option>
+                        @foreach ($statuses as $status)
+                            <option value="{{ $status->value }}">{{ $status->label() }}</option>
+                        @endforeach
+                    </select>
+                </div>
+                <div class="travel-admin-filter">
+                    <label for="booking-payment-filter" class="form-label">Payment</label>
+                    <select id="booking-payment-filter" class="form-select" wire:model.live="paymentFilter">
+                        <option value="">All payment states</option>
+                        @foreach ($paymentStatuses as $status)
+                            <option value="{{ $status->value }}">{{ $status->label() }}</option>
+                        @endforeach
+                    </select>
+                </div>
+                <div class="travel-admin-filter">
+                    <label for="booking-channel-filter" class="form-label">Channel</label>
+                    <select id="booking-channel-filter" class="form-select" wire:model.live="channelFilter">
+                        <option value="">All channels</option>
+                        @foreach ($channels as $channel)
+                            <option value="{{ $channel->value }}">{{ $channel->label() }}</option>
+                        @endforeach
+                    </select>
+                </div>
+                <div class="travel-admin-filter">
+                    <label for="booking-attention-filter" class="form-label">Needs attention</label>
+                    <select id="booking-attention-filter" class="form-select" wire:model.live="attentionFilter">
+                        <option value="">Everything</option>
+                        <option value="payments">Payments to confirm</option>
+                        <option value="bookings">Bookings to confirm</option>
+                        <option value="balance">Confirmed with a balance</option>
+                        <option value="departing">Departing within 30 days</option>
+                    </select>
+                </div>
+                <div class="travel-admin-filter travel-admin-filter--action">
+                    <button type="button" class="btn btn-outline-secondary" wire:click="clearFilters" wire:loading.attr="disabled" wire:target="clearFilters"><i class="ti ti-filter-off me-2" aria-hidden="true"></i>Clear</button>
+                </div>
+            </div>
+        </div>
+        <div class="travel-catalog-status-counts" aria-label="Bookings by state">
+            @foreach ($counts['statuses'] as $value => $count)
+                <span><strong>{{ number_format($count) }}</strong>{{ BookingStatus::from($value)->label() }}</span>
+            @endforeach
+            <span><strong>{{ number_format($counts['awaiting_payment_confirmation']) }}</strong>{{ Str::plural('payment', $counts['awaiting_payment_confirmation']) }} to confirm</span>
+        </div>
+
+        <div class="table-responsive travel-admin-list" wire:loading.attr="aria-busy" wire:target="{{ $listTargets }}">
             <table class="table table-hover align-middle mb-0 travel-admin-table">
                 <thead>
                     <tr>
+                        <th scope="col" class="travel-admin-index">#</th>
                         <th scope="col">Booking</th>
                         <th scope="col">Customer</th>
                         <th scope="col">Departure</th>
@@ -70,38 +122,43 @@
                 </thead>
                 <tbody>
                     @forelse ($bookings as $booking)
+                        @php
+                            $travellers = $booking->adult_count + $booking->child_count + $booking->infant_count;
+                            $received = $booking->paid_minor - $booking->refunded_minor;
+                        @endphp
                         <tr wire:key="booking-{{ $booking->getKey() }}">
+                            <td class="travel-admin-index">{{ $bookings->firstItem() + $loop->index }}</td>
                             <td>
                                 <strong class="d-block">{{ $booking->booking_number }}</strong>
                                 <small class="aureon-muted">{{ $booking->channel->label() }} &middot; {{ $booking->placed_at->format('d M Y, H:i') }}</small>
                             </td>
                             <td>
-                                {{ $booking->customer_name_snapshot }}
-                                <small class="d-block aureon-muted">{{ $booking->customer_email_snapshot ?: $booking->customer_phone_snapshot }}</small>
+                                <span class="d-block text-break">{{ $booking->customer_name_snapshot }}</span>
+                                <small class="aureon-muted text-break">{{ $booking->customer_email_snapshot ?: $booking->customer_phone_snapshot }}</small>
                             </td>
                             <td>
-                                {{ $booking->tour_name_snapshot }}
-                                <small class="d-block aureon-muted">{{ $booking->departure_starts_at_snapshot->timezone($booking->departure_timezone_snapshot)->format('d M Y') }}</small>
+                                <span class="d-block text-break">{{ $booking->tour_name_snapshot }}</span>
+                                <small class="aureon-muted">{{ $booking->departure_starts_at_snapshot->timezone($booking->departure_timezone_snapshot)->format('d M Y') }}@if ($booking->departure) &middot; {{ $booking->departure->code }}@endif</small>
                             </td>
-                            <td class="text-center">{{ $booking->adult_count + $booking->child_count + $booking->infant_count }}</td>
+                            <td class="text-center">{{ $travellers }}</td>
                             <td class="text-end">
-                                <strong>{{ $money($booking->total_minor, $booking) }}</strong>
-                                <small class="d-block aureon-muted">{{ $money($booking->paid_minor - $booking->refunded_minor, $booking) }} received</small>
+                                <strong class="d-block">{{ $money($booking->total_minor, $booking) }}</strong>
+                                <small class="aureon-muted">{{ $received > 0 ? $money($received, $booking).' received' : 'Nothing received' }}</small>
                             </td>
-                            <td><span class="badge text-bg-light">{{ $booking->payment_status->label() }}</span></td>
-                            <td><span class="badge {{ $badge($booking->status) }}">{{ $booking->status->label() }}</span></td>
+                            <td><span class="travel-status {{ $paymentClass($booking->payment_status) }}">{{ $booking->payment_status->label() }}</span></td>
+                            <td><span class="travel-status {{ $statusClass($booking->status) }}">{{ $booking->status->label() }}</span></td>
                             <td class="text-end">
                                 <div class="travel-admin-row-actions justify-content-end">
-                                    <button type="button" class="btn btn-sm btn-outline-secondary btn-icon" wire:click="openDetails({{ $booking->getKey() }})" title="View {{ $booking->booking_number }}" aria-label="View {{ $booking->booking_number }}">
+                                    <button type="button" class="btn btn-sm btn-outline-secondary btn-icon" wire:click="openDetails({{ $booking->getKey() }})" title="View booking" aria-label="View {{ $booking->booking_number }}">
                                         <i class="ti ti-eye" aria-hidden="true"></i>
                                     </button>
                                     @if ($user->can('recordPayment', $booking) && ! $booking->status->isTerminal())
-                                        <button type="button" class="btn btn-sm btn-outline-primary btn-icon" wire:click="openPayment({{ $booking->getKey() }})" title="Record payment for {{ $booking->booking_number }}" aria-label="Record payment for {{ $booking->booking_number }}">
+                                        <button type="button" class="btn btn-sm btn-outline-secondary btn-icon" wire:click="openPayment({{ $booking->getKey() }})" title="Record payment" aria-label="Record payment for {{ $booking->booking_number }}">
                                             <i class="ti ti-cash" aria-hidden="true"></i>
                                         </button>
                                     @endif
                                     @if ($user->can('update', $booking) && $booking->status === BookingStatus::Pending)
-                                        <button type="button" class="btn btn-sm btn-outline-success btn-icon" wire:click="confirmBooking({{ $booking->getKey() }})" wire:loading.attr="disabled" title="Confirm {{ $booking->booking_number }}" aria-label="Confirm {{ $booking->booking_number }}">
+                                        <button type="button" class="btn btn-sm btn-outline-success btn-icon" wire:click="confirmBooking({{ $booking->getKey() }})" wire:loading.attr="disabled" wire:target="confirmBooking" title="Confirm booking" aria-label="Confirm {{ $booking->booking_number }}">
                                             <i class="ti ti-check" aria-hidden="true"></i>
                                         </button>
                                     @endif
@@ -110,7 +167,13 @@
                         </tr>
                     @empty
                         <tr>
-                            <td colspan="8" class="text-center py-5 aureon-muted">No bookings match these filters.</td>
+                            <td colspan="9">
+                                <div class="travel-admin-empty">
+                                    <i class="ti ti-ticket" aria-hidden="true"></i>
+                                    <strong>No bookings match the current filters</strong>
+                                    <span>Bookings arrive from the storefront and the booking desk.</span>
+                                </div>
+                            </td>
                         </tr>
                     @endforelse
                 </tbody>
@@ -131,8 +194,8 @@
                         <div>
                             <h3 id="travel-booking-detail-title" class="modal-title fs-18">{{ $selected->booking_number }}</h3>
                             <p class="aureon-muted mb-0">
-                                <span class="badge {{ $badge($selected->status) }}">{{ $selected->status->label() }}</span>
-                                <span class="badge text-bg-light">{{ $selected->payment_status->label() }}</span>
+                                <span class="travel-status {{ $statusClass($selected->status) }}">{{ $selected->status->label() }}</span>
+                                <span class="travel-status {{ $paymentClass($selected->payment_status) }}">{{ $selected->payment_status->label() }}</span>
                                 {{ $selected->channel->label() }} &middot; placed {{ $selected->placed_at->format('d M Y, H:i') }}
                             </p>
                         </div>
@@ -215,7 +278,7 @@
                                                         <td>{{ $payment->reference ?: '—' }}@if ($payment->transaction_identifier)<small class="d-block aureon-muted">{{ $payment->transaction_identifier }}</small>@endif</td>
                                                         <td class="text-end">{{ $money($payment->amount_minor, $selected) }}</td>
                                                         <td>
-                                                            <span class="badge {{ $payment->status === PaymentRecordStatus::Confirmed ? 'text-bg-success' : ($payment->status === PaymentRecordStatus::Pending ? 'text-bg-warning' : 'text-bg-secondary') }}">{{ $payment->status->label() }}</span>
+                                                            <span class="travel-status {{ $payment->status === PaymentRecordStatus::Confirmed ? 'travel-status--active' : ($payment->status === PaymentRecordStatus::Pending ? 'travel-status--review' : 'travel-status--muted') }}">{{ $payment->status->label() }}</span>
                                                             @if ($payment->status === PaymentRecordStatus::Failed && ($payment->safe_metadata['rejection_reason'] ?? null))
                                                                 <small class="d-block aureon-muted">{{ $payment->safe_metadata['rejection_reason'] }}</small>
                                                             @endif
@@ -223,7 +286,7 @@
                                                         <td class="text-end">
                                                             @if ($payment->status === PaymentRecordStatus::Pending && $canConfirmPayments)
                                                                 <div class="travel-admin-row-actions justify-content-end">
-                                                                    <button type="button" class="btn btn-sm btn-success" wire:click="confirmPayment({{ $payment->getKey() }})" wire:loading.attr="disabled">Confirm</button>
+                                                                    <button type="button" class="btn btn-sm btn-success" wire:click="confirmPayment({{ $payment->getKey() }})" wire:loading.attr="disabled" wire:target="confirmPayment"><span wire:loading.remove wire:target="confirmPayment">Confirm</span><span wire:loading wire:target="confirmPayment">Confirming…</span></button>
                                                                     <button type="button" class="btn btn-sm btn-outline-danger" wire:click="openReject({{ $payment->getKey() }})">Reject</button>
                                                                 </div>
                                                             @elseif ($payment->status === PaymentRecordStatus::Pending)
@@ -258,10 +321,10 @@
                     <div class="modal-footer justify-content-between flex-wrap gap-2">
                         <div class="travel-admin-row-actions">
                             @if ($canManage && $selected->status === BookingStatus::Pending)
-                                <button type="button" class="btn btn-success" wire:click="confirmBooking({{ $selected->getKey() }})" wire:loading.attr="disabled"><i class="ti ti-check me-1" aria-hidden="true"></i>Confirm booking</button>
+                                <button type="button" class="btn btn-success" wire:click="confirmBooking({{ $selected->getKey() }})" wire:loading.attr="disabled" wire:target="confirmBooking"><i class="ti ti-check me-1" aria-hidden="true"></i><span wire:loading.remove wire:target="confirmBooking">Confirm booking</span><span wire:loading wire:target="confirmBooking">Confirming…</span></button>
                             @endif
                             @if ($canManage && $selected->status === BookingStatus::Confirmed && $selected->departure_ends_at_snapshot->isPast())
-                                <button type="button" class="btn btn-outline-success" wire:click="completeBooking({{ $selected->getKey() }})" wire:loading.attr="disabled"><i class="ti ti-flag-check me-1" aria-hidden="true"></i>Mark completed</button>
+                                <button type="button" class="btn btn-outline-success" wire:click="completeBooking({{ $selected->getKey() }})" wire:loading.attr="disabled" wire:target="completeBooking"><i class="ti ti-flag-check me-1" aria-hidden="true"></i><span wire:loading.remove wire:target="completeBooking">Mark completed</span><span wire:loading wire:target="completeBooking">Completing…</span></button>
                             @endif
                             @if ($canManage && in_array($selected->status, [BookingStatus::Pending, BookingStatus::Confirmed], true))
                                 <button type="button" class="btn btn-outline-danger" wire:click="openCancel({{ $selected->getKey() }})"><i class="ti ti-x me-1" aria-hidden="true"></i>Cancel booking</button>
