@@ -1,0 +1,1365 @@
+{
+  "generatedAt": "2026-09-19T08:20:31.792Z",
+  "siteUrl": "http://127.0.0.1:8014",
+  "failures": [],
+  "runtimeErrors": [],
+  "networkErrors": [],
+  "diagnostics": [
+    {
+      "name": "desktop-light-storefront-home",
+      "path": "/",
+      "status": "Escorted tours and considered journeys | Kenfam International",
+      "viewportWidth": 1440,
+      "documentWidth": 1440,
+      "h1": "The world, thoughtfully within reach.",
+      "inputs": []
+    },
+    {
+      "name": "desktop-light-storefront-tours",
+      "path": "/tours",
+      "status": "Explore tours | Kenfam International",
+      "viewportWidth": 1440,
+      "documentWidth": 1440,
+      "h1": "Travel experiences shaped around what matters.",
+      "inputs": [
+        {
+          "id": "",
+          "labelled": true
+        },
+        {
+          "id": "",
+          "labelled": true
+        },
+        {
+          "id": "",
+          "labelled": true
+        },
+        {
+          "id": "",
+          "labelled": true
+        },
+        {
+          "id": "",
+          "labelled": true
+        },
+        {
+          "id": "",
+          "labelled": true
+        }
+      ]
+    },
+    {
+      "name": "desktop-light-storefront-tour",
+      "path": "/tours/dubai-city-and-desert",
+      "status": "Dubai City and Desert | Escorted travel | Kenfam International",
+      "viewportWidth": 1440,
+      "documentWidth": 1440,
+      "h1": "Dubai City and Desert",
+      "inputs": [
+        {
+          "id": "",
+          "labelled": true
+        },
+        {
+          "id": "",
+          "labelled": true
+        },
+        {
+          "id": "selector-adults",
+          "labelled": true
+        },
+        {
+          "id": "selector-children",
+          "labelled": true
+        },
+        {
+          "id": "selector-infants",
+          "labelled": true
+        },
+        {
+          "id": "selector-promotion-code",
+          "labelled": true
+        },
+        {
+          "id": "",
+          "labelled": true
+        },
+        {
+          "id": "",
+          "labelled": true
+        },
+        {
+          "id": "",
+          "labelled": true
+        },
+        {
+          "id": "",
+          "labelled": true
+        },
+        {
+          "id": "",
+          "labelled": true
+        },
+        {
+          "id": "",
+          "labelled": true
+        },
+        {
+          "id": "",
+          "labelled": true
+        }
+      ]
+    },
+    {
+      "name": "desktop-dark-storefront-home",
+      "path": "/",
+      "status": "Escorted tours and considered journeys | Kenfam International",
+      "viewportWidth": 1440,
+      "documentWidth": 1440,
+      "h1": "The world, thoughtfully within reach.",
+      "inputs": []
+    },
+    {
+      "name": "desktop-dark-storefront-tours",
+      "path": "/tours",
+      "status": "Explore tours | Kenfam International",
+      "viewportWidth": 1440,
+      "documentWidth": 1440,
+      "h1": "Travel experiences shaped around what matters.",
+      "inputs": [
+        {
+          "id": "",
+          "labelled": true
+        },
+        {
+          "id": "",
+          "labelled": true
+        },
+        {
+          "id": "",
+          "labelled": true
+        },
+        {
+          "id": "",
+          "labelled": true
+        },
+        {
+          "id": "",
+          "labelled": true
+        },
+        {
+          "id": "",
+          "labelled": true
+        }
+      ]
+    },
+    {
+      "name": "desktop-dark-storefront-tour",
+      "path": "/tours/dubai-city-and-desert",
+      "status": "Dubai City and Desert | Escorted travel | Kenfam International",
+      "viewportWidth": 1440,
+      "documentWidth": 1440,
+      "h1": "Dubai City and Desert",
+      "inputs": [
+        {
+          "id": "",
+          "labelled": true
+        },
+        {
+          "id": "",
+          "labelled": true
+        },
+        {
+          "id": "selector-adults",
+          "labelled": true
+        },
+        {
+          "id": "selector-children",
+          "labelled": true
+        },
+        {
+          "id": "selector-infants",
+          "labelled": true
+        },
+        {
+          "id": "selector-promotion-code",
+          "labelled": true
+        },
+        {
+          "id": "",
+          "labelled": true
+        },
+        {
+          "id": "",
+          "labelled": true
+        },
+        {
+          "id": "",
+          "labelled": true
+        },
+        {
+          "id": "",
+          "labelled": true
+        },
+        {
+          "id": "",
+          "labelled": true
+        },
+        {
+          "id": "",
+          "labelled": true
+        },
+        {
+          "id": "",
+          "labelled": true
+        }
+      ]
+    },
+    {
+      "name": "mobile-light-storefront-home",
+      "path": "/",
+      "status": "Escorted tours and considered journeys | Kenfam International",
+      "viewportWidth": 390,
+      "documentWidth": 390,
+      "h1": "The world, thoughtfully within reach.",
+      "inputs": []
+    },
+    {
+      "name": "mobile-light-storefront-tours",
+      "path": "/tours",
+      "status": "Explore tours | Kenfam International",
+      "viewportWidth": 390,
+      "documentWidth": 390,
+      "h1": "Travel experiences shaped around what matters.",
+      "inputs": [
+        {
+          "id": "",
+          "labelled": true
+        },
+        {
+          "id": "",
+          "labelled": true
+        },
+        {
+          "id": "",
+          "labelled": true
+        },
+        {
+          "id": "",
+          "labelled": true
+        },
+        {
+          "id": "",
+          "labelled": true
+        },
+        {
+          "id": "",
+          "labelled": true
+        }
+      ]
+    },
+    {
+      "name": "mobile-light-storefront-tour",
+      "path": "/tours/dubai-city-and-desert",
+      "status": "Dubai City and Desert | Escorted travel | Kenfam International",
+      "viewportWidth": 390,
+      "documentWidth": 390,
+      "h1": "Dubai City and Desert",
+      "inputs": [
+        {
+          "id": "",
+          "labelled": true
+        },
+        {
+          "id": "",
+          "labelled": true
+        },
+        {
+          "id": "selector-adults",
+          "labelled": true
+        },
+        {
+          "id": "selector-children",
+          "labelled": true
+        },
+        {
+          "id": "selector-infants",
+          "labelled": true
+        },
+        {
+          "id": "selector-promotion-code",
+          "labelled": true
+        },
+        {
+          "id": "",
+          "labelled": true
+        },
+        {
+          "id": "",
+          "labelled": true
+        },
+        {
+          "id": "",
+          "labelled": true
+        },
+        {
+          "id": "",
+          "labelled": true
+        },
+        {
+          "id": "",
+          "labelled": true
+        },
+        {
+          "id": "",
+          "labelled": true
+        },
+        {
+          "id": "",
+          "labelled": true
+        }
+      ]
+    },
+    {
+      "name": "mobile-dark-storefront-home",
+      "path": "/",
+      "status": "Escorted tours and considered journeys | Kenfam International",
+      "viewportWidth": 390,
+      "documentWidth": 390,
+      "h1": "The world, thoughtfully within reach.",
+      "inputs": []
+    },
+    {
+      "name": "mobile-dark-storefront-tours",
+      "path": "/tours",
+      "status": "Explore tours | Kenfam International",
+      "viewportWidth": 390,
+      "documentWidth": 390,
+      "h1": "Travel experiences shaped around what matters.",
+      "inputs": [
+        {
+          "id": "",
+          "labelled": true
+        },
+        {
+          "id": "",
+          "labelled": true
+        },
+        {
+          "id": "",
+          "labelled": true
+        },
+        {
+          "id": "",
+          "labelled": true
+        },
+        {
+          "id": "",
+          "labelled": true
+        },
+        {
+          "id": "",
+          "labelled": true
+        }
+      ]
+    },
+    {
+      "name": "mobile-dark-storefront-tour",
+      "path": "/tours/dubai-city-and-desert",
+      "status": "Dubai City and Desert | Escorted travel | Kenfam International",
+      "viewportWidth": 390,
+      "documentWidth": 390,
+      "h1": "Dubai City and Desert",
+      "inputs": [
+        {
+          "id": "",
+          "labelled": true
+        },
+        {
+          "id": "",
+          "labelled": true
+        },
+        {
+          "id": "selector-adults",
+          "labelled": true
+        },
+        {
+          "id": "selector-children",
+          "labelled": true
+        },
+        {
+          "id": "selector-infants",
+          "labelled": true
+        },
+        {
+          "id": "selector-promotion-code",
+          "labelled": true
+        },
+        {
+          "id": "",
+          "labelled": true
+        },
+        {
+          "id": "",
+          "labelled": true
+        },
+        {
+          "id": "",
+          "labelled": true
+        },
+        {
+          "id": "",
+          "labelled": true
+        },
+        {
+          "id": "",
+          "labelled": true
+        },
+        {
+          "id": "",
+          "labelled": true
+        },
+        {
+          "id": "",
+          "labelled": true
+        }
+      ]
+    },
+    {
+      "name": "desktop-light-admin-dashboard",
+      "path": "/admin/travel",
+      "status": "Travel Operations | Kenfam International",
+      "viewportWidth": 1440,
+      "documentWidth": 1440,
+      "h1": "Travel operations",
+      "inputs": []
+    },
+    {
+      "name": "desktop-light-admin-catalog",
+      "path": "/admin/travel/catalog",
+      "status": "Tour Catalog | Kenfam International",
+      "viewportWidth": 1440,
+      "documentWidth": 1440,
+      "h1": "Tour catalog",
+      "inputs": [
+        {
+          "id": "travel-tour-search",
+          "labelled": true
+        },
+        {
+          "id": "travel-tour-status",
+          "labelled": true
+        },
+        {
+          "id": "travel-tour-type",
+          "labelled": true
+        },
+        {
+          "id": "travel-tour-category",
+          "labelled": true
+        },
+        {
+          "id": "travel-tour-destination",
+          "labelled": true
+        },
+        {
+          "id": "travel-tour-page-size",
+          "labelled": true
+        }
+      ]
+    },
+    {
+      "name": "desktop-light-admin-categories",
+      "path": "/admin/travel/catalog/categories",
+      "status": "Tour Categories | Kenfam International",
+      "viewportWidth": 1440,
+      "documentWidth": 1440,
+      "h1": "Tour categories",
+      "inputs": [
+        {
+          "id": "travel-category-active-1",
+          "labelled": true
+        },
+        {
+          "id": "travel-category-active-2",
+          "labelled": true
+        },
+        {
+          "id": "travel-category-active-3",
+          "labelled": true
+        },
+        {
+          "id": "travel-category-active-4",
+          "labelled": true
+        },
+        {
+          "id": "travel-category-active-5",
+          "labelled": true
+        },
+        {
+          "id": "travel-category-active-6",
+          "labelled": true
+        }
+      ]
+    },
+    {
+      "name": "desktop-light-admin-destinations",
+      "path": "/admin/travel/catalog/destinations",
+      "status": "Tour Destinations | Kenfam International",
+      "viewportWidth": 1440,
+      "documentWidth": 1440,
+      "h1": "Destinations",
+      "inputs": [
+        {
+          "id": "travel-destination-search",
+          "labelled": true
+        },
+        {
+          "id": "travel-destination-type-filter",
+          "labelled": true
+        },
+        {
+          "id": "travel-destination-status-filter",
+          "labelled": true
+        }
+      ]
+    },
+    {
+      "name": "desktop-light-admin-departures",
+      "path": "/admin/travel/departures",
+      "status": "Tour Departures | Kenfam International",
+      "viewportWidth": 1440,
+      "documentWidth": 1440,
+      "h1": "Tour departures",
+      "inputs": [
+        {
+          "id": "departure-search",
+          "labelled": true
+        },
+        {
+          "id": "departure-tour-filter",
+          "labelled": true
+        },
+        {
+          "id": "departure-status-filter",
+          "labelled": true
+        }
+      ]
+    },
+    {
+      "name": "desktop-light-admin-pricing",
+      "path": "/admin/travel/pricing",
+      "status": "Tour Pricing | Kenfam International",
+      "viewportWidth": 1440,
+      "documentWidth": 1440,
+      "h1": "Tour pricing",
+      "inputs": []
+    },
+    {
+      "name": "desktop-light-admin-promotions",
+      "path": "/admin/travel/pricing/promotions",
+      "status": "Promotions | Kenfam International",
+      "viewportWidth": 1440,
+      "documentWidth": 1440,
+      "h1": "Promotions",
+      "inputs": [
+        {
+          "id": "promotion-search",
+          "labelled": true
+        },
+        {
+          "id": "promotion-1-active",
+          "labelled": true
+        }
+      ]
+    },
+    {
+      "name": "desktop-light-admin-bookings",
+      "path": "/admin/travel/bookings",
+      "status": "Tour Bookings | Kenfam International",
+      "viewportWidth": 1440,
+      "documentWidth": 1440,
+      "h1": "Tour bookings",
+      "inputs": [
+        {
+          "id": "booking-search",
+          "labelled": true
+        },
+        {
+          "id": "booking-status-filter",
+          "labelled": true
+        },
+        {
+          "id": "booking-payment-filter",
+          "labelled": true
+        }
+      ]
+    },
+    {
+      "name": "desktop-light-admin-inquiries",
+      "path": "/admin/travel/inquiries",
+      "status": "Tour Inquiries | Kenfam International",
+      "viewportWidth": 1440,
+      "documentWidth": 1440,
+      "h1": "Tour inquiries",
+      "inputs": []
+    },
+    {
+      "name": "desktop-light-admin-registers",
+      "path": "/admin/travel/pob/registers",
+      "status": "Booking Registers | Kenfam International",
+      "viewportWidth": 1440,
+      "documentWidth": 1440,
+      "h1": "Booking registers",
+      "inputs": [
+        {
+          "id": "register-search",
+          "labelled": true
+        },
+        {
+          "id": "register-state",
+          "labelled": true
+        }
+      ]
+    },
+    {
+      "name": "desktop-light-admin-shifts",
+      "path": "/admin/travel/pob/shifts",
+      "status": "Booking Shifts | Kenfam International",
+      "viewportWidth": 1440,
+      "documentWidth": 1440,
+      "h1": "Booking shifts",
+      "inputs": [
+        {
+          "id": "shift-search",
+          "labelled": true
+        },
+        {
+          "id": "shift-state",
+          "labelled": true
+        }
+      ]
+    },
+    {
+      "name": "desktop-light-admin-desk",
+      "path": "/travel-booking-desk",
+      "status": "Travel Booking Desk | Kenfam International",
+      "viewportWidth": 1440,
+      "documentWidth": 1440,
+      "h1": "No open shift assigned",
+      "inputs": []
+    },
+    {
+      "name": "desktop-dark-admin-dashboard",
+      "path": "/admin/travel",
+      "status": "Travel Operations | Kenfam International",
+      "viewportWidth": 1440,
+      "documentWidth": 1440,
+      "h1": "Travel operations",
+      "inputs": []
+    },
+    {
+      "name": "desktop-dark-admin-catalog",
+      "path": "/admin/travel/catalog",
+      "status": "Tour Catalog | Kenfam International",
+      "viewportWidth": 1440,
+      "documentWidth": 1440,
+      "h1": "Tour catalog",
+      "inputs": [
+        {
+          "id": "travel-tour-search",
+          "labelled": true
+        },
+        {
+          "id": "travel-tour-status",
+          "labelled": true
+        },
+        {
+          "id": "travel-tour-type",
+          "labelled": true
+        },
+        {
+          "id": "travel-tour-category",
+          "labelled": true
+        },
+        {
+          "id": "travel-tour-destination",
+          "labelled": true
+        },
+        {
+          "id": "travel-tour-page-size",
+          "labelled": true
+        }
+      ]
+    },
+    {
+      "name": "desktop-dark-admin-categories",
+      "path": "/admin/travel/catalog/categories",
+      "status": "Tour Categories | Kenfam International",
+      "viewportWidth": 1440,
+      "documentWidth": 1440,
+      "h1": "Tour categories",
+      "inputs": [
+        {
+          "id": "travel-category-active-1",
+          "labelled": true
+        },
+        {
+          "id": "travel-category-active-2",
+          "labelled": true
+        },
+        {
+          "id": "travel-category-active-3",
+          "labelled": true
+        },
+        {
+          "id": "travel-category-active-4",
+          "labelled": true
+        },
+        {
+          "id": "travel-category-active-5",
+          "labelled": true
+        },
+        {
+          "id": "travel-category-active-6",
+          "labelled": true
+        }
+      ]
+    },
+    {
+      "name": "desktop-dark-admin-destinations",
+      "path": "/admin/travel/catalog/destinations",
+      "status": "Tour Destinations | Kenfam International",
+      "viewportWidth": 1440,
+      "documentWidth": 1440,
+      "h1": "Destinations",
+      "inputs": [
+        {
+          "id": "travel-destination-search",
+          "labelled": true
+        },
+        {
+          "id": "travel-destination-type-filter",
+          "labelled": true
+        },
+        {
+          "id": "travel-destination-status-filter",
+          "labelled": true
+        }
+      ]
+    },
+    {
+      "name": "desktop-dark-admin-departures",
+      "path": "/admin/travel/departures",
+      "status": "Tour Departures | Kenfam International",
+      "viewportWidth": 1440,
+      "documentWidth": 1440,
+      "h1": "Tour departures",
+      "inputs": [
+        {
+          "id": "departure-search",
+          "labelled": true
+        },
+        {
+          "id": "departure-tour-filter",
+          "labelled": true
+        },
+        {
+          "id": "departure-status-filter",
+          "labelled": true
+        }
+      ]
+    },
+    {
+      "name": "desktop-dark-admin-pricing",
+      "path": "/admin/travel/pricing",
+      "status": "Tour Pricing | Kenfam International",
+      "viewportWidth": 1440,
+      "documentWidth": 1440,
+      "h1": "Tour pricing",
+      "inputs": []
+    },
+    {
+      "name": "desktop-dark-admin-promotions",
+      "path": "/admin/travel/pricing/promotions",
+      "status": "Promotions | Kenfam International",
+      "viewportWidth": 1440,
+      "documentWidth": 1440,
+      "h1": "Promotions",
+      "inputs": [
+        {
+          "id": "promotion-search",
+          "labelled": true
+        },
+        {
+          "id": "promotion-1-active",
+          "labelled": true
+        }
+      ]
+    },
+    {
+      "name": "desktop-dark-admin-bookings",
+      "path": "/admin/travel/bookings",
+      "status": "Tour Bookings | Kenfam International",
+      "viewportWidth": 1440,
+      "documentWidth": 1440,
+      "h1": "Tour bookings",
+      "inputs": [
+        {
+          "id": "booking-search",
+          "labelled": true
+        },
+        {
+          "id": "booking-status-filter",
+          "labelled": true
+        },
+        {
+          "id": "booking-payment-filter",
+          "labelled": true
+        }
+      ]
+    },
+    {
+      "name": "desktop-dark-admin-inquiries",
+      "path": "/admin/travel/inquiries",
+      "status": "Tour Inquiries | Kenfam International",
+      "viewportWidth": 1440,
+      "documentWidth": 1440,
+      "h1": "Tour inquiries",
+      "inputs": []
+    },
+    {
+      "name": "desktop-dark-admin-registers",
+      "path": "/admin/travel/pob/registers",
+      "status": "Booking Registers | Kenfam International",
+      "viewportWidth": 1440,
+      "documentWidth": 1440,
+      "h1": "Booking registers",
+      "inputs": [
+        {
+          "id": "register-search",
+          "labelled": true
+        },
+        {
+          "id": "register-state",
+          "labelled": true
+        }
+      ]
+    },
+    {
+      "name": "desktop-dark-admin-shifts",
+      "path": "/admin/travel/pob/shifts",
+      "status": "Booking Shifts | Kenfam International",
+      "viewportWidth": 1440,
+      "documentWidth": 1440,
+      "h1": "Booking shifts",
+      "inputs": [
+        {
+          "id": "shift-search",
+          "labelled": true
+        },
+        {
+          "id": "shift-state",
+          "labelled": true
+        }
+      ]
+    },
+    {
+      "name": "desktop-dark-admin-desk",
+      "path": "/travel-booking-desk",
+      "status": "Travel Booking Desk | Kenfam International",
+      "viewportWidth": 1440,
+      "documentWidth": 1440,
+      "h1": "No open shift assigned",
+      "inputs": []
+    },
+    {
+      "name": "mobile-light-admin-dashboard",
+      "path": "/admin/travel",
+      "status": "Travel Operations | Kenfam International",
+      "viewportWidth": 390,
+      "documentWidth": 390,
+      "h1": "Travel operations",
+      "inputs": []
+    },
+    {
+      "name": "mobile-light-admin-catalog",
+      "path": "/admin/travel/catalog",
+      "status": "Tour Catalog | Kenfam International",
+      "viewportWidth": 390,
+      "documentWidth": 390,
+      "h1": "Tour catalog",
+      "inputs": [
+        {
+          "id": "travel-tour-search",
+          "labelled": true
+        },
+        {
+          "id": "travel-tour-status",
+          "labelled": true
+        },
+        {
+          "id": "travel-tour-type",
+          "labelled": true
+        },
+        {
+          "id": "travel-tour-category",
+          "labelled": true
+        },
+        {
+          "id": "travel-tour-destination",
+          "labelled": true
+        },
+        {
+          "id": "travel-tour-page-size",
+          "labelled": true
+        }
+      ]
+    },
+    {
+      "name": "mobile-light-admin-categories",
+      "path": "/admin/travel/catalog/categories",
+      "status": "Tour Categories | Kenfam International",
+      "viewportWidth": 390,
+      "documentWidth": 390,
+      "h1": "Tour categories",
+      "inputs": [
+        {
+          "id": "travel-category-active-1",
+          "labelled": true
+        },
+        {
+          "id": "travel-category-active-2",
+          "labelled": true
+        },
+        {
+          "id": "travel-category-active-3",
+          "labelled": true
+        },
+        {
+          "id": "travel-category-active-4",
+          "labelled": true
+        },
+        {
+          "id": "travel-category-active-5",
+          "labelled": true
+        },
+        {
+          "id": "travel-category-active-6",
+          "labelled": true
+        }
+      ]
+    },
+    {
+      "name": "mobile-light-admin-destinations",
+      "path": "/admin/travel/catalog/destinations",
+      "status": "Tour Destinations | Kenfam International",
+      "viewportWidth": 390,
+      "documentWidth": 390,
+      "h1": "Destinations",
+      "inputs": [
+        {
+          "id": "travel-destination-search",
+          "labelled": true
+        },
+        {
+          "id": "travel-destination-type-filter",
+          "labelled": true
+        },
+        {
+          "id": "travel-destination-status-filter",
+          "labelled": true
+        }
+      ]
+    },
+    {
+      "name": "mobile-light-admin-departures",
+      "path": "/admin/travel/departures",
+      "status": "Tour Departures | Kenfam International",
+      "viewportWidth": 390,
+      "documentWidth": 390,
+      "h1": "Tour departures",
+      "inputs": [
+        {
+          "id": "departure-search",
+          "labelled": true
+        },
+        {
+          "id": "departure-tour-filter",
+          "labelled": true
+        },
+        {
+          "id": "departure-status-filter",
+          "labelled": true
+        }
+      ]
+    },
+    {
+      "name": "mobile-light-admin-pricing",
+      "path": "/admin/travel/pricing",
+      "status": "Tour Pricing | Kenfam International",
+      "viewportWidth": 390,
+      "documentWidth": 390,
+      "h1": "Tour pricing",
+      "inputs": []
+    },
+    {
+      "name": "mobile-light-admin-promotions",
+      "path": "/admin/travel/pricing/promotions",
+      "status": "Promotions | Kenfam International",
+      "viewportWidth": 390,
+      "documentWidth": 390,
+      "h1": "Promotions",
+      "inputs": [
+        {
+          "id": "promotion-search",
+          "labelled": true
+        },
+        {
+          "id": "promotion-1-active",
+          "labelled": true
+        }
+      ]
+    },
+    {
+      "name": "mobile-light-admin-bookings",
+      "path": "/admin/travel/bookings",
+      "status": "Tour Bookings | Kenfam International",
+      "viewportWidth": 390,
+      "documentWidth": 390,
+      "h1": "Tour bookings",
+      "inputs": [
+        {
+          "id": "booking-search",
+          "labelled": true
+        },
+        {
+          "id": "booking-status-filter",
+          "labelled": true
+        },
+        {
+          "id": "booking-payment-filter",
+          "labelled": true
+        }
+      ]
+    },
+    {
+      "name": "mobile-light-admin-inquiries",
+      "path": "/admin/travel/inquiries",
+      "status": "Tour Inquiries | Kenfam International",
+      "viewportWidth": 390,
+      "documentWidth": 390,
+      "h1": "Tour inquiries",
+      "inputs": []
+    },
+    {
+      "name": "mobile-light-admin-registers",
+      "path": "/admin/travel/pob/registers",
+      "status": "Booking Registers | Kenfam International",
+      "viewportWidth": 390,
+      "documentWidth": 390,
+      "h1": "Booking registers",
+      "inputs": [
+        {
+          "id": "register-search",
+          "labelled": true
+        },
+        {
+          "id": "register-state",
+          "labelled": true
+        }
+      ]
+    },
+    {
+      "name": "mobile-light-admin-shifts",
+      "path": "/admin/travel/pob/shifts",
+      "status": "Booking Shifts | Kenfam International",
+      "viewportWidth": 390,
+      "documentWidth": 390,
+      "h1": "Booking shifts",
+      "inputs": [
+        {
+          "id": "shift-search",
+          "labelled": true
+        },
+        {
+          "id": "shift-state",
+          "labelled": true
+        }
+      ]
+    },
+    {
+      "name": "mobile-light-admin-desk",
+      "path": "/travel-booking-desk",
+      "status": "Travel Booking Desk | Kenfam International",
+      "viewportWidth": 390,
+      "documentWidth": 390,
+      "h1": "No open shift assigned",
+      "inputs": []
+    },
+    {
+      "name": "mobile-dark-admin-dashboard",
+      "path": "/admin/travel",
+      "status": "Travel Operations | Kenfam International",
+      "viewportWidth": 390,
+      "documentWidth": 390,
+      "h1": "Travel operations",
+      "inputs": []
+    },
+    {
+      "name": "mobile-dark-admin-catalog",
+      "path": "/admin/travel/catalog",
+      "status": "Tour Catalog | Kenfam International",
+      "viewportWidth": 390,
+      "documentWidth": 390,
+      "h1": "Tour catalog",
+      "inputs": [
+        {
+          "id": "travel-tour-search",
+          "labelled": true
+        },
+        {
+          "id": "travel-tour-status",
+          "labelled": true
+        },
+        {
+          "id": "travel-tour-type",
+          "labelled": true
+        },
+        {
+          "id": "travel-tour-category",
+          "labelled": true
+        },
+        {
+          "id": "travel-tour-destination",
+          "labelled": true
+        },
+        {
+          "id": "travel-tour-page-size",
+          "labelled": true
+        }
+      ]
+    },
+    {
+      "name": "mobile-dark-admin-categories",
+      "path": "/admin/travel/catalog/categories",
+      "status": "Tour Categories | Kenfam International",
+      "viewportWidth": 390,
+      "documentWidth": 390,
+      "h1": "Tour categories",
+      "inputs": [
+        {
+          "id": "travel-category-active-1",
+          "labelled": true
+        },
+        {
+          "id": "travel-category-active-2",
+          "labelled": true
+        },
+        {
+          "id": "travel-category-active-3",
+          "labelled": true
+        },
+        {
+          "id": "travel-category-active-4",
+          "labelled": true
+        },
+        {
+          "id": "travel-category-active-5",
+          "labelled": true
+        },
+        {
+          "id": "travel-category-active-6",
+          "labelled": true
+        }
+      ]
+    },
+    {
+      "name": "mobile-dark-admin-destinations",
+      "path": "/admin/travel/catalog/destinations",
+      "status": "Tour Destinations | Kenfam International",
+      "viewportWidth": 390,
+      "documentWidth": 390,
+      "h1": "Destinations",
+      "inputs": [
+        {
+          "id": "travel-destination-search",
+          "labelled": true
+        },
+        {
+          "id": "travel-destination-type-filter",
+          "labelled": true
+        },
+        {
+          "id": "travel-destination-status-filter",
+          "labelled": true
+        }
+      ]
+    },
+    {
+      "name": "mobile-dark-admin-departures",
+      "path": "/admin/travel/departures",
+      "status": "Tour Departures | Kenfam International",
+      "viewportWidth": 390,
+      "documentWidth": 390,
+      "h1": "Tour departures",
+      "inputs": [
+        {
+          "id": "departure-search",
+          "labelled": true
+        },
+        {
+          "id": "departure-tour-filter",
+          "labelled": true
+        },
+        {
+          "id": "departure-status-filter",
+          "labelled": true
+        }
+      ]
+    },
+    {
+      "name": "mobile-dark-admin-pricing",
+      "path": "/admin/travel/pricing",
+      "status": "Tour Pricing | Kenfam International",
+      "viewportWidth": 390,
+      "documentWidth": 390,
+      "h1": "Tour pricing",
+      "inputs": []
+    },
+    {
+      "name": "mobile-dark-admin-promotions",
+      "path": "/admin/travel/pricing/promotions",
+      "status": "Promotions | Kenfam International",
+      "viewportWidth": 390,
+      "documentWidth": 390,
+      "h1": "Promotions",
+      "inputs": [
+        {
+          "id": "promotion-search",
+          "labelled": true
+        },
+        {
+          "id": "promotion-1-active",
+          "labelled": true
+        }
+      ]
+    },
+    {
+      "name": "mobile-dark-admin-bookings",
+      "path": "/admin/travel/bookings",
+      "status": "Tour Bookings | Kenfam International",
+      "viewportWidth": 390,
+      "documentWidth": 390,
+      "h1": "Tour bookings",
+      "inputs": [
+        {
+          "id": "booking-search",
+          "labelled": true
+        },
+        {
+          "id": "booking-status-filter",
+          "labelled": true
+        },
+        {
+          "id": "booking-payment-filter",
+          "labelled": true
+        }
+      ]
+    },
+    {
+      "name": "mobile-dark-admin-inquiries",
+      "path": "/admin/travel/inquiries",
+      "status": "Tour Inquiries | Kenfam International",
+      "viewportWidth": 390,
+      "documentWidth": 390,
+      "h1": "Tour inquiries",
+      "inputs": []
+    },
+    {
+      "name": "mobile-dark-admin-registers",
+      "path": "/admin/travel/pob/registers",
+      "status": "Booking Registers | Kenfam International",
+      "viewportWidth": 390,
+      "documentWidth": 390,
+      "h1": "Booking registers",
+      "inputs": [
+        {
+          "id": "register-search",
+          "labelled": true
+        },
+        {
+          "id": "register-state",
+          "labelled": true
+        }
+      ]
+    },
+    {
+      "name": "mobile-dark-admin-shifts",
+      "path": "/admin/travel/pob/shifts",
+      "status": "Booking Shifts | Kenfam International",
+      "viewportWidth": 390,
+      "documentWidth": 390,
+      "h1": "Booking shifts",
+      "inputs": [
+        {
+          "id": "shift-search",
+          "labelled": true
+        },
+        {
+          "id": "shift-state",
+          "labelled": true
+        }
+      ]
+    },
+    {
+      "name": "mobile-dark-admin-desk",
+      "path": "/travel-booking-desk",
+      "status": "Travel Booking Desk | Kenfam International",
+      "viewportWidth": 390,
+      "documentWidth": 390,
+      "h1": "No open shift assigned",
+      "inputs": []
+    },
+    {
+      "name": "desktop-light-admin-tour-pricing",
+      "path": "/admin/travel/pricing/tours/01M2VAGBEG1AJPAESGQEPQS8C2",
+      "status": "Pricing: Cairo and the Nile Heritage Journey | Kenfam International",
+      "viewportWidth": 1440,
+      "documentWidth": 1440,
+      "h1": "Cairo and the Nile Heritage Journey",
+      "inputs": []
+    },
+    {
+      "name": "narrow-light-admin-bookings",
+      "path": "/admin/travel/bookings",
+      "status": "Tour Bookings | Kenfam International",
+      "viewportWidth": 320,
+      "documentWidth": 320,
+      "h1": "Tour bookings",
+      "inputs": [
+        {
+          "id": "booking-search",
+          "labelled": true
+        },
+        {
+          "id": "booking-status-filter",
+          "labelled": true
+        },
+        {
+          "id": "booking-payment-filter",
+          "labelled": true
+        }
+      ]
+    },
+    {
+      "name": "narrow-light-admin-desk",
+      "path": "/travel-booking-desk",
+      "status": "Travel Booking Desk | Kenfam International",
+      "viewportWidth": 320,
+      "documentWidth": 320,
+      "h1": "No open shift assigned",
+      "inputs": []
+    }
+  ]
+}

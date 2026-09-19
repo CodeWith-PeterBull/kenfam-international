@@ -1,0 +1,855 @@
+{
+  "generatedAt": "2026-09-19T08:13:56.179Z",
+  "siteUrl": "http://127.0.0.1:8014",
+  "failures": [],
+  "runtimeErrors": [],
+  "networkErrors": [],
+  "observations": [
+    "Tour search \"Cairo\": Cairo and the Nile Heritage Journey | KES 385,000.00",
+    "Selection: DEMO-EGY-01 · DEMO-EGY-01-1 Cairo and the Nile Heritage Journey Standard escorted rate Departs 19 Jan 2027 Returns 26 Jan 2027 Travellers 2 adults, 0 children, ",
+    "Deposit applied to tender 1: 231000.00",
+    "Counted cash prefilled with expected: 236000.00"
+  ],
+  "diagnostics": [
+    {
+      "name": "desktop-light-registers",
+      "path": "/admin/travel/pob/registers",
+      "theme": "light",
+      "viewportWidth": 1440,
+      "documentWidth": 1440,
+      "modalOpen": false,
+      "modalWithinViewport": true,
+      "inputs": [
+        {
+          "id": "register-search",
+          "wire": null,
+          "labelled": true
+        },
+        {
+          "id": "register-state",
+          "wire": "state",
+          "labelled": true
+        }
+      ],
+      "alerts": []
+    },
+    {
+      "name": "desktop-light-register-dialog",
+      "path": "/admin/travel/pob/registers",
+      "theme": "light",
+      "viewportWidth": 1440,
+      "documentWidth": 1440,
+      "modalOpen": true,
+      "modalWithinViewport": true,
+      "inputs": [
+        {
+          "id": "register-name",
+          "wire": "form.name",
+          "labelled": true
+        },
+        {
+          "id": "register-code",
+          "wire": "form.code",
+          "labelled": true
+        },
+        {
+          "id": "register-location",
+          "wire": "form.location",
+          "labelled": true
+        },
+        {
+          "id": "register-driver",
+          "wire": "form.receiptPrintDriver",
+          "labelled": true
+        },
+        {
+          "id": "register-mode",
+          "wire": "form.receiptPrintMode",
+          "labelled": true
+        },
+        {
+          "id": "register-width",
+          "wire": "form.receiptPaperWidth",
+          "labelled": true
+        },
+        {
+          "id": "register-printer",
+          "wire": "form.receiptPrinterName",
+          "labelled": true
+        },
+        {
+          "id": "register-active",
+          "wire": "form.isActive",
+          "labelled": true
+        }
+      ],
+      "alerts": []
+    },
+    {
+      "name": "desktop-light-shifts",
+      "path": "/admin/travel/pob/shifts",
+      "theme": "light",
+      "viewportWidth": 1440,
+      "documentWidth": 1440,
+      "modalOpen": false,
+      "modalWithinViewport": true,
+      "inputs": [
+        {
+          "id": "shift-search",
+          "wire": null,
+          "labelled": true
+        },
+        {
+          "id": "shift-state",
+          "wire": "state",
+          "labelled": true
+        }
+      ],
+      "alerts": []
+    },
+    {
+      "name": "desktop-light-open-shift-dialog",
+      "path": "/admin/travel/pob/shifts",
+      "theme": "light",
+      "viewportWidth": 1440,
+      "documentWidth": 1440,
+      "modalOpen": true,
+      "modalWithinViewport": true,
+      "inputs": [
+        {
+          "id": "open-register",
+          "wire": "openForm.registerId",
+          "labelled": true
+        },
+        {
+          "id": "open-operator",
+          "wire": "openForm.operatorId",
+          "labelled": true
+        },
+        {
+          "id": "opening-float",
+          "wire": "openForm.openingFloat",
+          "labelled": true
+        },
+        {
+          "id": "opening-note",
+          "wire": "openForm.note",
+          "labelled": true
+        }
+      ],
+      "alerts": []
+    },
+    {
+      "name": "desktop-light-terminal",
+      "path": "/travel-booking-desk",
+      "theme": "light",
+      "viewportWidth": 1440,
+      "documentWidth": 1440,
+      "modalOpen": false,
+      "modalWithinViewport": true,
+      "inputs": [
+        {
+          "id": "",
+          "wire": null,
+          "labelled": true
+        },
+        {
+          "id": "",
+          "wire": null,
+          "labelled": true
+        },
+        {
+          "id": "",
+          "wire": null,
+          "labelled": true
+        },
+        {
+          "id": "",
+          "wire": null,
+          "labelled": true
+        },
+        {
+          "id": "",
+          "wire": null,
+          "labelled": true
+        },
+        {
+          "id": "",
+          "wire": null,
+          "labelled": true
+        },
+        {
+          "id": "",
+          "wire": null,
+          "labelled": true
+        },
+        {
+          "id": "",
+          "wire": "leadTravels",
+          "labelled": true
+        },
+        {
+          "id": "",
+          "wire": "specialRequests",
+          "labelled": true
+        },
+        {
+          "id": "",
+          "wire": null,
+          "labelled": true
+        },
+        {
+          "id": "",
+          "wire": "tenders.0.method",
+          "labelled": true
+        },
+        {
+          "id": "",
+          "wire": "tenders.0.amount",
+          "labelled": true
+        },
+        {
+          "id": "",
+          "wire": "tenders.0.tendered",
+          "labelled": true
+        }
+      ],
+      "alerts": [],
+      "text": "Register Front desk · DESK-3YWKW Operator Booking Agent Shift opened 19 Sep, 11:11 Active holds 0 01 · DEPARTURES Find a departure 6 matches Departing from Today Until Adults Children Infants Search tours DEMO-EGY-01 · DEMO-EGY-01-1 Cairo and the Nile Heritage Journey Tue 19 Jan 2027 – Tue 26 Jan 2027 · 7 nights 23 seats left KES 385,000.00 DEMO-ZAF-01 · DEMO-ZAF-01-1 Cape Town and Garden Route Wed 20 Jan 2027 – Tue 26 Jan 2027 · 6 nights 20 seats left KES 329,000.00 DEMO-UAE-01 · DEMO-UAE-01-1 Dubai City and Desert Thu 21 Jan 2027 – Mon 25 Jan 2027 · 4 nights 14 seats left KES 218,000.00 DEMO-EUR-01 · DEMO-EUR-01-1 European Capitals by Rail Fri 22 Jan 2027 – Sun 31 Jan 2027 · 9 nights 22 seats left KES 548,000.00 DEMO-HLY-01 · DEMO-HLY-01-1 Holy Land Heritage Pilgrimage Sat 23 Jan 2027 – Sun 31 Jan 2027 · 8 nights 28 seats left KES 462,000.00 DEMO-ASIA-01 · DEMO-ASIA-01-1 Singapore and Kuala Lumpur Sun 24 Jan 2027 – Sat 30 Jan 2027 · 6 nights 20 seats left KES 298,000.00 02 · BOOKING Customer and travellers Select a departure The tour, dates, and traveller summary will appear here. Customer New customer Search customers Travellers 1 Customer travels TRAVELLER 1 · ADULT The selected customer travels as the lead. Special requests Active holds 0 No active holds on this shift. 03 · PAYMENT Settlement Promotion code (optional) Fares KES 0.00 Tax KES 0.00 Total KES 0.00 Deposit due now KES 0.00 Payment tenders Add split TENDER 1 Method Cash Mobile Money Card Bank Transfer Amount Deposit Total Cash tendered Hold booking Complete booking"
+    },
+    {
+      "name": "desktop-light-terminal-filled",
+      "path": "/travel-booking-desk",
+      "theme": "light",
+      "viewportWidth": 1440,
+      "documentWidth": 1440,
+      "modalOpen": false,
+      "modalWithinViewport": true,
+      "inputs": [
+        {
+          "id": "",
+          "wire": null,
+          "labelled": true
+        },
+        {
+          "id": "",
+          "wire": null,
+          "labelled": true
+        },
+        {
+          "id": "",
+          "wire": null,
+          "labelled": true
+        },
+        {
+          "id": "",
+          "wire": null,
+          "labelled": true
+        },
+        {
+          "id": "",
+          "wire": null,
+          "labelled": true
+        },
+        {
+          "id": "",
+          "wire": null,
+          "labelled": true
+        },
+        {
+          "id": "",
+          "wire": "leadTravels",
+          "labelled": true
+        },
+        {
+          "id": "",
+          "wire": "travellers.1.first_name",
+          "labelled": true
+        },
+        {
+          "id": "",
+          "wire": "travellers.1.last_name",
+          "labelled": true
+        },
+        {
+          "id": "",
+          "wire": "travellers.1.date_of_birth",
+          "labelled": true
+        },
+        {
+          "id": "",
+          "wire": "specialRequests",
+          "labelled": true
+        },
+        {
+          "id": "",
+          "wire": null,
+          "labelled": true
+        },
+        {
+          "id": "",
+          "wire": "tenders.0.method",
+          "labelled": true
+        },
+        {
+          "id": "",
+          "wire": "tenders.0.amount",
+          "labelled": true
+        },
+        {
+          "id": "",
+          "wire": "tenders.0.tendered",
+          "labelled": true
+        },
+        {
+          "id": "",
+          "wire": "tenders.1.method",
+          "labelled": true
+        },
+        {
+          "id": "",
+          "wire": "tenders.1.amount",
+          "labelled": true
+        },
+        {
+          "id": "",
+          "wire": "tenders.1.reference",
+          "labelled": true
+        }
+      ],
+      "alerts": []
+    },
+    {
+      "name": "desktop-light-receipt",
+      "path": "/travel-booking-desk/receipts/01M2WBJEM3HB349B8Q4HMVSRPZ",
+      "theme": "light",
+      "viewportWidth": 1440,
+      "documentWidth": 1440,
+      "modalOpen": false,
+      "modalWithinViewport": true,
+      "inputs": [],
+      "alerts": [],
+      "text": "Booking receipt POB-TOUR-20260919-5P46AK2PCE Booking date 19 Sep 2026, 11:12 Status Confirmed Tour Cairo and the Nile Heritage Journey · DEMO-EGY-01 Travel dates 19 Jan 2027 – 26 Jan 2027 Register Front desk · DESK-3YWKW Operator Booking Agent Customer Grace Achieng · ******0111 Travellers 2 Fare Qty Total Adult fare 2 KES 770,000.00 Fares KES 770,000.00 Tax KES 0.00 Total KES 770,000.00 Payment Cash KES 231,000.00 Mobile Money · MPESA-QA-1 KES 1,000.00 Paid KES 232,000.00 Balance due KES 538,000.00 Thank you. We look forward to travelling with you. Kenfam International · +254 714 884 069 · info@kenfam.co.ke",
+      "printCalls": 1
+    },
+    {
+      "name": "desktop-light-terminal-hold",
+      "path": "/travel-booking-desk",
+      "theme": "light",
+      "viewportWidth": 1440,
+      "documentWidth": 1440,
+      "modalOpen": false,
+      "modalWithinViewport": true,
+      "inputs": [
+        {
+          "id": "",
+          "wire": null,
+          "labelled": true
+        },
+        {
+          "id": "",
+          "wire": null,
+          "labelled": true
+        },
+        {
+          "id": "",
+          "wire": null,
+          "labelled": true
+        },
+        {
+          "id": "",
+          "wire": null,
+          "labelled": true
+        },
+        {
+          "id": "",
+          "wire": null,
+          "labelled": true
+        },
+        {
+          "id": "",
+          "wire": null,
+          "labelled": true
+        },
+        {
+          "id": "",
+          "wire": null,
+          "labelled": true
+        },
+        {
+          "id": "",
+          "wire": "leadTravels",
+          "labelled": true
+        },
+        {
+          "id": "",
+          "wire": "specialRequests",
+          "labelled": true
+        },
+        {
+          "id": "",
+          "wire": null,
+          "labelled": true
+        },
+        {
+          "id": "",
+          "wire": "tenders.0.method",
+          "labelled": true
+        },
+        {
+          "id": "",
+          "wire": "tenders.0.amount",
+          "labelled": true
+        },
+        {
+          "id": "",
+          "wire": "tenders.0.tendered",
+          "labelled": true
+        }
+      ],
+      "alerts": [
+        "Booking POB-TOUR-20260919-8Q1RSX8V9N held on this shift."
+      ],
+      "text": "Active holds 1 POB-TOUR-20260919-8Q1RSX8V9N Grace Achieng · Cairo and the Nile Heritage Journey KES 385,000.00 · expires 23 hours from now"
+    },
+    {
+      "name": "desktop-light-terminal-resumed",
+      "path": "/travel-booking-desk",
+      "theme": "light",
+      "viewportWidth": 1440,
+      "documentWidth": 1440,
+      "modalOpen": false,
+      "modalWithinViewport": true,
+      "inputs": [
+        {
+          "id": "",
+          "wire": null,
+          "labelled": true
+        },
+        {
+          "id": "",
+          "wire": null,
+          "labelled": true
+        },
+        {
+          "id": "",
+          "wire": null,
+          "labelled": true
+        },
+        {
+          "id": "",
+          "wire": null,
+          "labelled": true
+        },
+        {
+          "id": "",
+          "wire": null,
+          "labelled": true
+        },
+        {
+          "id": "",
+          "wire": null,
+          "labelled": true
+        },
+        {
+          "id": "",
+          "wire": "tenders.0.method",
+          "labelled": true
+        },
+        {
+          "id": "",
+          "wire": "tenders.0.amount",
+          "labelled": true
+        },
+        {
+          "id": "",
+          "wire": "tenders.0.tendered",
+          "labelled": true
+        }
+      ],
+      "alerts": []
+    },
+    {
+      "name": "desktop-dark-terminal",
+      "path": "/travel-booking-desk",
+      "theme": "dark",
+      "viewportWidth": 1440,
+      "documentWidth": 1440,
+      "modalOpen": false,
+      "modalWithinViewport": true,
+      "inputs": [
+        {
+          "id": "",
+          "wire": null,
+          "labelled": true
+        },
+        {
+          "id": "",
+          "wire": null,
+          "labelled": true
+        },
+        {
+          "id": "",
+          "wire": null,
+          "labelled": true
+        },
+        {
+          "id": "",
+          "wire": null,
+          "labelled": true
+        },
+        {
+          "id": "",
+          "wire": null,
+          "labelled": true
+        },
+        {
+          "id": "",
+          "wire": null,
+          "labelled": true
+        },
+        {
+          "id": "",
+          "wire": null,
+          "labelled": true
+        },
+        {
+          "id": "",
+          "wire": "leadTravels",
+          "labelled": true
+        },
+        {
+          "id": "",
+          "wire": "specialRequests",
+          "labelled": true
+        },
+        {
+          "id": "",
+          "wire": null,
+          "labelled": true
+        },
+        {
+          "id": "",
+          "wire": "tenders.0.method",
+          "labelled": true
+        },
+        {
+          "id": "",
+          "wire": "tenders.0.amount",
+          "labelled": true
+        },
+        {
+          "id": "",
+          "wire": "tenders.0.tendered",
+          "labelled": true
+        }
+      ],
+      "alerts": []
+    },
+    {
+      "name": "mobile-dark-terminal",
+      "path": "/travel-booking-desk",
+      "theme": "dark",
+      "viewportWidth": 390,
+      "documentWidth": 390,
+      "modalOpen": false,
+      "modalWithinViewport": true,
+      "inputs": [
+        {
+          "id": "",
+          "wire": null,
+          "labelled": true
+        },
+        {
+          "id": "",
+          "wire": null,
+          "labelled": true
+        },
+        {
+          "id": "",
+          "wire": null,
+          "labelled": true
+        },
+        {
+          "id": "",
+          "wire": null,
+          "labelled": true
+        },
+        {
+          "id": "",
+          "wire": null,
+          "labelled": true
+        },
+        {
+          "id": "",
+          "wire": null,
+          "labelled": true
+        },
+        {
+          "id": "",
+          "wire": null,
+          "labelled": true
+        },
+        {
+          "id": "",
+          "wire": "leadTravels",
+          "labelled": true
+        },
+        {
+          "id": "",
+          "wire": "specialRequests",
+          "labelled": true
+        },
+        {
+          "id": "",
+          "wire": null,
+          "labelled": true
+        },
+        {
+          "id": "",
+          "wire": "tenders.0.method",
+          "labelled": true
+        },
+        {
+          "id": "",
+          "wire": "tenders.0.amount",
+          "labelled": true
+        },
+        {
+          "id": "",
+          "wire": "tenders.0.tendered",
+          "labelled": true
+        }
+      ],
+      "alerts": []
+    },
+    {
+      "name": "mobile-light-terminal",
+      "path": "/travel-booking-desk",
+      "theme": "light",
+      "viewportWidth": 390,
+      "documentWidth": 390,
+      "modalOpen": false,
+      "modalWithinViewport": true,
+      "inputs": [
+        {
+          "id": "",
+          "wire": null,
+          "labelled": true
+        },
+        {
+          "id": "",
+          "wire": null,
+          "labelled": true
+        },
+        {
+          "id": "",
+          "wire": null,
+          "labelled": true
+        },
+        {
+          "id": "",
+          "wire": null,
+          "labelled": true
+        },
+        {
+          "id": "",
+          "wire": null,
+          "labelled": true
+        },
+        {
+          "id": "",
+          "wire": null,
+          "labelled": true
+        },
+        {
+          "id": "",
+          "wire": null,
+          "labelled": true
+        },
+        {
+          "id": "",
+          "wire": "leadTravels",
+          "labelled": true
+        },
+        {
+          "id": "",
+          "wire": "specialRequests",
+          "labelled": true
+        },
+        {
+          "id": "",
+          "wire": null,
+          "labelled": true
+        },
+        {
+          "id": "",
+          "wire": "tenders.0.method",
+          "labelled": true
+        },
+        {
+          "id": "",
+          "wire": "tenders.0.amount",
+          "labelled": true
+        },
+        {
+          "id": "",
+          "wire": "tenders.0.tendered",
+          "labelled": true
+        }
+      ],
+      "alerts": []
+    },
+    {
+      "name": "mobile-light-receipt",
+      "path": "/travel-booking-desk/receipts/01M2WBJEM3HB349B8Q4HMVSRPZ",
+      "theme": "light",
+      "viewportWidth": 390,
+      "documentWidth": 390,
+      "modalOpen": false,
+      "modalWithinViewport": true,
+      "inputs": [],
+      "alerts": []
+    },
+    {
+      "name": "desktop-light-close-dialog",
+      "path": "/admin/travel/pob/shifts",
+      "theme": "light",
+      "viewportWidth": 1440,
+      "documentWidth": 1440,
+      "modalOpen": true,
+      "modalWithinViewport": true,
+      "inputs": [
+        {
+          "id": "counted-cash",
+          "wire": "closeForm.countedCash",
+          "labelled": true
+        },
+        {
+          "id": "closing-note",
+          "wire": "closeForm.note",
+          "labelled": true
+        }
+      ],
+      "alerts": []
+    },
+    {
+      "name": "desktop-light-shifts-closed",
+      "path": "/admin/travel/pob/shifts",
+      "theme": "light",
+      "viewportWidth": 1440,
+      "documentWidth": 1440,
+      "modalOpen": false,
+      "modalWithinViewport": true,
+      "inputs": [
+        {
+          "id": "shift-search",
+          "wire": null,
+          "labelled": true
+        },
+        {
+          "id": "shift-state",
+          "wire": "state",
+          "labelled": true
+        }
+      ],
+      "alerts": [],
+      "text": "Booking shifts Open staffed desks and reconcile physical cash at close Booking registers Booking desk 0 Open shifts 5 Closed today KES 0.00 Expected open cash −KES 1,500.00 Today’s variance Shift History Register and operator ownership, booking activity, and cash reconciliation. Open shift Search shifts Status Open Closed All shifts Clear Register Operator Opened Cash position Activity Status Action Front desk DESK-3YWKW Booking Agent booking.agent@example.test 19 Sep 2026 11:11 Expected KES 236,000.00 Counted KES 235,500.00 2 bookings 2 tenders Closed Variance −KES 500.00 Sign off Front desk DESK-3IUU1 Booking Agent booking.agent@example.test 19 Sep 2026 10:59 Expected KES 390,000.00 Counted KES 390,000.00 1 booking 1 tender Closed Variance KES 0.00 Sign off Front desk DESK-3G8OH Booking Agent booking.agent@example.test 19 Sep 2026 10:57 Expected KES 5,000.00 Counted KES 5,000.00 0 bookings 0 tenders Closed Variance KES 0.00 Sign off Front desk FRONT-JFZS6 Booking Agent booking.agent@example.test 19 Sep 2026 01:37 Expected KES 150,000.00 Counted KES 149,500.00 1 booking 1 tender Reconciled Variance −KES 500.00 Signed off 19 Sep, 01:37 Front desk FRONT-JDRI0 Booking Agent booking.agent@example.test 19 Sep 2026 01:35 Expected KES 150,000.00 Counted KES 149,500.00 1 booking 1 tender Reconciled Variance −KES 500.00 Signed off 19 Sep, 01:36"
+    },
+    {
+      "name": "desktop-light-sign-off-dialog",
+      "path": "/admin/travel/pob/shifts",
+      "theme": "light",
+      "viewportWidth": 1440,
+      "documentWidth": 1440,
+      "modalOpen": true,
+      "modalWithinViewport": true,
+      "inputs": [
+        {
+          "id": "sign-off-note",
+          "wire": "signOffNote",
+          "labelled": true
+        }
+      ],
+      "alerts": []
+    },
+    {
+      "name": "desktop-dark-shifts",
+      "path": "/admin/travel/pob/shifts",
+      "theme": "dark",
+      "viewportWidth": 1440,
+      "documentWidth": 1440,
+      "modalOpen": false,
+      "modalWithinViewport": true,
+      "inputs": [
+        {
+          "id": "shift-search",
+          "wire": null,
+          "labelled": true
+        },
+        {
+          "id": "shift-state",
+          "wire": "state",
+          "labelled": true
+        }
+      ],
+      "alerts": []
+    },
+    {
+      "name": "desktop-dark-registers",
+      "path": "/admin/travel/pob/registers",
+      "theme": "dark",
+      "viewportWidth": 1440,
+      "documentWidth": 1440,
+      "modalOpen": false,
+      "modalWithinViewport": true,
+      "inputs": [
+        {
+          "id": "register-search",
+          "wire": null,
+          "labelled": true
+        },
+        {
+          "id": "register-state",
+          "wire": "state",
+          "labelled": true
+        }
+      ],
+      "alerts": []
+    },
+    {
+      "name": "mobile-light-shifts",
+      "path": "/admin/travel/pob/shifts",
+      "theme": "light",
+      "viewportWidth": 390,
+      "documentWidth": 390,
+      "modalOpen": false,
+      "modalWithinViewport": true,
+      "inputs": [
+        {
+          "id": "shift-search",
+          "wire": null,
+          "labelled": true
+        },
+        {
+          "id": "shift-state",
+          "wire": "state",
+          "labelled": true
+        }
+      ],
+      "alerts": []
+    },
+    {
+      "name": "desktop-light-terminal-no-shift",
+      "path": "/travel-booking-desk",
+      "theme": "light",
+      "viewportWidth": 1440,
+      "documentWidth": 1440,
+      "modalOpen": false,
+      "modalWithinViewport": true,
+      "inputs": [],
+      "alerts": [],
+      "text": "DESK STATUS No open shift assigned A booking-desk shift must be open for your account before bookings and payments can be recorded."
+    }
+  ]
+}

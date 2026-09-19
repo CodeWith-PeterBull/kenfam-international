@@ -6,13 +6,14 @@
 
 declare(strict_types=1);
 
+use App\Modules\TravelTours\PointOfBooking\Printing\BrowserReceiptPrinterDriver;
+
 /** Travel & Tours defaults. Money uses minor units and persisted times use UTC. */
 return [
     'enabled' => (bool) env('TRAVEL_TOURS_ENABLED', true),
     'defaults' => [
         'country_code' => (string) env('TRAVEL_TOURS_COUNTRY_CODE', 'KE'),
         'currency' => (string) env('TRAVEL_TOURS_CURRENCY_CODE', 'KES'),
-        'currency_symbol' => (string) env('TRAVEL_TOURS_CURRENCY_SYMBOL', 'KSh'),
         'currency_decimals' => (int) env('TRAVEL_TOURS_CURRENCY_DECIMALS', 2),
         'timezone' => (string) env('TRAVEL_TOURS_TIMEZONE', 'Africa/Nairobi'),
         'tax_rate_bps' => (int) env('TRAVEL_TOURS_TAX_RATE_BPS', 0),
@@ -28,7 +29,6 @@ return [
         'document_link_days' => (int) env('TRAVEL_TOURS_DOCUMENT_LINK_DAYS', 30),
     ],
     'storefront' => [
-        'catalog_limit' => (int) env('TRAVEL_TOURS_CATALOG_LIMIT', 12),
         'page_size' => (int) env('TRAVEL_TOURS_PAGE_SIZE', 12),
         'maximum_page_size' => (int) env('TRAVEL_TOURS_MAXIMUM_PAGE_SIZE', 48),
         'founded_year' => env('TRAVEL_TOURS_FOUNDED_YEAR'),
@@ -61,14 +61,22 @@ return [
         'web_prefix' => (string) env('TRAVEL_TOURS_WEB_PREFIX', 'WEB-TOUR'),
         'pob_prefix' => (string) env('TRAVEL_TOURS_POB_PREFIX', 'POB-TOUR'),
         'admin_prefix' => (string) env('TRAVEL_TOURS_ADMIN_PREFIX', 'ADM-TOUR'),
-        'padding' => (int) env('TRAVEL_TOURS_NUMBER_PADDING', 8),
     ],
     'pob' => [
+        'maximum_tenders' => (int) env('TRAVEL_TOURS_MAXIMUM_TENDERS', 4),
+        'search_results' => (int) env('TRAVEL_TOURS_POB_SEARCH_RESULTS', 18),
         'variance_threshold_minor' => (int) env('TRAVEL_TOURS_SHIFT_VARIANCE_THRESHOLD_MINOR', 10000),
+        'payment_methods' => array_values(array_filter(array_map(
+            static fn (string $method): string => trim($method),
+            explode(',', (string) env('TRAVEL_TOURS_POB_PAYMENT_METHODS', 'cash,mobile_money,card,bank_transfer')),
+        ))),
         'receipt_printing' => [
             'default_driver' => (string) env('TRAVEL_TOURS_RECEIPT_PRINT_DRIVER', 'browser'),
             'default_mode' => (string) env('TRAVEL_TOURS_RECEIPT_PRINT_MODE', 'manual'),
             'default_paper_width_mm' => (int) env('TRAVEL_TOURS_RECEIPT_PAPER_WIDTH_MM', 80),
+            'drivers' => [
+                BrowserReceiptPrinterDriver::NAME => BrowserReceiptPrinterDriver::class,
+            ],
         ],
     ],
 ];

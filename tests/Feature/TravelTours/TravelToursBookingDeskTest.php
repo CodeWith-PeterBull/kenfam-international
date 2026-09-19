@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Verifies register shifts, the cash ledger, assisted sales, receipts, and desk authorization.
+ * Verifies register and shift management, the cash ledger, the three-pane terminal, holds, split tenders, and receipts.
  */
 
 declare(strict_types=1);
@@ -22,84 +22,97 @@ use App\Modules\TravelTours\Bookings\Models\TourBooking;
 use App\Modules\TravelTours\Bookings\Services\BookingPaymentService;
 use App\Modules\TravelTours\Catalog\Enums\PublicationStatus;
 use App\Modules\TravelTours\Catalog\Models\Tour;
+use App\Modules\TravelTours\Customers\Models\TravelCustomer;
 use App\Modules\TravelTours\Database\Seeders\TravelToursAccessSeeder;
 use App\Modules\TravelTours\PointOfBooking\Data\ShiftMovementData;
 use App\Modules\TravelTours\PointOfBooking\Enums\ShiftMovementType;
 use App\Modules\TravelTours\PointOfBooking\Enums\ShiftStatus;
 use App\Modules\TravelTours\PointOfBooking\Exceptions\PointOfBookingException;
+use App\Modules\TravelTours\PointOfBooking\Livewire\Admin\RegisterManager;
 use App\Modules\TravelTours\PointOfBooking\Livewire\Admin\ShiftManager;
 use App\Modules\TravelTours\PointOfBooking\Livewire\Terminal;
 use App\Modules\TravelTours\PointOfBooking\Models\BookingRegister;
 use App\Modules\TravelTours\PointOfBooking\Models\BookingShift;
+use App\Modules\TravelTours\PointOfBooking\Notifications\ShiftVarianceNotification;
 use App\Modules\TravelTours\PointOfBooking\Services\BookingShiftService;
 use App\Modules\TravelTours\Pricing\Models\ParticipantRate;
 use App\Modules\TravelTours\Pricing\Models\TourRatePlan;
 use App\Modules\TravelTours\Scheduling\Models\TourDeparture;
+use App\Modules\TravelTours\Scheduling\Services\DepartureAvailabilityService;
 use App\Modules\TravelTours\Support\TravelToursRole;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Support\Facades\Notification;
 use Livewire\Livewire;
 use Tests\TestCase;
 
 /**
- * Prove that expected cash is always the signed movement ledger, that an
- * assisted sale reuses the storefront services with desk attribution, and
- * that every desk action is bounded by the shift and the operator's grants.
+ * Prove that a manager opens and closes shifts for operators, that expected
+ * cash is always the signed movement ledger, that the terminal books through
+ * the storefront services with desk attribution, and that every desk action
+ * is bounded by the shift and the operator's grants.
  */
 final class TravelToursBookingDeskTest extends TestCase
 {
     use RefreshDatabase;
 
-    /** Enable the module with the real role grants. */
+    /** Enable the module with the real role grants and fake delivery. */
     protected function setUp(): void
     {
         parent::setUp();
 
         config(['app.key' => 'base64:'.base64_encode(str_repeat('d', 32)), 'travel-tours.enabled' => true, 'travel-tours.pob.variance_threshold_minor' => 500_00]);
         $this->seed(TravelToursAccessSeeder::class);
+        Notification::fake();
     }
 
-    /** One open shift per operator and per register; the float opens the ledger. */
+    /** One open shift per operator and per register; the float opens the ledger; only desk operators qualify. */
     public function test_shifts_open_once_per_operator_and_register(): void
     {
         $service = app(BookingShiftService::class);
         $register = BookingRegister::factory()->create();
+        $manager = $this->operator(TravelToursRole::MANAGER);
         $agent = $this->operator(TravelToursRole::BOOKING_AGENT);
         $other = $this->operator(TravelToursRole::BOOKING_AGENT);
 
-        $shift = $service->open($agent, $register, 5_000_00);
+        $shift = $service->open($register, $agent, $manager, 5_000_00, 'Counted with the agent.');
 
         $this->assertSame(ShiftStatus::Open, $shift->status);
         $this->assertSame(5_000_00, $service->expectedCashMinor($shift));
-        $this->assertSame(1, $shift->movements()->where('movement_type', ShiftMovementType::OpeningFloat->value)->count());
+        $this->assertSame('Counted with the agent.', $shift->movements()->where('movement_type', ShiftMovementType::OpeningFloat->value)->sole()->reason);
         $this->assertTrue($service->currentFor($agent)->is($shift));
 
         try {
-            $service->open($agent, BookingRegister::factory()->create(), 0);
-            $this->fail('An operator cannot open two shifts.');
+            $service->open(BookingRegister::factory()->create(), $agent, $manager, 0);
+            $this->fail('An operator cannot hold two open shifts.');
         } catch (PointOfBookingException $exception) {
-            $this->assertStringContainsString('already have an open shift', $exception->getMessage());
+            $this->assertStringContainsString('already has an open shift', $exception->getMessage());
         }
-
         try {
-            $service->open($other, $register, 0);
+            $service->open($register, $other, $manager, 0);
             $this->fail('A register cannot host two open shifts.');
         } catch (PointOfBookingException $exception) {
             $this->assertStringContainsString('Another operator', $exception->getMessage());
         }
+        try {
+            $service->open(BookingRegister::factory()->create(), $this->operator(TravelToursRole::TOUR_EDITOR), $manager, 0);
+            $this->fail('Only desk operators can be given a shift.');
+        } catch (PointOfBookingException $exception) {
+            $this->assertStringContainsString('not an active booking-desk operator', $exception->getMessage());
+        }
 
-        $inactive = BookingRegister::factory()->create(['is_active' => false]);
         $this->expectException(PointOfBookingException::class);
-        $service->open($other, $inactive, 0);
+        $service->open(BookingRegister::factory()->create(['is_active' => false]), $other, $manager, 0);
     }
 
-    /** Expected cash is float + cash payments + cash in − cash refunds − cash out, and closing records the variance. */
+    /** Expected cash is float + cash payments + cash in − cash refunds − cash out; closing records the variance and alerts managers past the threshold. */
     public function test_expected_cash_follows_the_movement_ledger_and_closing_records_variance(): void
     {
         $shifts = app(BookingShiftService::class);
         $payments = app(BookingPaymentService::class);
+        $manager = $this->operator(TravelToursRole::MANAGER);
         $agent = $this->operator(TravelToursRole::BOOKING_AGENT);
-        $shift = $shifts->open($agent, BookingRegister::factory()->create(), 2_000_00);
-        $booking = TourBooking::factory()->create(['status' => BookingStatus::Pending, 'total_minor' => 50_000_00, 'subtotal_minor' => 50_000_00, 'shift_id' => $shift->getKey(), 'register_id' => $shift->register_id, 'currency' => 'KES']);
+        $shift = $shifts->open(BookingRegister::factory()->create(), $agent, $manager, 2_000_00);
+        $booking = TourBooking::factory()->create(['status' => BookingStatus::Confirmed, 'total_minor' => 50_000_00, 'subtotal_minor' => 50_000_00, 'shift_id' => $shift->getKey(), 'register_id' => $shift->register_id, 'currency' => 'KES']);
 
         $payment = $payments->record($booking, new BookingPaymentData('cash-1', PaymentMethod::Cash, 10_000_00, 'KES', shiftId: $shift->getKey(), actorId: $agent->getKey()));
         $payments->record($booking, new BookingPaymentData('mobile-1', PaymentMethod::MobileMoney, 5_000_00, 'KES', shiftId: $shift->getKey(), actorId: $agent->getKey()));
@@ -110,179 +123,227 @@ final class TravelToursBookingDeskTest extends TestCase
         $this->assertSame(2_000_00 + 10_000_00 + 1_000_00 - 300_00 - 2_000_00, $shifts->expectedCashMinor($shift), 'Mobile money never enters the drawer; cash refunds leave it.');
         $this->assertSame(1, $shift->movements()->where('movement_type', ShiftMovementType::Refund->value)->count());
 
-        $closed = $shifts->close($shift, 10_000_00, 'Short by the courier receipt.', $agent->getKey());
+        $closed = $shifts->close($shift, $manager, 10_000_00, 'Short by the courier receipt.');
 
         $this->assertSame(ShiftStatus::Closed, $closed->status);
         $this->assertSame(10_700_00, $closed->expected_cash_minor);
         $this->assertSame(-700_00, $closed->variance_minor);
+        $this->assertSame('Short by the courier receipt.', $closed->closing_notes);
         $this->assertNull($closed->register_open_guard);
         $this->assertTrue($shifts->exceedsVarianceThreshold($closed));
+        Notification::assertSentTo($manager, ShiftVarianceNotification::class, fn (ShiftVarianceNotification $notification): bool => $notification->varianceMinor === -700_00 && $notification->shiftUlid === $closed->ulid);
+        Notification::assertNotSentTo($agent, ShiftVarianceNotification::class);
 
         $this->expectException(PointOfBookingException::class);
         $shifts->recordMovement($closed, new ShiftMovementData('in-2', ShiftMovementType::CashIn, 100, 'Too late.'), $agent->getKey());
     }
 
-    /** An assisted sale places a desk booking, confirms the cash, writes one movement, and confirms the booking once the deposit is covered. */
-    public function test_terminal_sale_books_settles_and_confirms_with_receipt(): void
+    /** The terminal lists priced departures, takes the customer and travellers, settles with split tenders, and hands off to the receipt. */
+    public function test_terminal_completes_a_booking_with_split_tenders_and_prints_a_receipt(): void
     {
         [$tour, $departure] = $this->tourWithDeparture();
+        $manager = $this->operator(TravelToursRole::MANAGER);
         $agent = $this->operator(TravelToursRole::BOOKING_AGENT);
-        $register = BookingRegister::factory()->create(['automatic_receipt_print' => true, 'receipt_paper_width_mm' => 58]);
-        $shift = app(BookingShiftService::class)->open($agent, $register, 1_000_00);
+        $shift = app(BookingShiftService::class)->open(BookingRegister::factory()->create(['automatic_receipt_print' => true]), $agent, $manager, 2_000_00);
 
-        $component = Livewire::actingAs($agent)
-            ->test(Terminal::class)
-            ->assertSee('Shift open on')
-            ->set('form.tourId', (string) $tour->getKey())
-            ->set('form.departureId', (string) $departure->getKey())
-            ->set('form.adults', '2')
-            ->set('form.children', '1')
-            ->assertSee('Total')
+        $component = Livewire::actingAs($agent)->test(Terminal::class)
+            ->assertSet('shiftUlid', $shift->ulid)
+            ->assertSee($tour->name)
+            ->set('adults', 2)->set('children', 1)
+            ->call('selectDeparture', $departure->getKey())
             ->assertSee('KES 25,000.00')
-            ->assertSee('KES 7,500.00')
-            ->set('form.firstName', 'Grace')
-            ->set('form.lastName', 'Achieng')
-            ->set('form.phone', '0711000111')
-            ->set('form.participants.1.first_name', 'Peter')
-            ->set('form.participants.1.last_name', 'Achieng')
-            ->set('form.participants.2.first_name', 'Zawadi')
-            ->set('form.participants.2.last_name', 'Achieng')
-            ->set('form.participants.2.date_of_birth', now()->subYears(8)->toDateString())
-            ->set('form.paymentMethod', 'cash')
-            ->set('form.amountReceived', '8000.00')
-            ->set('form.paymentReference', 'CASH-1')
-            ->call('sell')
-            ->assertHasNoErrors()
-            ->assertSee('recorded')
-            ->assertSee('Print receipt (58 mm)');
+            ->assertSee('Deposit due now')
+            ->call('toggleCustomerForm')
+            ->set('customerFirstName', 'Grace')->set('customerLastName', 'Achieng')->set('customerPhone', '0711000111')
+            ->call('createCustomer')->assertHasNoErrors()
+            ->assertSee('Customer profile created and selected.')
+            ->set('travellers.1.first_name', 'Peter')->set('travellers.1.last_name', 'Achieng')
+            ->set('travellers.2.first_name', 'Zawadi')->set('travellers.2.last_name', 'Achieng')
+            ->set('travellers.2.date_of_birth', now()->subYears(8)->toDateString())
+            ->call('applyDeposit', 0)
+            ->assertSet('tenders.0.amount', '7500.00')
+            ->assertSet('tenders.0.tendered', '7500.00')
+            ->call('addTender')
+            ->set('tenders.0.tendered', '8000.00')
+            ->set('tenders.1.method', 'mobile_money')->set('tenders.1.amount', '2500.00')->set('tenders.1.reference', 'MPESA-77')
+            ->call('completeBooking')->assertHasNoErrors();
+        $booking = TourBooking::query()->sole();
+        $component->assertRedirect(route('travel-tours.pob.receipts.show', ['booking' => $booking->ulid, 'print' => 'checkout']));
 
-        $booking = TourBooking::query()->with(['payments', 'participants'])->sole();
         $this->assertSame(BookingChannel::BookingDesk, $booking->channel);
-        $this->assertSame($shift->getKey(), $booking->shift_id);
-        $this->assertSame($register->getKey(), $booking->register_id);
-        $this->assertSame($agent->getKey(), $booking->agent_id);
-        $this->assertSame(BookingStatus::Confirmed, $booking->status, 'The deposit was covered, so the desk confirmed the booking.');
+        $this->assertSame(BookingStatus::Confirmed, $booking->status);
         $this->assertSame(PaymentStatus::Partial, $booking->payment_status);
-        $this->assertSame(8_000_00, $booking->paid_minor);
-        $this->assertSame(PaymentRecordStatus::Confirmed, $booking->payments->sole()->status);
-        $this->assertSame(['Grace Achieng', 'Peter Achieng', 'Zawadi Achieng'], $booking->participants->sortBy('sequence')->map(fn ($p) => $p->first_name.' '.$p->last_name)->values()->all());
-        $this->assertSame(1_000_00 + 8_000_00, app(BookingShiftService::class)->expectedCashMinor($shift));
-        $this->assertSame(1, $shift->movements()->where('movement_type', ShiftMovementType::Payment->value)->count());
+        $this->assertSame(10_000_00, $booking->paid_minor);
+        $this->assertSame($shift->getKey(), $booking->shift_id);
+        $this->assertSame($agent->getKey(), $booking->agent_id);
+        $this->assertSame(1, TravelCustomer::query()->count(), 'The desk customer profile is reused at placement.');
+        $this->assertSame(['Grace', 'Peter', 'Zawadi'], $booking->participants->sortBy('sequence')->pluck('first_name')->values()->all());
+        $this->assertSame(7, app(DepartureAvailabilityService::class)->check($departure)->availableSeats);
 
-        $component->call('sell')->assertHasNoErrors();
-        $this->assertSame(1, TourBooking::query()->count(), 'Submitting twice never records a second booking.');
+        $cash = $booking->payments->firstWhere('method', PaymentMethod::Cash);
+        $this->assertSame(PaymentRecordStatus::Confirmed, $cash->status);
+        $this->assertSame(['tendered_minor' => 8_000_00, 'change_minor' => 500_00], $cash->safe_metadata);
+        $this->assertSame(2_000_00 + 7_500_00, app(BookingShiftService::class)->expectedCashMinor($shift), 'Only the cash tender enters the drawer.');
 
-        $this->withoutVite()->actingAs($agent)
-            ->get(route('travel-tours.pob.receipt', ['payment' => $booking->payments->sole()->ulid, 'auto' => 1]))
+        $this->withoutVite()->actingAs($agent)->get(route('travel-tours.pob.receipts.show', ['booking' => $booking->ulid, 'print' => 'checkout']))
             ->assertOk()
-            ->assertSee('Booking '.$booking->booking_number)
-            ->assertSee('KES 8,000.00')
-            ->assertSee('Balance due')
-            ->assertSee('--receipt-width: 58mm', false)
-            ->assertSee('window.print()', false);
+            ->assertSee('Booking receipt')
+            ->assertSee('MPESA-77')
+            ->assertSee('Cash change')
+            ->assertSee('KES 500.00')
+            ->assertSee('"autoPrompt":true', false);
+        $this->actingAs($agent)->get(route('travel-tours.pob.receipts.pdf', $booking))->assertOk()->assertHeader('Content-Type', 'application/pdf');
+        $this->actingAs($this->operator(TravelToursRole::TOUR_EDITOR))->get(route('travel-tours.pob.receipts.show', $booking))->assertForbidden();
     }
 
-    /** Without an open shift the terminal refuses to sell and explains why. */
-    public function test_terminal_refuses_to_sell_without_an_open_shift(): void
+    /** A hold parks a pending booking on the shift; it can be settled later or discarded, and a shift with holds cannot close. */
+    public function test_terminal_holds_settles_and_discards_bookings_on_the_shift(): void
     {
         [$tour, $departure] = $this->tourWithDeparture();
+        $manager = $this->operator(TravelToursRole::MANAGER);
         $agent = $this->operator(TravelToursRole::BOOKING_AGENT);
+        $shifts = app(BookingShiftService::class);
+        $shift = $shifts->open(BookingRegister::factory()->create(), $agent, $manager, 0);
+        $customer = TravelCustomer::factory()->create(['first_name' => 'Amina', 'last_name' => 'Wanjiru', 'phone' => '+254700000001']);
 
-        Livewire::actingAs($agent)
-            ->test(Terminal::class)
-            ->assertSee('No open shift')
-            ->set('form.tourId', (string) $tour->getKey())
-            ->set('form.departureId', (string) $departure->getKey())
-            ->call('sell')
-            ->assertHasErrors(['desk'])
-            ->assertSee('Open a shift before taking a booking.');
+        $component = Livewire::actingAs($agent)->test(Terminal::class)
+            ->call('selectDeparture', $departure->getKey())
+            ->set('customerSearch', 'Amina')
+            ->call('selectCustomer', $customer->getKey())
+            ->call('holdBooking')->assertHasNoErrors()
+            ->assertSee('held on this shift')
+            ->assertSet('selectedDepartureId', null);
+        $held = TourBooking::query()->sole();
+        $this->assertSame(BookingStatus::Pending, $held->status);
+        $this->assertSame(9, app(DepartureAvailabilityService::class)->check($departure)->availableSeats);
 
-        $this->assertSame(0, TourBooking::query()->count());
+        try {
+            $shifts->close($shift, $manager, 0);
+            $this->fail('A shift with holds cannot close.');
+        } catch (PointOfBookingException $exception) {
+            $this->assertStringContainsString('held bookings', $exception->getMessage());
+        }
 
-        Livewire::actingAs($this->operator(TravelToursRole::TOUR_EDITOR))
-            ->test(Terminal::class)
-            ->assertForbidden();
+        $component->call('resumeHold', $held->getKey())
+            ->assertSet('resumingBookingId', $held->getKey())
+            ->assertSee('Resuming hold')
+            ->set('tenders.0.amount', '1000.00')
+            ->call('completeBooking')
+            ->assertHasErrors(['terminal'])
+            ->assertSee('Take at least the deposit');
+        $component->call('applyTotal', 0)->assertSet('tenders.0.amount', '10000.00')->call('completeBooking')->assertHasNoErrors();
+
+        $held->refresh();
+        $this->assertSame(BookingStatus::Confirmed, $held->status);
+        $this->assertSame(PaymentStatus::Paid, $held->payment_status);
+
+        $component->call('selectDeparture', $departure->getKey())->call('selectCustomer', $customer->getKey());
+        Livewire::actingAs($agent)->test(Terminal::class)
+            ->call('selectDeparture', $departure->getKey())
+            ->set('customerSearch', 'Wanj')
+            ->call('selectCustomer', $customer->getKey())
+            ->call('holdBooking')->assertHasNoErrors();
+        $second = TourBooking::query()->where('status', BookingStatus::Pending->value)->sole();
+        Livewire::actingAs($agent)->test(Terminal::class)->call('discardHold', $second->getKey())->assertHasNoErrors()->assertSee('discarded');
+
+        $this->assertSame(BookingStatus::Cancelled, $second->fresh()->status);
+        $this->assertSame(9, app(DepartureAvailabilityService::class)->check($departure)->availableSeats);
+        $this->assertSame(ShiftStatus::Closed, $shifts->close($shift, $manager, 10_000_00)->status);
     }
 
-    /** The terminal opens and closes shifts and declares cash movements through the dialogs. */
-    public function test_terminal_shift_dialogs_open_move_and_close(): void
+    /** Without a shift the terminal shows the gate; a manager can operate any open shift and an operator only their own. */
+    public function test_terminal_shift_gate_and_scope(): void
     {
-        $register = BookingRegister::factory()->create(['name' => 'Front desk']);
+        $manager = $this->operator(TravelToursRole::MANAGER);
         $agent = $this->operator(TravelToursRole::BOOKING_AGENT);
+        $other = $this->operator(TravelToursRole::BOOKING_AGENT);
 
-        $component = Livewire::actingAs($agent)
-            ->test(Terminal::class)
-            ->call('openShiftDialog')
-            ->assertSet('dialog', 'open-shift')
-            ->set('openingFloat', 'abc')
-            ->call('openShift')
-            ->assertHasErrors(['openingFloat'])
-            ->set('openingFloat', '2500.00')
-            ->call('openShift')
-            ->assertHasNoErrors()
-            ->assertSee('Shift opened.')
-            ->assertSee('Front desk')
-            ->assertSee('KES 2,500.00');
+        Livewire::actingAs($agent)->test(Terminal::class)->assertSee('No open shift assigned')->assertDontSee('Open a booking shift');
+        Livewire::actingAs($manager)->test(Terminal::class)->assertSee('No open shift assigned')->assertSee('Open a booking shift');
+        Livewire::actingAs($this->operator(TravelToursRole::TOUR_EDITOR))->test(Terminal::class)->assertForbidden();
 
-        $component->call('openMovementDialog')
-            ->set('movementType', 'cash_out')
-            ->set('movementAmount', '500.00')
-            ->set('movementReason', 'Petty cash for stationery')
-            ->call('recordMovement')
-            ->assertHasNoErrors()
-            ->assertSee('KES 2,000.00');
+        $shift = app(BookingShiftService::class)->open(BookingRegister::factory()->create(), $other, $manager, 0);
 
-        $component->call('openCloseDialog')
-            ->set('countedCash', '1900.00')
-            ->call('closeShift')
-            ->assertHasNoErrors()
-            ->assertSee('variance of −KES 100.00')
-            ->assertSee('No open shift');
-
-        $shift = BookingShift::query()->sole();
-        $this->assertSame(ShiftStatus::Closed, $shift->status);
-        $this->assertSame(-100_00, $shift->variance_minor);
+        Livewire::actingAs($agent)->test(Terminal::class)->assertSet('shiftUlid', '')->assertSee('No open shift assigned');
+        Livewire::actingAs($manager)->test(Terminal::class)->assertSet('shiftUlid', $shift->ulid)->assertSee($other->display_name);
     }
 
-    /** Managers create registers and reconcile closed shifts; agents cannot reach the workspace. */
-    public function test_shift_manager_creates_registers_and_reconciles(): void
+    /** The register manager creates, edits, and retires registers through the service. */
+    public function test_register_manager_creates_edits_and_retires_registers(): void
     {
         $manager = $this->operator(TravelToursRole::MANAGER);
         $agent = $this->operator(TravelToursRole::BOOKING_AGENT);
 
-        Livewire::actingAs($agent)->test(ShiftManager::class)->call('openCreate')->assertForbidden();
+        Livewire::actingAs($agent)->test(RegisterManager::class)->assertForbidden();
 
-        Livewire::actingAs($manager)
-            ->test(ShiftManager::class)
+        $component = Livewire::actingAs($manager)->test(RegisterManager::class)
             ->call('openCreate')
-            ->set('code', 'desk 1')
-            ->call('saveRegister')
-            ->assertHasErrors(['code', 'name'])
-            ->set('code', 'DESK-1')
-            ->set('name', 'Westlands desk')
-            ->set('paperWidth', '58')
-            ->set('automaticPrint', true)
-            ->call('saveRegister')
+            ->set('form.code', 'desk 1')
+            ->call('save')
+            ->assertHasErrors(['form.name', 'form.code'])
+            ->set('form.code', 'desk-1')
+            ->set('form.name', 'Westlands desk')
+            ->set('form.receiptPrintMode', 'auto_prompt')
+            ->set('form.receiptPaperWidth', '58')
+            ->call('save')
             ->assertHasNoErrors()
-            ->assertSee('Register created.')
-            ->assertSee('Westlands desk');
-
-        $register = BookingRegister::query()->sole();
-        $this->assertSame(58, $register->receipt_paper_width_mm);
+            ->assertSee('Register created.');
+        $register = BookingRegister::query()->where('code', 'DESK-1')->sole();
         $this->assertTrue($register->automatic_receipt_print);
+        $this->assertSame(58, $register->receipt_paper_width_mm);
+        $this->assertSame($manager->getKey(), $register->created_by);
 
-        $shifts = app(BookingShiftService::class);
-        $shift = $shifts->open($agent, $register, 1_000_00);
-        $shifts->close($shift, 1_000_00, null, $agent->getKey());
+        $component->call('openEdit', $register->getKey())
+            ->assertSet('form.receiptPrintMode', 'auto_prompt')
+            ->set('form.location', 'Head office')
+            ->call('save')->assertHasNoErrors();
+        $this->assertSame('Head office', $register->fresh()->location);
 
-        Livewire::actingAs($manager)
-            ->test(ShiftManager::class)
-            ->call('openReconcile', $shift->getKey())
-            ->set('notes', 'Counted with the operator.')
-            ->call('reconcile')
+        app(BookingShiftService::class)->open($register, $agent, $manager, 0);
+        $component->call('toggleActive', $register->getKey())->assertHasErrors(['management'])->assertSee('Close the open shift');
+        $this->assertTrue($register->fresh()->is_active);
+    }
+
+    /** The shift manager opens a shift for a free operator, closes it against the count, and signs it off. */
+    public function test_shift_manager_opens_closes_and_signs_off_shifts(): void
+    {
+        $manager = $this->operator(TravelToursRole::MANAGER);
+        $agent = $this->operator(TravelToursRole::BOOKING_AGENT);
+        $register = BookingRegister::factory()->create();
+
+        Livewire::actingAs($agent)->test(ShiftManager::class)->assertForbidden();
+
+        $component = Livewire::actingAs($manager)->test(ShiftManager::class)
+            ->call('openShiftDialog')
+            ->set('openForm.registerId', (string) $register->getKey())
+            ->set('openForm.operatorId', (string) $agent->getKey())
+            ->set('openForm.openingFloat', 'abc')
+            ->call('openShift')
+            ->assertHasErrors(['openForm.openingFloat'])
+            ->set('openForm.openingFloat', '2500.00')
+            ->call('openShift')
             ->assertHasNoErrors()
-            ->assertSee('Shift reconciled.');
+            ->assertSee('Shift opened.');
+        $shift = BookingShift::query()->sole();
+        $this->assertSame($agent->getKey(), $shift->operator_id);
+        $this->assertSame(2_500_00, $shift->opening_float_minor);
 
+        $component->call('openCloseDialog', $shift->getKey())
+            ->assertSet('closeForm.countedCash', '2500.00')
+            ->set('closeForm.countedCash', '2400.00')
+            ->set('closeForm.note', 'Short by a taxi receipt.')
+            ->call('closeShift')
+            ->assertHasNoErrors()
+            ->assertSee('variance of');
+        $this->assertSame(ShiftStatus::Closed, $shift->fresh()->status);
+        $this->assertSame(-100_00, $shift->fresh()->variance_minor);
+
+        $component->set('state', 'closed')
+            ->call('openSignOff', $shift->getKey())
+            ->set('signOffNote', 'Taxi receipt filed.')
+            ->call('signOff')
+            ->assertHasNoErrors()
+            ->assertSee('Shift signed off.');
         $this->assertSame(ShiftStatus::Reconciled, $shift->fresh()->status);
         $this->assertSame($manager->getKey(), $shift->fresh()->reconciled_by);
     }

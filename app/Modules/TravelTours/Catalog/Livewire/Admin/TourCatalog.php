@@ -12,6 +12,7 @@ use App\Modules\TravelTours\Catalog\Enums\TourType;
 use App\Modules\TravelTours\Catalog\Models\Tour;
 use App\Modules\TravelTours\Catalog\Services\CatalogQueryService;
 use App\Modules\TravelTours\Catalog\Services\TourReadinessService;
+use App\Modules\TravelTours\Support\LikePattern;
 use Illuminate\Contracts\View\View;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Facades\Gate;
@@ -70,10 +71,10 @@ final class TourCatalog extends Component
         $query = $catalog->tours($actor)->with(['categories', 'destinations', 'media', 'ratePlans' => fn ($plans) => $plans->publiclyAvailable()->with('participantRates')]);
         $search = trim($this->search);
         if ($search !== '') {
-            $escaped = '%'.str_replace(['!', '%', '_'], ['!!', '!%', '!_'], mb_substr($search, 0, 100)).'%';
+            $escaped = LikePattern::contains($search);
             $query->where(fn (Builder $match) => $match
-                ->whereRaw("name LIKE ? ESCAPE '!'", [$escaped])
-                ->orWhereRaw("code LIKE ? ESCAPE '!'", [$escaped]));
+                ->whereRaw('name '.LikePattern::CLAUSE, [$escaped])
+                ->orWhereRaw('code '.LikePattern::CLAUSE, [$escaped]));
         }
         if ($status = PublicationStatus::tryFrom($this->statusFilter)) {
             $query->where('status', $status->value);

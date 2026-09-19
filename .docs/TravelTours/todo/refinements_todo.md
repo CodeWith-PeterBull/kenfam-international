@@ -45,11 +45,11 @@ phases (K5, K6, K7). They are not repeated here.
 
 | # | Item | Owner | Status |
 | --- | --- | --- | --- |
-| D-1 | `DepartureForm` hard-codes `Africa/Nairobi`; read `travel-tours.defaults.timezone` so the module stays client-neutral. | K3E | Open |
-| D-2 | `departure-manager.blade.php` uses compressed single-line Blade (longest line 1,130 chars); reformat to the parent's multi-line convention alongside the other K2 views. | K3E | Open |
-| D-3 | List searches (`DepartureManager`, `DestinationManager`, `TourCatalog`, `TourSearchService`) pass `%`/`_` through to `LIKE` unescaped; the verification plan requires wildcard treatment tests. | K3E | Open |
-| D-4 | `DepartureException` and `CatalogException` extend `RuntimeException` directly while K1 exceptions extend `TravelToursException`; settle one base. | K3E | Open |
-| D-5 | The central departures workspace loads every tour for its selector on each render; bound or search it before the catalogue grows. | K3E | Open |
+| D-1 | `DepartureForm` hard-codes `Africa/Nairobi`; read `travel-tours.defaults.timezone` so the module stays client-neutral. | M7 | Done |
+| D-2 | `departure-manager.blade.php` uses compressed single-line Blade (longest line 1,130 chars); reformat to the parent's multi-line convention alongside the other K2 views. | M7 | Done |
+| D-3 | List searches (`DepartureManager`, `DestinationManager`, `TourCatalog`, `TourSearchService`) pass `%`/`_` through to `LIKE` unescaped; the verification plan requires wildcard treatment tests. | M7 | Done (`Support/LikePattern`) |
+| D-4 | `DepartureException` and `CatalogException` extend `RuntimeException` directly while K1 exceptions extend `TravelToursException`; settle one base. | M7 | Done |
+| D-5 | The central departures workspace loads every tour for its selector on each render; bound or search it before the catalogue grows. | M7 | Done (bounded to 200) |
 
 ## Deferred by the combined delivery plan
 
@@ -65,3 +65,5 @@ structure.
 | P-4 | Departure calendar / bulk scheduler and instalment-plan tables beyond `PaymentSchedule`. | Post-M7 | Open |
 | P-5 | Payment gateway integration: implement against the `recordPending` → `confirm` seam with `provider` + `transaction_identifier`; no interface is introduced ahead of a real provider. | Post-M7 | Open |
 | P-6 | Relocate root `Events/`, `Listeners/`, `Notifications/` under their bounded contexts. | Post-M7 | Open |
+| P-7 | Manual drawer cash in/out at the desk: the M6 terminal dialog was removed when the desk was realigned to the PropertyBooking POB (which has none); `BookingShiftService::recordMovement` and the ledger remain, so a small manager-side dialog on the shifts page is all that is needed if the business wants it. | Post-M7 | Open |
+| P-8 | Multi-process MariaDB contention probe for the last-seat race (two PHP processes against a real MariaDB); the transaction-level proof lives in `TravelToursContentionTest`, and no MariaDB server is available on the delivery workstation. | Post-M7 | Open |

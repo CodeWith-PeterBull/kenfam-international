@@ -18,7 +18,7 @@ final class DepartureForm extends Form
 
     public string $code = '';
 
-    public string $timezone = 'Africa/Nairobi';
+    public string $timezone = '';
 
     public string $localStart = '';
 
@@ -65,7 +65,7 @@ final class DepartureForm extends Form
     {
         $this->reset();
         $this->tourId = $tourId ? (string) $tourId : '';
-        $this->timezone = 'Africa/Nairobi';
+        $this->timezone = (string) config('travel-tours.defaults.timezone', 'UTC');
         $this->capacity = '24';
         $this->minimumParticipants = '1';
     }

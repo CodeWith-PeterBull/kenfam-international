@@ -47,6 +47,9 @@ use App\Modules\TravelTours\Listeners\NotifyStaffOfPendingPayment;
 use App\Modules\TravelTours\Listeners\SendBookingPaymentConfirmedNotification;
 use App\Modules\TravelTours\Listeners\SendTourBookingConfirmedNotification;
 use App\Modules\TravelTours\Listeners\SendTourBookingPlacedNotification;
+use App\Modules\TravelTours\PointOfBooking\Events\ShiftVarianceDetected;
+use App\Modules\TravelTours\PointOfBooking\Listeners\SendShiftVarianceNotification;
+use App\Modules\TravelTours\PointOfBooking\Livewire\Admin\RegisterManager;
 use App\Modules\TravelTours\PointOfBooking\Livewire\Admin\ShiftManager;
 use App\Modules\TravelTours\PointOfBooking\Livewire\Terminal;
 use App\Modules\TravelTours\PointOfBooking\Models\BookingRegister;
@@ -117,6 +120,7 @@ final class TravelToursServiceProvider extends ServiceProvider
         Event::listen(BookingPaymentConfirmed::class, SendBookingPaymentConfirmedNotification::class);
         Event::listen(BookingPaymentRecorded::class, NotifyStaffOfPendingPayment::class);
         Event::listen(TourBookingConfirmed::class, SendTourBookingConfirmedNotification::class);
+        Event::listen(ShiftVarianceDetected::class, SendShiftVarianceNotification::class);
         Gate::policy(Tour::class, TourPolicy::class);
         Gate::policy(TourCategory::class, TourCategoryPolicy::class);
         Gate::policy(Destination::class, DestinationPolicy::class);
@@ -146,6 +150,7 @@ final class TravelToursServiceProvider extends ServiceProvider
         Livewire::component('travel-tours.storefront.departure-selector', DepartureSelector::class);
         Livewire::component('travel-tours.storefront.booking-checkout', BookingCheckout::class);
         Livewire::component('travel-tours.pob.terminal', Terminal::class);
-        Livewire::component('travel-tours.admin.shift-manager', ShiftManager::class);
+        Livewire::component('travel-tours.pob.admin.register-manager', RegisterManager::class);
+        Livewire::component('travel-tours.pob.admin.shift-manager', ShiftManager::class);
     }
 }

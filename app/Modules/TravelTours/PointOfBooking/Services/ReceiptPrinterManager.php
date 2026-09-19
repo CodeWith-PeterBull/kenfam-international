@@ -8,30 +8,53 @@ declare(strict_types=1);
 
 namespace App\Modules\TravelTours\PointOfBooking\Services;
 
-use App\Modules\TravelTours\Bookings\Models\BookingPayment;
+use App\Modules\TravelTours\Contracts\PrintsBookingReceipts;
+use App\Modules\TravelTours\PointOfBooking\Data\Documents\BookingReceiptData;
+use App\Modules\TravelTours\PointOfBooking\Data\ReceiptPrinterSettingsData;
 use App\Modules\TravelTours\PointOfBooking\Data\ReceiptPrintInstructionData;
+use App\Modules\TravelTours\PointOfBooking\Enums\ReceiptPaperWidth;
+use App\Modules\TravelTours\PointOfBooking\Enums\ReceiptPrintMode;
 use App\Modules\TravelTours\PointOfBooking\Exceptions\PointOfBookingException;
 use App\Modules\TravelTours\PointOfBooking\Models\BookingRegister;
-use App\Modules\TravelTours\PointOfBooking\Printing\BrowserReceiptPrinterDriver;
+use Illuminate\Contracts\Container\Container;
 
 /**
- * Only the browser driver exists today; a thermal driver would implement
- * PrintsBookingReceipts and be added to the map here without touching the
- * terminal, which only consumes the instruction.
+ * Drivers are named in `travel-tours.pob.receipt_printing.drivers`; a thermal
+ * driver would implement PrintsBookingReceipts and be added to that map
+ * without touching the terminal, which only consumes the instruction.
  */
 final readonly class ReceiptPrinterManager
 {
-    /** Inject the drivers the module ships with. */
-    public function __construct(private BrowserReceiptPrinterDriver $browser) {}
+    /** Create the printer manager with the application container. */
+    public function __construct(private Container $container) {}
 
-    /** Produce the instruction for one payment on the register that took it; printing never throws into the sale. */
-    public function instructionFor(BookingPayment $payment, BookingRegister $register): ReceiptPrintInstructionData
+    /** Resolve the register's settings and produce one browser-safe instruction. */
+    public function instruction(?BookingRegister $register, BookingReceiptData $receipt, bool $afterCheckout): ReceiptPrintInstructionData
     {
-        $driver = (string) ($register->receipt_printer_driver ?: config('travel-tours.pob.receipt_printing.default_driver', BrowserReceiptPrinterDriver::NAME));
+        $settings = $this->settings($register);
+        $driverClass = config("travel-tours.pob.receipt_printing.drivers.{$settings->driver}");
+        if (! is_string($driverClass) || $driverClass === '') {
+            throw new PointOfBookingException("No receipt printer driver named {$settings->driver} is installed.");
+        }
+        $driver = $this->container->make($driverClass);
+        if (! $driver instanceof PrintsBookingReceipts) {
+            throw new PointOfBookingException("Receipt printer driver {$settings->driver} must implement PrintsBookingReceipts.");
+        }
 
-        return match ($driver) {
-            BrowserReceiptPrinterDriver::NAME => $this->browser->instruction($payment, $register),
-            default => throw new PointOfBookingException("No receipt printer driver named {$driver} is installed."),
-        };
+        return $driver->instruction($settings, $receipt, $afterCheckout);
+    }
+
+    /** Resolve register overrides on top of bounded module defaults. */
+    private function settings(?BookingRegister $register): ReceiptPrinterSettingsData
+    {
+        $defaultMode = ReceiptPrintMode::tryFrom((string) config('travel-tours.pob.receipt_printing.default_mode', 'manual')) ?? ReceiptPrintMode::Manual;
+        $defaultWidth = ReceiptPaperWidth::tryFrom((int) config('travel-tours.pob.receipt_printing.default_paper_width_mm', 80)) ?? ReceiptPaperWidth::Roll80;
+
+        return new ReceiptPrinterSettingsData(
+            driver: $register?->receipt_printer_driver ?: (string) config('travel-tours.pob.receipt_printing.default_driver', 'browser'),
+            mode: $register instanceof BookingRegister ? ReceiptPrintMode::fromAutomatic((bool) $register->automatic_receipt_print) : $defaultMode,
+            paperWidth: ($register instanceof BookingRegister ? ReceiptPaperWidth::tryFrom((int) $register->receipt_paper_width_mm) : null) ?? $defaultWidth,
+            printerName: filled($register?->receipt_printer_name) ? trim((string) $register?->receipt_printer_name) : null,
+        );
     }
 }

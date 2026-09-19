@@ -14,6 +14,7 @@ use App\Modules\TravelTours\Catalog\Livewire\Forms\DestinationForm;
 use App\Modules\TravelTours\Catalog\Models\Destination;
 use App\Modules\TravelTours\Catalog\Services\CatalogMediaService;
 use App\Modules\TravelTours\Catalog\Services\DestinationService;
+use App\Modules\TravelTours\Support\LikePattern;
 use Illuminate\Contracts\View\View;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\UploadedFile;
@@ -354,9 +355,9 @@ final class DestinationManager extends Component
             ->with(['parent', 'media'])
             ->withCount(['children', 'tours'])
             ->when($search !== '', static fn (Builder $query) => $query->where(static fn (Builder $match) => $match
-                ->where('name', 'like', "%{$search}%")
-                ->orWhere('code', 'like', "%{$search}%")
-                ->orWhere('country_code', 'like', "%{$search}%")))
+                ->whereRaw('name '.LikePattern::CLAUSE, [LikePattern::contains($search)])
+                ->orWhereRaw('code '.LikePattern::CLAUSE, [LikePattern::contains($search)])
+                ->orWhereRaw('country_code '.LikePattern::CLAUSE, [LikePattern::contains($search)])))
             ->when($type, static fn (Builder $query) => $query->where('type', $type->value))
             ->when($status, static fn (Builder $query) => $query->where('status', $status->value))
             ->orderBy('sort_order')

@@ -10,6 +10,7 @@ namespace App\Modules\TravelTours\Catalog\Services;
 
 use App\Modules\TravelTours\Catalog\Models\Tour;
 use App\Modules\TravelTours\Contracts\SearchesTours;
+use App\Modules\TravelTours\Support\LikePattern;
 use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 use Illuminate\Database\Eloquent\Builder;
 
@@ -21,7 +22,7 @@ final class TourSearchService implements SearchesTours
     {
         $perPage = max(1, min($perPage, (int) config('travel-tours.storefront.maximum_page_size', 48)));
         $keyword = trim((string) ($filters['keyword'] ?? ''));
-        $pattern = '%'.str_replace(['!', '%', '_'], ['!!', '!%', '!_'], mb_substr($keyword, 0, 120)).'%';
+        $pattern = LikePattern::contains($keyword);
 
         return Tour::query()
             ->published()
@@ -32,9 +33,9 @@ final class TourSearchService implements SearchesTours
                 'departures' => fn ($query) => $query->bookable()->limit(1),
             ])
             ->when($keyword !== '', fn (Builder $query): Builder => $query->where(function (Builder $search) use ($pattern): void {
-                $search->whereRaw("name LIKE ? ESCAPE '!'", [$pattern])
-                    ->orWhereRaw("short_description LIKE ? ESCAPE '!'", [$pattern])
-                    ->orWhereRaw("code LIKE ? ESCAPE '!'", [$pattern]);
+                $search->whereRaw('name '.LikePattern::CLAUSE, [$pattern])
+                    ->orWhereRaw('short_description '.LikePattern::CLAUSE, [$pattern])
+                    ->orWhereRaw('code '.LikePattern::CLAUSE, [$pattern]);
             }))
             ->when(filled($filters['destination'] ?? null), fn (Builder $query): Builder => $query->whereHas(
                 'destinations', fn (Builder $destination): Builder => $destination->where('slug', (string) $filters['destination'])

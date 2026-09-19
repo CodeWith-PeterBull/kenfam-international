@@ -15,6 +15,7 @@ use App\Modules\TravelTours\Scheduling\Models\DepartureStaffAssignment;
 use App\Modules\TravelTours\Scheduling\Models\TourDeparture;
 use App\Modules\TravelTours\Scheduling\Services\DepartureAvailabilityService;
 use App\Modules\TravelTours\Scheduling\Services\DepartureManagementService;
+use App\Modules\TravelTours\Support\LikePattern;
 use App\Modules\TravelTours\Support\TravelToursRole;
 use Illuminate\Contracts\View\View;
 use Illuminate\Support\Facades\Gate;
@@ -26,6 +27,9 @@ use Livewire\WithPagination;
 final class DepartureManager extends Component
 {
     use WithPagination;
+
+    /** The central selector lists this many tours by name; larger catalogues filter by tour from the tour editor instead. */
+    private const TOUR_OPTION_LIMIT = 200;
 
     public DepartureForm $form;
 
@@ -220,7 +224,8 @@ final class DepartureManager extends Component
             ->when(! $this->tourId && $this->tourFilter !== '', fn ($query) => $query->where('tour_id', (int) $this->tourFilter))
             ->when($this->statusFilter !== '', fn ($query) => $query->where('status', $this->statusFilter))
             ->when($this->search !== '', fn ($query) => $query->where(function ($match): void {
-                $match->where('code', 'like', '%'.$this->search.'%')->orWhereHas('tour', fn ($tour) => $tour->where('name', 'like', '%'.$this->search.'%'));
+                $match->whereRaw('code '.LikePattern::CLAUSE, [LikePattern::contains($this->search)])
+                    ->orWhereHas('tour', fn ($tour) => $tour->whereRaw('name '.LikePattern::CLAUSE, [LikePattern::contains($this->search)]));
             }))
             ->orderBy('starts_at')->paginate(12);
         $capacity = $departures->getCollection()->mapWithKeys(fn (TourDeparture $departure): array => [$departure->id => $availability->check($departure)]);
@@ -229,7 +234,7 @@ final class DepartureManager extends Component
         return view('travel-tours::livewire.admin.scheduling.departure-manager', [
             'departures' => $departures,
             'capacity' => $capacity,
-            'tours' => Tour::query()->orderBy('name')->get(['id', 'ulid', 'name', 'code']),
+            'tours' => Tour::query()->orderBy('name')->limit(self::TOUR_OPTION_LIMIT)->get(['id', 'ulid', 'name', 'code']),
             'ratePlans' => $selectedTour ? Tour::query()->findOrFail($selectedTour)->ratePlans()->orderBy('name')->get() : collect(),
             'staffOptions' => $this->staffDepartureId ? User::query()->role([TravelToursRole::MANAGER, TravelToursRole::BOOKING_AGENT, TravelToursRole::TOUR_EDITOR])->where('is_active', true)->orderBy('name')->limit(200)->get(['id', 'name', 'email']) : collect(),
             'staffAssignments' => $this->staffDepartureId ? DepartureStaffAssignment::query()->with('user')->where('departure_id', $this->staffDepartureId)->orderByDesc('is_lead')->orderBy('role')->get() : collect(),

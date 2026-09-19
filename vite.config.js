@@ -30,6 +30,8 @@ const candidateInputs = [
     'app/Modules/TravelTours/Resources/assets/css/storefront.css',
     'app/Modules/TravelTours/Resources/assets/js/storefront.js',
     'app/Modules/TravelTours/Resources/assets/css/admin.css',
+    'app/Modules/TravelTours/Resources/assets/css/pob.css',
+    'app/Modules/TravelTours/Resources/assets/js/pob.js',
 ];
 
 const candidateCopyTargets = [

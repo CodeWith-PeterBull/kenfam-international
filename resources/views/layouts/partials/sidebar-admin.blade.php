@@ -284,7 +284,11 @@
                                 <li class="{{ request()->routeIs('travel-tours.admin.inquiries.*') ? 'active' : '' }}"><a href="{{ route('travel-tours.admin.inquiries.index') }}"><i class="ti ti-messages fs-16 me-2"></i><span>Inquiries</span></a></li>
                             @endcan
                             @can(\App\Modules\TravelTours\Support\TravelToursPermission::ACCESS_POB)
-                                <li class="{{ request()->routeIs('travel-tours.pob.*') ? 'active' : '' }}"><a href="{{ route('travel-tours.pob.terminal') }}"><i class="ti ti-device-desktop fs-16 me-2"></i><span>Booking desk</span></a></li>
+                                <li class="{{ request()->routeIs('travel-tours.pob.terminal', 'travel-tours.pob.receipts.*') ? 'active' : '' }}"><a href="{{ route('travel-tours.pob.terminal') }}"><i class="ti ti-device-desktop fs-16 me-2"></i><span>Booking desk</span></a></li>
+                            @endcan
+                            @can(\App\Modules\TravelTours\Support\TravelToursPermission::MANAGE_SHIFTS)
+                                <li class="{{ request()->routeIs('travel-tours.pob.admin.registers.*') ? 'active' : '' }}"><a href="{{ route('travel-tours.pob.admin.registers.index') }}"><i class="ti ti-cash-register fs-16 me-2"></i><span>Booking registers</span></a></li>
+                                <li class="{{ request()->routeIs('travel-tours.pob.admin.shifts.*') ? 'active' : '' }}"><a href="{{ route('travel-tours.pob.admin.shifts.index') }}"><i class="ti ti-clock-dollar fs-16 me-2"></i><span>Booking shifts</span></a></li>
                             @endcan
                             <li><a href="{{ route('travel-tours.storefront.catalog.index') }}" target="_blank" rel="noopener noreferrer"><i class="ti ti-world fs-16 me-2"></i><span>Public tours</span></a></li>
                         </ul>

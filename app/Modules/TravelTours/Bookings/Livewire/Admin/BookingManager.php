@@ -18,6 +18,7 @@ use App\Modules\TravelTours\Bookings\Models\BookingPayment;
 use App\Modules\TravelTours\Bookings\Models\TourBooking;
 use App\Modules\TravelTours\Bookings\Services\BookingLifecycleService;
 use App\Modules\TravelTours\Contracts\ProcessesBookingPayments;
+use App\Modules\TravelTours\Support\LikePattern;
 use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 use Illuminate\Contracts\View\View;
 use Illuminate\Support\Facades\Gate;
@@ -105,12 +106,12 @@ final class BookingManager extends Component
         return TourBooking::query()
             ->with(['customer', 'departure'])
             ->when($term !== '', function ($query) use ($term): void {
-                $like = '%'.addcslashes($term, '%_\\').'%';
+                $like = LikePattern::contains($term);
                 $query->where(function ($query) use ($like): void {
-                    $query->where('booking_number', 'like', $like)
-                        ->orWhere('customer_name_snapshot', 'like', $like)
-                        ->orWhere('customer_email_snapshot', 'like', $like)
-                        ->orWhere('tour_name_snapshot', 'like', $like);
+                    $query->whereRaw('booking_number '.LikePattern::CLAUSE, [$like])
+                        ->orWhereRaw('customer_name_snapshot '.LikePattern::CLAUSE, [$like])
+                        ->orWhereRaw('customer_email_snapshot '.LikePattern::CLAUSE, [$like])
+                        ->orWhereRaw('tour_name_snapshot '.LikePattern::CLAUSE, [$like]);
                 });
             })
             ->when(BookingStatus::tryFrom($this->statusFilter), fn ($query, BookingStatus $status) => $query->where('status', $status->value))

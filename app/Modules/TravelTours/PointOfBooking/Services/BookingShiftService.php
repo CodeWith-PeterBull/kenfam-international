@@ -9,22 +9,26 @@ declare(strict_types=1);
 namespace App\Modules\TravelTours\PointOfBooking\Services;
 
 use App\Models\User;
+use App\Modules\TravelTours\Bookings\Enums\BookingStatus;
 use App\Modules\TravelTours\PointOfBooking\Data\ShiftMovementData;
 use App\Modules\TravelTours\PointOfBooking\Enums\ShiftMovementType;
 use App\Modules\TravelTours\PointOfBooking\Enums\ShiftStatus;
+use App\Modules\TravelTours\PointOfBooking\Events\ShiftVarianceDetected;
 use App\Modules\TravelTours\PointOfBooking\Exceptions\PointOfBookingException;
 use App\Modules\TravelTours\PointOfBooking\Models\BookingRegister;
 use App\Modules\TravelTours\PointOfBooking\Models\BookingShift;
 use App\Modules\TravelTours\PointOfBooking\Models\BookingShiftMovement;
+use App\Modules\TravelTours\Support\TravelToursPermission;
 use Illuminate\Database\DatabaseManager;
 
 /**
- * Expected cash is the signed sum of a shift's movements: the opening float,
- * cash payments and cash-in as positives, cash refunds and cash-out as
- * negatives. Every financial source writes exactly one movement, so the
- * expected figure is derived, never maintained by hand. One open shift per
- * operator and per register is enforced by the unique guard columns as well
- * as by the checks here (lock order: user → register).
+ * A manager opens a shift on a register for one operator and closes it
+ * against the counted cash. Expected cash is the signed sum of the shift's
+ * movements: the opening float, cash payments and cash-in as positives, cash
+ * refunds and cash-out as negatives. Every financial source writes exactly
+ * one movement, so the expected figure is derived, never maintained by hand.
+ * One open shift per operator and per register is enforced by the unique
+ * guard columns as well as by the checks here (lock order: user → register).
  */
 final readonly class BookingShiftService
 {
@@ -37,23 +41,27 @@ final readonly class BookingShiftService
         return BookingShift::query()->with('register')->where('operator_id', $operator->getKey())->open()->latest('opened_at')->first();
     }
 
-    /** Open a shift on a register with a counted opening float. */
-    public function open(User $operator, BookingRegister $register, int $openingFloatMinor, ?int $actorId = null): BookingShift
+    /** Open one active register for one eligible operator with a counted opening float. */
+    public function open(BookingRegister $register, User $operator, User $actor, int $openingFloatMinor, ?string $note = null): BookingShift
     {
         if ($openingFloatMinor < 0) {
             throw new PointOfBookingException('The opening float cannot be negative.');
         }
+        $note = $this->note($note);
 
-        return $this->database->transaction(function () use ($operator, $register, $openingFloatMinor, $actorId): BookingShift {
-            User::query()->lockForUpdate()->findOrFail($operator->getKey());
+        return $this->database->transaction(function () use ($register, $operator, $actor, $openingFloatMinor, $note): BookingShift {
+            $operator = User::query()->lockForUpdate()->findOrFail($operator->getKey());
             $register = BookingRegister::query()->lockForUpdate()->findOrFail($register->getKey());
             if (! $register->is_active) {
-                throw new PointOfBookingException('This register is not active.');
+                throw new PointOfBookingException('Inactive registers cannot open shifts.');
             }
-            if (BookingShift::query()->where('operator_id', $operator->getKey())->open()->exists()) {
-                throw new PointOfBookingException('You already have an open shift; close it before opening another.');
+            if (! $operator->is_active || ! $operator->can(TravelToursPermission::ACCESS_POB)) {
+                throw new PointOfBookingException('The selected operator is not an active booking-desk operator.');
             }
-            if (BookingShift::query()->where('register_id', $register->getKey())->open()->exists()) {
+            if (BookingShift::query()->where('operator_id', $operator->getKey())->open()->lockForUpdate()->exists()) {
+                throw new PointOfBookingException('The operator already has an open shift; close it before opening another.');
+            }
+            if (BookingShift::query()->where('register_id', $register->getKey())->open()->lockForUpdate()->exists()) {
                 throw new PointOfBookingException('Another operator has an open shift on this register.');
             }
 
@@ -71,9 +79,9 @@ final readonly class BookingShiftService
                 'opened_at' => now(),
             ])->save();
 
-            $this->writeMovement($shift, ShiftMovementType::OpeningFloat, 'opening-float:'.$shift->ulid, $openingFloatMinor, 'Opening float counted.', $actorId ?? $operator->getKey());
+            $this->writeMovement($shift, ShiftMovementType::OpeningFloat, 'opening-float:'.$shift->ulid, $openingFloatMinor, $note ?? 'Opening float counted.', $actor->getKey());
 
-            return $shift->fresh('register');
+            return $shift->fresh(['register', 'operator']);
         });
     }
 
@@ -98,31 +106,46 @@ final readonly class BookingShiftService
         return (int) $shift->movements()->sum('amount_minor');
     }
 
-    /** Close a shift against the counted cash and record the variance. */
-    public function close(BookingShift $shift, int $actualCashMinor, ?string $notes, int $actorId): BookingShift
+    /**
+     * Close a shift against the counted cash and record the variance.
+     *
+     * Holds still pending on the shift must be settled or discarded first, so
+     * a closed drawer never has money still expected of it.
+     */
+    public function close(BookingShift $shift, User $actor, int $countedCashMinor, ?string $note = null): BookingShift
     {
-        if ($actualCashMinor < 0) {
+        if ($countedCashMinor < 0) {
             throw new PointOfBookingException('Counted cash cannot be negative.');
         }
+        $note = $this->note($note);
 
-        return $this->database->transaction(function () use ($shift, $actualCashMinor, $notes, $actorId): BookingShift {
+        return $this->database->transaction(function () use ($shift, $actor, $countedCashMinor, $note): BookingShift {
             $shift = $this->openShift($shift);
-            if ($shift->operator_id !== $actorId && ! User::query()->findOrFail($actorId)->can('update', $shift)) {
+            if ($shift->operator_id !== $actor->getKey() && ! $actor->can(TravelToursPermission::MANAGE_SHIFTS)) {
                 throw new PointOfBookingException('Only the operator or a shift manager can close this shift.');
             }
+            if ($shift->bookings()->where('status', BookingStatus::Pending->value)->lockForUpdate()->exists()) {
+                throw new PointOfBookingException('Settle or discard the held bookings on this shift before closing it.');
+            }
             $expected = $this->expectedCashMinor($shift);
+            $variance = $countedCashMinor - $expected;
             $shift->forceFill([
                 'status' => ShiftStatus::Closed,
                 'register_open_guard' => null,
                 'operator_open_guard' => null,
                 'expected_cash_minor' => $expected,
-                'actual_cash_minor' => $actualCashMinor,
-                'variance_minor' => $actualCashMinor - $expected,
+                'actual_cash_minor' => $countedCashMinor,
+                'variance_minor' => $variance,
                 'closed_at' => now(),
-                'closing_notes' => filled($notes) ? trim((string) $notes) : null,
+                'closing_notes' => $note,
             ])->save();
 
-            return $shift->fresh('register');
+            $threshold = max(1, (int) config('travel-tours.pob.variance_threshold_minor', 10_000));
+            if ($variance !== 0 && abs($variance) >= $threshold) {
+                ShiftVarianceDetected::dispatch($shift->ulid, $variance, $threshold);
+            }
+
+            return $shift->fresh(['register', 'operator']);
         });
     }
 
@@ -135,23 +158,23 @@ final readonly class BookingShiftService
                 return $shift;
             }
             if ($shift->status !== ShiftStatus::Closed) {
-                throw new PointOfBookingException('Only closed shifts can be reconciled.');
+                throw new PointOfBookingException('Only closed shifts can be signed off.');
             }
             $shift->forceFill([
                 'status' => ShiftStatus::Reconciled,
                 'reconciled_at' => now(),
                 'reconciled_by' => $actorId,
-                'reconciliation_notes' => filled($notes) ? trim((string) $notes) : null,
+                'reconciliation_notes' => $this->note($notes),
             ])->save();
 
-            return $shift->fresh('register');
+            return $shift->fresh(['register', 'operator']);
         });
     }
 
     /** Whether a closing variance is large enough to need a manager's review. */
     public function exceedsVarianceThreshold(BookingShift $shift): bool
     {
-        return abs((int) $shift->variance_minor) > (int) config('travel-tours.pob.variance_threshold_minor', 10000);
+        return abs((int) $shift->variance_minor) >= max(1, (int) config('travel-tours.pob.variance_threshold_minor', 10_000));
     }
 
     /** Lock a shift and require it to be open. */
@@ -163,6 +186,17 @@ final readonly class BookingShiftService
         }
 
         return $shift;
+    }
+
+    /** Normalise a bounded operational note. */
+    private function note(?string $note): ?string
+    {
+        $note = trim((string) $note);
+        if (mb_strlen($note) > 2000) {
+            throw new PointOfBookingException('Shift notes cannot exceed 2,000 characters.');
+        }
+
+        return $note !== '' ? $note : null;
     }
 
     /** Append one signed movement to the shift ledger. */

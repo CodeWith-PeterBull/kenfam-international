@@ -8,7 +8,7 @@ declare(strict_types=1);
 
 namespace App\Modules\TravelTours\Catalog\Exceptions;
 
-use RuntimeException;
+use App\Modules\TravelTours\Exceptions\TravelToursException;
 
 /** Base exception for expected catalog validation and lifecycle failures. */
-class CatalogException extends RuntimeException {}
+class CatalogException extends TravelToursException {}

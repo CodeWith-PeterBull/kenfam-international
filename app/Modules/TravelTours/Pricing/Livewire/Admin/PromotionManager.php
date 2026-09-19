@@ -11,6 +11,7 @@ use App\Modules\TravelTours\Pricing\Exceptions\InvalidRateConfiguration;
 use App\Modules\TravelTours\Pricing\Livewire\Forms\PromotionForm;
 use App\Modules\TravelTours\Pricing\Models\Promotion;
 use App\Modules\TravelTours\Pricing\Services\PromotionService;
+use App\Modules\TravelTours\Support\LikePattern;
 use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 use Illuminate\Contracts\View\View;
 use Illuminate\Database\Eloquent\Collection;
@@ -64,8 +65,8 @@ final class PromotionManager extends Component
         return Promotion::query()
             ->withCount(['redemptions as active_redemptions_count' => fn ($query) => $query->whereNull('released_at'), 'tours'])
             ->when($term !== '', function ($query) use ($term): void {
-                $like = '%'.addcslashes($term, '%_\\').'%';
-                $query->where(fn ($query) => $query->where('code', 'like', $like)->orWhere('name', 'like', $like));
+                $like = LikePattern::contains($term);
+                $query->where(fn ($query) => $query->whereRaw('code '.LikePattern::CLAUSE, [$like])->orWhereRaw('name '.LikePattern::CLAUSE, [$like]));
             })
             ->orderByDesc('is_active')
             ->orderBy('code')

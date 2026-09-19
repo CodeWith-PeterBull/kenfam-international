@@ -11,12 +11,12 @@ namespace App\Modules\TravelTours\PointOfBooking\Http\Controllers;
 use App\Http\Controllers\Controller;
 use Illuminate\Contracts\View\View;
 
-/** Presents the register and shift workspace; the manager itself is Livewire. */
+/** Presents the shift workspace; the manager itself is Livewire. */
 final class ShiftAdminController extends Controller
 {
-    /** Render the ShiftAdminController response for an authorized request. */
+    /** Render the shift page for an authorised manager. */
     public function __invoke(): View
     {
-        return view('travel-tours::admin.shifts.index');
+        return view('travel-tours::pob.admin.shifts.index');
     }
 }

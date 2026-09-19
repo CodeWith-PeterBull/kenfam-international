@@ -13,7 +13,6 @@ use App\Modules\TravelTours\Catalog\Http\Controllers\TourCategoryAdminController
 use App\Modules\TravelTours\Catalog\Http\Controllers\TourEditorController;
 use App\Modules\TravelTours\Inquiries\Http\Controllers\InquiryAdminController;
 use App\Modules\TravelTours\Operations\Http\Controllers\TravelDashboardController;
-use App\Modules\TravelTours\PointOfBooking\Http\Controllers\ShiftAdminController;
 use App\Modules\TravelTours\Pricing\Http\Controllers\PricingAdminController;
 use App\Modules\TravelTours\Scheduling\Http\Controllers\DepartureAdminController;
 use App\Modules\TravelTours\Support\TravelToursPermission;
@@ -36,6 +35,5 @@ Route::middleware(['web', 'auth', 'verified'])
         Route::get('/pricing/tours/{tour}', [PricingAdminController::class, 'tour'])->middleware('permission:'.TravelToursPermission::VIEW_PRICING)->name('pricing.tour');
         Route::get('/departures', DepartureAdminController::class)->middleware('permission:'.TravelToursPermission::VIEW_DEPARTURES)->name('departures.index');
         Route::get('/bookings', BookingAdminController::class)->middleware('permission:'.TravelToursPermission::VIEW_BOOKINGS)->name('bookings.index');
-        Route::get('/shifts', ShiftAdminController::class)->middleware('permission:'.TravelToursPermission::MANAGE_SHIFTS)->name('shifts.index');
         Route::get('/inquiries', InquiryAdminController::class)->middleware('permission:'.TravelToursPermission::VIEW_INQUIRIES)->name('inquiries.index');
     });
