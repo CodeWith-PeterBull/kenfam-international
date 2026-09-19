@@ -977,6 +977,103 @@ html[data-theme="dark"] .travel-brand__dark {
     opacity: .86;
 }
 
+/* Live search: the field that triggered a request carries data-loading while
+   it runs, the results are dimmed and marked busy until the new set lands,
+   and the offline notice only shows while the browser reports no network. */
+.travel-field__error {
+    color: var(--travel-danger, #b42318);
+    font-size: var(--type-12, .75rem);
+    line-height: 1.4;
+}
+
+.travel-storefront .travel-field :is(input, select)[aria-invalid="true"] {
+    border-color: var(--travel-danger, #b42318);
+}
+
+.travel-storefront .travel-field :is(input, select)[data-loading] {
+    border-color: var(--travel-primary);
+    box-shadow: 0 0 0 3px color-mix(in srgb, var(--travel-primary) 18%, transparent);
+}
+
+.travel-spinner {
+    display: inline-block;
+    width: 1em;
+    height: 1em;
+    margin-right: .5em;
+    border: 2px solid currentColor;
+    border-right-color: transparent;
+    border-radius: 50%;
+    vertical-align: -.15em;
+    animation: travel-spin .75s linear infinite;
+}
+
+@keyframes travel-spin {
+    to { transform: rotate(360deg); }
+}
+
+.travel-search__offline {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin: 14px 0 0;
+    padding: 10px 14px;
+    border: 1px solid color-mix(in srgb, var(--travel-danger, #b42318) 30%, var(--travel-border));
+    border-radius: var(--travel-radius);
+    background: color-mix(in srgb, var(--travel-danger, #b42318) 8%, var(--travel-elevated));
+    color: var(--travel-danger, #b42318);
+    font-size: var(--type-14, .875rem);
+}
+
+.travel-search.is-offline .travel-filter {
+    opacity: .7;
+}
+
+.travel-search__results {
+    position: relative;
+    transition: opacity var(--travel-transition);
+}
+
+.travel-search__results[aria-busy="true"] {
+    opacity: .55;
+}
+
+.travel-search__progress {
+    position: sticky;
+    top: 92px;
+    z-index: 2;
+    width: max-content;
+    align-items: center;
+    margin: 0 auto 16px;
+    padding: 8px 14px;
+    border: 1px solid var(--travel-border);
+    border-radius: 999px;
+    background: var(--travel-elevated);
+    color: var(--travel-muted);
+    font-size: var(--type-13, .8125rem);
+    box-shadow: 0 10px 30px var(--travel-shadow);
+}
+
+.travel-storefront .pagination .page-link {
+    border-color: var(--travel-border);
+    color: var(--travel-primary);
+    background: var(--travel-surface);
+}
+
+.travel-storefront .pagination .page-item.active .page-link {
+    border-color: var(--travel-primary);
+    color: #ffffff;
+    background: var(--travel-primary);
+}
+
+.travel-storefront .pagination .page-item.disabled .page-link {
+    color: var(--travel-muted);
+    background: var(--travel-surface);
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .travel-spinner { animation: none; }
+}
+
 .travel-result-summary {
     display: flex;
     align-items: center;

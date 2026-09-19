@@ -75,6 +75,7 @@ use App\Modules\TravelTours\Scheduling\Models\TourDeparture;
 use App\Modules\TravelTours\Scheduling\Services\DepartureAvailabilityService;
 use App\Modules\TravelTours\Storefront\Livewire\BookingCheckout;
 use App\Modules\TravelTours\Storefront\Livewire\DepartureSelector;
+use App\Modules\TravelTours\Storefront\Livewire\TourSearch;
 use Illuminate\Support\Facades\Event;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\ServiceProvider;
@@ -147,6 +148,7 @@ final class TravelToursServiceProvider extends ServiceProvider
         Livewire::component('travel-tours.admin.promotion-manager', PromotionManager::class);
         Livewire::component('travel-tours.admin.departure-manager', DepartureManager::class);
         Livewire::component('travel-tours.admin.booking-manager', BookingManager::class);
+        Livewire::component('travel-tours.storefront.tour-search', TourSearch::class);
         Livewire::component('travel-tours.storefront.departure-selector', DepartureSelector::class);
         Livewire::component('travel-tours.storefront.booking-checkout', BookingCheckout::class);
         Livewire::component('travel-tours.pob.terminal', Terminal::class);

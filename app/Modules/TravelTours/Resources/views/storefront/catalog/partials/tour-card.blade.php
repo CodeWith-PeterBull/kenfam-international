@@ -7,7 +7,7 @@
     $cover = $tour->getFirstMediaUrl('tour_cover', 'card') ?: $profile->heroImageUrl;
 @endphp
 
-<article class="travel-tour-card">
+<article class="travel-tour-card" @isset($wireKey) wire:key="{{ $wireKey }}" @endisset>
     <a class="travel-tour-card__media" href="{{ route('travel-tours.storefront.tours.show', $tour->slug) }}">
         <img src="{{ $cover }}" alt="{{ $tour->name }}" width="960" height="640" loading="lazy">
         @if ($adultRate)

@@ -238,6 +238,23 @@ Files: `resources/views/layouts/partials/{sidebar-admin,sidebar-role,theme-setti
 
 Verification: `php artisan test` 252 passed, Pint clean; browser harness `qa-cosmetics.mjs` (scratchpad) with a fresh profile: storefront and dashboard resolve olive by default, both panels list the olive option first and selected with the custom pickers on olive, wine still switchable, admin sidebar order Workspace → Travel and tours, primary buttons olive by default and teal after switching; zero runtime/network errors. Evidence in `qa/cosmetics-olive-palette/`.
 
+### Live catalogue search — /tours filters without a page load · 2026-09-19
+
+**Delivered** on `feature/travel-tours-live-catalog-search`. The public catalogue is now the `TourSearch` Livewire component: the filter form and the results share one component, every filter is live, and the page never reloads.
+
+| Area | Result |
+|---|---|
+| State | Each filter is a public property with `#[Url(as: …, except: '')]` under the same query keys the classic request accepted (`keyword`, `destination`, `category`, `type`, `maximum_duration_days`, `departure_date`), so shared and refreshed URLs reproduce the results and the first paint is server-rendered. `WithPagination` keeps `page` in the URL and pages inside the component. |
+| Live fields | Keyword and maximum days use `wire:model.live.debounce.400ms`; the selects and the date use `wire:model.live`. `updated()` validates only the changed field (`validateOnly`) and calls `resetPage()`. The form stays a plain GET form with `name` attributes and `wire:submit="search"`, so it still works without JavaScript. |
+| Results | `#[Computed] tours()` runs the search once per request through the unchanged `SearchesTours` boundary; only values that pass validation reach it (`Validator::valid()`), so an invalid field is reported inline (`aria-invalid`, `aria-describedby`, `role="alert"`) while the results stay as they were. Cards carry `wire:key`; the summary is an `aria-live` region; `clearFilters` resets state, page, and URL. |
+| Loading | Livewire 4 marks the originating field with `data-loading` (styled as a focused ring) and the results block uses `wire:loading.class` / `wire:loading.attr="aria-busy"` scoped with `wire:target` to the filters, actions, and paging; a sticky progress pill shows while a request runs; the submit button swaps its label. |
+| Offline | `wire:offline` shows the notice and `wire:offline.class` dims the form only while the browser reports no network. |
+| Pagination | Livewire's Bootstrap pagination view (`wire:click`), scrolled to `#travel-results`, styled for the storefront palette. |
+
+Files: `Storefront/Livewire/TourSearch.php`, `Storefront/Http/Controllers/StorefrontController.php`, `Resources/views/storefront/catalog/index.blade.php`, `Resources/views/livewire/storefront/tour-search.blade.php`, `Resources/views/storefront/catalog/partials/tour-card.blade.php`, `Resources/assets/css/storefront.css`, `TravelToursServiceProvider.php`, `tests/Feature/TravelTours/TravelToursTourSearchTest.php` (5 tests).
+
+Verification: `php artisan test --filter=TravelTours` 132 passed (2573 assertions), Pint clean; browser harness `qa-live-search.mjs` (scratchpad): a window token proves no document reload across keyword, destination, type, duration, and clear; the URL follows every change and is clean after clearing; `data-loading` and `aria-busy` observed during a search; invalid duration reported inline with results untouched; the offline notice shows under CDP network emulation and hides on reconnect; `?keyword=Dubai&type=private` seeds fields and results on a fresh load; mobile light and dark; ten Livewire requests, zero page loads, zero runtime/network errors. Evidence in `qa/storefront-live-search/`.
+
 ## Close-out
 
 All seven milestones are on `main`. A customer completes a booking from `/tours/{slug}` through a staff-confirmed manual payment; an operator completes the same at the desk on a shift a manager opened, with a receipt and a reconciled drawer. Items outside this shipment are listed in `todo/refinements_todo.md` (P-1..P-8).

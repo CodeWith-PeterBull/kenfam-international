@@ -1,0 +1,94 @@
+{
+  "generatedAt": "2026-09-19T20:48:23.342Z",
+  "siteUrl": "http://127.0.0.1:8014",
+  "failures": [],
+  "runtimeErrors": [],
+  "networkErrors": [],
+  "observations": [
+    "Initial: 6 journeys Published itineraries with current planning and departure information. | Cairo and the Nile Heritage Journey | Cape Town and Garden Route | Dubai City and Desert | European Capitals by Rail | Holy Land Heritage Pilgrimage | Singapore and Kuala Lumpur",
+    "Loading state while searching: {\"busy\":true,\"field\":true}",
+    "Livewire requests during the run: 10"
+  ],
+  "diagnostics": [
+    {
+      "name": "catalog-initial",
+      "url": "http://127.0.0.1:8014/tours",
+      "viewportWidth": 1440,
+      "documentWidth": 1440,
+      "pageToken": "live-1789850872788",
+      "titles": [
+        "Cairo and the Nile Heritage Journey",
+        "Cape Town and Garden Route",
+        "Dubai City and Desert",
+        "European Capitals by Rail",
+        "Holy Land Heritage Pilgrimage",
+        "Singapore and Kuala Lumpur"
+      ],
+      "summary": "6 journeys Published itineraries with current planning and departure information."
+    },
+    {
+      "name": "catalog-keyword",
+      "url": "http://127.0.0.1:8014/tours?keyword=Cairo",
+      "viewportWidth": 1440,
+      "documentWidth": 1440,
+      "pageToken": "live-1789850872788",
+      "titles": [
+        "Cairo and the Nile Heritage Journey"
+      ]
+    },
+    {
+      "name": "catalog-type",
+      "url": "http://127.0.0.1:8014/tours?type=group",
+      "viewportWidth": 1440,
+      "documentWidth": 1440,
+      "pageToken": "live-1789850872788",
+      "titles": [
+        "Cairo and the Nile Heritage Journey"
+      ]
+    },
+    {
+      "name": "catalog-invalid-days",
+      "url": "http://127.0.0.1:8014/tours?maximum_duration_days=0",
+      "viewportWidth": 1440,
+      "documentWidth": 1440,
+      "pageToken": "live-1789850872788"
+    },
+    {
+      "name": "catalog-cleared",
+      "url": "http://127.0.0.1:8014/tours",
+      "viewportWidth": 1440,
+      "documentWidth": 1440,
+      "pageToken": "live-1789850872788"
+    },
+    {
+      "name": "catalog-offline",
+      "url": "http://127.0.0.1:8014/tours",
+      "viewportWidth": 1440,
+      "documentWidth": 1440,
+      "pageToken": "live-1789850872788"
+    },
+    {
+      "name": "catalog-seeded-from-url",
+      "url": "http://127.0.0.1:8014/tours?keyword=Dubai&type=private",
+      "viewportWidth": 1440,
+      "documentWidth": 1440,
+      "titles": [
+        "Dubai City and Desert"
+      ],
+      "keyword": "Dubai",
+      "type": "private"
+    },
+    {
+      "name": "mobile-light-catalog",
+      "url": "http://127.0.0.1:8014/tours",
+      "viewportWidth": 390,
+      "documentWidth": 390
+    },
+    {
+      "name": "mobile-dark-catalog-keyword",
+      "url": "http://127.0.0.1:8014/tours?keyword=Cape",
+      "viewportWidth": 390,
+      "documentWidth": 390
+    }
+  ]
+}
