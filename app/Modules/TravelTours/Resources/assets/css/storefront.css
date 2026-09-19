@@ -1,8 +1,8 @@
 :root {
-    --travel-primary: var(--theme-primary, #70233a);
+    --travel-primary: var(--theme-primary, #6a753d);
     --travel-primary-hover: var(--theme-primary-hover, #51182a);
     --travel-primary-soft: var(--theme-primary-soft, #f6edf0);
-    --travel-secondary: var(--theme-secondary, #28656b);
+    --travel-secondary: var(--theme-secondary, #70233a);
     --travel-accent: var(--theme-accent, #b28a4b);
     --travel-heading: var(--theme-heading, #191921);
     --travel-text: var(--theme-text, #3f4149);
@@ -17,7 +17,7 @@
     --travel-on-dark-muted: var(--theme-on-dark-muted, #c4c8ce);
     --travel-night: var(--theme-night, #11141a);
     --travel-shadow: var(--theme-shadow, rgba(18, 21, 27, .14));
-    --travel-focus: var(--theme-focus-outline, #28656b);
+    --travel-focus: var(--theme-focus-outline, #b28a4b);
     --travel-radius: 6px;
     --travel-transition: var(--transition, 180ms ease);
     --travel-header-height: 115px;

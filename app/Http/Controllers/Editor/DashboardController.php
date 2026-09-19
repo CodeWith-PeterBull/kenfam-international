@@ -15,8 +15,8 @@ final class DashboardController extends Controller
             'summary' => 'Keep drafts, assigned reviews, due dates, and recent publishing outcomes within reach.',
             'primaryAction' => ['label' => 'Open my drafts', 'route' => 'editor.drafts', 'icon' => 'ti-pencil'],
             'stats' => [
-                ['label' => 'My drafts', 'value' => 5, 'icon' => 'ti-file-pencil', 'color' => '#70233a'],
-                ['label' => 'Review notes', 'value' => 3, 'icon' => 'ti-message-check', 'color' => '#28656b'],
+                ['label' => 'My drafts', 'value' => 5, 'icon' => 'ti-file-pencil', 'color' => 'var(--aureon-primary)'],
+                ['label' => 'Review notes', 'value' => 3, 'icon' => 'ti-message-check', 'color' => 'var(--aureon-secondary)'],
                 ['label' => 'Due this week', 'value' => 4, 'icon' => 'ti-clock-due', 'color' => '#8a6427'],
                 ['label' => 'Published this month', 'value' => 11, 'icon' => 'ti-circle-check', 'color' => '#397a70'],
             ],

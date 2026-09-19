@@ -11,8 +11,8 @@ final class DashboardController extends Controller
     {
         return view('dashboards.admin.index', [
             'stats' => [
-                ['label' => 'Published posts', 'value' => 48, 'icon' => 'ti-file-text', 'color' => '#70233a'],
-                ['label' => 'Upcoming events', 'value' => 12, 'icon' => 'ti-calendar-event', 'color' => '#28656b'],
+                ['label' => 'Published posts', 'value' => 48, 'icon' => 'ti-file-text', 'color' => 'var(--aureon-primary)'],
+                ['label' => 'Upcoming events', 'value' => 12, 'icon' => 'ti-calendar-event', 'color' => 'var(--aureon-secondary)'],
                 ['label' => 'Team members', 'value' => 24, 'icon' => 'ti-users', 'color' => '#b28a4b'],
                 ['label' => 'Expenditure items', 'value' => 31, 'icon' => 'ti-receipt', 'color' => '#4f5d75'],
                 ['label' => 'Media assets', 'value' => 286, 'icon' => 'ti-photo', 'color' => '#8a3d54'],

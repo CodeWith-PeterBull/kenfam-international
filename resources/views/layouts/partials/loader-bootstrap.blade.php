@@ -75,7 +75,7 @@
         display: block;
         width: 46%;
         height: 100%;
-        background: var(--theme-primary, #70233a);
+        background: var(--theme-primary, #6a753d);
         animation: aureon-critical-loader 900ms ease-in-out infinite;
     }
 

@@ -1,12 +1,19 @@
+@php($brandColors = (array) config('kenfam.colors', []))
 <script>
     (() => {
         const storageKey = 'laravel-aureon-dashboard-settings';
+        const brand = {
+            primary: @json($brandColors['primary'] ?? '#6a753d'),
+            primaryDark: @json($brandColors['primary_dark'] ?? '#4e572d'),
+            secondary: @json($brandColors['secondary'] ?? '#70233a'),
+            accent: @json($brandColors['accent'] ?? '#b28a4b'),
+        };
         const defaults = {
             mode: 'light',
             layout: 'default',
             width: 'fluid',
-            palette: 'wine',
-            customPrimary: '#70233a',
+            palette: 'olive',
+            customPrimary: brand.primary,
             sidebar: 'theme',
             sidebarBackground: 'none',
         };
@@ -35,6 +42,6 @@
         root.dataset.sidebarBackground = settings.sidebarBackground;
         root.style.colorScheme = resolvedTheme;
 
-        window.AureonDashboardTheme = { storageKey, settings };
+        window.AureonDashboardTheme = { storageKey, settings, brand };
     })();
 </script>

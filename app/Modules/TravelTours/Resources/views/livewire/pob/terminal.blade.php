@@ -82,7 +82,7 @@
                         <button type="button" class="pob-rate-card {{ $selectedDepartureId === $departure->id && ! $held ? 'is-selected' : '' }}" wire:click="selectDeparture({{ $departure->id }})" wire:key="pob-departure-{{ $departure->id }}">
                             <span class="pob-rate-card__media">
                                 @if ($cover)
-                                    <img src="{{ $cover->getUrl('thumb') }}" alt="">
+                                    <img src="{{ $cover->hasGeneratedConversion('thumb') ? $cover->getUrl('thumb') : $cover->getUrl() }}" alt="" loading="lazy">
                                 @else
                                     <i class="ti ti-map-route" aria-hidden="true"></i>
                                 @endif

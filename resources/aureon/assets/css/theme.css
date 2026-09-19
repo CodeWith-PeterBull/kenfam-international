@@ -66,14 +66,14 @@
   --asset-logo-small: url("../brand/logo-small.png");
   --asset-logo-small-light: url("../brand/logo-small-light.png");
 
-  /* Brand primitives */
-  --brand-primary: #70233a;
-  --brand-secondary: #28656b;
+  /* Brand primitives: the default (olive) palette. Other palettes override them below. */
+  --brand-primary: #6a753d;
+  --brand-secondary: #70233a;
   --brand-accent: #b28a4b;
-  --brand-night: #17151d;
-  --brand-footer: #211b28;
-  --custom-primary: #70233a;
-  --custom-secondary: #28656b;
+  --brand-night: #141b17;
+  --brand-footer: #18231e;
+  --custom-primary: #6a753d;
+  --custom-secondary: #70233a;
   --custom-primary-contrast: #ffffff;
 
   /* Semantic color system */
@@ -210,6 +210,14 @@
   --container-gutter: 32px;
   --section-space: 112px;
   --transition: 180ms ease;
+}
+
+html[data-palette="wine"] {
+  --brand-primary: #70233a;
+  --brand-secondary: #28656b;
+  --brand-accent: #b28a4b;
+  --brand-night: #17151d;
+  --brand-footer: #211b28;
 }
 
 html[data-palette="cobalt"] {

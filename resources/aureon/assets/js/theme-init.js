@@ -4,17 +4,17 @@
   var storageKey = "aureon-theme-v1";
   var defaults = Object.freeze({
     mode: "light",
-    palette: "wine",
+    palette: "olive",
     fontBody: "poppins",
     fontHeading: "poppins",
     typeScale: "standard",
     customEnabled: false,
-    customPrimary: "#70233a",
-    customSecondary: "#28656b"
+    customPrimary: "#6a753d",
+    customSecondary: "#70233a"
   });
   var options = {
     mode: ["light", "dark"],
-    palette: ["wine", "cobalt", "forest", "graphite"],
+    palette: ["olive", "wine", "cobalt", "forest", "graphite"],
     fontBody: ["poppins", "jost", "montserrat", "system"],
     fontHeading: ["poppins", "jost", "montserrat", "system"],
     typeScale: ["compact", "standard", "large"]

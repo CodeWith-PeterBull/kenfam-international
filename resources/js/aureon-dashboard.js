@@ -1,14 +1,17 @@
 const root = document.documentElement;
+// The olive palette is the server-side brand set (config kenfam.colors) handed over by the theme-settings partial.
+const brand = window.AureonDashboardTheme?.brand || {};
 const defaults = {
     mode: 'light',
     layout: 'default',
     width: 'fluid',
-    palette: 'wine',
-    customPrimary: '#70233a',
+    palette: 'olive',
+    customPrimary: brand.primary || '#6a753d',
     sidebar: 'theme',
     sidebarBackground: 'none',
 };
 const palettes = {
+    olive: { primary: brand.primary || '#6a753d', primaryDark: brand.primaryDark || '#4e572d', secondary: brand.secondary || '#70233a', accent: brand.accent || '#b28a4b' },
     wine: { primary: '#70233a', primaryDark: '#54182b', secondary: '#28656b', accent: '#b28a4b' },
     teal: { primary: '#28656b', primaryDark: '#1d4b50', secondary: '#70233a', accent: '#b28a4b' },
     gold: { primary: '#8a6427', primaryDark: '#684917', secondary: '#28656b', accent: '#70233a' },

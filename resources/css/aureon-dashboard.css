@@ -15,10 +15,10 @@
 }
 
 :root {
-    --aureon-primary: #70233a;
-    --aureon-primary-dark: #54182b;
-    --aureon-primary-rgb: 112, 35, 58;
-    --aureon-secondary: #28656b;
+    --aureon-primary: #6a753d;
+    --aureon-primary-dark: #4e572d;
+    --aureon-primary-rgb: 106, 117, 61;
+    --aureon-secondary: #70233a;
     --aureon-accent: #b28a4b;
     --aureon-night: #17151d;
     --aureon-surface: #ffffff;
@@ -52,6 +52,129 @@ body {
     --bs-btn-hover-border-color: var(--aureon-primary-dark);
     --bs-btn-active-bg: var(--aureon-primary-dark);
     --bs-btn-active-border-color: var(--aureon-primary-dark);
+}
+
+/* Palette-aware components. The template stylesheet hard-codes its primary
+   with !important on these selectors, so the overlay (loaded after it) pins
+   them to the active palette with the same weight. */
+a { color: var(--aureon-primary); }
+a:hover,
+a:focus { color: var(--aureon-primary-dark); }
+.btn-primary,
+.btn.btn-primary,
+.page-header .btn-added,
+.btn-check:checked + .btn-outline-primary {
+    color: #ffffff !important;
+    background-color: var(--aureon-primary) !important;
+    border: 1px solid var(--aureon-primary) !important;
+    box-shadow: 0 4px 20px rgba(var(--aureon-primary-rgb), 0.15);
+}
+.btn-primary:hover,
+.btn-primary:focus,
+.btn-primary:active,
+.btn-primary.active,
+.btn.btn-primary:hover,
+.btn.btn-primary:focus,
+.btn.btn-primary.focus,
+.btn.btn-primary:active,
+.btn.btn-primary.active,
+.show > .btn-primary.dropdown-toggle,
+.page-header .btn-added:hover,
+.page-header .btn-added:focus,
+.page-header .btn-added:active {
+    color: #ffffff !important;
+    background-color: var(--aureon-primary-dark) !important;
+    border: 1px solid var(--aureon-primary-dark) !important;
+    box-shadow: 0 3px 10px rgba(var(--aureon-primary-rgb), 0.35);
+}
+.btn-primary:disabled,
+.btn-primary.disabled,
+.btn.btn-primary:disabled,
+.btn.btn-primary.disabled {
+    background-color: var(--aureon-primary) !important;
+    border: 1px solid var(--aureon-primary) !important;
+    opacity: 0.65;
+}
+.btn-outline-primary {
+    color: var(--aureon-primary) !important;
+    background-color: transparent;
+    border: 1px solid var(--aureon-primary) !important;
+}
+.btn-outline-primary:hover,
+.btn-outline-primary:focus,
+.btn-outline-primary.focus,
+.btn-outline-primary:active,
+.btn-outline-primary.active {
+    color: #ffffff !important;
+    background-color: var(--aureon-primary) !important;
+    border: 1px solid var(--aureon-primary) !important;
+    box-shadow: 0 3px 10px rgba(var(--aureon-primary-rgb), 0.35);
+}
+.btn.btn-primary-light {
+    color: var(--aureon-primary);
+    background-color: rgba(var(--aureon-primary-rgb), 0.1);
+}
+.btn.btn-primary-light:hover,
+.btn.btn-primary-light:focus,
+.btn.btn-primary-light:active,
+.btn.btn-primary-ghost:hover,
+.btn.btn-primary-ghost:focus,
+.btn.btn-primary-ghost:active {
+    color: #ffffff;
+    background-color: var(--aureon-primary);
+    border-color: var(--aureon-primary);
+}
+.btn.btn-primary-ghost {
+    color: var(--aureon-primary);
+    background-color: transparent;
+    border: 1px solid var(--aureon-primary);
+}
+.form-check-input:checked,
+.checkboxs input:checked ~ .checkmarks,
+.card .card-body .payroll-info .status-updates .form-check-input:checked {
+    background-color: var(--aureon-primary);
+    border-color: var(--aureon-primary);
+}
+.form-check-input:focus,
+.form-control:focus,
+.form-select:focus {
+    border-color: color-mix(in srgb, var(--aureon-primary) 55%, var(--aureon-border));
+    box-shadow: 0 0 0 0.2rem rgba(var(--aureon-primary-rgb), 0.12);
+}
+.page-item.active .page-link,
+.dataTables_paginate .pagination li.active a.page-link,
+.dataTables_paginate .paginate_button.current,
+.nav-tabs.nav-tabs-solid li a.active,
+.nav-tabs.nav-tabs-solid.nav-tabs-rounded li a.active,
+.nav-tabs .nav-tabs-solid .active,
+.nav.nav-style-2 .nav-item .nav-link.active,
+.nav.nav-style-3 .nav-link.active,
+.nav-style-6.nav-pills .nav-link.active,
+.nav-pills .nav-link.active,
+.tabs-set .nav-tabs .nav-link.active,
+.form-wizard-1.nav-tabs .nav-link.active,
+.dropdown-item.active,
+.dropdown-item:active,
+.swal2-actions .swal2-confirm.btn,
+.swal2-actions .swal2-confirm.btn:active {
+    color: #ffffff !important;
+    background-color: var(--aureon-primary) !important;
+    border-color: var(--aureon-primary) !important;
+}
+.page-link,
+.dataTables_paginate .paginate_button {
+    color: var(--aureon-primary);
+}
+.tab-style-3 .nav-item .nav-link.active:after,
+.tab-style-4.nav-tabs .nav-link.active::before,
+.custom-progress-3 .progress-bar .progress-bar-value,
+::-webkit-scrollbar-thumb {
+    background: var(--aureon-primary);
+}
+.badge.bg-primary,
+.text-bg-primary {
+    color: #ffffff !important;
+    background-color: var(--aureon-primary) !important;
 }
 
 .text-primary {

@@ -4,8 +4,8 @@
 
     @php
         $roleStats = [
-            ['label' => 'Access roles', 'value' => $this->statistics['roles'], 'icon' => 'ti-shield', 'color' => '#70233a'],
-            ['label' => 'Capabilities', 'value' => $this->statistics['permissions'], 'icon' => 'ti-key', 'color' => '#28656b'],
+            ['label' => 'Access roles', 'value' => $this->statistics['roles'], 'icon' => 'ti-shield', 'color' => 'var(--aureon-primary)'],
+            ['label' => 'Capabilities', 'value' => $this->statistics['permissions'], 'icon' => 'ti-key', 'color' => 'var(--aureon-secondary)'],
             ['label' => 'Role assignments', 'value' => $this->statistics['assignments'], 'icon' => 'ti-user-shield', 'color' => '#9a6d1f'],
             ['label' => 'Custom roles', 'value' => $this->statistics['custom'], 'icon' => 'ti-shield-plus', 'color' => '#596274'],
         ];

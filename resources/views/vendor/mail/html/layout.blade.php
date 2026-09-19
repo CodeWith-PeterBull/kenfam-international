@@ -6,6 +6,7 @@
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 <meta name="color-scheme" content="light">
 <meta name="supported-color-schemes" content="light">
+@php($brandColors = (array) config('kenfam.colors', []))
 <style>
 @media only screen and (max-width: 600px) {
 .inner-body {
@@ -21,6 +22,17 @@ width: 100% !important;
 .button {
 width: 100% !important;
 }
+}
+
+/* Brand colour from config("kenfam.colors"); the theme stylesheet only supplies the fallback. */
+.button.button-primary,
+.button.button-blue {
+background-color: {{ $brandColors['primary'] ?? '#6a753d' }};
+border-bottom: 8px solid {{ $brandColors['primary'] ?? '#6a753d' }};
+border-left: 18px solid {{ $brandColors['primary'] ?? '#6a753d' }};
+border-right: 18px solid {{ $brandColors['primary'] ?? '#6a753d' }};
+border-top: 8px solid {{ $brandColors['primary'] ?? '#6a753d' }};
+color: {{ $brandColors['on_primary'] ?? '#ffffff' }};
 }
 </style>
 {!! $head ?? '' !!}

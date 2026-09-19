@@ -15,8 +15,8 @@ final class DashboardController extends Controller
             'summary' => 'Browse approved resources, upcoming events, saved references, and recent organization notices.',
             'primaryAction' => ['label' => 'Browse content', 'route' => 'viewer.library', 'icon' => 'ti-books'],
             'stats' => [
-                ['label' => 'Published resources', 'value' => 86, 'icon' => 'ti-books', 'color' => '#70233a'],
-                ['label' => 'Upcoming events', 'value' => 12, 'icon' => 'ti-calendar-event', 'color' => '#28656b'],
+                ['label' => 'Published resources', 'value' => 86, 'icon' => 'ti-books', 'color' => 'var(--aureon-primary)'],
+                ['label' => 'Upcoming events', 'value' => 12, 'icon' => 'ti-calendar-event', 'color' => 'var(--aureon-secondary)'],
                 ['label' => 'Saved items', 'value' => 7, 'icon' => 'ti-bookmark', 'color' => '#8a6427'],
                 ['label' => 'New notices', 'value' => 3, 'icon' => 'ti-bell', 'color' => '#4f5d75'],
             ],

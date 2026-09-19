@@ -128,7 +128,7 @@
                 <div id="dashboard-color-settings" class="accordion-collapse collapse show">
                     <div class="accordion-body">
                         <div class="aureon-palette-options" role="radiogroup" aria-label="Theme color">
-                            @foreach ([['wine', '#9f2333', 'Kenfam red'], ['teal', '#28656b', 'Corporate teal'], ['gold', '#8a6427', 'Heritage gold'], ['graphite', '#40434a', 'Graphite']] as [$value, $color, $label])
+                            @foreach ([['olive', config('kenfam.colors.primary', '#6a753d'), 'Kenfam olive'], ['wine', '#9f2333', 'Kenfam red'], ['teal', '#28656b', 'Corporate teal'], ['gold', '#8a6427', 'Heritage gold'], ['graphite', '#40434a', 'Graphite']] as [$value, $color, $label])
                                 <input class="btn-check" type="radio" name="aureon-palette" id="aureon-palette-{{ $value }}" value="{{ $value }}" data-dashboard-setting="palette">
                                 <label class="aureon-palette" for="aureon-palette-{{ $value }}" title="{{ $label }}">
                                     <span style="--palette-color: {{ $color }}"></span>
@@ -136,7 +136,7 @@
                                 </label>
                             @endforeach
                             <label class="aureon-palette aureon-palette--custom" for="aureon-custom-primary" title="Custom theme color">
-                                <input type="color" id="aureon-custom-primary" value="#70233a" data-theme-custom-color aria-label="Custom theme color">
+                                <input type="color" id="aureon-custom-primary" value="{{ config('kenfam.colors.primary', '#6a753d') }}" data-theme-custom-color aria-label="Custom theme color">
                                 <span>Custom</span>
                             </label>
                         </div>

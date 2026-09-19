@@ -1,8 +1,8 @@
 <div id="system-activity-explorer">
     @php
         $statCards = [
-            ['label' => 'Matching activities', 'value' => $this->statistics['total'], 'icon' => 'ti-activity', 'color' => '#70233a'],
-            ['label' => 'Recorded today', 'value' => $this->statistics['today'], 'icon' => 'ti-calendar-event', 'color' => '#28656b'],
+            ['label' => 'Matching activities', 'value' => $this->statistics['total'], 'icon' => 'ti-activity', 'color' => 'var(--aureon-primary)'],
+            ['label' => 'Recorded today', 'value' => $this->statistics['today'], 'icon' => 'ti-calendar-event', 'color' => 'var(--aureon-secondary)'],
             ['label' => 'Active actors', 'value' => $this->statistics['actors'], 'icon' => 'ti-users', 'color' => '#9a6d1f'],
             ['label' => 'Needs attention', 'value' => $this->statistics['attention'], 'icon' => 'ti-alert-triangle', 'color' => '#b42318'],
         ];

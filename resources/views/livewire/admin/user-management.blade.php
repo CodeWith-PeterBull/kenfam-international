@@ -8,8 +8,8 @@
 
     @php
         $userStats = [
-            ['label' => 'Total accounts', 'value' => $this->statistics['total'], 'icon' => 'ti-users', 'color' => '#70233a'],
-            ['label' => 'Active accounts', 'value' => $this->statistics['active'], 'icon' => 'ti-user-check', 'color' => '#28656b'],
+            ['label' => 'Total accounts', 'value' => $this->statistics['total'], 'icon' => 'ti-users', 'color' => 'var(--aureon-primary)'],
+            ['label' => 'Active accounts', 'value' => $this->statistics['active'], 'icon' => 'ti-user-check', 'color' => 'var(--aureon-secondary)'],
             ['label' => 'Administrators', 'value' => $this->statistics['administrators'], 'icon' => 'ti-shield-check', 'color' => '#9a6d1f'],
             ['label' => 'Profiles pending', 'value' => $this->statistics['incomplete'], 'icon' => 'ti-user-question', 'color' => '#596274'],
         ];

@@ -20,6 +20,7 @@
                 <legend>Color palette</legend>
                 <div class="theme-palette-grid">
                     @foreach ([
+                        ['olive', 'Olive', ['#6a753d', '#70233a', '#b28a4b']],
                         ['wine', 'Aureon wine', ['#70233a', '#28656b', '#b28a4b']],
                         ['cobalt', 'Cobalt', ['#245aa5', '#287369', '#c18a32']],
                         ['forest', 'Forest', ['#275b45', '#75603e', '#bb8d3b']],
@@ -33,8 +34,8 @@
             <section class="theme-control-group">
                 <div class="theme-control-heading"><label for="theme-custom-toggle">Custom colors</label><div class="form-check form-switch m-0"><input class="form-check-input" type="checkbox" role="switch" id="theme-custom-toggle" data-theme-custom-toggle></div></div>
                 <div class="theme-custom-colors" data-theme-custom-fields>
-                    <label for="theme-primary-color"><span>Primary</span><output data-theme-primary-output>#70233A</output></label><input type="color" id="theme-primary-color" value="#70233a" data-theme-primary>
-                    <label for="theme-secondary-color"><span>Secondary</span><output data-theme-secondary-output>#28656B</output></label><input type="color" id="theme-secondary-color" value="#28656b" data-theme-secondary>
+                    <label for="theme-primary-color"><span>Primary</span><output data-theme-primary-output>#6A753D</output></label><input type="color" id="theme-primary-color" value="#6a753d" data-theme-primary>
+                    <label for="theme-secondary-color"><span>Secondary</span><output data-theme-secondary-output>#70233A</output></label><input type="color" id="theme-secondary-color" value="#70233a" data-theme-secondary>
                 </div>
             </section>
             <fieldset class="theme-control-group">

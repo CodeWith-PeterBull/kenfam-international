@@ -22,6 +22,7 @@ use App\Modules\TravelTours\Bookings\Models\TourBooking;
 use App\Modules\TravelTours\Bookings\Services\BookingPaymentService;
 use App\Modules\TravelTours\Catalog\Enums\PublicationStatus;
 use App\Modules\TravelTours\Catalog\Models\Tour;
+use App\Modules\TravelTours\Catalog\Services\CatalogMediaService;
 use App\Modules\TravelTours\Customers\Models\TravelCustomer;
 use App\Modules\TravelTours\Database\Seeders\TravelToursAccessSeeder;
 use App\Modules\TravelTours\PointOfBooking\Data\ShiftMovementData;
@@ -41,7 +42,9 @@ use App\Modules\TravelTours\Scheduling\Models\TourDeparture;
 use App\Modules\TravelTours\Scheduling\Services\DepartureAvailabilityService;
 use App\Modules\TravelTours\Support\TravelToursRole;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\Notification;
+use Illuminate\Support\Facades\Storage;
 use Livewire\Livewire;
 use Tests\TestCase;
 
@@ -249,6 +252,26 @@ final class TravelToursBookingDeskTest extends TestCase
         $this->assertSame(BookingStatus::Cancelled, $second->fresh()->status);
         $this->assertSame(9, app(DepartureAvailabilityService::class)->check($departure)->availableSeats);
         $this->assertSame(ShiftStatus::Closed, $shifts->close($shift, $manager, 10_000_00)->status);
+    }
+
+    /** Departure cards show the tour cover from its thumbnail when generated and from the original while conversions are still queued. */
+    public function test_terminal_departure_cards_show_the_cover_before_conversions_exist(): void
+    {
+        Storage::fake('public');
+        [$tour, $departure] = $this->tourWithDeparture();
+        $manager = $this->operator(TravelToursRole::MANAGER);
+        $agent = $this->operator(TravelToursRole::BOOKING_AGENT);
+        app(BookingShiftService::class)->open(BookingRegister::factory()->create(), $agent, $manager, 0);
+        $tour = app(CatalogMediaService::class)->replaceTourCover($tour, UploadedFile::fake()->image('cover.jpg', 640, 480), 'Cover', null);
+        $cover = $tour->getFirstMedia('tour_cover');
+
+        Livewire::actingAs($agent)->test(Terminal::class)->assertSeeHtml('src="'.$cover->getUrl('thumb').'"');
+
+        $cover->forceFill(['generated_conversions' => []])->save();
+
+        Livewire::actingAs($agent)->test(Terminal::class)
+            ->assertSeeHtml('src="'.$cover->getUrl().'"')
+            ->assertDontSeeHtml('-thumb.');
     }
 
     /** Without a shift the terminal shows the gate; a manager can operate any open shift and an operator only their own. */

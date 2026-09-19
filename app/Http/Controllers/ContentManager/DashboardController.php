@@ -15,8 +15,8 @@ final class DashboardController extends Controller
             'summary' => 'Coordinate publishing priorities, review readiness, scheduled releases, and media requests.',
             'primaryAction' => ['label' => 'Open content queue', 'route' => 'content-manager.queue', 'icon' => 'ti-list-check'],
             'stats' => [
-                ['label' => 'Draft entries', 'value' => 14, 'icon' => 'ti-file-pencil', 'color' => '#70233a'],
-                ['label' => 'Awaiting review', 'value' => 6, 'icon' => 'ti-eye-check', 'color' => '#28656b'],
+                ['label' => 'Draft entries', 'value' => 14, 'icon' => 'ti-file-pencil', 'color' => 'var(--aureon-primary)'],
+                ['label' => 'Awaiting review', 'value' => 6, 'icon' => 'ti-eye-check', 'color' => 'var(--aureon-secondary)'],
                 ['label' => 'Scheduled releases', 'value' => 8, 'icon' => 'ti-calendar-time', 'color' => '#8a6427'],
                 ['label' => 'Media requests', 'value' => 3, 'icon' => 'ti-photo-edit', 'color' => '#4f5d75'],
             ],

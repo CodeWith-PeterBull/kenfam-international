@@ -49,6 +49,7 @@
     @include('layouts.partials.loader-bootstrap')
     <link href="{{ asset('aureon/assets/vendor/bootstrap/bootstrap.min.css') }}" rel="stylesheet">
     <link href="{{ asset('aureon/assets/css/theme.css') }}" rel="stylesheet">
+    @include('layouts.partials.brand-theme-tokens')
     @vite('app/Modules/Commerce/Resources/css/storefront.css')
     <link href="{{ asset('aureon/assets/css/theme-controller.css') }}" rel="stylesheet">
     @livewireStyles

@@ -1,0 +1,83 @@
+{
+  "generatedAt": "2026-09-19T19:45:09.445Z",
+  "siteUrl": "http://127.0.0.1:8014",
+  "failures": [],
+  "runtimeErrors": [],
+  "networkErrors": [],
+  "observations": [
+    "Storefront defaults: {\"palette\":\"olive\",\"primary\":\"#6a753d\",\"secondary\":\"#70233a\",\"accent\":\"#b28a4b\"}",
+    "Storefront buttons: [{\"text\":\"Create account\",\"bg\":\"rgb(106, 117, 61)\"},{\"text\":\"Sign up\",\"bg\":\"rgb(106, 117, 61)\"},{\"text\":\"Sign in\",\"bg\":\"rgb(106, 117, 61)\"},{\"text\":\"Create an account\",\"bg\":\"rgb(255, 255, 255)\"}]",
+    "Storefront panel: {\"checked\":\"olive\",\"first\":\"olive\",\"label\":\"Olive\",\"customPrimary\":\"#6a753d\"}",
+    "Dashboard defaults: {\"color\":\"olive\",\"primary\":\"#6a753d\",\"secondary\":\"#70233a\",\"themeColor\":\"#6a753d\"}",
+    "Sidebar groups: Content workspace > Assigned tools > Account",
+    "Dashboard buttons: [{\"text\":\"All bookings\",\"bg\":\"rgba(0, 0, 0, 0)\",\"border\":\"rgb(106, 117, 61)\"}]",
+    "Dashboard link colour: rgb(29, 29, 37)",
+    "Dashboard panel: {\"checked\":\"olive\",\"first\":\"olive\",\"label\":\"Kenfam olive\",\"customPrimary\":\"#6a753d\",\"open\":true}",
+    "Open workspace button: rgb(106, 117, 61)",
+    "Open workspace button on teal: rgb(40, 101, 107)",
+    "Admin sidebar groups: Workspace > Travel and tours > Users and access > Governance > Configuration > Account",
+    "Desk thumbnails: 0 (0 loaded)"
+  ],
+  "diagnostics": [
+    {
+      "name": "storefront-tours-olive",
+      "path": "/tours",
+      "viewportWidth": 1440,
+      "documentWidth": 1440,
+      "palette": "olive",
+      "primary": "#6a753d",
+      "secondary": "#70233a",
+      "accent": "#b28a4b"
+    },
+    {
+      "name": "storefront-theme-panel",
+      "path": "/tours",
+      "viewportWidth": 1440,
+      "documentWidth": 1440
+    },
+    {
+      "name": "dashboard-travel-olive",
+      "path": "/admin/travel",
+      "viewportWidth": 1440,
+      "documentWidth": 1440,
+      "headers": [
+        "Content workspace",
+        "Assigned tools",
+        "Account"
+      ]
+    },
+    {
+      "name": "dashboard-theme-panel",
+      "path": "/admin/travel",
+      "viewportWidth": 1440,
+      "documentWidth": 1440
+    },
+    {
+      "name": "admin-dashboard-teal-buttons",
+      "path": "/admin/dashboard",
+      "viewportWidth": 1440,
+      "documentWidth": 1440
+    },
+    {
+      "name": "admin-dashboard-sidebar-olive",
+      "path": "/admin/dashboard",
+      "viewportWidth": 1440,
+      "documentWidth": 1440,
+      "adminHeaders": [
+        "Workspace",
+        "Travel and tours",
+        "Users and access",
+        "Governance",
+        "Configuration",
+        "Account"
+      ]
+    },
+    {
+      "name": "desk-terminal-olive",
+      "path": "/travel-booking-desk",
+      "viewportWidth": 1440,
+      "documentWidth": 1440,
+      "thumbs": 0
+    }
+  ]
+}
