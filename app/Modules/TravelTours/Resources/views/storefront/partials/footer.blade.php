@@ -4,6 +4,18 @@
             <p class="travel-eyebrow">Begin with a conversation</p>
             <h2>Tell us where you would like to go.</h2>
         </div>
+        @if ($travelProfile->socialLinks !== [])
+            {{-- Profiles recorded in Institution Details (or the configured defaults), in the order they were entered. --}}
+            <ul class="travel-footer__social" aria-label="{{ $travelProfile->shortName }} on social media">
+                @foreach ($travelProfile->socialLinks as $social)
+                    <li>
+                        <a href="{{ $social->url }}" target="_blank" rel="me noopener noreferrer" aria-label="{{ $travelProfile->shortName }} on {{ $social->label }}" title="{{ $social->label }}">
+                            @include('travel-tours::storefront.partials.brand-mark', ['platform' => $social->key])
+                        </a>
+                    </li>
+                @endforeach
+            </ul>
+        @endif
         @if ($travelProfile->whatsappNumber)
             <a class="travel-button travel-button--light" href="https://wa.me/{{ $travelProfile->whatsappNumber }}?text={{ rawurlencode('Hello '.$travelProfile->shortName.', I would like help planning a journey.') }}" target="_blank" rel="noopener noreferrer">
                 <i data-lucide="message-circle" aria-hidden="true"></i>
@@ -17,18 +29,6 @@
                 <img src="{{ $travelProfile->lightLogoUrl }}" alt="{{ $travelProfile->name }}" width="199" height="70">
             </a>
             <p>{{ $travelProfile->descriptor ?: 'Considered journeys, capable coordination, and attentive service.' }}</p>
-            @if ($travelProfile->socialLinks !== [])
-                {{-- Profiles recorded in Institution Details, in the order they were entered. --}}
-                <ul class="travel-footer__social" aria-label="{{ $travelProfile->shortName }} on social media">
-                    @foreach ($travelProfile->socialLinks as $social)
-                        <li>
-                            <a href="{{ $social->url }}" target="_blank" rel="me noopener noreferrer" aria-label="{{ $travelProfile->shortName }} on {{ $social->label }}" title="{{ $social->label }}">
-                                @include('travel-tours::storefront.partials.brand-mark', ['platform' => $social->key])
-                            </a>
-                        </li>
-                    @endforeach
-                </ul>
-            @endif
         </div>
         <nav aria-label="Explore">
             <h2>Explore</h2>

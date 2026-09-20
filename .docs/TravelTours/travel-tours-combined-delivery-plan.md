@@ -303,6 +303,22 @@ Files: `Support/InstitutionContact.php`, `Storefront/Data/SocialLink.php`, `Stor
 
 Verification: `php artisan test` 271 passed (3411 assertions), Pint clean; browser harness `qa-social-share.mjs` (scratchpad) with five demo profiles recorded on the institution: hero share group with every mark at 42 px and the native button revealed, WhatsApp booking link to the institution number with the prefilled text, primary button anchored to the selector, `twitter:site`, price meta, Open Graph context, TouristTrip offers and both `sameAs` lists verified in the DOM; TikTok hover label visible and the copy toast "Link copied — paste into TikTok" after a real click (clipboard permission granted); Facebook opens a popup without navigating; footer shows the four profile marks in recorded order (WhatsApp excluded); dark theme; phone width with full-width buttons and 40 px marks; home footer; zero runtime/network errors. Evidence in `qa/storefront-social-share/`.
 
+### Footer social bar in the lead row, configurable profile defaults, and the olive favicon · 2026-09-20
+
+**Delivered** on `feature/travel-tours-footer-socials-favicon`. Follow-up to the social identity delivery: the bar of profile marks moved from the identity column to the footer lead row (between "Tell us where you would like to go." and the WhatsApp call to action), profile URLs can be configured before an administrator records them, and the brand favicon is the olive mark.
+
+| Area | Result |
+|---|---|
+| Footer lead | `.travel-footer__lead` is a three-column grid (heading, social bar, WhatsApp button) on one baseline; on phones the row stacks heading → bar → button. The bar renders only when at least one profile resolves. |
+| Configured defaults | `config/institution.php` builds `defaults.social_media` from `INSTITUTION_FACEBOOK_URL`, `INSTITUTION_INSTAGRAM_URL`, `INSTITUTION_TIKTOK_URL`, and `INSTITUTION_X_URL` (empty values dropped). The profile resolver already falls back to these when Institution Details has no list, and a recorded list replaces them entirely. |
+| Favicon | `resources/kenfam/assets/brand/favicon.png` is the olive mark (300 × 300); the wine mark is kept as `favicon-old.png`. One file serves every consumer: `kenfam.brand.favicon` (dashboard tab and loader), `institution.assets.logo_icon_url/path` (storefront tab, loader, PDFs), and the Vite static copy to `public/kenfam/assets/brand/`. `public/favicon.ico` (previously empty) is a 16/32/48 icon generated from the same mark for requests that bypass the `<link rel="icon">`. |
+
+Files: `Resources/views/storefront/partials/footer.blade.php`, `Resources/assets/css/storefront.css`, `config/institution.php`, `.env.example`, `resources/kenfam/assets/brand/{favicon,favicon-old}.png`, `public/kenfam/assets/brand/{favicon,favicon-old}.png`, `public/favicon.ico`, `tests/Feature/TravelTours/TravelToursStorefrontShareTest.php` (+1 test, lead-row ordering asserted).
+
+Verification: `php artisan test` 272 passed (3418 assertions), Pint clean; browser harness `qa-footer-lead.mjs` (scratchpad): at 1440 the bar's box sits right of the heading and left of the WhatsApp button on the same line with no overflow; at 390 the row stacks without overflow; the storefront and dashboard `<link rel="icon">` and loader marks resolve to the new 16 811-byte file; zero runtime/network errors. `qa-social-share.mjs` re-run green with the footer captures refreshed. Evidence in `qa/storefront-social-share/` (`*-footer-lead-social.png`, `footer-lead-diagnostics.json`).
+
+Note: an institution with an uploaded **logo icon** in Institution Details overrides the file favicon by design (`InstitutionProfileResolver`); clear that upload if the wine mark persists.
+
 ## Close-out
 
 All seven milestones are on `main`. A customer completes a booking from `/tours/{slug}` through a staff-confirmed manual payment; an operator completes the same at the desk on a shift a manager opened, with a receipt and a reconciled drawer. Items outside this shipment are listed in `todo/refinements_todo.md` (P-1..P-8).

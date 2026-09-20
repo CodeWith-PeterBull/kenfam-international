@@ -1490,7 +1490,7 @@ html[data-theme="dark"] .travel-brand__dark {
 .travel-footer__lead {
     display: grid;
     min-height: 235px;
-    grid-template-columns: minmax(0, 1fr) auto;
+    grid-template-columns: minmax(0, 1fr) auto auto;
     align-items: center;
     gap: 48px;
     border-bottom: 1px solid rgba(255, 255, 255, .14);
@@ -2382,12 +2382,12 @@ html[data-theme="dark"] .travel-empty {
     }
 }
 
-/* Social identity: footer profile marks from Institution Details. */
+/* Social identity: profile marks from Institution Details in the footer lead row, beside the WhatsApp call to action. */
 .travel-footer__social {
     display: flex;
     flex-wrap: wrap;
     gap: 10px;
-    margin: 22px 0 0;
+    margin: 0;
     padding: 0;
     list-style: none;
 }

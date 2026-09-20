@@ -17,7 +17,13 @@ return [
         'postal_code' => env('INSTITUTION_POSTAL_CODE'),
         'postal_address' => env('INSTITUTION_POSTAL_ADDRESS'),
         'postal_city' => env('INSTITUTION_POSTAL_CITY'),
-        'social_media' => [],
+        // Public profiles shown until Institution Details records its own list; empty URLs are dropped.
+        'social_media' => array_values(array_filter([
+            ['platform' => 'Facebook', 'handle' => '', 'url' => (string) env('INSTITUTION_FACEBOOK_URL', '')],
+            ['platform' => 'Instagram', 'handle' => '', 'url' => (string) env('INSTITUTION_INSTAGRAM_URL', '')],
+            ['platform' => 'TikTok', 'handle' => '', 'url' => (string) env('INSTITUTION_TIKTOK_URL', '')],
+            ['platform' => 'X', 'handle' => '', 'url' => (string) env('INSTITUTION_X_URL', '')],
+        ], static fn (array $social): bool => $social['url'] !== '')),
     ],
 
     'assets' => [

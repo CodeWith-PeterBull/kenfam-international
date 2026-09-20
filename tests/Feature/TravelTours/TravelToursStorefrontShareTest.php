@@ -87,6 +87,7 @@ final class TravelToursStorefrontShareTest extends TestCase
         $this->get(route('travel-tours.storefront.catalog.index'))
             ->assertOk()
             ->assertSee('class="travel-footer__social"', false)
+            ->assertSeeInOrder(['travel-footer__lead', 'Tell us where you would like to go.', 'travel-footer__social', 'Plan on WhatsApp', 'travel-footer__grid'], false)
             ->assertSeeInOrder([
                 'aria-label="Kenfam on Facebook"',
                 'aria-label="Kenfam on Instagram"',
@@ -104,6 +105,28 @@ final class TravelToursStorefrontShareTest extends TestCase
             ->assertOk()
             ->assertDontSee('travel-footer__social', false)
             ->assertDontSee('twitter:site', false);
+    }
+
+    /** Configured profile URLs stand in until Institution Details records its own list, and yield to it. */
+    public function test_footer_falls_back_to_configured_profiles(): void
+    {
+        config(['institution.defaults.social_media' => [
+            ['platform' => 'Facebook', 'handle' => '', 'url' => 'https://facebook.com/kenfam-default'],
+            ['platform' => 'TikTok', 'handle' => '', 'url' => 'https://tiktok.com/@kenfam-default'],
+        ]]);
+        $this->withInstitution([]);
+
+        $this->get(route('travel-tours.storefront.catalog.index'))
+            ->assertOk()
+            ->assertSeeInOrder(['aria-label="Kenfam on Facebook"', 'aria-label="Kenfam on TikTok"'], false)
+            ->assertSee('href="https://tiktok.com/@kenfam-default"', false);
+
+        $this->withInstitution([['platform' => 'Instagram', 'handle' => '', 'url' => 'https://instagram.com/kenfam']]);
+
+        $this->get(route('travel-tours.storefront.catalog.index'))
+            ->assertOk()
+            ->assertSee('aria-label="Kenfam on Instagram"', false)
+            ->assertDontSee('kenfam-default', false);
     }
 
     /** The tour page carries the share group, the WhatsApp booking link, and the pre-share metadata. */
