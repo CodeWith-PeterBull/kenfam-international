@@ -2,6 +2,17 @@
 
 declare(strict_types=1);
 
+/*
+ * A brand colour from the environment must be #rrggbb. An unquoted "#…" value
+ * in .env reads as a comment and arrives empty, and the empty string is not
+ * null, so env() alone would not fall back; this does.
+ */
+$brandColour = static function (string $key, string $default): string {
+    $value = (string) env($key, '');
+
+    return preg_match('/^#[0-9a-f]{6}$/i', $value) === 1 ? $value : $default;
+};
+
 return [
     'name' => env('KENFAM_NAME', 'Kenfam International'),
     'legal_name' => env('KENFAM_LEGAL_NAME', 'Kenfam International Limited'),
@@ -24,13 +35,14 @@ return [
      * The brand palette every server-rendered surface reads: PDF reports, mail,
      * and the default ("olive") entry of the dashboard and storefront theme
      * controllers. Visitors may still pick another palette in the browser.
-     * Kept apart from `brand`, which lists asset paths only.
+     * Kept apart from `brand`, which lists asset paths only. Quote the values
+     * in .env (KENFAM_BRAND_PRIMARY="#6a753d"); a malformed one is ignored.
      */
     'colors' => [
-        'primary' => env('KENFAM_BRAND_PRIMARY', '#6a753d'),
-        'primary_dark' => env('KENFAM_BRAND_PRIMARY_DARK', '#4e572d'),
-        'secondary' => env('KENFAM_BRAND_SECONDARY', '#70233a'),
-        'accent' => env('KENFAM_BRAND_ACCENT', '#b28a4b'),
-        'on_primary' => env('KENFAM_BRAND_ON_PRIMARY', '#ffffff'),
+        'primary' => $brandColour('KENFAM_BRAND_PRIMARY', '#6a753d'),
+        'primary_dark' => $brandColour('KENFAM_BRAND_PRIMARY_DARK', '#4e572d'),
+        'secondary' => $brandColour('KENFAM_BRAND_SECONDARY', '#70233a'),
+        'accent' => $brandColour('KENFAM_BRAND_ACCENT', '#b28a4b'),
+        'on_primary' => $brandColour('KENFAM_BRAND_ON_PRIMARY', '#ffffff'),
     ],
 ];

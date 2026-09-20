@@ -28,7 +28,7 @@
     <meta name="description" content="{{ $metaDescription }}">
     <meta name="robots" content="@yield('robots', 'index, follow, max-image-preview:large')">
     <meta name="application-name" content="{{ $travelProfile->shortName }} Travel">
-    <meta name="theme-color" content="#70233a">
+    <meta name="theme-color" content="{{ config('kenfam.colors.primary') }}">
     <meta property="og:site_name" content="{{ $travelProfile->name }}">
     <meta property="og:type" content="@yield('og_type', 'website')">
     <meta property="og:title" content="{{ $pageTitle }} | {{ $travelProfile->name }}">

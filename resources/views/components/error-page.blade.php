@@ -11,7 +11,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="robots" content="noindex, nofollow">
-    <meta name="theme-color" content="#70233a">
+    <meta name="theme-color" content="{{ config('kenfam.colors.primary') }}">
     <title>{{ $status }} | {{ $title }} | {{ config('app.name') }}</title>
     <link rel="icon" type="image/png" href="{{ asset('aureon/assets/brand/favicon.png') }}">
     @include('layouts.partials.theme-settings')

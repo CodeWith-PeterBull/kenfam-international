@@ -26,6 +26,35 @@ final class BrandColorsTest extends TestCase
         $this->assertSame('#b28a4b', config('kenfam.colors.accent'));
     }
 
+    /** An empty or malformed environment value (an unquoted "#…" reads as a comment) resolves to the default. */
+    public function test_empty_or_malformed_environment_values_fall_back_to_the_defaults(): void
+    {
+        $overrides = [
+            'KENFAM_BRAND_PRIMARY' => '',
+            'KENFAM_BRAND_PRIMARY_DARK' => '4e572d',
+            'KENFAM_BRAND_SECONDARY' => '#12AB34',
+            'KENFAM_BRAND_ACCENT' => 'olive',
+        ];
+        foreach ($overrides as $key => $value) {
+            $_SERVER[$key] = $value;
+            $_ENV[$key] = $value;
+        }
+
+        try {
+            $colors = (require base_path('config/kenfam.php'))['colors'];
+        } finally {
+            foreach (array_keys($overrides) as $key) {
+                unset($_SERVER[$key], $_ENV[$key]);
+            }
+        }
+
+        $this->assertSame('#6a753d', $colors['primary']);
+        $this->assertSame('#4e572d', $colors['primary_dark']);
+        $this->assertSame('#12AB34', $colors['secondary']);
+        $this->assertSame('#b28a4b', $colors['accent']);
+        $this->assertSame('#ffffff', $colors['on_primary']);
+    }
+
     /** Mail action buttons, report styles, and the dashboard palette hand-off follow a configuration change. */
     public function test_documents_and_theme_defaults_follow_the_configured_primary(): void
     {
@@ -47,5 +76,7 @@ final class BrandColorsTest extends TestCase
 
         $tokens = view('layouts.partials.brand-theme-tokens')->render();
         $this->assertStringContainsString('--brand-primary: #123456;', $tokens);
+
+        $this->assertStringContainsString('<meta name="theme-color" content="#123456">', $this->get('/')->getContent());
     }
 }
