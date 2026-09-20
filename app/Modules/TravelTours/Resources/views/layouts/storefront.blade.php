@@ -17,6 +17,7 @@
             'streetAddress' => $travelProfile->address,
             'addressCountry' => config('travel-tours.defaults.country_code'),
         ] : null,
+        'sameAs' => $travelProfile->sameAs ?: null,
     ], static fn (mixed $value): bool => $value !== null && $value !== '');
 @endphp
 <!doctype html>
@@ -36,6 +37,9 @@
     <meta property="og:image" content="{{ $socialImage }}">
     <meta property="og:image:alt" content="{{ $pageTitle }}">
     <meta name="twitter:card" content="summary_large_image">
+    @if ($travelProfile->xHandle)
+        <meta name="twitter:site" content="{{ $travelProfile->xHandle }}">
+    @endif
     <meta name="twitter:title" content="{{ $pageTitle }} | {{ $travelProfile->name }}">
     <meta name="twitter:description" content="{{ $metaDescription }}">
     <meta name="twitter:image" content="{{ $socialImage }}">

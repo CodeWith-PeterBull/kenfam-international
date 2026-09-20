@@ -10,16 +10,38 @@
     );
     $contentGroups = $tour->contentItems->groupBy(static fn ($item): string => $item->type->value);
     $destinationNames = $tour->destinations->pluck('name')->join(', ');
+    $tourUrl = $isPreview ? request()->url() : route('travel-tours.storefront.tours.show', $tour->slug);
+    $currencyDecimals = (int) config('travel-tours.defaults.currency_decimals', 2);
+    $fromPrice = $adultRate ? \App\Modules\TravelTours\Support\MoneyFormatter::format($adultRate->amount_minor, $ratePlan->currency, $currencyDecimals) : null;
+    $priceDecimal = $adultRate ? \App\Modules\TravelTours\Support\ScaledDecimal::formatUnsigned($adultRate->amount_minor, $currencyDecimals) : null;
+    $bookable = $tour->departures->isNotEmpty();
+    // Sharing and WhatsApp booking are public actions; an editorial preview is noindex and has no public URL to hand out.
+    $whatsappBookingUrl = (! $isPreview && config('travel-tours.storefront.whatsapp_booking.enabled', true))
+        ? \App\Modules\TravelTours\Support\InstitutionContact::from(app(\App\Contracts\ResolvesInstitutionProfile::class)->current())->whatsappBookingUrl($tour->name, $tourUrl, $fromPrice)
+        : null;
     $tourSchema = array_filter([
         '@context' => 'https://schema.org',
         '@type' => 'TouristTrip',
         'name' => $tour->name,
         'description' => $tour->short_description,
-        'url' => $isPreview ? request()->url() : route('travel-tours.storefront.tours.show', $tour->slug),
+        'url' => $tourUrl,
         'image' => $cover,
         'touristType' => $tour->type->label(),
         'itinerary' => $destinationNames,
-        'provider' => ['@type' => 'TravelAgency', 'name' => $profile->name, 'url' => route('home')],
+        'provider' => array_filter([
+            '@type' => 'TravelAgency',
+            'name' => $profile->name,
+            'url' => route('home'),
+            'sameAs' => $profile->sameAs ?: null,
+        ]),
+        'offers' => $adultRate ? array_filter([
+            '@type' => 'Offer',
+            'url' => $tourUrl,
+            'priceCurrency' => strtoupper($ratePlan->currency),
+            'price' => $priceDecimal,
+            'availability' => $bookable ? 'https://schema.org/InStock' : null,
+            'seller' => ['@type' => 'Organization', 'name' => $profile->name],
+        ]) : null,
     ], static fn (mixed $value): bool => $value !== null && $value !== '');
 @endphp
 
@@ -32,6 +54,13 @@
 @section('page', 'tour-detail')
 
 @push('head')
+    @if ($adultRate)
+        <meta property="product:price:amount" content="{{ $priceDecimal }}">
+        <meta property="product:price:currency" content="{{ strtoupper($ratePlan->currency) }}">
+    @endif
+    @if ($bookable)
+        <meta property="og:availability" content="instock">
+    @endif
     <script type="application/ld+json">{!! json_encode($tourSchema, JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE | JSON_HEX_TAG) !!}</script>
 @endpush
 
@@ -48,10 +77,27 @@
                 <span><i data-lucide="map-pin" aria-hidden="true"></i>{{ $destinationNames }}</span>
             @endif
             <span><i data-lucide="activity" aria-hidden="true"></i>{{ $tour->difficulty->label() }} pace</span>
-            @if ($adultRate)
-                <span><i data-lucide="badge-dollar-sign" aria-hidden="true"></i>From {{ \App\Modules\TravelTours\Support\MoneyFormatter::format($adultRate->amount_minor, $ratePlan->currency) }} per adult</span>
+            @if ($fromPrice)
+                <span><i data-lucide="badge-dollar-sign" aria-hidden="true"></i>From {{ $fromPrice }} per adult</span>
             @endif
         </div>
+        @unless ($isPreview)
+            <div class="travel-detail-hero__actions">
+                <div class="travel-detail-hero__buttons">
+                    <a class="travel-button travel-button--light" href="{{ $bookable ? '#travel-departures' : '#travel-inquiry' }}">
+                        <i data-lucide="calendar-check" aria-hidden="true"></i>
+                        {{ $bookable ? 'Check departures' : 'Plan this journey' }}
+                    </a>
+                    @if ($whatsappBookingUrl)
+                        <a class="travel-button travel-button--whatsapp" href="{{ $whatsappBookingUrl }}" target="_blank" rel="noopener noreferrer">
+                            @include('travel-tours::storefront.partials.brand-mark', ['platform' => 'whatsapp'])
+                            Book via WhatsApp
+                        </a>
+                    @endif
+                </div>
+                @include('travel-tours::storefront.partials.share', ['url' => $tourUrl, 'title' => $tour->name])
+            </div>
+        @endunless
     </div>
 </section>
 
@@ -197,7 +243,7 @@
             @endif
         </div>
 
-        <aside class="travel-inquiry" aria-labelledby="tour-inquiry-title">
+        <aside id="travel-inquiry" class="travel-inquiry" aria-labelledby="tour-inquiry-title">
             <p class="travel-eyebrow">Plan this journey</p>
             <h2 id="tour-inquiry-title">Talk to a travel specialist</h2>
             @if (session('inquiry_submitted'))

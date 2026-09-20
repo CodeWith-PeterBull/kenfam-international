@@ -42,6 +42,19 @@ return [
             static fn (string $method): string => trim($method),
             explode(',', (string) env('TRAVEL_TOURS_PAYMENT_METHODS', 'mobile_money,card,bank_transfer,cash')),
         ))),
+        // Tour-page social share group. Individual platforms can be pruned
+        // with the allow-list; an empty list means "all supported platforms".
+        'sharing' => [
+            'enabled' => (bool) env('TRAVEL_TOURS_SHARING_ENABLED', true),
+            'platforms' => array_values(array_filter(array_map(
+                static fn (string $platform): string => trim(strtolower($platform)),
+                explode(',', (string) env('TRAVEL_TOURS_SHARING_PLATFORMS', '')),
+            ))),
+        ],
+        // Direct "book via WhatsApp" button using the institution's number.
+        'whatsapp_booking' => [
+            'enabled' => (bool) env('TRAVEL_TOURS_WHATSAPP_BOOKING_ENABLED', true),
+        ],
     ],
     'media' => [
         'tour_gallery_limit' => (int) env('TRAVEL_TOURS_TOUR_GALLERY_LIMIT', 18),

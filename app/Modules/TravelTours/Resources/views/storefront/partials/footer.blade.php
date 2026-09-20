@@ -17,6 +17,18 @@
                 <img src="{{ $travelProfile->lightLogoUrl }}" alt="{{ $travelProfile->name }}" width="199" height="70">
             </a>
             <p>{{ $travelProfile->descriptor ?: 'Considered journeys, capable coordination, and attentive service.' }}</p>
+            @if ($travelProfile->socialLinks !== [])
+                {{-- Profiles recorded in Institution Details, in the order they were entered. --}}
+                <ul class="travel-footer__social" aria-label="{{ $travelProfile->shortName }} on social media">
+                    @foreach ($travelProfile->socialLinks as $social)
+                        <li>
+                            <a href="{{ $social->url }}" target="_blank" rel="me noopener noreferrer" aria-label="{{ $travelProfile->shortName }} on {{ $social->label }}" title="{{ $social->label }}">
+                                @include('travel-tours::storefront.partials.brand-mark', ['platform' => $social->key])
+                            </a>
+                        </li>
+                    @endforeach
+                </ul>
+            @endif
         </div>
         <nav aria-label="Explore">
             <h2>Explore</h2>

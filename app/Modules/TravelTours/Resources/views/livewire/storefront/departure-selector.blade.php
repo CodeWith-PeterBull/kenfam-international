@@ -10,7 +10,7 @@
     $currency = $plan?->currency ?? config('travel-tours.defaults.currency', 'KES');
     $maximum = $form->maximumParticipants();
 @endphp
-<section class="travel-selector" aria-labelledby="tour-departures-title">
+<section id="travel-departures" class="travel-selector" aria-labelledby="tour-departures-title">
     <p class="travel-eyebrow">Plan ahead</p>
     <h2 id="tour-departures-title">Available departures</h2>
 

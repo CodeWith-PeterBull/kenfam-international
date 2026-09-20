@@ -1,0 +1,588 @@
+{
+  "generatedAt": "2026-09-20T08:24:18.579Z",
+  "siteUrl": "http://127.0.0.1:8014",
+  "failures": [],
+  "runtimeErrors": [],
+  "networkErrors": [],
+  "observations": [
+    "Hero share: Share on Facebook | Share on X | Share on WhatsApp | Copy link to share on TikTok | Copy link to share on Instagram | Copy tour link | Share this tour; native revealed true",
+    "Hero buttons: Check departures → #travel-departures | Book via WhatsApp → https://wa.me/254714884069?text=Hello%20Kenfam%2C%20I%20would%20like%20to%20book%3A%0ACairo%20and%20the%20Nile%20Heritage%20Journey%0AFrom%3A%20KES%20385%2C000.00%0Ahttp%3A%2F%2F127.0.0.1%3A8014%2Ftours%2Fcairo-and-the-nile-heritage-journey",
+    "Copy toast: Link copied — paste into TikTok",
+    "Footer socials: Kenfam on Facebook | Kenfam on Instagram | Kenfam on TikTok | Kenfam on X"
+  ],
+  "diagnostics": [
+    {
+      "name": "desktop-light-tour-hero",
+      "width": 1440,
+      "viewportWidth": 1440,
+      "documentWidth": 1440,
+      "title": "Cairo and the Nile Heritage Journey | Escorted travel | Kenfam International",
+      "socialLinks": [
+        {
+          "label": "Kenfam on Facebook",
+          "href": "https://www.facebook.com/kenfaminternational",
+          "rel": "me noopener noreferrer",
+          "hasSvg": true,
+          "size": 42
+        },
+        {
+          "label": "Kenfam on Instagram",
+          "href": "https://www.instagram.com/kenfam.travel",
+          "rel": "me noopener noreferrer",
+          "hasSvg": true,
+          "size": 42
+        },
+        {
+          "label": "Kenfam on TikTok",
+          "href": "https://www.tiktok.com/@kenfam.travel",
+          "rel": "me noopener noreferrer",
+          "hasSvg": true,
+          "size": 42
+        },
+        {
+          "label": "Kenfam on X",
+          "href": "https://x.com/kenfamtravel",
+          "rel": "me noopener noreferrer",
+          "hasSvg": true,
+          "size": 42
+        }
+      ],
+      "shareButtons": [
+        {
+          "label": "Share on Facebook",
+          "hasMark": true,
+          "size": 42
+        },
+        {
+          "label": "Share on X",
+          "hasMark": true,
+          "size": 42
+        },
+        {
+          "label": "Share on WhatsApp",
+          "hasMark": true,
+          "size": 42
+        },
+        {
+          "label": "Copy link to share on TikTok",
+          "hasMark": true,
+          "size": 42
+        },
+        {
+          "label": "Copy link to share on Instagram",
+          "hasMark": true,
+          "size": 42
+        },
+        {
+          "label": "Copy tour link",
+          "hasMark": true,
+          "size": 42
+        },
+        {
+          "label": "Share this tour",
+          "hasMark": true,
+          "size": 42
+        }
+      ],
+      "nativeShareRevealed": true,
+      "whatsapp": {
+        "text": "Book via WhatsApp",
+        "href": "https://wa.me/254714884069?text=Hello%20Kenfam%2C%20I%20would%20like%20to%20book%3A%0ACairo%20and%20the%20Nile%20Heritage%20Journey%0AFrom%3A%20KES%20385%2C000.00%0Ahttp%3A%2F%2F127.0.0.1%3A8014%2Ftours%2Fcairo-and-the-nile-heritage-journey",
+        "hasMark": true
+      },
+      "heroButtons": [
+        {
+          "text": "Check departures",
+          "href": "#travel-departures",
+          "width": 195
+        },
+        {
+          "text": "Book via WhatsApp",
+          "href": "https://wa.me/254714884069?text=Hello%20Kenfam%2C%20I%20would%20like%20to%20book%3A%0ACairo%20and%20the%20Nile%20Heritage%20Journey%0AFrom%3A%20KES%20385%2C000.00%0Ahttp%3A%2F%2F127.0.0.1%3A8014%2Ftours%2Fcairo-and-the-nile-heritage-journey",
+          "width": 206
+        }
+      ],
+      "meta": {
+        "og:site_name": "Kenfam International",
+        "og:type": "product",
+        "og:title": "Cairo and the Nile Heritage Journey | Escorted travel | Kenfam International",
+        "og:description": "Explore Cairo, Giza, and the Nile through an escorted itinerary balancing landmark visits with time to absorb each place.",
+        "og:url": "http://127.0.0.1:8014/tours/cairo-and-the-nile-heritage-journey",
+        "og:image": "http://127.0.0.1:8014/storage/1/conversions/cairo-nile-heritage-hero.jpg",
+        "og:image:alt": "Cairo and the Nile Heritage Journey | Escorted travel",
+        "twitter:card": "summary_large_image",
+        "twitter:site": "@kenfamtravel",
+        "twitter:title": "Cairo and the Nile Heritage Journey | Escorted travel | Kenfam International",
+        "twitter:description": "Explore Cairo, Giza, and the Nile through an escorted itinerary balancing landmark visits with time to absorb each place.",
+        "twitter:image": "http://127.0.0.1:8014/storage/1/conversions/cairo-nile-heritage-hero.jpg",
+        "product:price:amount": "385000.00",
+        "product:price:currency": "KES",
+        "og:availability": "instock"
+      },
+      "schema": [
+        {
+          "@context": "https://schema.org",
+          "@type": "TravelAgency",
+          "name": "Kenfam International",
+          "url": "http://127.0.0.1:8014",
+          "logo": "http://127.0.0.1:8014/kenfam/assets/brand/logo-dark.png",
+          "email": "info@kenfam.co.ke",
+          "telephone": "+254 714 884 069",
+          "address": {
+            "@type": "PostalAddress",
+            "streetAddress": "Purvi House, Wing B, 2nd Floor, Room 202, Westlands, Nairobi, Nairobi",
+            "addressCountry": "KE"
+          },
+          "sameAs": [
+            "https://www.facebook.com/kenfaminternational",
+            "https://www.instagram.com/kenfam.travel",
+            "https://www.tiktok.com/@kenfam.travel",
+            "https://x.com/kenfamtravel",
+            "https://wa.me/254714884069"
+          ]
+        },
+        {
+          "@context": "https://schema.org",
+          "@type": "TouristTrip",
+          "name": "Cairo and the Nile Heritage Journey",
+          "description": "Explore Cairo, Giza, and the Nile through an escorted itinerary balancing landmark visits with time to absorb each place.",
+          "url": "http://127.0.0.1:8014/tours/cairo-and-the-nile-heritage-journey",
+          "image": "http://127.0.0.1:8014/storage/1/conversions/cairo-nile-heritage-hero.jpg",
+          "touristType": "Escorted",
+          "itinerary": "Egypt",
+          "provider": {
+            "@type": "TravelAgency",
+            "name": "Kenfam International",
+            "url": "http://127.0.0.1:8014",
+            "sameAs": [
+              "https://www.facebook.com/kenfaminternational",
+              "https://www.instagram.com/kenfam.travel",
+              "https://www.tiktok.com/@kenfam.travel",
+              "https://x.com/kenfamtravel",
+              "https://wa.me/254714884069"
+            ]
+          },
+          "offers": {
+            "@type": "Offer",
+            "url": "http://127.0.0.1:8014/tours/cairo-and-the-nile-heritage-journey",
+            "priceCurrency": "KES",
+            "price": "385000.00",
+            "availability": "https://schema.org/InStock",
+            "seller": {
+              "@type": "Organization",
+              "name": "Kenfam International"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "desktop-dark-tour-hero",
+      "width": 1440,
+      "viewportWidth": 1440,
+      "documentWidth": 1440,
+      "title": "Cairo and the Nile Heritage Journey | Escorted travel | Kenfam International",
+      "socialLinks": [
+        {
+          "label": "Kenfam on Facebook",
+          "href": "https://www.facebook.com/kenfaminternational",
+          "rel": "me noopener noreferrer",
+          "hasSvg": true,
+          "size": 42
+        },
+        {
+          "label": "Kenfam on Instagram",
+          "href": "https://www.instagram.com/kenfam.travel",
+          "rel": "me noopener noreferrer",
+          "hasSvg": true,
+          "size": 42
+        },
+        {
+          "label": "Kenfam on TikTok",
+          "href": "https://www.tiktok.com/@kenfam.travel",
+          "rel": "me noopener noreferrer",
+          "hasSvg": true,
+          "size": 42
+        },
+        {
+          "label": "Kenfam on X",
+          "href": "https://x.com/kenfamtravel",
+          "rel": "me noopener noreferrer",
+          "hasSvg": true,
+          "size": 42
+        }
+      ],
+      "shareButtons": [
+        {
+          "label": "Share on Facebook",
+          "hasMark": true,
+          "size": 42
+        },
+        {
+          "label": "Share on X",
+          "hasMark": true,
+          "size": 42
+        },
+        {
+          "label": "Share on WhatsApp",
+          "hasMark": true,
+          "size": 42
+        },
+        {
+          "label": "Copy link to share on TikTok",
+          "hasMark": true,
+          "size": 42
+        },
+        {
+          "label": "Copy link to share on Instagram",
+          "hasMark": true,
+          "size": 42
+        },
+        {
+          "label": "Copy tour link",
+          "hasMark": true,
+          "size": 42
+        },
+        {
+          "label": "Share this tour",
+          "hasMark": true,
+          "size": 42
+        }
+      ],
+      "nativeShareRevealed": true,
+      "whatsapp": {
+        "text": "Book via WhatsApp",
+        "href": "https://wa.me/254714884069?text=Hello%20Kenfam%2C%20I%20would%20like%20to%20book%3A%0ACairo%20and%20the%20Nile%20Heritage%20Journey%0AFrom%3A%20KES%20385%2C000.00%0Ahttp%3A%2F%2F127.0.0.1%3A8014%2Ftours%2Fcairo-and-the-nile-heritage-journey",
+        "hasMark": true
+      },
+      "heroButtons": [
+        {
+          "text": "Check departures",
+          "href": "#travel-departures",
+          "width": 195
+        },
+        {
+          "text": "Book via WhatsApp",
+          "href": "https://wa.me/254714884069?text=Hello%20Kenfam%2C%20I%20would%20like%20to%20book%3A%0ACairo%20and%20the%20Nile%20Heritage%20Journey%0AFrom%3A%20KES%20385%2C000.00%0Ahttp%3A%2F%2F127.0.0.1%3A8014%2Ftours%2Fcairo-and-the-nile-heritage-journey",
+          "width": 206
+        }
+      ],
+      "meta": {
+        "og:site_name": "Kenfam International",
+        "og:type": "product",
+        "og:title": "Cairo and the Nile Heritage Journey | Escorted travel | Kenfam International",
+        "og:description": "Explore Cairo, Giza, and the Nile through an escorted itinerary balancing landmark visits with time to absorb each place.",
+        "og:url": "http://127.0.0.1:8014/tours/cairo-and-the-nile-heritage-journey",
+        "og:image": "http://127.0.0.1:8014/storage/1/conversions/cairo-nile-heritage-hero.jpg",
+        "og:image:alt": "Cairo and the Nile Heritage Journey | Escorted travel",
+        "twitter:card": "summary_large_image",
+        "twitter:site": "@kenfamtravel",
+        "twitter:title": "Cairo and the Nile Heritage Journey | Escorted travel | Kenfam International",
+        "twitter:description": "Explore Cairo, Giza, and the Nile through an escorted itinerary balancing landmark visits with time to absorb each place.",
+        "twitter:image": "http://127.0.0.1:8014/storage/1/conversions/cairo-nile-heritage-hero.jpg",
+        "product:price:amount": "385000.00",
+        "product:price:currency": "KES",
+        "og:availability": "instock"
+      },
+      "schema": [
+        {
+          "@context": "https://schema.org",
+          "@type": "TravelAgency",
+          "name": "Kenfam International",
+          "url": "http://127.0.0.1:8014",
+          "logo": "http://127.0.0.1:8014/kenfam/assets/brand/logo-dark.png",
+          "email": "info@kenfam.co.ke",
+          "telephone": "+254 714 884 069",
+          "address": {
+            "@type": "PostalAddress",
+            "streetAddress": "Purvi House, Wing B, 2nd Floor, Room 202, Westlands, Nairobi, Nairobi",
+            "addressCountry": "KE"
+          },
+          "sameAs": [
+            "https://www.facebook.com/kenfaminternational",
+            "https://www.instagram.com/kenfam.travel",
+            "https://www.tiktok.com/@kenfam.travel",
+            "https://x.com/kenfamtravel",
+            "https://wa.me/254714884069"
+          ]
+        },
+        {
+          "@context": "https://schema.org",
+          "@type": "TouristTrip",
+          "name": "Cairo and the Nile Heritage Journey",
+          "description": "Explore Cairo, Giza, and the Nile through an escorted itinerary balancing landmark visits with time to absorb each place.",
+          "url": "http://127.0.0.1:8014/tours/cairo-and-the-nile-heritage-journey",
+          "image": "http://127.0.0.1:8014/storage/1/conversions/cairo-nile-heritage-hero.jpg",
+          "touristType": "Escorted",
+          "itinerary": "Egypt",
+          "provider": {
+            "@type": "TravelAgency",
+            "name": "Kenfam International",
+            "url": "http://127.0.0.1:8014",
+            "sameAs": [
+              "https://www.facebook.com/kenfaminternational",
+              "https://www.instagram.com/kenfam.travel",
+              "https://www.tiktok.com/@kenfam.travel",
+              "https://x.com/kenfamtravel",
+              "https://wa.me/254714884069"
+            ]
+          },
+          "offers": {
+            "@type": "Offer",
+            "url": "http://127.0.0.1:8014/tours/cairo-and-the-nile-heritage-journey",
+            "priceCurrency": "KES",
+            "price": "385000.00",
+            "availability": "https://schema.org/InStock",
+            "seller": {
+              "@type": "Organization",
+              "name": "Kenfam International"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "mobile-light-tour-hero",
+      "width": 390,
+      "viewportWidth": 390,
+      "documentWidth": 390,
+      "title": "Cairo and the Nile Heritage Journey | Escorted travel | Kenfam International",
+      "socialLinks": [
+        {
+          "label": "Kenfam on Facebook",
+          "href": "https://www.facebook.com/kenfaminternational",
+          "rel": "me noopener noreferrer",
+          "hasSvg": true,
+          "size": 40
+        },
+        {
+          "label": "Kenfam on Instagram",
+          "href": "https://www.instagram.com/kenfam.travel",
+          "rel": "me noopener noreferrer",
+          "hasSvg": true,
+          "size": 40
+        },
+        {
+          "label": "Kenfam on TikTok",
+          "href": "https://www.tiktok.com/@kenfam.travel",
+          "rel": "me noopener noreferrer",
+          "hasSvg": true,
+          "size": 40
+        },
+        {
+          "label": "Kenfam on X",
+          "href": "https://x.com/kenfamtravel",
+          "rel": "me noopener noreferrer",
+          "hasSvg": true,
+          "size": 40
+        }
+      ],
+      "shareButtons": [
+        {
+          "label": "Share on Facebook",
+          "hasMark": true,
+          "size": 40
+        },
+        {
+          "label": "Share on X",
+          "hasMark": true,
+          "size": 40
+        },
+        {
+          "label": "Share on WhatsApp",
+          "hasMark": true,
+          "size": 40
+        },
+        {
+          "label": "Copy link to share on TikTok",
+          "hasMark": true,
+          "size": 40
+        },
+        {
+          "label": "Copy link to share on Instagram",
+          "hasMark": true,
+          "size": 40
+        },
+        {
+          "label": "Copy tour link",
+          "hasMark": true,
+          "size": 40
+        },
+        {
+          "label": "Share this tour",
+          "hasMark": true,
+          "size": 40
+        }
+      ],
+      "nativeShareRevealed": true,
+      "whatsapp": {
+        "text": "Book via WhatsApp",
+        "href": "https://wa.me/254714884069?text=Hello%20Kenfam%2C%20I%20would%20like%20to%20book%3A%0ACairo%20and%20the%20Nile%20Heritage%20Journey%0AFrom%3A%20KES%20385%2C000.00%0Ahttp%3A%2F%2F127.0.0.1%3A8014%2Ftours%2Fcairo-and-the-nile-heritage-journey",
+        "hasMark": true
+      },
+      "heroButtons": [
+        {
+          "text": "Check departures",
+          "href": "#travel-departures",
+          "width": 366
+        },
+        {
+          "text": "Book via WhatsApp",
+          "href": "https://wa.me/254714884069?text=Hello%20Kenfam%2C%20I%20would%20like%20to%20book%3A%0ACairo%20and%20the%20Nile%20Heritage%20Journey%0AFrom%3A%20KES%20385%2C000.00%0Ahttp%3A%2F%2F127.0.0.1%3A8014%2Ftours%2Fcairo-and-the-nile-heritage-journey",
+          "width": 366
+        }
+      ],
+      "meta": {
+        "og:site_name": "Kenfam International",
+        "og:type": "product",
+        "og:title": "Cairo and the Nile Heritage Journey | Escorted travel | Kenfam International",
+        "og:description": "Explore Cairo, Giza, and the Nile through an escorted itinerary balancing landmark visits with time to absorb each place.",
+        "og:url": "http://127.0.0.1:8014/tours/cairo-and-the-nile-heritage-journey",
+        "og:image": "http://127.0.0.1:8014/storage/1/conversions/cairo-nile-heritage-hero.jpg",
+        "og:image:alt": "Cairo and the Nile Heritage Journey | Escorted travel",
+        "twitter:card": "summary_large_image",
+        "twitter:site": "@kenfamtravel",
+        "twitter:title": "Cairo and the Nile Heritage Journey | Escorted travel | Kenfam International",
+        "twitter:description": "Explore Cairo, Giza, and the Nile through an escorted itinerary balancing landmark visits with time to absorb each place.",
+        "twitter:image": "http://127.0.0.1:8014/storage/1/conversions/cairo-nile-heritage-hero.jpg",
+        "product:price:amount": "385000.00",
+        "product:price:currency": "KES",
+        "og:availability": "instock"
+      },
+      "schema": [
+        {
+          "@context": "https://schema.org",
+          "@type": "TravelAgency",
+          "name": "Kenfam International",
+          "url": "http://127.0.0.1:8014",
+          "logo": "http://127.0.0.1:8014/kenfam/assets/brand/logo-dark.png",
+          "email": "info@kenfam.co.ke",
+          "telephone": "+254 714 884 069",
+          "address": {
+            "@type": "PostalAddress",
+            "streetAddress": "Purvi House, Wing B, 2nd Floor, Room 202, Westlands, Nairobi, Nairobi",
+            "addressCountry": "KE"
+          },
+          "sameAs": [
+            "https://www.facebook.com/kenfaminternational",
+            "https://www.instagram.com/kenfam.travel",
+            "https://www.tiktok.com/@kenfam.travel",
+            "https://x.com/kenfamtravel",
+            "https://wa.me/254714884069"
+          ]
+        },
+        {
+          "@context": "https://schema.org",
+          "@type": "TouristTrip",
+          "name": "Cairo and the Nile Heritage Journey",
+          "description": "Explore Cairo, Giza, and the Nile through an escorted itinerary balancing landmark visits with time to absorb each place.",
+          "url": "http://127.0.0.1:8014/tours/cairo-and-the-nile-heritage-journey",
+          "image": "http://127.0.0.1:8014/storage/1/conversions/cairo-nile-heritage-hero.jpg",
+          "touristType": "Escorted",
+          "itinerary": "Egypt",
+          "provider": {
+            "@type": "TravelAgency",
+            "name": "Kenfam International",
+            "url": "http://127.0.0.1:8014",
+            "sameAs": [
+              "https://www.facebook.com/kenfaminternational",
+              "https://www.instagram.com/kenfam.travel",
+              "https://www.tiktok.com/@kenfam.travel",
+              "https://x.com/kenfamtravel",
+              "https://wa.me/254714884069"
+            ]
+          },
+          "offers": {
+            "@type": "Offer",
+            "url": "http://127.0.0.1:8014/tours/cairo-and-the-nile-heritage-journey",
+            "priceCurrency": "KES",
+            "price": "385000.00",
+            "availability": "https://schema.org/InStock",
+            "seller": {
+              "@type": "Organization",
+              "name": "Kenfam International"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "desktop-light-home",
+      "width": 1440,
+      "viewportWidth": 1440,
+      "documentWidth": 1440,
+      "title": "Escorted tours and considered journeys | Kenfam International",
+      "socialLinks": [
+        {
+          "label": "Kenfam on Facebook",
+          "href": "https://www.facebook.com/kenfaminternational",
+          "rel": "me noopener noreferrer",
+          "hasSvg": true,
+          "size": 42
+        },
+        {
+          "label": "Kenfam on Instagram",
+          "href": "https://www.instagram.com/kenfam.travel",
+          "rel": "me noopener noreferrer",
+          "hasSvg": true,
+          "size": 42
+        },
+        {
+          "label": "Kenfam on TikTok",
+          "href": "https://www.tiktok.com/@kenfam.travel",
+          "rel": "me noopener noreferrer",
+          "hasSvg": true,
+          "size": 42
+        },
+        {
+          "label": "Kenfam on X",
+          "href": "https://x.com/kenfamtravel",
+          "rel": "me noopener noreferrer",
+          "hasSvg": true,
+          "size": 42
+        }
+      ],
+      "shareButtons": [],
+      "nativeShareRevealed": true,
+      "whatsapp": null,
+      "heroButtons": [],
+      "meta": {
+        "og:site_name": "Kenfam International",
+        "og:type": "website",
+        "og:title": "Escorted tours and considered journeys | Kenfam International",
+        "og:description": "Professionally planned tours, departures, and travel experiences.",
+        "og:url": "http://127.0.0.1:8014",
+        "og:image": "http://127.0.0.1:8014/kenfam/assets/brand/social-card.webp",
+        "og:image:alt": "Escorted tours and considered journeys",
+        "twitter:card": "summary_large_image",
+        "twitter:site": "@kenfamtravel",
+        "twitter:title": "Escorted tours and considered journeys | Kenfam International",
+        "twitter:description": "Professionally planned tours, departures, and travel experiences.",
+        "twitter:image": "http://127.0.0.1:8014/kenfam/assets/brand/social-card.webp"
+      },
+      "schema": [
+        {
+          "@context": "https://schema.org",
+          "@type": "TravelAgency",
+          "name": "Kenfam International",
+          "url": "http://127.0.0.1:8014",
+          "logo": "http://127.0.0.1:8014/kenfam/assets/brand/logo-dark.png",
+          "email": "info@kenfam.co.ke",
+          "telephone": "+254 714 884 069",
+          "address": {
+            "@type": "PostalAddress",
+            "streetAddress": "Purvi House, Wing B, 2nd Floor, Room 202, Westlands, Nairobi, Nairobi",
+            "addressCountry": "KE"
+          },
+          "sameAs": [
+            "https://www.facebook.com/kenfaminternational",
+            "https://www.instagram.com/kenfam.travel",
+            "https://www.tiktok.com/@kenfam.travel",
+            "https://x.com/kenfamtravel",
+            "https://wa.me/254714884069"
+          ]
+        }
+      ]
+    }
+  ]
+}

@@ -46,12 +46,97 @@
         });
     }
 
+    function showToast(message) {
+        let toast = document.querySelector('[data-travel-toast]');
+        if (!toast) {
+            toast = document.createElement('div');
+            toast.className = 'travel-toast';
+            toast.setAttribute('data-travel-toast', '');
+            toast.setAttribute('role', 'status');
+            toast.setAttribute('aria-live', 'polite');
+            document.body.appendChild(toast);
+        }
+        toast.textContent = message;
+        toast.classList.add('visible');
+        window.clearTimeout(toast.dataset.timer);
+        toast.dataset.timer = String(window.setTimeout(() => toast.classList.remove('visible'), 2600));
+    }
+
+    async function copyLink(url) {
+        try {
+            if (navigator.clipboard && window.isSecureContext) {
+                await navigator.clipboard.writeText(url);
+                return true;
+            }
+        } catch (error) {
+            // Fall through to the legacy path below.
+        }
+        try {
+            const field = document.createElement('textarea');
+            field.value = url;
+            field.setAttribute('readonly', '');
+            field.style.position = 'absolute';
+            field.style.left = '-9999px';
+            document.body.appendChild(field);
+            field.select();
+            const copied = document.execCommand('copy');
+            document.body.removeChild(field);
+            return copied;
+        } catch (error) {
+            return false;
+        }
+    }
+
+    // Share group: clipboard buttons, the native share sheet where supported, and popup windows for web intents.
+    function initializeShare() {
+        document.querySelectorAll('[data-share-copy]').forEach((button) => {
+            if (button.dataset.shareBound === 'true') return;
+            button.dataset.shareBound = 'true';
+            button.addEventListener('click', async () => {
+                const url = button.getAttribute('data-share-copy');
+                if (!url) return;
+                const hint = button.getAttribute('data-share-hint');
+                const ok = await copyLink(url);
+                showToast(ok
+                    ? (hint ? `Link copied — paste into ${hint}` : 'Tour link copied')
+                    : 'Copy failed — copy the address bar link');
+            });
+        });
+
+        document.querySelectorAll('[data-share-native]').forEach((button) => {
+            if (button.dataset.shareBound === 'true') return;
+            if (typeof navigator.share !== 'function') return;
+            button.dataset.shareBound = 'true';
+            button.hidden = false;
+            button.addEventListener('click', async () => {
+                try {
+                    await navigator.share({
+                        title: button.getAttribute('data-share-title') || document.title,
+                        url: button.getAttribute('data-share-url') || window.location.href,
+                    });
+                } catch (error) {
+                    // The user dismissed the native share sheet; nothing to do.
+                }
+            });
+        });
+
+        document.querySelectorAll('[data-share-window]').forEach((anchor) => {
+            if (anchor.dataset.shareBound === 'true') return;
+            anchor.dataset.shareBound = 'true';
+            anchor.addEventListener('click', (event) => {
+                event.preventDefault();
+                window.open(anchor.href, 'travel-share', 'noopener,noreferrer,width=640,height=680');
+            });
+        });
+    }
+
     function initialize() {
         createIcons();
         initializeHeader();
         initializeBackToTop();
         initializeMobileMenuLinks();
         initializeTourGallery();
+        initializeShare();
         document.querySelectorAll('[data-current-year]').forEach((element) => {
             element.textContent = String(new Date().getFullYear());
         });

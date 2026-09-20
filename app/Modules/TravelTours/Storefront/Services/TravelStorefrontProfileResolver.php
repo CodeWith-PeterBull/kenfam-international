@@ -9,6 +9,7 @@ namespace App\Modules\TravelTours\Storefront\Services;
 
 use App\Contracts\ResolvesInstitutionProfile;
 use App\Modules\TravelTours\Storefront\Data\TravelStorefrontProfile;
+use App\Modules\TravelTours\Support\InstitutionContact;
 use Illuminate\Support\Facades\URL;
 
 /** Resolve storefront identity without importing a client-specific config file. */
@@ -21,6 +22,7 @@ final readonly class TravelStorefrontProfileResolver
     public function current(): TravelStorefrontProfile
     {
         $institution = $this->institutions->current();
+        $contact = InstitutionContact::from($institution);
         $phoneLink = $this->telephoneLink($institution->primaryPhone);
         $logo = $institution->mainLogoUrl ?: $this->assetUrl(config('travel-tours.storefront.fallback_logo'));
 
@@ -43,7 +45,7 @@ final readonly class TravelStorefrontProfileResolver
             email: $institution->primaryEmail,
             phone: $institution->primaryPhone,
             phoneLink: $phoneLink,
-            whatsappNumber: $phoneLink === null ? null : preg_replace('/\D+/', '', $phoneLink),
+            whatsappNumber: $contact->whatsappNumber(),
             address: $institution->address(),
             foundedYear: $configuredYear === null ? null : (int) $configuredYear,
             logoUrl: $logo,
@@ -52,6 +54,9 @@ final readonly class TravelStorefrontProfileResolver
             socialImageUrl: $socialImage,
             heroImageUrl: $heroImage,
             metaDescription: (string) config('travel-tours.storefront.meta_description'),
+            socialLinks: $contact->socialLinks(),
+            xHandle: $contact->xHandle(),
+            sameAs: $contact->sameAs(),
         );
     }
 

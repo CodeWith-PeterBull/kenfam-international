@@ -2381,3 +2381,187 @@ html[data-theme="dark"] .travel-empty {
         padding: 16px;
     }
 }
+
+/* Social identity: footer profile marks from Institution Details. */
+.travel-footer__social {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin: 22px 0 0;
+    padding: 0;
+    list-style: none;
+}
+
+.travel-footer__social a {
+    display: inline-flex;
+    width: 42px;
+    height: 42px;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid rgba(255, 255, 255, .22);
+    border-radius: 50%;
+    color: #ffffff;
+    background: rgba(255, 255, 255, .06);
+    transition: color var(--travel-transition), border-color var(--travel-transition), background var(--travel-transition), transform var(--travel-transition);
+}
+
+.travel-footer__social svg {
+    width: 18px;
+    height: 18px;
+}
+
+.travel-footer__social a:hover,
+.travel-footer__social a:focus-visible {
+    color: var(--travel-on-primary);
+    border-color: var(--travel-primary);
+    background: var(--travel-primary);
+    transform: translateY(-1px);
+}
+
+/* Tour hero actions: the booking path, WhatsApp booking, and the share group on the dark hero. */
+.travel-detail-hero__actions {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 18px 32px;
+    margin-top: 30px;
+}
+
+.travel-detail-hero__buttons {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+}
+
+.travel-detail-hero__buttons .travel-button svg {
+    width: 18px;
+    height: 18px;
+}
+
+.travel-button--whatsapp {
+    color: #0b3d22;
+    border-color: #1da851;
+    background: #25d366;
+}
+
+.travel-button--whatsapp:hover,
+.travel-button--whatsapp:focus-visible {
+    color: #ffffff;
+    border-color: #128c7e;
+    background: #1da851;
+}
+
+/* Share group: round brand buttons with a hover label; on the hero they sit on the dark overlay. */
+.travel-share {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 12px;
+}
+
+.travel-share__title {
+    color: var(--travel-on-dark-muted);
+    font-size: var(--type-12, .75rem);
+    font-weight: var(--font-weight-semibold, 600);
+    letter-spacing: 1px;
+    text-transform: uppercase;
+}
+
+.travel-share__buttons {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 8px;
+}
+
+.travel-share__btn {
+    position: relative;
+    display: inline-flex;
+    width: 42px;
+    height: 42px;
+    align-items: center;
+    justify-content: center;
+    padding: 0;
+    border: 1px solid rgba(255, 255, 255, .28);
+    border-radius: 50%;
+    color: #ffffff;
+    background: rgba(255, 255, 255, .08);
+    cursor: pointer;
+    transition: color var(--travel-transition), border-color var(--travel-transition), background var(--travel-transition), transform var(--travel-transition);
+}
+
+.travel-share__btn svg {
+    width: 18px;
+    height: 18px;
+}
+
+.travel-share__btn:hover,
+.travel-share__btn:focus-visible {
+    color: var(--travel-on-primary);
+    border-color: var(--travel-primary);
+    background: var(--travel-primary);
+    outline: none;
+    transform: translateY(-1px);
+}
+
+.travel-share__label {
+    position: absolute;
+    bottom: calc(100% + 8px);
+    left: 50%;
+    z-index: 3;
+    padding: 4px 8px;
+    border-radius: 4px;
+    color: var(--travel-night);
+    background: #ffffff;
+    font-size: var(--type-11, .6875rem);
+    font-weight: var(--font-weight-semibold, 600);
+    white-space: nowrap;
+    opacity: 0;
+    pointer-events: none;
+    transform: translateX(-50%);
+    transition: opacity var(--travel-transition);
+}
+
+.travel-share__btn:hover .travel-share__label,
+.travel-share__btn:focus-visible .travel-share__label {
+    opacity: 1;
+}
+
+/* Copy / share confirmation toast */
+.travel-toast {
+    position: fixed;
+    bottom: 28px;
+    left: 50%;
+    z-index: 1080;
+    max-width: 90vw;
+    padding: 11px 18px;
+    border-radius: 6px;
+    color: var(--travel-surface);
+    background: var(--travel-heading);
+    font-size: var(--type-14, .875rem);
+    font-weight: var(--font-weight-semibold, 600);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, .25);
+    opacity: 0;
+    pointer-events: none;
+    transform: translate(-50%, 20px);
+    transition: opacity .2s ease, transform .2s ease;
+}
+
+.travel-toast.visible {
+    opacity: 1;
+    transform: translate(-50%, 0);
+}
+
+@media (max-width: 575.98px) {
+    .travel-detail-hero__buttons,
+    .travel-detail-hero__buttons .travel-button {
+        width: 100%;
+    }
+
+    .travel-share__btn,
+    .travel-footer__social a {
+        width: 40px;
+        height: 40px;
+    }
+}
