@@ -12,7 +12,7 @@ review of 2026-09-18, and `claude-review/concern_file.md`.
 | --- | --- | --- | --- |
 | S-1 | `TourBasePriceService` writes `travel_tour_rate_plans` and `travel_participant_rates` from K2E although the K2 plan at `23f6855` reserved those writes for K3; the plan text was changed in the same commit. Decide: move to a K3 branch, or record a dated exception in `travel-tours-k1-reconciliation.md` together with the `TourRatePlan.currency_exponent` decision. | K2E review | Open |
 | S-2 | Slug and code columns carry global `unique()` indexes with soft deletes; the K2 plan says "unique among retained rows". Settle the wording or ship an additive composite index. | K2 review | Open |
-| S-3 | Ledger K2E row says "awaiting review, not committed" while `527d752` is on `main`; K4 row claims public-lightbox work outside K2. Reconcile. | K2 review | Open |
+| S-3 | Ledger K2E row says "awaiting review, not committed" while `527d752` is on `main`; K4 row claims public-lightbox work outside K2. Reconcile. | K2 review | Partly done: the ledger K2E row and the phase table were corrected on 2026-09-24; the K4 lightbox attribution is still unreconciled |
 
 ## Catalog administration (K2B/K2C surfaces)
 
@@ -26,15 +26,16 @@ review of 2026-09-18, and `claude-review/concern_file.md`.
 | C-6 | Destination search and filters are not URL state (`#[Url]`); the tour catalog already is. | Admin alignment | Done (destinations, departures, inquiries) |
 | C-7 | "1 tours" / "0 child destinations" pluralisation. | Admin alignment | Done |
 | C-8 | Mobile filter block fills the first screen; collapse type/status below 576 px. | K2F | Open |
-| C-9 | Category details dialog: offer the same read-only detail view for destinations and tours. | Admin alignment | Done for destinations and departures; tours still open in the editor |
+| C-9 | Category details dialog: offer the same read-only detail view for destinations and tours. | Admin alignment | Done for destinations, departures, inquiries and bookings; tours still open in the editor |
 
 ## Verification and tooling
 
 | # | Item | Owner | Status |
 | --- | --- | --- | --- |
-| V-1 | Promote the scratchpad admin harness to `scripts/qa-travel-tours-admin.mjs` with a `qa:travel-tours-admin` entry; it must include the 320 px capture, the modal-bounds probe, and the dark close-button check. | K2F | Open |
+| V-1 | Promote the scratchpad admin harness to `scripts/qa-travel-tours-admin.mjs` with a `qa:travel-tours-admin` entry; it must include the 320 px capture, the modal-bounds probe, and the dark close-button check. | K2F | Partly done: the script and npm entry exist with the modal-bounds probe; the 320 px capture and the dark close-button check are still missing, and it still covers the K2E surface only |
 | V-2 | `TravelToursDisabledModuleTest` should also assert listener and migration-path absence, matching the parent. | K2F | Open |
 | V-3 | The `php artisan --version` banner (12.69.2) disagrees with the documented lock baseline (12.64.0); note it wherever framework version is captured as evidence. | Docs | Open |
+| V-4 | `scripts/audit-travel-tours-docblocks.php` reports 43 false positives: `hasDeclarationDocblock()` walks back past visibility and `readonly` modifiers but not past a PHP 8 attribute, so every `#[Computed]`, `#[Url]`, `#[Locked]` and `#[On]` method reads as undocumented. Skip the attribute token span before testing for `T_DOC_COMMENT`. Until it lands the audit is not acceptance evidence for Livewire components. | Tooling | Open |
 
 ## Foundation concerns deferred by phase
 

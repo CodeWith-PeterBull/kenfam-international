@@ -8,30 +8,45 @@ to the host institution and branding configuration.
 
 - Clean independent source baseline: `f4139b7`, imported from Aureon subtree
   commit `c7aaddbb40e85dd1796576ce350c8a4a97af0189`.
-- Current integration branch: `main`; K3 will receive a separate phase branch.
+- Current integration branch: `main`; each slice ships on its own branch and is
+  fast-forward merged.
 - Commerce and Property Booking are retained as implementation references and
   disabled by default. Their inherited descriptions below do not mean those
   modules are enabled for Kenfam.
 - TravelTours K1 is reconciled and closed at foundation scope: 34 models and
   tables, 34 factories, typed foundational services, private signed responses,
-  module isolation, fixtures, and the accepted storefront foundation. Later
-  concurrency and operational controls are assigned to their owning phases.
+  module isolation, fixtures, and the accepted storefront foundation. The
+  operational controls it deferred were delivered by M2-M6.
 - The locally accepted public foundation now includes the responsive Kenfam
   homepage, tour catalogue/filtering, tour details, inquiries, signed booking
   presentation, exact money formatting, opt-in demo catalogue/operators, and
-  executable storefront browser QA. This is not acceptance of K2-K7 operations.
+  executable storefront browser QA.
 - The independent private origin and foundation branch are published.
-- K2 catalog administration is active. K2A establishes distinct publication
-  authority, context-owned policies, typed catalog inputs, and scoped staff
-  queries. K2B adds operational category/destination workspaces, hierarchy and
-  geography rules, and owned accessible destination media. K2C tour catalog,
-  base editor, route assignments, and browser QA are committed as `38f0710`.
-  K2D itinerary, activity, experience, FAQ and exact-money extra editing is
-  committed as `a17e937`. K2E adds base participant pricing, accessible media
-  uploads and an expandable public gallery, publication readiness, private
-  preview, and governed publish/unpublish/archive actions. K2E passed local
-  regression and browser QA, was committed as `527d752`, and is included in
-  `main`. Departure scheduling and advanced pricing are the next K3 scope.
+- K2 catalog administration is complete: publication authority and scoped staff
+  queries (K2A), category/destination workspaces with hierarchy, geography and
+  accessible media (K2B), the tour catalog and base editor `38f0710` (K2C),
+  itinerary, experience, FAQ and exact-money extras `a17e937` (K2D), and base
+  participant pricing, media, readiness, private preview and governed
+  publication `527d752` (K2E).
+- K3A departure scheduling is complete as `3f63276`.
+- From 2026-09-18 the remaining K3-K8 roadmap was reordered around the customer
+  journey as seven milestones, all of which are on `main`: public availability
+  and selection (M1), seat holds and checkout (M2), manual payment confirmation
+  and the booking workspace (M3), queued communications (M4), rate plan,
+  pricing rule and promotion administration (M5), the booking desk with shifts
+  and receipts (M6), and release hardening (M7). A customer can complete a
+  booking from `/tours/{slug}` through a staff-confirmed manual payment, and an
+  operator can complete the same at the desk on an open shift with a receipt
+  and a reconciled drawer.
+- Shipped since the milestones: the olive brand palette as the platform
+  default, live catalogue search, admin list alignment across every travel
+  manager, and storefront social sharing with WhatsApp booking.
+- Post-release work is tracked in
+  [refinements_todo.md](.docs/TravelTours/todo/refinements_todo.md). The
+  principal items are the reporting surface, payment gateway integration,
+  reusable traveller profiles, per-record agent scoping, bulk departure
+  scheduling, manual drawer movements, and selected admin accessibility
+  refinements.
 
 Start with [the TravelTours master plan](.docs/TravelTours/travel-tours-module-plan.md),
 [foundation audit](.docs/TravelTours/travel-tours-foundation-audit.md), and
@@ -43,7 +58,9 @@ for current acceptance evidence. Read the [K1 reconciliation](.docs/TravelTours/
 for delivery boundaries. The completed catalog work is recorded in the
 [K2 catalog plan](.docs/TravelTours/travel-tours-k2-catalog-administration-plan.md)
 and [K2E implementation record](.docs/TravelTours/travel-tours-k2e-catalog-completion-implementation.md).
-The next-phase contract and operator UX are in the
+The milestone scope, decisions and per-milestone results are in the
+[combined delivery plan](.docs/TravelTours/travel-tours-combined-delivery-plan.md);
+the departure contract and operator UX are in the
 [K3 departure handoff](.docs/TravelTours/travel-tours-k3-scope-and-departure-ux.md).
 Repository provenance is recorded in the
 [scaffold initialization record](.docs/Kenfam/kenfam-scaffold-initialization.md).
