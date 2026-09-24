@@ -23,6 +23,8 @@
     --aureon-night: #17151d;
     --aureon-surface: #ffffff;
     --aureon-canvas: #f4f5f7;
+    --aureon-content-pattern-image: url("/build/img/bg_patterns/rocking_grid_bg.webp");
+    --aureon-content-pattern-size: 200px 200px;
     --aureon-border: #e2e4e8;
     --aureon-ink: #1d1d25;
     --aureon-muted: #6d7079;
@@ -34,6 +36,7 @@
 [data-bs-theme="dark"] {
     --aureon-surface: #1b1c22;
     --aureon-canvas: #111217;
+    --aureon-content-pattern-image: none;
     --aureon-border: #34363e;
     --aureon-ink: #f3f4f6;
     --aureon-muted: #aeb1b8;
@@ -43,6 +46,13 @@ body {
     color: var(--aureon-ink);
     background: var(--aureon-canvas);
     font-family: "Poppins", Arial, sans-serif;
+}
+
+.page-wrapper.aureon-dashboard > .content {
+    background-color: var(--aureon-canvas);
+    background-image: var(--aureon-content-pattern-image);
+    background-repeat: repeat;
+    background-size: var(--aureon-content-pattern-size);
 }
 
 .btn-primary {

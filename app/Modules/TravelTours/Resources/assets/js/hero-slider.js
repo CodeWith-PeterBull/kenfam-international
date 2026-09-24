@@ -13,13 +13,16 @@ export function initHeroSlider(root) {
 
     root.dataset.heroReady = 'true';
     const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    const transitionDuration = reducedMotion ? 0 : 720;
+    const autoplayDelay = 7000;
     const previous = root.querySelector('[data-travel-hero-prev]');
     const next = root.querySelector('[data-travel-hero-next]');
+    root.style.setProperty('--travel-hero-image-duration', `${autoplayDelay + transitionDuration}ms`);
     const slider = new Swiper(root, {
         modules: [A11y, Autoplay, EffectFade, Keyboard, Pagination],
         effect: 'fade',
         fadeEffect: { crossFade: true },
-        speed: reducedMotion ? 0 : 720,
+        speed: transitionDuration,
         loop: true,
         loopPreventsSliding: false,
         watchOverflow: true,
@@ -29,7 +32,7 @@ export function initHeroSlider(root) {
             clickable: true,
         },
         autoplay: reducedMotion ? false : {
-            delay: 7000,
+            delay: autoplayDelay,
             disableOnInteraction: false,
             pauseOnMouseEnter: true,
         },

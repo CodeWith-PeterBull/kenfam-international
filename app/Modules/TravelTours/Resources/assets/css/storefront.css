@@ -11,6 +11,8 @@
     --travel-surface-muted: var(--theme-surface-muted, #f3f4f5);
     --travel-surface-alt: var(--theme-surface-alt, #edf1f0);
     --travel-elevated: var(--theme-surface-elevated, #ffffff);
+    --travel-page-pattern-image: url("/build/img/bg_patterns/rocking_grid_bg.webp");
+    --travel-page-pattern-size: 200px 200px;
     --travel-border: var(--theme-border, #dfe2e5);
     --travel-on-primary: var(--theme-on-primary, #ffffff);
     --travel-on-dark: var(--theme-on-dark, #ffffff);
@@ -32,9 +34,16 @@ body.travel-storefront {
     margin: 0;
     overflow-x: clip;
     color: var(--travel-text);
-    background: var(--travel-surface);
+    background-color: var(--travel-surface);
+    background-image: var(--travel-page-pattern-image);
+    background-repeat: repeat;
+    background-size: var(--travel-page-pattern-size);
     font-family: var(--font-family-body, "Poppins", Arial, sans-serif);
     letter-spacing: 0;
+}
+
+html[data-theme="dark"] {
+    --travel-page-pattern-image: none;
 }
 
 .travel-storefront *,
@@ -521,6 +530,17 @@ html[data-theme="dark"] .travel-brand__dark {
     width: 100%;
     height: 100%;
     object-fit: cover;
+    transform-origin: 72% 28%;
+    will-change: transform;
+}
+
+.travel-hero.swiper-initialized .swiper-slide-active .travel-hero__image {
+    animation: travel-hero-image-zoom var(--travel-hero-image-duration, 7720ms) cubic-bezier(.2, .65, .3, 1) both;
+}
+
+@keyframes travel-hero-image-zoom {
+    from { transform: scale(1.015); }
+    to { transform: scale(1.12); }
 }
 
 .travel-hero__slide::after {
@@ -2062,6 +2082,11 @@ html[data-theme="dark"] .travel-empty {
 @media (prefers-reduced-motion: reduce) {
     html {
         scroll-behavior: auto;
+    }
+
+    .travel-hero.swiper-initialized .swiper-slide-active .travel-hero__image {
+        animation: none;
+        transform: none;
     }
 
     .travel-storefront *,

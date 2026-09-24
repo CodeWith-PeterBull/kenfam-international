@@ -1,5 +1,5 @@
 {
-  "siteUrl": "http://127.0.0.1:8013",
+  "siteUrl": "http://127.0.0.1:8014",
   "diagnostics": [
     {
       "name": "desktop-light-home",
@@ -9,6 +9,11 @@
       "viewportWidth": 1440,
       "documentWidth": 1440,
       "overflowSources": [
+        {
+          "tag": "IMG",
+          "className": "travel-hero__image",
+          "right": 1464
+        },
         {
           "tag": "DIV",
           "className": "offcanvas-header theme-controller-header",
@@ -33,11 +38,6 @@
           "tag": "BUTTON",
           "className": "travel-icon-button",
           "right": 1684
-        },
-        {
-          "tag": "svg",
-          "className": "[object SVGAnimatedString]",
-          "right": 1672
         }
       ],
       "loaderHidden": true,
@@ -55,15 +55,16 @@
       "signIn": true,
       "signUp": true,
       "surface": "rgb(255, 255, 255)",
+      "patternImage": "url(\"http://127.0.0.1:8014/build/img/bg_patterns/rocking_grid_bg.webp\")",
       "primary": "#6a753d",
-      "canonical": "http://127.0.0.1:8013/",
-      "schema": "{\"@context\":\"https://schema.org\",\"@type\":\"TravelAgency\",\"name\":\"Kenfam International\",\"url\":\"http://127.0.0.1:8013\",\"logo\":\"http://127.0.0.1:8013/kenfam/assets/brand/logo-dark.png\",\"email\":\"info@kenfam.co.ke\",\"telephone\":\"+254 714 884 069\",\"address\":{\"@type\":\"PostalAddress\",\"streetAddress\":\"Purvi House, Wing B, 2nd Floor, Room 202, Westlands, Nairobi, Nairobi\",\"addressCountry\":\"KE\"}}"
+      "canonical": "http://127.0.0.1:8014/",
+      "schema": "{\"@context\":\"https://schema.org\",\"@type\":\"TravelAgency\",\"name\":\"Kenfam International\",\"url\":\"http://127.0.0.1:8014\",\"logo\":\"http://127.0.0.1:8014/kenfam/assets/brand/logo-dark.png\",\"email\":\"info@kenfam.co.ke\",\"telephone\":\"+254 714 884 069\",\"address\":{\"@type\":\"PostalAddress\",\"streetAddress\":\"Purvi House, Wing B, 2nd Floor, Room 202, Westlands, Nairobi, Nairobi\",\"addressCountry\":\"KE\"}}"
     },
     {
       "name": "home-content",
       "tours": 6,
       "destinations": 6,
-      "firstTour": "http://127.0.0.1:8013/tours/cairo-and-the-nile-heritage-journey",
+      "firstTour": "http://127.0.0.1:8014/tours/cairo-and-the-nile-heritage-journey",
       "centeredBrand": true,
       "accountButtonColor": "rgb(255, 255, 255)",
       "heroTourSlides": 6,
@@ -79,6 +80,11 @@
         "cssLeft": "720px",
         "cssRight": "582px",
         "transform": "matrix(1, 0, 0, 1, -69, 0)"
+      },
+      "heroImageMotion": {
+        "name": "travel-hero-image-zoom",
+        "duration": "7.72s",
+        "origin": "1036.8px 182px"
       }
     },
     {
@@ -142,9 +148,10 @@
       "signIn": true,
       "signUp": true,
       "surface": "rgb(21, 24, 30)",
+      "patternImage": "none",
       "primary": "#6a753d",
-      "canonical": "http://127.0.0.1:8013/tours",
-      "schema": "{\"@context\":\"https://schema.org\",\"@type\":\"TravelAgency\",\"name\":\"Kenfam International\",\"url\":\"http://127.0.0.1:8013\",\"logo\":\"http://127.0.0.1:8013/kenfam/assets/brand/logo-dark.png\",\"email\":\"info@kenfam.co.ke\",\"telephone\":\"+254 714 884 069\",\"address\":{\"@type\":\"PostalAddress\",\"streetAddress\":\"Purvi House, Wing B, 2nd Floor, Room 202, Westlands, Nairobi, Nairobi\",\"addressCountry\":\"KE\"}}"
+      "canonical": "http://127.0.0.1:8014/tours",
+      "schema": "{\"@context\":\"https://schema.org\",\"@type\":\"TravelAgency\",\"name\":\"Kenfam International\",\"url\":\"http://127.0.0.1:8014\",\"logo\":\"http://127.0.0.1:8014/kenfam/assets/brand/logo-dark.png\",\"email\":\"info@kenfam.co.ke\",\"telephone\":\"+254 714 884 069\",\"address\":{\"@type\":\"PostalAddress\",\"streetAddress\":\"Purvi House, Wing B, 2nd Floor, Room 202, Westlands, Nairobi, Nairobi\",\"addressCountry\":\"KE\"}}"
     },
     {
       "name": "catalog-content",
@@ -166,6 +173,65 @@
       ],
       "filters": 6,
       "total": "13 journeys"
+    },
+    {
+      "name": "desktop-light-catalog",
+      "path": "/tours",
+      "theme": "light",
+      "title": "Travel experiences shaped around what matters.",
+      "viewportWidth": 1440,
+      "documentWidth": 1440,
+      "overflowSources": [
+        {
+          "tag": "DIV",
+          "className": "offcanvas-header theme-controller-header",
+          "right": 1870
+        },
+        {
+          "tag": "DIV",
+          "className": "",
+          "right": 1642
+        },
+        {
+          "tag": "P",
+          "className": "theme-controller-kicker",
+          "right": 1642
+        },
+        {
+          "tag": "H2",
+          "className": "",
+          "right": 1642
+        },
+        {
+          "tag": "BUTTON",
+          "className": "travel-icon-button",
+          "right": 1684
+        },
+        {
+          "tag": "svg",
+          "className": "[object SVGAnimatedString]",
+          "right": 1672
+        }
+      ],
+      "loaderHidden": true,
+      "footer": true,
+      "themeController": true,
+      "stylesheet": true,
+      "script": true,
+      "duplicateIds": 0,
+      "unlabeledButtons": 0,
+      "unlabeledControls": 0,
+      "brokenImages": 0,
+      "desktopHeader": true,
+      "tabletHeader": false,
+      "mobileHeader": false,
+      "signIn": true,
+      "signUp": true,
+      "surface": "rgb(255, 255, 255)",
+      "patternImage": "url(\"http://127.0.0.1:8014/build/img/bg_patterns/rocking_grid_bg.webp\")",
+      "primary": "#6a753d",
+      "canonical": "http://127.0.0.1:8014/tours",
+      "schema": "{\"@context\":\"https://schema.org\",\"@type\":\"TravelAgency\",\"name\":\"Kenfam International\",\"url\":\"http://127.0.0.1:8014\",\"logo\":\"http://127.0.0.1:8014/kenfam/assets/brand/logo-dark.png\",\"email\":\"info@kenfam.co.ke\",\"telephone\":\"+254 714 884 069\",\"address\":{\"@type\":\"PostalAddress\",\"streetAddress\":\"Purvi House, Wing B, 2nd Floor, Room 202, Westlands, Nairobi, Nairobi\",\"addressCountry\":\"KE\"}}"
     },
     {
       "name": "desktop-light-tour-detail",
@@ -221,9 +287,10 @@
       "signIn": true,
       "signUp": true,
       "surface": "rgb(255, 255, 255)",
+      "patternImage": "url(\"http://127.0.0.1:8014/build/img/bg_patterns/rocking_grid_bg.webp\")",
       "primary": "#6a753d",
-      "canonical": "http://127.0.0.1:8013/tours/cairo-and-the-nile-heritage-journey",
-      "schema": "{\"@context\":\"https://schema.org\",\"@type\":\"TravelAgency\",\"name\":\"Kenfam International\",\"url\":\"http://127.0.0.1:8013\",\"logo\":\"http://127.0.0.1:8013/kenfam/assets/brand/logo-dark.png\",\"email\":\"info@kenfam.co.ke\",\"telephone\":\"+254 714 884 069\",\"address\":{\"@type\":\"PostalAddress\",\"streetAddress\":\"Purvi House, Wing B, 2nd Floor, Room 202, Westlands, Nairobi, Nairobi\",\"addressCountry\":\"KE\"}}"
+      "canonical": "http://127.0.0.1:8014/tours/cairo-and-the-nile-heritage-journey",
+      "schema": "{\"@context\":\"https://schema.org\",\"@type\":\"TravelAgency\",\"name\":\"Kenfam International\",\"url\":\"http://127.0.0.1:8014\",\"logo\":\"http://127.0.0.1:8014/kenfam/assets/brand/logo-dark.png\",\"email\":\"info@kenfam.co.ke\",\"telephone\":\"+254 714 884 069\",\"address\":{\"@type\":\"PostalAddress\",\"streetAddress\":\"Purvi House, Wing B, 2nd Floor, Room 202, Westlands, Nairobi, Nairobi\",\"addressCountry\":\"KE\"}}"
     },
     {
       "name": "tour-detail-content",
@@ -287,9 +354,10 @@
       "signIn": true,
       "signUp": true,
       "surface": "rgb(21, 24, 30)",
+      "patternImage": "none",
       "primary": "#6a753d",
-      "canonical": "http://127.0.0.1:8013/tours",
-      "schema": "{\"@context\":\"https://schema.org\",\"@type\":\"TravelAgency\",\"name\":\"Kenfam International\",\"url\":\"http://127.0.0.1:8013\",\"logo\":\"http://127.0.0.1:8013/kenfam/assets/brand/logo-dark.png\",\"email\":\"info@kenfam.co.ke\",\"telephone\":\"+254 714 884 069\",\"address\":{\"@type\":\"PostalAddress\",\"streetAddress\":\"Purvi House, Wing B, 2nd Floor, Room 202, Westlands, Nairobi, Nairobi\",\"addressCountry\":\"KE\"}}"
+      "canonical": "http://127.0.0.1:8014/tours",
+      "schema": "{\"@context\":\"https://schema.org\",\"@type\":\"TravelAgency\",\"name\":\"Kenfam International\",\"url\":\"http://127.0.0.1:8014\",\"logo\":\"http://127.0.0.1:8014/kenfam/assets/brand/logo-dark.png\",\"email\":\"info@kenfam.co.ke\",\"telephone\":\"+254 714 884 069\",\"address\":{\"@type\":\"PostalAddress\",\"streetAddress\":\"Purvi House, Wing B, 2nd Floor, Room 202, Westlands, Nairobi, Nairobi\",\"addressCountry\":\"KE\"}}"
     },
     {
       "name": "filtered-catalog",
@@ -350,14 +418,16 @@
       "signIn": true,
       "signUp": true,
       "surface": "rgb(255, 255, 255)",
+      "patternImage": "url(\"http://127.0.0.1:8014/build/img/bg_patterns/rocking_grid_bg.webp\")",
       "primary": "#6a753d",
-      "canonical": "http://127.0.0.1:8013/",
-      "schema": "{\"@context\":\"https://schema.org\",\"@type\":\"TravelAgency\",\"name\":\"Kenfam International\",\"url\":\"http://127.0.0.1:8013\",\"logo\":\"http://127.0.0.1:8013/kenfam/assets/brand/logo-dark.png\",\"email\":\"info@kenfam.co.ke\",\"telephone\":\"+254 714 884 069\",\"address\":{\"@type\":\"PostalAddress\",\"streetAddress\":\"Purvi House, Wing B, 2nd Floor, Room 202, Westlands, Nairobi, Nairobi\",\"addressCountry\":\"KE\"}}"
+      "canonical": "http://127.0.0.1:8014/",
+      "schema": "{\"@context\":\"https://schema.org\",\"@type\":\"TravelAgency\",\"name\":\"Kenfam International\",\"url\":\"http://127.0.0.1:8014\",\"logo\":\"http://127.0.0.1:8014/kenfam/assets/brand/logo-dark.png\",\"email\":\"info@kenfam.co.ke\",\"telephone\":\"+254 714 884 069\",\"address\":{\"@type\":\"PostalAddress\",\"streetAddress\":\"Purvi House, Wing B, 2nd Floor, Room 202, Westlands, Nairobi, Nairobi\",\"addressCountry\":\"KE\"}}"
     },
     {
       "name": "mobile-reduced-motion-hero",
       "speed": 0,
-      "autoplay": false
+      "autoplay": false,
+      "imageAnimation": "none"
     },
     {
       "name": "mobile-hero-pagination",
@@ -427,9 +497,10 @@
       "signIn": true,
       "signUp": true,
       "surface": "rgb(21, 24, 30)",
+      "patternImage": "none",
       "primary": "#6a753d",
-      "canonical": "http://127.0.0.1:8013/tours/cairo-and-the-nile-heritage-journey",
-      "schema": "{\"@context\":\"https://schema.org\",\"@type\":\"TravelAgency\",\"name\":\"Kenfam International\",\"url\":\"http://127.0.0.1:8013\",\"logo\":\"http://127.0.0.1:8013/kenfam/assets/brand/logo-dark.png\",\"email\":\"info@kenfam.co.ke\",\"telephone\":\"+254 714 884 069\",\"address\":{\"@type\":\"PostalAddress\",\"streetAddress\":\"Purvi House, Wing B, 2nd Floor, Room 202, Westlands, Nairobi, Nairobi\",\"addressCountry\":\"KE\"}}"
+      "canonical": "http://127.0.0.1:8014/tours/cairo-and-the-nile-heritage-journey",
+      "schema": "{\"@context\":\"https://schema.org\",\"@type\":\"TravelAgency\",\"name\":\"Kenfam International\",\"url\":\"http://127.0.0.1:8014\",\"logo\":\"http://127.0.0.1:8014/kenfam/assets/brand/logo-dark.png\",\"email\":\"info@kenfam.co.ke\",\"telephone\":\"+254 714 884 069\",\"address\":{\"@type\":\"PostalAddress\",\"streetAddress\":\"Purvi House, Wing B, 2nd Floor, Room 202, Westlands, Nairobi, Nairobi\",\"addressCountry\":\"KE\"}}"
     }
   ],
   "runtimeErrors": [],

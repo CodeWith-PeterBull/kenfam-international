@@ -7,6 +7,8 @@
     --pob-bg: #f3f5f7;
     --pob-surface: #ffffff;
     --pob-surface-muted: #f7f8fa;
+    --pob-page-pattern-image: url("/build/img/bg_patterns/rocking_grid_bg.webp");
+    --pob-page-pattern-size: 200px 200px;
     --pob-border: #dfe3e8;
     --pob-text: #20252b;
     --pob-muted: #69727d;
@@ -20,6 +22,7 @@
     --pob-bg: #101317;
     --pob-surface: #171b20;
     --pob-surface-muted: #1d2228;
+    --pob-page-pattern-image: none;
     --pob-border: #313841;
     --pob-text: #f1f4f7;
     --pob-muted: #a8b0ba;
@@ -35,13 +38,16 @@
 html,
 body.travel-tours-pob-shell {
     min-height: 100%;
-    background: var(--pob-bg);
+    background-color: var(--pob-bg);
     color: var(--pob-text);
 }
 
 body.travel-tours-pob-shell {
     margin: 0;
     overflow-x: hidden;
+    background-image: var(--pob-page-pattern-image);
+    background-repeat: repeat;
+    background-size: var(--pob-page-pattern-size);
 }
 
 .pob-skip-link {

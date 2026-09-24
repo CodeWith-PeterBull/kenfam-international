@@ -208,6 +208,7 @@ try {
                 signIn: Boolean(document.querySelector('a[href$="/login"]')),
                 signUp: Boolean(document.querySelector('a[href$="/register"]')),
                 surface: getComputedStyle(document.body).backgroundColor,
+                patternImage: getComputedStyle(document.body).backgroundImage,
                 primary: rootStyle.getPropertyValue('--theme-primary').trim(),
                 canonical: document.querySelector('link[rel="canonical"]')?.href || '',
                 schema: document.querySelector('script[type="application/ld+json"]')?.textContent || '',
@@ -216,6 +217,12 @@ try {
         diagnostics.push(snapshot);
         assert(snapshot.path === expectedPath, `${name}: expected path ${expectedPath}, received ${snapshot.path}`);
         assert(snapshot.theme === expectedTheme, `${name}: expected ${expectedTheme} theme`);
+        assert(
+            expectedTheme === 'light'
+                ? snapshot.patternImage.includes('rocking_grid_bg.webp')
+                : !snapshot.patternImage.includes('rocking_grid_bg.webp'),
+            `${name}: page pattern did not match the ${expectedTheme} theme`,
+        );
         assert(snapshot.title, `${name}: main heading is absent`);
         assert(snapshot.documentWidth <= snapshot.viewportWidth + 1, `${name}: horizontal overflow detected`);
         assert(snapshot.loaderHidden, `${name}: page loader did not settle`);
@@ -258,6 +265,7 @@ try {
         heroControls: document.querySelectorAll('[data-travel-hero-prev], [data-travel-hero-next]').length,
         heroPaginationCentered: (() => { const box = document.querySelector('[data-travel-hero-pagination]')?.getBoundingClientRect(); return Boolean(box && Math.abs(box.left + box.width / 2 - innerWidth / 2) <= 2); })(),
         heroPaginationGeometry: (() => { const node = document.querySelector('[data-travel-hero-pagination]'); const box = node?.getBoundingClientRect(); const style = node ? getComputedStyle(node) : null; return { className: node?.className || '', inline: node?.getAttribute('style') || '', left: box?.left, width: box?.width, cssLeft: style?.left, cssRight: style?.right, transform: style?.transform }; })(),
+        heroImageMotion: (() => { const style = getComputedStyle(document.querySelector('.travel-hero .swiper-slide-active .travel-hero__image')); return { name: style.animationName, duration: style.animationDuration, origin: style.transformOrigin }; })(),
     }))()`);
     diagnostics.push({ name: 'home-content', ...home });
     assert(home.tours === 6 && home.destinations === 6, 'Homepage does not expose all six demonstration journeys and destinations');
@@ -266,6 +274,7 @@ try {
     assert(home.heroTourSlides === 6 && home.heroDots === 7 && home.introActive, 'Hero slide count, pagination, or informational-first order is incorrect');
     assert(home.heroControls === 2, 'Hero previous and next controls are incomplete');
     assert(home.heroPaginationCentered, 'Hero pagination is not centered in the viewport');
+    assert(home.heroImageMotion.name === 'travel-hero-image-zoom' && home.heroImageMotion.duration === '7.72s', 'Hero image zoom is not synchronized with the slide interval');
     await screenshot('desktop-light-home');
 
     await evaluate(`document.querySelector('[data-travel-hero-next]')?.click()`);
@@ -322,6 +331,10 @@ try {
     assert(homeLight.surface !== catalogDark.surface, 'Light and dark theme surfaces did not change');
     await screenshot('desktop-dark-catalog');
 
+    await setTheme('light');
+    await inspect('desktop-light-catalog', '/tours', 'light', 'desktop');
+    await screenshot('desktop-light-catalog');
+
     const detailPath = new URL(home.firstTour).pathname;
     await navigate(home.firstTour);
     await setTheme('light');
@@ -369,9 +382,10 @@ try {
     await setTheme('light');
     await inspect('mobile-light-home', '/', 'light', 'mobile');
     assert(Boolean(await waitFor(`Boolean(document.querySelector('[data-travel-hero-slider][data-hero-ready="true"]'))`)), 'Reduced-motion mobile hero did not initialize');
-    const reducedHero = await evaluate(`(() => { const swiper = document.querySelector('[data-travel-hero-slider]')?.swiper; return { speed: swiper?.params.speed, autoplay: Boolean(swiper?.autoplay?.running) }; })()`);
+    const reducedHero = await evaluate(`(() => { const swiper = document.querySelector('[data-travel-hero-slider]')?.swiper; const image = document.querySelector('.travel-hero .swiper-slide-active .travel-hero__image'); return { speed: swiper?.params.speed, autoplay: Boolean(swiper?.autoplay?.running), imageAnimation: image ? getComputedStyle(image).animationName : null }; })()`);
     diagnostics.push({ name: 'mobile-reduced-motion-hero', ...reducedHero });
     assert(reducedHero.speed === 0 && !reducedHero.autoplay, 'Reduced-motion hero still animates or autoplays');
+    assert(reducedHero.imageAnimation === 'none', 'Reduced-motion hero image still animates');
     const mobileHeroPagination = await evaluate(`(() => {
         const hero = document.querySelector('[data-travel-hero-slider]')?.getBoundingClientRect();
         const pagination = document.querySelector('[data-travel-hero-pagination]')?.getBoundingClientRect();
@@ -422,7 +436,7 @@ try {
     assert(networkErrors.length === 0, `Network errors: ${networkErrors.join(' | ')}`);
     await writeFile(path.join(outputDirectory, 'diagnostics.json'), `${JSON.stringify({ siteUrl, diagnostics, runtimeErrors, networkErrors, failures }, null, 2)}\n`);
     if (failures.length > 0) throw new Error(`TravelTours storefront QA failed:\n- ${failures.join('\n- ')}`);
-    process.stdout.write(`TravelTours storefront QA passed with ${diagnostics.length} inspections and ${process.env.AUREON_QA_PHASE === 'k2e' ? 11 : 9} viewport captures.\n`);
+    process.stdout.write(`TravelTours storefront QA passed with ${diagnostics.length} inspections and ${process.env.AUREON_QA_PHASE === 'k2e' ? 12 : 10} viewport captures.\n`);
 } finally {
     client?.close();
     const browserExited = new Promise((resolve) => browser.once('exit', resolve));

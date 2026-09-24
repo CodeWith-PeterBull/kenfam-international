@@ -102,6 +102,7 @@ const diagnostics = [];
 const failures = [];
 const runtimeErrors = [];
 const networkErrors = [];
+const externalWarnings = [];
 const assert = (condition, message) => { if (!condition) failures.push(message); };
 
 try {
@@ -115,7 +116,13 @@ try {
         client.listeners.get(method).add(handler);
     };
     listen('Runtime.exceptionThrown', (event) => runtimeErrors.push(event.exceptionDetails.text || 'Runtime exception'));
-    listen('Log.entryAdded', (event) => { if (event.entry.level === 'error') runtimeErrors.push(event.entry.text); });
+    listen('Log.entryAdded', (event) => {
+        if (event.entry.level === 'error') {
+            const message = `${event.entry.text}${event.entry.url ? ` (${event.entry.url})` : ''}`;
+            if (event.entry.url?.startsWith('https://fonts.googleapis.com/')) externalWarnings.push(message);
+            else runtimeErrors.push(message);
+        }
+    });
     listen('Network.responseReceived', (event) => { if (event.response.status >= 400) networkErrors.push(`${event.response.status} ${event.response.url}`); });
 
     async function evaluate(expression, awaitPromise = false) {
@@ -208,6 +215,8 @@ try {
             const root = document.querySelector('.travel-admin');
             const sidebarBox = document.querySelector('#sidebar')?.getBoundingClientRect();
             const pageBox = document.querySelector('.page-wrapper')?.getBoundingClientRect();
+            const content = document.querySelector('.page-wrapper.aureon-dashboard > .content');
+            const contentStyle = content ? getComputedStyle(content) : null;
             const titleBox = root?.querySelector('.page-title h4')?.getBoundingClientRect();
             const panel = root?.querySelector('.aureon-panel');
             const panelStyle = panel ? getComputedStyle(panel) : null;
@@ -230,6 +239,8 @@ try {
                 sidebarRight: sidebarBox?.right || 0, rootLeft: root?.getBoundingClientRect().left || 0,
                 headerOccluded: titleBox ? document.elementsFromPoint(titleBox.left + 2, titleBox.top + titleBox.height / 2).some((element) => element.id === 'sidebar') : false,
                 theme: document.documentElement.dataset.theme, loaderHidden: !document.querySelector('[data-page-loader]') || Boolean(document.querySelector('[data-page-loader]')?.hidden),
+                contentBackground: contentStyle?.backgroundColor || null,
+                contentPatternImage: contentStyle?.backgroundImage || null,
                 panels: root?.querySelectorAll('.aureon-panel').length || 0,
                 cssLoaded: [...document.styleSheets].some((sheet) => sheet.href?.includes('admin-') || sheet.href?.includes('admin.css')),
                 panelColor: panelStyle?.color, panelBackground: panelStyle?.backgroundColor,
@@ -259,6 +270,12 @@ try {
         assert(mobile || snapshot.rootLeft >= snapshot.sidebarRight + 12, `${name}: desktop sidebar gutter is missing`);
         assert(!snapshot.headerOccluded, `${name}: sidebar occludes page heading`);
         assert(snapshot.theme === mode, `${name}: expected ${mode} theme`);
+        assert(
+            mode === 'light'
+                ? snapshot.contentPatternImage?.includes('rocking_grid_bg.webp')
+                : !snapshot.contentPatternImage?.includes('rocking_grid_bg.webp'),
+            `${name}: dashboard content pattern did not match the ${mode} theme`,
+        );
         assert(snapshot.loaderHidden, `${name}: page loader did not settle`);
         assert(snapshot.panels >= 1, `${name}: expected panel is missing`);
         assert(snapshot.cssLoaded, `${name}: module stylesheet is missing`);
@@ -279,6 +296,47 @@ try {
             assert(snapshot.dashboardLinks >= 8, `${name}: travel dashboard operational links are incomplete`);
         }
         if (name === 'mobile-dark-travel-dashboard') assert(snapshot.mobileMenuColor === snapshot.primaryColor, `${name}: mobile menu trigger does not inherit the active primary color`);
+        const screenshot = await client.send('Page.captureScreenshot', { format: 'png', fromSurface: true, captureBeyondViewport: false });
+        await writeFile(path.join(outputDirectory, `${name}.png`), Buffer.from(screenshot.data, 'base64'));
+    }
+
+    async function captureBookingDesk({ name, width, height, mobile, mode }) {
+        await setViewport(width, height, mobile);
+        await client.send('Emulation.setEmulatedMedia', { media: 'screen', features: [{ name: 'prefers-reduced-motion', value: 'no-preference' }] });
+        await setTheme(mode);
+        await navigate(`${siteUrl}/travel-booking-desk?qa=${name}-${Date.now()}`);
+        assert(Boolean(await waitFor("document.body.classList.contains('travel-tours-pob-shell')")), `${name}: booking-desk shell did not render`);
+
+        const snapshot = await evaluate(`(() => {
+            const bodyStyle = getComputedStyle(document.body);
+            const main = document.querySelector('#pob-main');
+            const buttons = [...document.querySelectorAll('button')].filter((button) => button.offsetParent !== null);
+            const named = (button) => button.textContent.trim() || button.getAttribute('aria-label') || button.getAttribute('title');
+            return {
+                name: ${JSON.stringify(name)},
+                path: location.pathname,
+                theme: document.documentElement.dataset.theme,
+                patternImage: bodyStyle.backgroundImage,
+                viewportWidth: innerWidth,
+                documentWidth: document.documentElement.scrollWidth,
+                mainPresent: Boolean(main),
+                topbarPresent: Boolean(document.querySelector('.pob-topbar')),
+                unlabeledButtons: buttons.filter((button) => !named(button)).length,
+            };
+        })()`);
+        diagnostics.push(snapshot);
+        assert(snapshot.path === '/travel-booking-desk', `${name}: wrong booking-desk route rendered`);
+        assert(snapshot.theme === mode, `${name}: expected ${mode} booking-desk theme`);
+        assert(snapshot.viewportWidth === snapshot.documentWidth, `${name}: booking desk overflows the viewport`);
+        assert(snapshot.mainPresent && snapshot.topbarPresent, `${name}: booking-desk base components are incomplete`);
+        assert(snapshot.unlabeledButtons === 0, `${name}: visible booking-desk button lacks an accessible name`);
+        assert(
+            mode === 'light'
+                ? snapshot.patternImage.includes('rocking_grid_bg.webp')
+                : !snapshot.patternImage.includes('rocking_grid_bg.webp'),
+            `${name}: booking-desk pattern did not match the ${mode} theme`,
+        );
+
         const screenshot = await client.send('Page.captureScreenshot', { format: 'png', fromSurface: true, captureBeyondViewport: false });
         await writeFile(path.join(outputDirectory, `${name}.png`), Buffer.from(screenshot.data, 'base64'));
     }
@@ -319,11 +377,17 @@ try {
     );
     for (const definition of captures) await capture(definition);
 
+    const bookingDeskCaptures = [
+        { name: 'desktop-light-booking-desk', width: 1440, height: 1000, mobile: false, mode: 'light' },
+        { name: 'mobile-dark-booking-desk', width: 390, height: 844, mobile: true, mode: 'dark' },
+    ];
+    for (const definition of bookingDeskCaptures) await captureBookingDesk(definition);
+
     assert(runtimeErrors.length === 0, `Runtime errors: ${runtimeErrors.join(' | ')}`);
     assert(networkErrors.length === 0, `Network errors: ${networkErrors.join(' | ')}`);
-    await writeFile(path.join(outputDirectory, 'diagnostics.json'), JSON.stringify({ siteUrl, diagnostics, runtimeErrors, networkErrors, failures }, null, 2));
+    await writeFile(path.join(outputDirectory, 'diagnostics.json'), JSON.stringify({ siteUrl, diagnostics, runtimeErrors, networkErrors, externalWarnings, failures }, null, 2));
     if (failures.length > 0) throw new Error(failures.join('\n'));
-    process.stdout.write(`TravelTours admin QA passed with ${captures.length} captures.\n`);
+    process.stdout.write(`TravelTours operations QA passed with ${captures.length + bookingDeskCaptures.length} captures.\n`);
 } finally {
     client?.close();
     const browserExited = new Promise((resolve) => browser.once('exit', resolve));
