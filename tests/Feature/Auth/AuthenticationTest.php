@@ -2,8 +2,12 @@
 
 namespace Tests\Feature\Auth;
 
+use App\Contracts\ResolvesInstitutionProfile;
+use App\Models\InstitutionDetail;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Http\UploadedFile;
+use Illuminate\Support\Facades\Storage;
 use Tests\TestCase;
 
 class AuthenticationTest extends TestCase
@@ -15,6 +19,32 @@ class AuthenticationTest extends TestCase
         $response = $this->get('/login');
 
         $response->assertStatus(200);
+    }
+
+    /** Authentication screens use the central institution logo and name instead of embedded Aureon assets. */
+    public function test_authentication_screens_render_database_managed_institution_branding(): void
+    {
+        Storage::fake('public');
+        $detail = InstitutionDetail::factory()->create([
+            'id' => InstitutionDetail::PRIMARY_ID,
+            'name' => 'Client Travel Group',
+            'short_name' => 'Client Travel',
+        ]);
+        $detail->addMedia(UploadedFile::fake()->image('client-logo.png', 480, 160))
+            ->toMediaCollection('main_logo', 'public');
+
+        $profiles = app(ResolvesInstitutionProfile::class);
+        $profiles->forget();
+        $profile = $profiles->current();
+
+        foreach (['/login', '/register', '/forgot-password'] as $path) {
+            $this->get($path)
+                ->assertOk()
+                ->assertSee($profile->mainLogoUrl, false)
+                ->assertSee('Client Travel Group')
+                ->assertDontSee('aureon/assets/brand/logo.png', false)
+                ->assertDontSee('aureon/assets/brand/logo-light.png', false);
+        }
     }
 
     public function test_users_can_authenticate_using_the_login_screen(): void

@@ -68,10 +68,10 @@ The module owns:
 - `Resources/assets/css/storefront.css` for public layout and components;
 - `Resources/assets/js/storefront.js` for public interaction and safe
   enhancement;
-- `Resources/demo/travel/*.webp` for six lightweight fictional demo covers;
+- `Resources/demo/travel/*.webp` for thirteen lightweight fictional demo covers;
 - the `travel-tours-storefront` Vite CSS/JS entries.
 
-The six image files are demonstration assets, not representations of currently
+The image files are demonstration assets, not representations of currently
 sold Kenfam products. Spatie Media Library copies them to the configured public
 disk during explicit demo seeding. Local and hosted environments therefore need
 a valid `public/storage` link before media URLs can render.
@@ -82,24 +82,45 @@ a valid `public/storage` link before media URLs can render.
 only in a disposable local, review, or demonstration environment:
 
 ```bash
-php artisan db:seed --class="App\\Modules\\TravelTours\\Database\\Seeders\\TravelToursDemoSeeder"
+php artisan db:seed --class="App\\Modules\\TravelTours\\Database\\Seeders\\TravelToursDemoSeeder" --no-interaction
 ```
+
+The application must have `TRAVEL_TOURS_ENABLED=true`, its migrations must be
+current, and `php artisan storage:link` must expose the public media disk. The
+demo catalogue seeder invokes `TravelToursDemoOperatorSeeder`, which in turn
+reconciles the people-free `TravelToursAccessSeeder`; no additional role or
+operator command is required for the complete fixture.
+
+For a disposable local or QA database only, rebuild the complete host and demo
+fixture with:
+
+```bash
+php artisan migrate:fresh --seed --no-interaction
+php artisan db:seed --class="App\\Modules\\TravelTours\\Database\\Seeders\\TravelToursDemoSeeder" --no-interaction
+php artisan storage:link
+```
+
+`migrate:fresh` is destructive and must never be used on adopter, staging, or
+production data. Rerunning only `TravelToursDemoSeeder` is non-destructive and
+reconciles stable fixture identities.
 
 The idempotent, non-destructive fixture creates or reconciles:
 
 | Record | Count |
 | --- | ---: |
-| Published tours / categories / destinations | 6 / 6 / 6 |
-| Future departures / rate plans / participant rates | 12 / 6 / 18 |
-| Itinerary days / activities | 24 / 24 |
-| Content items / FAQs / extras | 60 / 12 / 6 |
-| Tour cover / destination media records | 6 / 6 |
+| Published tours / categories / destinations | 13 / 10 / 13 |
+| Featured tours | 6 |
+| Future departures / rate plans / participant rates | 26 / 13 / 39 |
+| Itinerary days / activities | 52 / 52 |
+| Content items / FAQs / extras | 130 / 26 / 13 |
+| Tour cover / destination media records | 13 / 13 |
 | Demonstration operators | 3 |
 
 Local-only operators are `travel.manager@example.test`,
 `booking.agent@example.test`, and `tour.editor@example.test`, each assigned its
 matching TravelTours role plus the compatible host role. Their deterministic
-password is for local evaluation only and must never be deployed unchanged.
+password is `password`, for local evaluation only, and must never be deployed
+unchanged.
 The access seeder remains independent and people-free.
 
 ## 6. Verification Evidence

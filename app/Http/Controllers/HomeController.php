@@ -14,15 +14,18 @@ final class HomeController extends Controller
 {
     public function __invoke(): View
     {
+        $featuredTours = $this->travelDataReady()
+            ? Tour::query()->published()->with([
+                'destinations',
+                'categories',
+                'ratePlans' => fn ($query) => $query->publiclyAvailable()->with('participantRates'),
+                'departures' => fn ($query) => $query->bookable()->limit(1),
+            ])->orderByDesc('is_featured')->orderBy('sort_order')->limit(6)->get()
+            : collect();
+
         return view('welcome', [
-            'featuredTours' => $this->travelDataReady()
-                ? Tour::query()->published()->with([
-                    'destinations',
-                    'categories',
-                    'ratePlans' => fn ($query) => $query->publiclyAvailable()->with('participantRates'),
-                    'departures' => fn ($query) => $query->bookable()->limit(1),
-                ])->orderByDesc('is_featured')->orderBy('sort_order')->limit(6)->get()
-                : collect(),
+            'heroTours' => $featuredTours,
+            'featuredTours' => $featuredTours,
             'featuredDestinations' => $this->travelDataReady()
                 ? Destination::query()->published()->where('is_featured', true)->orderBy('sort_order')->limit(6)->get()
                 : collect(),

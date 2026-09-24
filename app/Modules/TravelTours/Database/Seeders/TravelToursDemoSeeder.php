@@ -40,7 +40,7 @@ use RuntimeException;
 /** Create realistic local data for storefront, accessibility, and browser QA. */
 final class TravelToursDemoSeeder extends Seeder
 {
-    /** Reconcile operators and six fictional journeys without deleting data. */
+    /** Reconcile operators and manifest-defined journeys without deleting data. */
     public function run(): void
     {
         if (! config('travel-tours.enabled', false)) {
@@ -91,7 +91,7 @@ final class TravelToursDemoSeeder extends Seeder
                 'latitude' => $latitude,
                 'longitude' => $longitude,
                 'timezone' => $timezone,
-                'is_featured' => true,
+                'is_featured' => (bool) ($item['featured'] ?? false),
                 'is_active' => true,
                 'status' => PublicationStatus::Published,
                 'sort_order' => $position,
@@ -124,7 +124,7 @@ final class TravelToursDemoSeeder extends Seeder
                 'terms' => 'Demonstration terms only. Final inclusions, payment schedule, cancellation policy, and travel requirements must be confirmed before booking.',
                 'cancellation_summary' => 'Cancellation terms depend on the confirmed departure and supplier commitments.',
                 'policy_version' => 'demo-2026-09',
-                'is_featured' => true,
+                'is_featured' => (bool) ($item['featured'] ?? false),
                 'sort_order' => $position,
                 'meta_title' => $item['name'].' | Escorted travel',
                 'meta_description' => $item['summary'],

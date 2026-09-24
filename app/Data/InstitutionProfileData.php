@@ -25,6 +25,7 @@ final readonly class InstitutionProfileData
         public ?string $postalCity,
         public array $socialMedia,
         public ?string $mainLogoUrl,
+        public ?string $lightLogoUrl,
         public ?string $mainLogoPath,
         public bool $hasCustomMainLogo,
         public ?string $logoIconUrl,

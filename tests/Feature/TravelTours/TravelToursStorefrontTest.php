@@ -56,17 +56,33 @@ final class TravelToursStorefrontTest extends TestCase
         $this->seed(TravelToursDemoSeeder::class);
         $this->seed(TravelToursDemoSeeder::class);
 
-        $this->assertSame(6, Tour::query()->where('code', 'like', 'DEMO-%')->count());
-        $this->assertSame(6, Destination::query()->where('is_featured', true)->count());
-        $this->assertSame(6, TourCategory::query()->count());
-        $this->assertSame(12, TourDeparture::query()->count());
-        $this->assertSame(6, TourRatePlan::query()->where('code', 'DEMO-STANDARD')->count());
-        $this->assertSame(18, ParticipantRate::query()->count());
-        $this->assertSame(24, ItineraryDay::query()->count());
-        $this->assertSame(24, ItineraryActivity::query()->count());
-        $this->assertSame(60, TourContentItem::query()->count());
-        $this->assertSame(12, TourFaq::query()->count());
-        $this->assertSame(6, TourExtra::query()->count());
+        $this->assertSame(13, Tour::query()->where('code', 'like', 'DEMO-%')->count());
+        $this->assertSame(6, Tour::query()->where('is_featured', true)->count());
+        $this->assertSame(13, Destination::query()->count());
+        $this->assertSame(10, TourCategory::query()->count());
+        $this->assertSame(26, TourDeparture::query()->count());
+        $this->assertSame(13, TourRatePlan::query()->where('code', 'DEMO-STANDARD')->count());
+        $this->assertSame(39, ParticipantRate::query()->count());
+        $this->assertSame(52, ItineraryDay::query()->count());
+        $this->assertSame(52, ItineraryActivity::query()->count());
+        $this->assertSame(130, TourContentItem::query()->count());
+        $this->assertSame(26, TourFaq::query()->count());
+        $this->assertSame(13, TourExtra::query()->count());
+        $this->assertEqualsCanonicalizing([
+            'china',
+            'egypt',
+            'europe',
+            'holy-land',
+            'israel',
+            'maasai-mara-kenya',
+            'serengeti-tanzania',
+            'southeast-asia',
+            'south-africa',
+            'thailand',
+            'turkey',
+            'united-arab-emirates',
+            'zanzibar-tanzania',
+        ], Destination::query()->pluck('slug')->all());
         $operators = User::query()->whereIn('email', [
             'travel.manager@example.test',
             'booking.agent@example.test',
@@ -80,16 +96,24 @@ final class TravelToursStorefrontTest extends TestCase
         $tour = Tour::query()->where('code', 'DEMO-EGY-01')->firstOrFail();
         $this->assertNotNull($tour->getFirstMedia('tour_cover'));
         Storage::disk('public')->assertExists($tour->getFirstMedia('tour_cover')->getPathRelativeToRoot());
+        foreach (['DEMO-KEN-01', 'DEMO-TZA-01', 'DEMO-ZNZ-01', 'DEMO-THA-01', 'DEMO-TUR-01', 'DEMO-CHN-01', 'DEMO-ISR-01'] as $code) {
+            $seededTour = Tour::query()->where('code', $code)->firstOrFail();
+            $this->assertNotNull($seededTour->getFirstMedia('tour_cover'), $code.' is missing its tour cover.');
+            $this->assertNotNull($seededTour->destinations()->firstOrFail()->getFirstMedia('destination_cover'), $code.' is missing its destination cover.');
+        }
 
         $this->withoutVite();
         $this->get(route('home'))
             ->assertOk()
             ->assertSee('Cairo and the Nile Heritage Journey')
-            ->assertSee('Singapore and Kuala Lumpur')
+            ->assertSee('Maasai Mara Safari Escape')
+            ->assertSee('data-travel-hero-slider', false)
+            ->assertSee('data-travel-hero-intro', false)
+            ->assertSee('data-travel-hero-tour', false)
             ->assertSee('Create account');
         $this->get(route('travel-tours.storefront.catalog.index'))
             ->assertOk()
-            ->assertSee('6 journeys')
+            ->assertSee('13 journeys')
             ->assertSee('KES 385,000.00')
             ->assertSee('Cairo and the Nile Heritage Journey');
         $this->get(route('travel-tours.storefront.catalog.index', ['destination' => 'egypt']))
@@ -105,6 +129,43 @@ final class TravelToursStorefrontTest extends TestCase
 
         $draft = Tour::factory()->create(['status' => PublicationStatus::Draft]);
         $this->get(route('travel-tours.storefront.tours.show', $draft->slug))->assertNotFound();
+    }
+
+    /** The homepage keeps its informational slide first and orders a bounded published tour set by featured state. */
+    public function test_homepage_hero_is_informational_first_featured_first_and_published_only(): void
+    {
+        $fallback = Tour::factory()->create([
+            'name' => 'Available Journey',
+            'slug' => 'available-journey',
+            'status' => PublicationStatus::Published,
+            'published_at' => now()->subDay(),
+            'is_featured' => false,
+            'sort_order' => 1,
+        ]);
+        $featured = Tour::factory()->create([
+            'name' => 'Featured Journey',
+            'slug' => 'featured-journey',
+            'status' => PublicationStatus::Published,
+            'published_at' => now()->subDay(),
+            'is_featured' => true,
+            'sort_order' => 9,
+        ]);
+        Tour::factory()->create([
+            'name' => 'Private Draft Journey',
+            'status' => PublicationStatus::Draft,
+            'is_featured' => true,
+        ]);
+
+        $this->withoutVite();
+        $content = $this->get(route('home'))
+            ->assertOk()
+            ->assertSeeInOrder(['data-travel-hero-intro', $featured->name, $fallback->name])
+            ->assertDontSee('Private Draft Journey')
+            ->assertSee('aria-label="Previous hero slide"', false)
+            ->assertSee('data-travel-hero-pagination', false)
+            ->getContent();
+
+        $this->assertSame(2, substr_count($content, 'data-travel-hero-tour'));
     }
 
     /** Currency formatting must honor zero, two, and three-decimal exponents. */

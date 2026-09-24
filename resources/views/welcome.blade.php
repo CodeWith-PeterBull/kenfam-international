@@ -8,30 +8,54 @@
 @section('page', 'home')
 
 @section('content')
-    <section class="travel-hero" aria-labelledby="travel-home-title">
-        <img class="travel-hero__image" src="{{ $profile->heroImageUrl }}"
-            alt="Travelers overlooking an East African landscape at sunrise" width="1920" height="1080" fetchpriority="high">
-        <div class="container-xxl travel-hero__content">
-            <p class="travel-eyebrow">
-                Tours and Travel experts
-                @if ($profile->foundedYear)
-                    since {{ $profile->foundedYear }}
-                @endif
-            </p>
-            <h1 id="travel-home-title">Travel farther. Return richer.</h1>
-            <p class="travel-hero__lead">Crafted journeys & experiences across the world - escorted tours, business &
-                educational adventures, group getaways, corporate retreats, and custom itineraries built around what
-                matters.</p>
-            <div class="travel-hero__actions">
-                <a class="travel-button" href="{{ route('travel-tours.storefront.catalog.index') }}">Explore tours <i
-                        data-lucide="arrow-up-right" aria-hidden="true"></i></a>
-                @if ($profile->whatsappNumber)
-                    <a class="travel-button travel-button--quiet"
-                        href="https://wa.me/{{ $profile->whatsappNumber }}?text={{ rawurlencode('Hello ' . $profile->shortName . ', I would like help planning a journey.') }}"
-                        target="_blank" rel="noopener noreferrer">Plan on WhatsApp</a>
-                @endif
-            </div>
+    <section class="travel-hero swiper" aria-labelledby="travel-home-title" data-travel-hero-slider>
+        <div class="swiper-wrapper">
+            <article class="swiper-slide travel-hero__slide travel-hero__slide--intro" data-travel-hero-intro>
+                <img class="travel-hero__image" src="{{ $profile->heroImageUrl }}"
+                    alt="Travelers overlooking an East African landscape at sunrise" width="1920" height="1080"
+                    fetchpriority="high">
+                <div class="container-xxl travel-hero__content">
+                    <p class="travel-eyebrow">
+                        Tours and Travel experts
+                        @if ($profile->foundedYear)
+                            since {{ $profile->foundedYear }}
+                        @endif
+                    </p>
+                    <h1 id="travel-home-title">Travel farther. Return richer.</h1>
+                    <p class="travel-hero__lead">Crafted journeys & experiences across the world - escorted tours,
+                        business & educational adventures, group getaways, corporate retreats, and custom itineraries
+                        built around what matters.</p>
+                    <div class="travel-hero__actions">
+                        <a class="travel-button" href="{{ route('travel-tours.storefront.catalog.index') }}">Explore tours
+                            <i data-lucide="arrow-up-right" aria-hidden="true"></i></a>
+                        @if ($profile->whatsappNumber)
+                            <a class="travel-button travel-button--quiet"
+                                href="https://wa.me/{{ $profile->whatsappNumber }}?text={{ rawurlencode('Hello ' . $profile->shortName . ', I would like help planning a journey.') }}"
+                                target="_blank" rel="noopener noreferrer">Plan on WhatsApp</a>
+                        @endif
+                    </div>
+                </div>
+            </article>
+
+            @foreach ($heroTours as $tour)
+                @include('travel-tours::storefront.home.hero-tour-slide', [
+                    'tour' => $tour,
+                    'profile' => $profile,
+                ])
+            @endforeach
         </div>
+
+        @if ($heroTours->isNotEmpty())
+            <button class="travel-hero__nav travel-hero__nav--prev" type="button" data-travel-hero-prev
+                aria-label="Previous hero slide" title="Previous slide">
+                <i data-lucide="chevron-left" aria-hidden="true"></i>
+            </button>
+            <button class="travel-hero__nav travel-hero__nav--next" type="button" data-travel-hero-next
+                aria-label="Next hero slide" title="Next slide">
+                <i data-lucide="chevron-right" aria-hidden="true"></i>
+            </button>
+            <div class="swiper-pagination travel-hero__pagination" data-travel-hero-pagination aria-label="Hero slide navigation"></div>
+        @endif
     </section>
 
     <section class="travel-trustbar" aria-label="Travel service strengths">

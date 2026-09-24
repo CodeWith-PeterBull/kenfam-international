@@ -27,6 +27,8 @@ class InstitutionProfileResolverTest extends TestCase
             'institution.defaults.name' => 'Fallback Institution',
             'institution.defaults.short_name' => 'Fallback',
             'institution.defaults.primary_email' => 'fallback@example.test',
+            'institution.assets.main_logo_url' => 'client/assets/logo-dark.png',
+            'institution.assets.light_logo_url' => 'client/assets/logo-light.png',
         ]);
 
         $profile = $this->profiles->current();
@@ -35,6 +37,8 @@ class InstitutionProfileResolverTest extends TestCase
         $this->assertSame('Fallback Institution', $profile->name);
         $this->assertSame('Fallback', $profile->shortName);
         $this->assertSame('fallback@example.test', $profile->primaryEmail);
+        $this->assertStringEndsWith('/client/assets/logo-dark.png', (string) $profile->mainLogoUrl);
+        $this->assertStringEndsWith('/client/assets/logo-light.png', (string) $profile->lightLogoUrl);
     }
 
     public function test_database_values_override_fallbacks_and_can_be_refreshed_explicitly(): void

@@ -255,14 +255,59 @@ The local development seed creates one account per base dashboard:
 
 | Workspace | Email |
 | --- | --- |
-| Administration | `admin@aureon.test` |
-| Content management | `content@aureon.test` |
-| Editorial | `editor@aureon.test` |
-| Viewer | `viewer@aureon.test` |
+| Administration | `admin@kenfam.test` |
+| Content management | `content@kenfam.test` |
+| Editorial | `editor@kenfam.test` |
+| Viewer | `viewer@kenfam.test` |
 
 All four local accounts use the password `password`.
 
 These credentials are for local development only and must not be deployed.
+
+### TravelTours demonstration data
+
+Keep `TRAVEL_TOURS_ENABLED=true` and create the public storage link before
+loading demonstration media. The normal setup command provisions the four base
+accounts above, the host roles, and TravelTours permissions:
+
+```powershell
+php artisan migrate --seed --no-interaction
+php artisan storage:link
+```
+
+Load the opt-in TravelTours catalogue and its three module operators with one
+idempotent command:
+
+```powershell
+php artisan db:seed --class="App\Modules\TravelTours\Database\Seeders\TravelToursDemoSeeder" --no-interaction
+```
+
+For a disposable local or QA database that may be destroyed, the complete
+reset sequence is:
+
+```powershell
+php artisan migrate:fresh --seed --no-interaction
+php artisan db:seed --class="App\Modules\TravelTours\Database\Seeders\TravelToursDemoSeeder" --no-interaction
+php artisan storage:link
+```
+
+Never run `migrate:fresh` against an adopter, staging, or production database.
+The demonstration seeder itself is rerunnable and non-destructive: it reconciles
+stable codes and slugs without deleting unrelated records. It currently
+provides 13 published tours, 10 categories, 13 destinations, 26 future
+departures, complete pricing/itinerary/content records, and local cover media.
+It also reconciles these local-only operators, all using `password`:
+
+| Workspace | Email | Role |
+| --- | --- | --- |
+| Travel management | `travel.manager@example.test` | `travel-manager` |
+| Booking desk | `booking.agent@example.test` | `travel-booking-agent` |
+| Tour editorial | `tour.editor@example.test` | `tour-editor` |
+
+To provision only the module permissions and roles, run
+`TravelToursAccessSeeder`; to provision those roles plus the three operators
+without catalogue records, run `TravelToursDemoOperatorSeeder` explicitly.
+Neither optional seeder belongs in production deployment automation.
 
 The Commerce demonstration graph is opt-in and intentionally excluded from
 `DatabaseSeeder`. The no-argument command preserves the original mixed catalog:

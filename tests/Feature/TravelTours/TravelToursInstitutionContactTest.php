@@ -25,7 +25,7 @@ final class TravelToursInstitutionContactTest extends TestCase
             primaryEmail: 'travel@kenfam.test', secondaryEmail: null, primaryPhone: $phone, secondaryPhone: null,
             website: 'https://kenfam.test', physicalAddress: null, city: null, county: null, postalCode: null,
             postalAddress: null, postalCity: null, socialMedia: $socials,
-            mainLogoUrl: null, mainLogoPath: null, hasCustomMainLogo: false,
+            mainLogoUrl: null, lightLogoUrl: null, mainLogoPath: null, hasCustomMainLogo: false,
             logoIconUrl: null, logoIconPath: null, hasCustomLogoIcon: false,
         ));
     }

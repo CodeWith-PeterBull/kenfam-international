@@ -1181,6 +1181,21 @@ html[data-bs-theme="dark"] div#global-loader.aureon-loader {
     .header .mobile_btn {
         right: 0;
         left: auto;
+        color: var(--aureon-primary) !important;
+    }
+
+    .header .mobile_btn .bar-icon span {
+        background-color: var(--aureon-primary) !important;
+    }
+
+    .header .mobile_btn:hover,
+    .header .mobile_btn:focus-visible {
+        color: var(--aureon-primary-dark) !important;
+    }
+
+    .header .mobile_btn:hover .bar-icon span,
+    .header .mobile_btn:focus-visible .bar-icon span {
+        background-color: var(--aureon-primary-dark) !important;
     }
 
     .header .mobile-user-menu {

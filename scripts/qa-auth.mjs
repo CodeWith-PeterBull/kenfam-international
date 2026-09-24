@@ -26,7 +26,7 @@ import { fileURLToPath } from 'node:url';
 const root = path.dirname(path.dirname(fileURLToPath(import.meta.url)));
 const outputDirectory = path.join(root, '.docs', 'dev', 'auth-qa');
 const siteUrl = process.env.AUREON_QA_URL || 'http://127.0.0.1:8012';
-const email = process.env.AUREON_QA_EMAIL || 'admin@aureon.test';
+const email = process.env.AUREON_QA_EMAIL || 'admin@kenfam.test';
 const password = process.env.AUREON_QA_PASSWORD || 'password';
 const twoFactorMode = process.env.AUREON_QA_2FA === '1';
 const debuggingPort = Number(process.env.AUREON_QA_PORT || 9453);
@@ -168,7 +168,11 @@ try {
         if (!client.listeners.has(method)) client.listeners.set(method, new Set());
         client.listeners.get(method).add(handler);
     };
-    listen('Runtime.exceptionThrown', (event) => runtimeErrors.push(event.exceptionDetails.text || 'Runtime exception'));
+    listen('Runtime.exceptionThrown', (event) => runtimeErrors.push(
+        event.exceptionDetails.exception?.description
+        || event.exceptionDetails.text
+        || 'Runtime exception',
+    ));
     listen('Log.entryAdded', (event) => {
         if (event.entry.level === 'error') runtimeErrors.push(event.entry.text);
     });

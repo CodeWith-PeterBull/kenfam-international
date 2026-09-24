@@ -130,7 +130,12 @@ try {
     });
 
     async function evaluate(expression, awaitPromise = false) {
-        const response = await client.send('Runtime.evaluate', { expression, awaitPromise, returnByValue: true });
+        let response;
+        try {
+            response = await client.send('Runtime.evaluate', { expression, awaitPromise, returnByValue: true });
+        } catch (error) {
+            throw new Error(`${error.message} while evaluating: ${expression.slice(0, 180)}`);
+        }
         if (response.exceptionDetails) throw new Error(response.exceptionDetails.text || 'Evaluation failed');
 
         return response.result.value;
@@ -233,18 +238,67 @@ try {
     await navigate(`${siteUrl}/`);
     await setTheme('light');
     const homeLight = await inspect('desktop-light-home', '/', 'light', 'desktop');
+    assert(Boolean(await waitFor(`Boolean(document.querySelector('[data-travel-hero-slider][data-hero-ready="true"]'))`)), 'Homepage hero did not initialize');
+    await evaluate(`(() => {
+        const slider = document.querySelector('[data-travel-hero-slider]')?.swiper;
+        slider?.autoplay?.stop();
+        slider?.slideToLoop(0, 0);
+        return true;
+    })()`);
+    assert(Boolean(await waitFor(`document.querySelector('[data-travel-hero-intro]')?.classList.contains('swiper-slide-active')`)), 'Informational hero is not the first slide');
     const home = await evaluate(`(() => ({
         tours: document.querySelectorAll('.travel-tour-card').length,
         destinations: document.querySelectorAll('.travel-destination-card').length,
         firstTour: document.querySelector('.travel-tour-card h3 a')?.href || '',
         centeredBrand: Math.abs(document.querySelector('.travel-primary-nav .travel-brand').getBoundingClientRect().left + document.querySelector('.travel-primary-nav .travel-brand').getBoundingClientRect().width / 2 - innerWidth / 2) < 3,
         accountButtonColor: getComputedStyle(document.querySelector('.travel-primary-nav__tools .travel-button')).color,
+        heroTourSlides: document.querySelectorAll('[data-travel-hero-tour]').length,
+        heroDots: document.querySelectorAll('[data-travel-hero-pagination] .swiper-pagination-bullet').length,
+        introActive: document.querySelector('[data-travel-hero-intro]')?.classList.contains('swiper-slide-active') || false,
+        heroControls: document.querySelectorAll('[data-travel-hero-prev], [data-travel-hero-next]').length,
+        heroPaginationCentered: (() => { const box = document.querySelector('[data-travel-hero-pagination]')?.getBoundingClientRect(); return Boolean(box && Math.abs(box.left + box.width / 2 - innerWidth / 2) <= 2); })(),
+        heroPaginationGeometry: (() => { const node = document.querySelector('[data-travel-hero-pagination]'); const box = node?.getBoundingClientRect(); const style = node ? getComputedStyle(node) : null; return { className: node?.className || '', inline: node?.getAttribute('style') || '', left: box?.left, width: box?.width, cssLeft: style?.left, cssRight: style?.right, transform: style?.transform }; })(),
     }))()`);
     diagnostics.push({ name: 'home-content', ...home });
     assert(home.tours === 6 && home.destinations === 6, 'Homepage does not expose all six demonstration journeys and destinations');
     assert(home.firstTour && home.centeredBrand, 'Homepage tour discovery or centered desktop logo is incomplete');
     assert(home.accountButtonColor === 'rgb(255, 255, 255)', 'Desktop account button does not retain readable contrast');
+    assert(home.heroTourSlides === 6 && home.heroDots === 7 && home.introActive, 'Hero slide count, pagination, or informational-first order is incorrect');
+    assert(home.heroControls === 2, 'Hero previous and next controls are incomplete');
+    assert(home.heroPaginationCentered, 'Hero pagination is not centered in the viewport');
     await screenshot('desktop-light-home');
+
+    await evaluate(`document.querySelector('[data-travel-hero-next]')?.click()`);
+    assert(Boolean(await waitFor(`document.querySelector('[data-travel-hero-slider]')?.swiper?.realIndex === 1`)), 'Hero next arrow did not reveal the first tour slide');
+    await delay(850);
+    await evaluate(`document.querySelector('[data-travel-hero-next]')?.click()`);
+    assert(Boolean(await waitFor(`document.querySelector('[data-travel-hero-slider]')?.swiper?.realIndex === 2`)), 'Hero next arrow stopped responding after its first use');
+    await delay(850);
+    await evaluate(`document.querySelector('[data-travel-hero-prev]')?.click()`);
+    assert(Boolean(await waitFor(`document.querySelector('[data-travel-hero-slider]')?.swiper?.realIndex === 1`)), 'Hero previous arrow did not return to the first tour slide');
+    await delay(850);
+    await evaluate(`document.querySelectorAll('[data-travel-hero-pagination] .swiper-pagination-bullet')[4]?.click()`);
+    assert(Boolean(await waitFor(`document.querySelector('[data-travel-hero-slider]')?.swiper?.realIndex === 4`)), 'Hero pagination did not navigate to a nonadjacent slide');
+    await delay(850);
+    await evaluate(`document.querySelectorAll('[data-travel-hero-pagination] .swiper-pagination-bullet')[0]?.click()`);
+    assert(Boolean(await waitFor(`document.querySelector('[data-travel-hero-slider]')?.swiper?.realIndex === 0`)), 'Hero pagination stopped responding after its first use');
+    await delay(850);
+    await evaluate(`document.querySelector('[data-travel-hero-next]')?.click()`);
+    assert(Boolean(await waitFor(`document.querySelector('[data-travel-hero-slider]')?.swiper?.realIndex === 1`)), 'Hero next arrow did not recover after pagination navigation');
+    await delay(850);
+    const heroTour = await evaluate(`(() => {
+        const slide = document.querySelector('[data-travel-hero-tour].swiper-slide-active');
+        const slider = document.querySelector('[data-travel-hero-slider]')?.swiper;
+        return {
+            title: slide?.querySelector('h2')?.textContent.trim() || '',
+            ctas: slide?.querySelectorAll('.travel-hero__actions a').length || 0,
+            realIndex: slider?.realIndex,
+            activeBullet: [...document.querySelectorAll('[data-travel-hero-pagination] .swiper-pagination-bullet')].findIndex((bullet) => bullet.classList.contains('swiper-pagination-bullet-active')),
+        };
+    })()`);
+    diagnostics.push({ name: 'home-hero-tour-slide', ...heroTour });
+    assert(heroTour.title && heroTour.ctas >= 1 && heroTour.realIndex === 1 && heroTour.activeBullet === 1, 'Active tour hero or synchronized pagination state is incomplete');
+    await screenshot('desktop-light-home-tour-slide');
 
     await evaluate(`document.querySelector('.travel-primary-nav button[data-bs-target="#themeController"]')?.click()`);
     assert(Boolean(await waitFor(`document.querySelector('#themeController.show')`)), 'Theme controller did not open from the desktop header');
@@ -260,9 +314,10 @@ try {
         grid: getComputedStyle(document.querySelector('.travel-tour-grid')).display,
         prices: [...document.querySelectorAll('.travel-tour-card__price')].map((node) => node.textContent.trim()),
         filters: document.querySelectorAll('.travel-filter input, .travel-filter select').length,
+        total: document.querySelector('#travel-results h2')?.textContent.trim() || '',
     }))()`);
     diagnostics.push({ name: 'catalog-content', ...catalog });
-    assert(catalog.count === 6 && catalog.grid === 'grid', 'Catalog cards or module stylesheet failed');
+    assert(catalog.count === 12 && catalog.total === '13 journeys' && catalog.grid === 'grid', 'Catalog pagination, cards, or module stylesheet failed');
     assert(catalog.filters === 6 && catalog.prices.every((price) => price.startsWith('From KES ')), 'Catalog filters or formatted prices are incomplete');
     assert(homeLight.surface !== catalogDark.surface, 'Light and dark theme surfaces did not change');
     await screenshot('desktop-dark-catalog');
@@ -309,10 +364,25 @@ try {
     await screenshot('tablet-dark-filtered-catalog');
 
     await setViewport(390, 844, true);
+    await client.send('Emulation.setEmulatedMedia', { media: 'screen', features: [{ name: 'prefers-reduced-motion', value: 'reduce' }] });
     await navigate(`${siteUrl}/`);
     await setTheme('light');
-    await client.send('Emulation.setEmulatedMedia', { media: 'screen', features: [{ name: 'prefers-reduced-motion', value: 'reduce' }] });
     await inspect('mobile-light-home', '/', 'light', 'mobile');
+    assert(Boolean(await waitFor(`Boolean(document.querySelector('[data-travel-hero-slider][data-hero-ready="true"]'))`)), 'Reduced-motion mobile hero did not initialize');
+    const reducedHero = await evaluate(`(() => { const swiper = document.querySelector('[data-travel-hero-slider]')?.swiper; return { speed: swiper?.params.speed, autoplay: Boolean(swiper?.autoplay?.running) }; })()`);
+    diagnostics.push({ name: 'mobile-reduced-motion-hero', ...reducedHero });
+    assert(reducedHero.speed === 0 && !reducedHero.autoplay, 'Reduced-motion hero still animates or autoplays');
+    const mobileHeroPagination = await evaluate(`(() => {
+        const hero = document.querySelector('[data-travel-hero-slider]')?.getBoundingClientRect();
+        const pagination = document.querySelector('[data-travel-hero-pagination]')?.getBoundingClientRect();
+        return {
+            centered: Boolean(pagination && Math.abs(pagination.left + pagination.width / 2 - innerWidth / 2) <= 2),
+            bottomGap: hero && pagination ? Math.round(hero.bottom - pagination.bottom) : null,
+        };
+    })()`);
+    diagnostics.push({ name: 'mobile-hero-pagination', ...mobileHeroPagination });
+    assert(mobileHeroPagination.centered && mobileHeroPagination.bottomGap >= 30, 'Mobile hero pagination is not centered and raised above the hero edge');
+    await screenshot('mobile-light-home');
     await evaluate(`document.querySelector('.travel-header__mobile button[aria-label="Open navigation"]')?.click()`);
     assert(Boolean(await waitFor(`document.querySelector('#travelMobileMenu.show')`)), 'Mobile navigation did not open');
     const mobileMenu = await evaluate(`(() => {
@@ -352,7 +422,7 @@ try {
     assert(networkErrors.length === 0, `Network errors: ${networkErrors.join(' | ')}`);
     await writeFile(path.join(outputDirectory, 'diagnostics.json'), `${JSON.stringify({ siteUrl, diagnostics, runtimeErrors, networkErrors, failures }, null, 2)}\n`);
     if (failures.length > 0) throw new Error(`TravelTours storefront QA failed:\n- ${failures.join('\n- ')}`);
-    process.stdout.write(`TravelTours storefront QA passed with ${diagnostics.length} inspections and ${process.env.AUREON_QA_PHASE === 'k2e' ? 9 : 7} viewport captures.\n`);
+    process.stdout.write(`TravelTours storefront QA passed with ${diagnostics.length} inspections and ${process.env.AUREON_QA_PHASE === 'k2e' ? 11 : 9} viewport captures.\n`);
 } finally {
     client?.close();
     const browserExited = new Promise((resolve) => browser.once('exit', resolve));

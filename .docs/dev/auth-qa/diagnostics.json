@@ -1,5 +1,5 @@
 {
-  "twoFactorMode": true,
+  "twoFactorMode": false,
   "diagnostics": [
     {
       "name": "login-desktop",
@@ -42,30 +42,6 @@
       "logoReady": true
     },
     {
-      "name": "two-factor-challenge-desktop",
-      "url": "/two-factor/challenge",
-      "viewportWidth": 1440,
-      "documentWidth": 1440,
-      "theme": "light",
-      "logoReady": true
-    },
-    {
-      "name": "two-factor-challenge-mobile",
-      "url": "/two-factor/challenge",
-      "viewportWidth": 390,
-      "documentWidth": 390,
-      "theme": "light",
-      "logoReady": true
-    },
-    {
-      "name": "two-factor-success",
-      "url": "/dashboard",
-      "viewportWidth": 1440,
-      "documentWidth": 1440,
-      "theme": "light",
-      "logoReady": true
-    },
-    {
       "name": "confirm-password-desktop",
       "url": "/confirm-password",
       "viewportWidth": 1440,
@@ -94,11 +70,8 @@
     "restored": true
   },
   "challenge": {
-    "attempted": true,
-    "landedPath": "/two-factor/challenge",
-    "maskedEmailShown": true,
-    "otpInputReady": true,
-    "verifiedPath": "/dashboard"
+    "attempted": false,
+    "landedPath": "/admin/dashboard"
   },
   "runtimeErrors": [],
   "networkErrors": [],

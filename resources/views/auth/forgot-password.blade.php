@@ -13,13 +13,7 @@
                 <form method="POST" action="{{ route('password.email') }}">
                     @csrf
                     <div class="login-userset">
-                        {{-- Theme-aware brand pair: DreamPOS toggles logo-normal/logo-white via [data-theme]. --}}
-                        <a href="{{ url('/') }}" class="login-logo logo-normal">
-                            <img src="{{ asset('aureon/assets/brand/logo.png') }}" alt="{{ config('app.name') }}">
-                        </a>
-                        <a href="{{ url('/') }}" class="login-logo logo-white">
-                            <img src="{{ asset('aureon/assets/brand/logo-light.png') }}" alt="{{ config('app.name') }}">
-                        </a>
+                        @include('auth.partials.brand')
 
                         <div class="login-userheading">
                             <h3>Forgot password?</h3>

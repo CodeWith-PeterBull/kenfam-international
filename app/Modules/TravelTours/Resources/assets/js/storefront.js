@@ -46,6 +46,12 @@
         });
     }
 
+    function initializeHeroSlider() {
+        document.querySelectorAll('[data-travel-hero-slider]:not([data-hero-ready="true"])').forEach((slider) => {
+            import('./hero-slider.js').then(({ initHeroSlider }) => initHeroSlider(slider));
+        });
+    }
+
     function showToast(message) {
         let toast = document.querySelector('[data-travel-toast]');
         if (!toast) {
@@ -135,6 +141,7 @@
         initializeHeader();
         initializeBackToTop();
         initializeMobileMenuLinks();
+        initializeHeroSlider();
         initializeTourGallery();
         initializeShare();
         document.querySelectorAll('[data-current-year]').forEach((element) => {

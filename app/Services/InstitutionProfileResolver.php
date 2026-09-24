@@ -49,6 +49,7 @@ final class InstitutionProfileResolver implements ResolvesInstitutionProfile
             postalCity: $detail?->postal_city ?: $defaults['postal_city'],
             socialMedia: $detail?->social_media ?: $defaults['social_media'],
             mainLogoUrl: $mainLogo ? URL::to($mainLogo->getUrl()) : URL::to((string) config('institution.assets.main_logo_url')),
+            lightLogoUrl: $mainLogo ? URL::to($mainLogo->getUrl()) : URL::to((string) config('institution.assets.light_logo_url', config('institution.assets.main_logo_url'))),
             mainLogoPath: $mainLogo?->getPath() ?: config('institution.assets.main_logo_path'),
             hasCustomMainLogo: $mainLogo !== null,
             logoIconUrl: $logoIcon ? URL::to($logoIcon->getUrl()) : URL::to((string) config('institution.assets.logo_icon_url')),
